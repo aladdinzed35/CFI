@@ -144,6 +144,18 @@
       "secondary": "Escríbanos por WhatsApp"
     }
   },
+  "landing": {
+    "eyebrow": "Fundamentos",
+    "title": "La plataforma del Centre de Formation Immersive va tomando forma.",
+    "tagline": "La base técnica ya está lista: cuatro idiomas, tema claro y oscuro, biblioteca de componentes y modelo de datos. Las formaciones llegan después.",
+    "showcaseCta": "Ver el sistema de diseño",
+    "showcaseHint": "Tokens, componentes y estados, en ambos temas y en los cuatro idiomas.",
+    "brandFull": "Centre de Formation Immersive",
+    "stageLabel": "Etapa",
+    "languageLabel": "Cambiar de idioma",
+    "switchToLight": "Cambiar al tema claro",
+    "switchToDark": "Cambiar al tema oscuro"
+  },
   "auth": {
     "login": {
       "title": "Iniciar sesión",
@@ -221,6 +233,7 @@
   },
   "a11y": {
     "skipToContent": "Ir al contenido principal",
+    "notifications": "Notificaciones",
     "openMenu": "Abrir el menú",
     "closeMenu": "Cerrar el menú",
     "mainNavigation": "Navegación principal",

@@ -144,6 +144,18 @@
       "secondary": "Message us on WhatsApp"
     }
   },
+  "landing": {
+    "eyebrow": "Foundations",
+    "title": "The Centre de Formation Immersive platform is taking shape.",
+    "tagline": "The technical groundwork is in place: four languages, light and dark themes, a component library and the data model. The courses come next.",
+    "showcaseCta": "View the design system",
+    "showcaseHint": "Tokens, components and states, in both themes and all four languages.",
+    "brandFull": "Centre de Formation Immersive",
+    "stageLabel": "Stage",
+    "languageLabel": "Change language",
+    "switchToLight": "Switch to the light theme",
+    "switchToDark": "Switch to the dark theme"
+  },
   "auth": {
     "login": {
       "title": "Log in",
@@ -221,6 +233,7 @@
   },
   "a11y": {
     "skipToContent": "Skip to main content",
+    "notifications": "Notifications",
     "openMenu": "Open the menu",
     "closeMenu": "Close the menu",
     "mainNavigation": "Main navigation",

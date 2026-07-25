@@ -5,12 +5,13 @@ import type { Metadata, Viewport } from 'next';
 import { Providers } from '@/components/system/providers';
 import { SkipLink } from '@/components/system/skip-link';
 import { ThemeScript } from '@/components/system/theme-script';
-import { defaultLocale, isRtl, locales, type Locale } from '@/i18n/routing';
+import { defaultLocale, dirFor, htmlLangFor, isLocale, locales, type Locale } from '@/i18n/routing';
 import '@/styles/globals.css';
 
 /**
  * Locale layout — owner of <html>, <body>, the theme bootstrap, the fonts and
- * the per-locale metadata (§10.1, §11.2, §21).
+ * the per-locale metadata (§10.1, §11.2, §21). Everything above it in the tree
+ * is a passthrough.
  */
 
 type LocaleParams = { locale: string };
@@ -19,23 +20,14 @@ export function generateStaticParams(): LocaleParams[] {
   return locales.map((locale) => ({ locale }));
 }
 
-function isSupportedLocale(value: string): value is Locale {
-  return (locales as readonly string[]).includes(value);
-}
-
 /**
- * BCP-47 tags for `lang`. The Moroccan regional variants matter: they drive
- * hyphenation, quotation marks and the digit shaping browsers pick for Arabic.
- * `:lang(ar)` in globals.css matches `ar-MA` through normal subtag matching.
+ * The brand name is not translated copy: it is the centre's own name and stays
+ * identical in all four locales (§28.2 keeps Latin brand names as-is).
  */
-const HTML_LANG: Record<Locale, string> = {
-  fr: 'fr-MA',
-  ar: 'ar-MA',
-  en: 'en',
-  es: 'es',
-};
+const BRAND_NAME = 'CFI';
+const BRAND_FULL_NAME = 'CFI — Centre de Formation Immersive';
 
-/** Open Graph wants underscored locale identifiers, not BCP-47 tags. */
+/** Open Graph wants underscored locale identifiers, not the BCP-47 tags. */
 const OG_LOCALE: Record<Locale, string> = {
   fr: 'fr_MA',
   ar: 'ar_MA',
@@ -43,28 +35,20 @@ const OG_LOCALE: Record<Locale, string> = {
   es: 'es_ES',
 };
 
-function htmlLangFor(locale: Locale): string {
-  return HTML_LANG[locale];
-}
-
-function dirFor(locale: Locale): 'ltr' | 'rtl' {
-  return isRtl(locale) ? 'rtl' : 'ltr';
-}
-
 function siteUrl(): string {
   return process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 }
 
 /**
- * Raw colours are forbidden in components, but a <meta name="theme-color">
- * cannot read a CSS custom property: the browser paints its chrome before any
- * stylesheet is parsed. These two values mirror `--raw-bg-abyss` (dark) and
- * `--raw-bg-abyss` (light) in src/styles/globals.css — keep them in sync.
+ * `<meta name="theme-color">` cannot read a CSS custom property — the browser
+ * paints its own chrome before any stylesheet is parsed — so these two values
+ * are written literally. They mirror `--raw-bg-abyss` in the dark and light
+ * palettes of src/styles/globals.css; keep them in sync.
  */
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  // Never below 5: pinch-zoom to 200 % is a WCAG 2.2 AA requirement (§21).
+  // Never lower than 5: pinch-zoom to 200 % is a WCAG 2.2 AA requirement (§21).
   maximumScale: 5,
   colorScheme: 'dark light',
   themeColor: [
@@ -79,20 +63,18 @@ export async function generateMetadata({
   params: Promise<LocaleParams>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const active: Locale = isSupportedLocale(locale) ? locale : defaultLocale;
+  const active: Locale = isLocale(locale) ? locale : defaultLocale;
   setRequestLocale(active);
 
-  const t = await getTranslations({ locale: active, namespace: 'metadata' });
+  const t = await getTranslations({ locale: active, namespace: 'home' });
   const base = siteUrl();
-  const title = t('title');
-  const description = t('description');
-  const siteName = t('siteName');
+  const description = t('hero.subheadline');
 
   return {
     metadataBase: new URL(base),
-    title: { default: title, template: '%s · CFI' },
+    title: { default: BRAND_FULL_NAME, template: `%s · ${BRAND_NAME}` },
     description,
-    applicationName: siteName,
+    applicationName: BRAND_NAME,
     manifest: '/manifest.webmanifest',
     icons: {
       icon: [
@@ -114,17 +96,17 @@ export async function generateMetadata({
     },
     openGraph: {
       type: 'website',
-      siteName,
-      title,
+      siteName: BRAND_NAME,
+      title: BRAND_FULL_NAME,
       description,
       url: `${base}/${active}`,
       locale: OG_LOCALE[active],
-      alternateLocale: locales.filter((l) => l !== active).map((l) => OG_LOCALE[l]),
-      images: [{ url: '/brand/og-default.png', width: 1200, height: 630, alt: siteName }],
+      alternateLocale: locales.filter((other) => other !== active).map((other) => OG_LOCALE[other]),
+      images: [{ url: '/brand/og-default.png', width: 1200, height: 630, alt: BRAND_FULL_NAME }],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: BRAND_FULL_NAME,
       description,
       images: ['/brand/og-default.png'],
     },
@@ -141,8 +123,8 @@ export default async function LocaleLayout({
 }): Promise<React.JSX.Element> {
   const { locale } = await params;
 
-  if (!isSupportedLocale(locale)) {
-    // The 404 below still renders inside this segment, so next-intl needs a
+  if (!isLocale(locale)) {
+    // The 404 still renders inside this segment, so next-intl needs a
     // resolvable locale before we bail out.
     setRequestLocale(defaultLocale);
     notFound();
@@ -160,10 +142,13 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Must be the very first thing the parser executes: zero theme flash. */}
+        {/* First thing the parser executes, so the theme is right before the
+            first paint. Nothing may be inserted above it. */}
         <ThemeScript />
-        {/* Only the display face is preloaded (§21); the body and mono faces
-            are `font-display: swap` and fetched with normal priority. */}
+        {/* Only the display face is preloaded (§21). The body and mono faces
+            are `font-display: swap` and fetched at normal priority; the Arabic
+            face is preloaded on `ar` only and is otherwise gated by its
+            unicode-range, so Latin locales never download it. */}
         <link
           rel="preload"
           href="/fonts/chillax-variable.woff2"

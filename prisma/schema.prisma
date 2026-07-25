@@ -21,9 +21,11 @@
 //   · Money is always integer centimes. Never a float.
 // ═══════════════════════════════════════════════════════════════════════════
 
+// `fullTextIndex` was a preview feature through Prisma 5 and is generally
+// available from 6.x — declaring it now only emits a deprecation warning, and
+// the spec's rule is zero build warnings we introduced. @@fulltext still works.
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextIndex"]
+  provider = "prisma-client-js"
 }
 
 datasource db {

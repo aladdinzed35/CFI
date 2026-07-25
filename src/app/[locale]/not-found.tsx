@@ -12,7 +12,7 @@ import { ArrowRight, Compass } from 'lucide-react';
 
 export default function LocaleNotFound(): React.JSX.Element {
   const locale = useLocale();
-  const t = useTranslations('notFound');
+  const t = useTranslations('errors.notFound');
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col items-start px-4 py-24 sm:px-6 sm:py-32">
@@ -29,7 +29,7 @@ export default function LocaleNotFound(): React.JSX.Element {
 
       <h1 className="mt-4 text-title">{t('title')}</h1>
 
-      <p className="mt-4 max-w-prose text-body text-ink-muted">{t('description')}</p>
+      <p className="mt-4 max-w-prose text-body text-ink-muted">{t('body')}</p>
 
       <Link
         href={`/${locale}`}

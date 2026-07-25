@@ -373,14 +373,22 @@ const serverShape = z.object({
 const AUTH_SECRET_MIN = 32
 const CRON_SECRET_MIN = 24
 
-export const serverSchema = serverShape.superRefine((value, ctx) => {
+type ServerValues = z.infer<typeof serverShape>
+
+/** Signalement d'un problème inter-variables, indépendant de zod. */
+type IssueSink = (variable: string, message: string) => void
+
+/**
+ * Règles qui dépendent de plusieurs variables à la fois. Écrites contre une vue
+ * partielle : une variable dont la valeur propre est déjà invalide est absente,
+ * et la règle qui en dépend ne se déclenche simplement pas. C'est ce qui permet
+ * de produire l'intégralité des problèmes en une seule passe, y compris quand
+ * une autre variable est malformée.
+ */
+function crossFieldRules(value: Partial<ServerValues>, report: IssueSink): void {
   const demand = (key: string, candidate: string | undefined, reason: string): void => {
     if (candidate === undefined || candidate.length === 0) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: [key],
-        message: `est obligatoire ${reason}`,
-      })
+      report(key, `est obligatoire ${reason}`)
     }
   }
 
@@ -413,31 +421,69 @@ export const serverSchema = serverShape.superRefine((value, ctx) => {
   }
 
   if (value.NODE_ENV === 'production') {
-    if (value.AUTH_SECRET.length < AUTH_SECRET_MIN) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['AUTH_SECRET'],
-        message: `est obligatoire en production et doit compter au moins ${AUTH_SECRET_MIN} caractères (actuellement ${value.AUTH_SECRET.length})`,
-      })
+    // En développement, AUTH_SECRET et CRON_SECRET tombent sur une valeur de
+    // repli explicitement marquée (voir applyDevFallbacks) ; en production
+    // elles sont obligatoires et doivent être réellement longues.
+    const authSecret = value.AUTH_SECRET ?? ''
+    if (authSecret.length < AUTH_SECRET_MIN) {
+      report(
+        'AUTH_SECRET',
+        `est obligatoire en production et doit compter au moins ${AUTH_SECRET_MIN} caractères (actuellement ${authSecret.length})`,
+      )
     }
-    if (value.CRON_SECRET.length < CRON_SECRET_MIN) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['CRON_SECRET'],
-        message: `est obligatoire en production et doit compter au moins ${CRON_SECRET_MIN} caractères (actuellement ${value.CRON_SECRET.length})`,
-      })
+
+    const cronSecret = value.CRON_SECRET ?? ''
+    if (cronSecret.length < CRON_SECRET_MIN) {
+      report(
+        'CRON_SECRET',
+        `est obligatoire en production et doit compter au moins ${CRON_SECRET_MIN} caractères (actuellement ${cronSecret.length})`,
+      )
     }
-    if (value.SMTP_PASSWORD.length === 0) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['SMTP_PASSWORD'],
-        message: 'est obligatoire en production : sans elle, aucun courriel ne peut partir',
-      })
+
+    if ((value.SMTP_PASSWORD ?? '').length === 0) {
+      report(
+        'SMTP_PASSWORD',
+        'est obligatoire en production : sans elle, aucun courriel ne peut partir',
+      )
     }
   }
-})
+}
+
+/**
+ * Le schéma serveur reste un `z.object` nu : les règles inter-variables ne sont
+ * délibérément PAS branchées en `superRefine`, car zod n'exécute un raffinement
+ * d'objet que si la forme de base a déjà réussi. On perdrait alors la promesse
+ * centrale de ce module — tout signaler en une seule passe — dès qu'une seule
+ * variable est malformée. Elles sont donc évaluées séparément, sur une vue
+ * partielle, et fusionnées dans le rapport final.
+ */
+const serverSchema = serverShape
 
 export type Env = z.infer<typeof serverSchema>
+
+/**
+ * Vue partielle : chaque variable est validée isolément, et seules celles qui
+ * passent entrent dans la vue. Une variable malformée est donc simplement
+ * absente, ce qui neutralise la règle inter-variables qui en dépend au lieu de
+ * la faire échouer sur une valeur douteuse.
+ */
+function partialView(raw: RawEnv): Partial<ServerValues> {
+  const view: Record<string, unknown> = {}
+  for (const [key, schema] of Object.entries(serverShape.shape)) {
+    const result = schema.safeParse(raw[key])
+    if (result.success) view[key] = result.data
+  }
+  return view as Partial<ServerValues>
+}
+
+/** Les règles inter-variables, exprimées dans le vocabulaire d'issues de zod. */
+function crossFieldIssues(view: Partial<ServerValues>): z.ZodIssue[] {
+  const issues: z.ZodIssue[] = []
+  crossFieldRules(view, (variable, message) => {
+    issues.push({ code: z.ZodIssueCode.custom, path: [variable], message })
+  })
+  return issues
+}
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Schéma client — uniquement NEXT_PUBLIC_*
@@ -638,9 +684,26 @@ function loadServerEnv(): Env {
   const { raw, warnings } = applyDevFallbacks(source)
 
   const parsed = serverSchema.safeParse(raw)
-  if (parsed.success) {
+
+  // Les deux familles de problèmes sont collectées avant tout arrêt, pour que
+  // l'opérateur voie l'intégralité de ce qu'il doit corriger d'un seul coup.
+  const crossIssues = crossFieldIssues(parsed.success ? parsed.data : partialView(raw))
+
+  if (parsed.success && crossIssues.length === 0) {
     emitWarnings([...skipWarnings, ...warnings])
     return parsed.data
+  }
+
+  if (parsed.success) {
+    // La forme est bonne, seules des règles inter-variables ont échoué.
+    if (skip) {
+      emitWarnings([
+        ...skipWarnings,
+        ...crossIssues.map((issue) => `${String(issue.path[0])} : ${issue.message}`),
+      ])
+      return parsed.data
+    }
+    return fail('CFI — configuration d’environnement serveur invalide', crossIssues)
   }
 
   if (skip) {
@@ -661,7 +724,10 @@ function loadServerEnv(): Env {
     }
   }
 
-  return fail('CFI — configuration d’environnement serveur invalide', parsed.error.issues)
+  return fail('CFI — configuration d’environnement serveur invalide', [
+    ...parsed.error.issues,
+    ...crossIssues,
+  ])
 }
 
 let cachedServerEnv: Env | null = null

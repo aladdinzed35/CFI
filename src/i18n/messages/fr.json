@@ -144,6 +144,18 @@
       "secondary": "Nous écrire sur WhatsApp"
     }
   },
+  "landing": {
+    "eyebrow": "Fondations",
+    "title": "La plateforme du Centre de Formation Immersive prend forme.",
+    "tagline": "Le socle technique est en place : quatre langues, thème clair et sombre, bibliothèque de composants et modèle de données. Les formations arrivent ensuite.",
+    "showcaseCta": "Voir le système de design",
+    "showcaseHint": "Jetons, composants et états, dans les deux thèmes et les quatre langues.",
+    "brandFull": "Centre de Formation Immersive",
+    "stageLabel": "Étape",
+    "languageLabel": "Changer de langue",
+    "switchToLight": "Passer au thème clair",
+    "switchToDark": "Passer au thème sombre"
+  },
   "auth": {
     "login": {
       "title": "Se connecter",
@@ -221,6 +233,7 @@
   },
   "a11y": {
     "skipToContent": "Aller au contenu principal",
+    "notifications": "Notifications",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "mainNavigation": "Navigation principale",

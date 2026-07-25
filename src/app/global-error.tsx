@@ -47,6 +47,14 @@ export default function GlobalError({
             >
               Réessayer
             </button>
+            {/*
+              A plain <a>, deliberately, not next/link. global-error replaces the
+              ROOT layout when the root layout itself threw: a client-side
+              transition would keep that broken React tree mounted and navigate
+              inside it. A full document load is the only way back to a known-good
+              state — which is exactly what this escape hatch is for.
+            */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/fr"
               className="inline-flex h-12 items-center rounded-pill border border-hairline bg-surface px-6 text-sm font-medium text-ink transition-colors duration-[120ms] hover:bg-raised"
