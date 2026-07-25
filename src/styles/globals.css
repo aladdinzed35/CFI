@@ -1,0 +1,508 @@
+@import 'tailwindcss';
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CFI — Design system « Le Détroit »
+   Tangier, where two seas meet. An instrument panel for learning:
+   dark, calm, exact, with light used as information.
+
+   Rule: no raw hex in components. Everything reads from these tokens.
+   Dark is the default theme; light is a first-class, fully tested theme.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Fonts ─────────────────────────────────────────────────────────────────
+   Self-hosted and subset (see public/fonts/README.md). Each @font-face has a
+   fallback further down the stack, so a missing binary degrades gracefully
+   instead of breaking the build. `swap` everywhere; only the display face is
+   preloaded, and the Arabic face is loaded only on /ar routes.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Chillax';
+  src: url('/fonts/chillax-variable.woff2') format('woff2-variations');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist Sans';
+  src: url('/fonts/geist-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/geist-mono-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/ibm-plex-sans-arabic-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/ibm-plex-sans-arabic-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/open-dyslexic-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* ── Palette · dark (default) ──────────────────────────────────────────────
+   Raw values live here. The @theme block below maps them to Tailwind
+   utilities by reference, so switching data-theme retints the whole app
+   without regenerating a single class.
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --raw-bg-abyss: #060a12;
+  --raw-bg-surface: #0d1522;
+  --raw-bg-raised: #142031;
+  --raw-stroke-hairline: #1e2c3f;
+  --raw-ink-primary: #e8f0f4;
+  --raw-ink-muted: #8da2b4;
+  --raw-accent-strait: #2fe3be;
+  --raw-accent-deep: #0e4c6b;
+  --raw-accent-brass: #e7b463;
+  --raw-signal-danger: #ff6076;
+  --raw-signal-warn: #ffb454;
+  --raw-signal-success: #4fd48a;
+
+  /* Derived: ink that sits *on* a filled accent surface. Verified ≥4.5:1. */
+  --raw-on-accent: #04231d;
+  --raw-on-brass: #2a1c05;
+  --raw-on-danger: #2b0207;
+
+  /* Tinted alpha washes — used for status backgrounds and hover states. */
+  --raw-strait-wash: color-mix(in oklab, var(--raw-accent-strait) 12%, transparent);
+  --raw-brass-wash: color-mix(in oklab, var(--raw-accent-brass) 12%, transparent);
+  --raw-danger-wash: color-mix(in oklab, var(--raw-signal-danger) 12%, transparent);
+  --raw-warn-wash: color-mix(in oklab, var(--raw-signal-warn) 12%, transparent);
+
+  /* Elevation — low opacity, large radius, cool-tinted. */
+  --shadow-1: 0 1px 2px rgb(2 8 20 / 0.32);
+  --shadow-2: 0 4px 14px -4px rgb(2 8 20 / 0.42);
+  --shadow-3: 0 12px 34px -10px rgb(2 8 20 / 0.52);
+  --shadow-4: 0 28px 70px -18px rgb(2 8 20 / 0.62);
+
+  /* Arabic needs more room to breathe. */
+  --leading-ar: 1.8;
+
+  /* Accessibility preference, written by the theme bootstrap from User.fontScale. */
+  --font-scale: 1;
+
+  color-scheme: dark;
+}
+
+/* ── Palette · light ─────────────────────────────────────────────────────── */
+
+:root[data-theme='light'] {
+  --raw-bg-abyss: #f6f4ef;
+  --raw-bg-surface: #ffffff;
+  --raw-bg-raised: #f0ede6;
+  --raw-stroke-hairline: #dfdad0;
+  --raw-ink-primary: #0b1220;
+  --raw-ink-muted: #5a6472;
+  --raw-accent-strait: #0a7f72;
+  --raw-accent-deep: #0e4c6b;
+  --raw-accent-brass: #a9702a;
+  --raw-signal-danger: #c0283c;
+  --raw-signal-warn: #8a5a16;
+  --raw-signal-success: #1d7a4c;
+
+  --raw-on-accent: #ffffff;
+  --raw-on-brass: #ffffff;
+  --raw-on-danger: #ffffff;
+
+  --shadow-1: 0 1px 2px rgb(24 20 12 / 0.06);
+  --shadow-2: 0 4px 14px -4px rgb(24 20 12 / 0.1);
+  --shadow-3: 0 12px 34px -10px rgb(24 20 12 / 0.14);
+  --shadow-4: 0 28px 70px -18px rgb(24 20 12 / 0.18);
+
+  color-scheme: light;
+}
+
+/* First visit, no stored preference, no JS: honour the OS. The bootstrap
+   script sets data-theme before paint, so this never causes a flash. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --raw-bg-abyss: #f6f4ef;
+    --raw-bg-surface: #ffffff;
+    --raw-bg-raised: #f0ede6;
+    --raw-stroke-hairline: #dfdad0;
+    --raw-ink-primary: #0b1220;
+    --raw-ink-muted: #5a6472;
+    --raw-accent-strait: #0a7f72;
+    --raw-accent-brass: #a9702a;
+    --raw-signal-danger: #c0283c;
+    --raw-signal-warn: #8a5a16;
+    --raw-signal-success: #1d7a4c;
+    --raw-on-accent: #ffffff;
+    --raw-on-brass: #ffffff;
+    --raw-on-danger: #ffffff;
+    color-scheme: light;
+  }
+}
+
+/* High-contrast mode — an accessibility *product feature* (§13.5), not a hack. */
+:root[data-contrast='high'] {
+  --raw-ink-muted: var(--raw-ink-primary);
+  --raw-stroke-hairline: color-mix(in oklab, var(--raw-ink-primary) 45%, transparent);
+}
+
+/* ── Tailwind theme mapping ───────────────────────────────────────────────
+   `inline` keeps the var() reference in the generated utility, which is what
+   makes runtime theme switching work.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@theme inline {
+  --color-abyss: var(--raw-bg-abyss);
+  --color-surface: var(--raw-bg-surface);
+  --color-raised: var(--raw-bg-raised);
+  --color-hairline: var(--raw-stroke-hairline);
+
+  --color-ink: var(--raw-ink-primary);
+  --color-ink-muted: var(--raw-ink-muted);
+
+  --color-strait: var(--raw-accent-strait);
+  --color-deep: var(--raw-accent-deep);
+  --color-brass: var(--raw-accent-brass);
+  --color-danger: var(--raw-signal-danger);
+  --color-warn: var(--raw-signal-warn);
+  --color-success: var(--raw-signal-success);
+
+  --color-on-accent: var(--raw-on-accent);
+  --color-on-brass: var(--raw-on-brass);
+  --color-on-danger: var(--raw-on-danger);
+
+  --color-strait-wash: var(--raw-strait-wash);
+  --color-brass-wash: var(--raw-brass-wash);
+  --color-danger-wash: var(--raw-danger-wash);
+  --color-warn-wash: var(--raw-warn-wash);
+
+  --font-display: 'Chillax', 'Clash Display', 'Geist Sans', 'Inter Tight', ui-sans-serif, system-ui,
+    sans-serif;
+  --font-sans: 'Geist Sans', 'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code', monospace;
+  --font-arabic: 'IBM Plex Sans Arabic', 'Almarai', 'Geist Sans', ui-sans-serif, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* Fluid type scale, 360px → 1440px. Body never drops below 14px. */
+  --text-hero: clamp(2.5rem, 6vw, 5.5rem);
+  --text-hero--line-height: 1.02;
+  --text-display: clamp(2rem, 4.2vw, 3.5rem);
+  --text-display--line-height: 1.08;
+  --text-title: clamp(1.5rem, 2.6vw, 2.25rem);
+  --text-title--line-height: 1.15;
+  --text-heading: clamp(1.25rem, 1.8vw, 1.5rem);
+  --text-heading--line-height: 1.25;
+  --text-lead: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.45;
+
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --shadow-e1: var(--shadow-1);
+  --shadow-e2: var(--shadow-2);
+  --shadow-e3: var(--shadow-3);
+  --shadow-e4: var(--shadow-4);
+
+  --ease-out-strait: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-hairline);
+  }
+
+  html {
+    /* fontScale preference: 90–130 % of 16px, applied instantly (§13.5). */
+    font-size: calc(1rem * var(--font-scale));
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Sticky headers / player chrome must not cover anchor targets. */
+    scroll-padding-block-start: 5rem;
+  }
+
+  body {
+    background-color: var(--color-abyss);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Never allow a horizontal scrollbar (§11.4, enforced in CI). */
+    overflow-x: clip;
+  }
+
+  /* Arabic typography: the Arabic face, more leading, no letter-spacing. */
+  [dir='rtl'] body,
+  :lang(ar) {
+    font-family: var(--font-arabic);
+    line-height: var(--leading-ar);
+    letter-spacing: normal;
+  }
+
+  [dir='rtl'] h1,
+  [dir='rtl'] h2,
+  [dir='rtl'] h3,
+  [dir='rtl'] h4 {
+    font-family: var(--font-arabic);
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  :root[data-dyslexia='true'] body {
+    font-family: 'OpenDyslexic', var(--font-sans);
+    letter-spacing: 0.02em;
+    word-spacing: 0.08em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Focus is never invisible and never removed (§21). */
+  :focus-visible {
+    outline: 2px solid var(--color-strait);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-strait) 32%, transparent);
+    color: var(--color-ink);
+  }
+
+  /* Numerals, money, references and durations read better in mono + tabular. */
+  [data-numeric] {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Mobile Safari zooms on any input below 16px. */
+  input,
+  textarea,
+  select {
+    font-size: max(1rem, var(--text-body));
+  }
+
+  img,
+  video,
+  svg {
+    max-width: 100%;
+  }
+
+  ::placeholder {
+    color: var(--color-ink-muted);
+    opacity: 1;
+  }
+
+  /* Custom scrollbars: quiet, themed, still visible. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-hairline) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-hairline);
+    border-radius: var(--radius-pill);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-ink-muted);
+  }
+}
+
+/* ── Utilities ────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* The bathymetric texture — contour lines derived from the Strait's seabed.
+     Hero and footer only, at ≤3 % opacity (§11.2). */
+  .texture-bathymetric {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .texture-bathymetric::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: repeating-radial-gradient(
+      ellipse 120% 70% at 18% 8%,
+      var(--color-strait) 0px,
+      var(--color-strait) 1px,
+      transparent 1px,
+      transparent 26px
+    );
+    mask-image: linear-gradient(to bottom, black, transparent 92%);
+  }
+
+  /* Hairline separators, direction-agnostic. */
+  .hairline-b {
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .hairline-t {
+    border-block-start: 1px solid var(--color-hairline);
+  }
+
+  .hairline-s {
+    border-inline-start: 1px solid var(--color-hairline);
+  }
+
+  .hairline-e {
+    border-inline-end: 1px solid var(--color-hairline);
+  }
+
+  /* Blur is reserved for the sticky header and the AI dock — nothing else. */
+  .surface-blur {
+    background-color: color-mix(in oklab, var(--color-abyss) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  /* Anything that must stay LTR inside Arabic text: RIB, IBAN, references,
+     phone numbers, emails, code, timers (§10.3). */
+  .force-ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
+  }
+
+  .safe-b {
+    padding-block-end: env(safe-area-inset-bottom, 0px);
+  }
+
+  .safe-t {
+    padding-block-start: env(safe-area-inset-top, 0px);
+  }
+
+  /* Screen-reader-only, but focusable (skip link). */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────────
+   Honoured globally here *and* through useReducedMotionSafe() for JS-driven
+   animation. Both layers, because either alone leaves a gap.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:root[data-reduce-motion='true'] *,
+:root[data-reduce-motion='true'] *::before,
+:root[data-reduce-motion='true'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ── Print — certificates and invoices are printed for real ──────────────── */
+
+@media print {
+  :root {
+    --raw-bg-abyss: #ffffff;
+    --raw-bg-surface: #ffffff;
+    --raw-ink-primary: #000000;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "continue": "Continuar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "reset": "Restablecer",
+    "loading": "Cargando…",
+    "retry": "Reintentar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No",
+    "required": "Obligatorio",
+    "optional": "Opcional",
+    "seeAll": "Ver todo",
+    "showMore": "Ver más",
+    "showLess": "Ver menos"
+  },
+  "nav": {
+    "formations": "Formaciones",
+    "parcours": "Itinerarios",
+    "method": "Nuestro método",
+    "pricing": "Precios",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "register": "Crear una cuenta",
+    "dashboard": "Panel de control",
+    "myCourses": "Mis formaciones",
+    "requests": "Mis solicitudes",
+    "certificates": "Mis certificados",
+    "notes": "Mis notas",
+    "agenda": "Agenda",
+    "discussions": "Debates",
+    "leaderboard": "Clasificación",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "admin": "Administración"
+  },
+  "footer": {
+    "about": "Quiénes somos",
+    "address": "Dirección",
+    "hours": "Horario",
+    "usefulLinks": "Enlaces útiles",
+    "faq": "Preguntas frecuentes",
+    "terms": "Condiciones generales de uso",
+    "privacy": "Política de privacidad",
+    "cookies": "Cookies",
+    "verifyCertificate": "Verificar un certificado",
+    "contactUs": "Contáctenos",
+    "newsletter": {
+      "title": "Reciba nuestras nuevas formaciones",
+      "placeholder": "Su dirección de correo electrónico",
+      "submit": "Suscribirse",
+      "success": "Gracias, su suscripción ha quedado registrada. Recibirá nuestras nuevas formaciones por correo electrónico."
+    },
+    "rights": "© CFI — Centre de formation immersive. Todos los derechos reservados.",
+    "followUs": "Síganos"
+  },
+  "theme": {
+    "toggle": "Cambiar de tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "locale": {
+    "switchLanguage": "Cambiar de idioma",
+    "current": "Idioma actual",
+    "betaNotice": "La versión árabe de la interfaz está en fase beta. Comuníquenos cualquier error de traducción."
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Centro de formación inmersiva · Tanger",
+      "headline": "Formaciones inmersivas, impartidas por profesionales",
+      "subheadline": "Formaciones completas a distancia, prácticas en situaciones reales y acompañamiento humano en el centro, en Tanger. Avanza a su ritmo, sin quedarse nunca solo.",
+      "ctaPrimary": "Crear una cuenta",
+      "ctaSecondary": "Ver las formaciones"
+    },
+    "proof": {
+      "learners": "Nuestros alumnos",
+      "courses": "Formaciones",
+      "successRate": "Tasa de éxito"
+    },
+    "method": {
+      "title": "Nuestro método inmersivo",
+      "subtitle": "Cuatro principios que marcan la diferencia entre seguir una formación y saber ejercer el oficio."
+    },
+    "featured": {
+      "title": "Formaciones destacadas",
+      "subtitle": "Una selección de nuestras formaciones más solicitadas, actualizada cada mes.",
+      "seeAll": "Ver todas las formaciones"
+    },
+    "paths": {
+      "title": "Itinerarios",
+      "subtitle": "Formaciones encadenadas en el orden adecuado, hasta el certificado, con un precio conjunto."
+    },
+    "howItWorks": {
+      "title": "Cómo funciona",
+      "step1": {
+        "title": "Cree su cuenta",
+        "body": "Bastan unos pocos datos: nombre, dirección de correo electrónico y teléfono. Después confirma su dirección."
+      },
+      "step2": {
+        "title": "Nuestro equipo valida su cuenta",
+        "body": "Comprobamos sus datos y activamos su cuenta, normalmente en un plazo de 24 horas hábiles."
+      },
+      "step3": {
+        "title": "Elija su formación y envíe su justificante",
+        "body": "Pague por transferencia bancaria o en efectivo en el centro y suba después su justificante de transferencia desde su espacio."
+      },
+      "step4": {
+        "title": "Acceso activado, empieza a aprender",
+        "body": "En cuanto se verifica el pago, la formación se abre: vídeos, recursos, cuestionarios y seguimiento de su progreso."
+      }
+    },
+    "pricing": {
+      "title": "Un precio justo, sin sorpresas",
+      "subtitle": "Compárelo con lo que cuesta una formación presencial equivalente. Todo está incluido: recursos, certificado, acompañamiento y sesiones en directo."
+    },
+    "proofs": {
+      "title": "Se formaron con nosotros"
+    },
+    "instructors": {
+      "title": "Nuestros formadores"
+    },
+    "center": {
+      "title": "El centro, en Tanger"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes"
+    },
+    "finalCta": {
+      "title": "Empiece hoy mismo su formación",
+      "body": "Cree su cuenta en dos minutos. Nuestro equipo la valida en un plazo de 24 horas hábiles y le acompaña en la elección de su formación.",
+      "primary": "Crear una cuenta",
+      "secondary": "Escríbanos por WhatsApp"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Acceda a su espacio de formación.",
+      "submit": "Iniciar sesión",
+      "forgotPassword": "¿Ha olvidado su contraseña?",
+      "noAccount": "¿Todavía no tiene una cuenta?",
+      "createAccount": "Crear una cuenta",
+      "rememberMe": "Mantener la sesión iniciada"
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Nuestro equipo valida su cuenta manualmente, normalmente en un plazo de 24 horas hábiles.",
+      "submit": "Crear mi cuenta",
+      "hasAccount": "¿Ya tiene una cuenta?",
+      "signIn": "Iniciar sesión"
+    },
+    "verify": {
+      "title": "Confirme su dirección de correo electrónico",
+      "body": "Hemos enviado un enlace de confirmación a {email}. Ábralo para activar su registro. Revise también la carpeta de correo no deseado.",
+      "resend": "Reenviar el enlace",
+      "resendIn": "Podrá pedir un nuevo enlace dentro de {seconds, plural, one {# segundo} other {# segundos}}",
+      "resent": "El enlace de confirmación se ha vuelto a enviar.",
+      "changeEmail": "Cambiar mi dirección de correo electrónico"
+    },
+    "pending": {
+      "title": "Su cuenta está en proceso de validación",
+      "body": "Gracias por su registro. Nuestro equipo comprueba sus datos y valida su cuenta manualmente, normalmente en un plazo de 24 horas hábiles. Recibirá un correo electrónico en cuanto su cuenta esté activada.",
+      "whatsappPrompt": "¿Necesita agilizarlo? Escríbanos por WhatsApp.",
+      "whatsappCta": "Escríbanos por WhatsApp",
+      "status": "Estado: pendiente de validación",
+      "refresh": "Actualizar el estado"
+    },
+    "fields": {
+      "fullName": "Nombre completo",
+      "email": "Dirección de correo electrónico",
+      "phone": "Teléfono",
+      "password": "Contraseña",
+      "passwordConfirm": "Confirmar la contraseña",
+      "city": "Ciudad",
+      "professionalStatus": "Situación profesional",
+      "preferredLocale": "Idioma preferido",
+      "acceptTerms": "Acepto las condiciones generales de uso y la política de privacidad."
+    }
+  },
+  "errors": {
+    "required": "Este campo es obligatorio.",
+    "invalidEmail": "La dirección de correo electrónico no es válida. Formato esperado: nombre@ejemplo.com.",
+    "invalidPhone": "El número de teléfono no es válido. Formato esperado: 06 12 34 56 78.",
+    "weakPassword": "La contraseña es demasiado sencilla. Utilice al menos 10 caracteres, con letras y cifras.",
+    "passwordMismatch": "Las dos contraseñas no coinciden. Introdúzcalas de nuevo.",
+    "tooShort": "Este campo debe contener al menos {min, plural, one {# carácter} other {# caracteres}}.",
+    "tooLong": "Este campo no puede superar {max, plural, one {# carácter} other {# caracteres}}.",
+    "fileTooLarge": "El archivo es demasiado grande. Tamaño máximo: {max}.",
+    "fileWrongType": "Este formato de archivo no se admite. Formatos admitidos: {formats}.",
+    "network": "No se ha podido conectar con el servidor. Compruebe su conexión y vuelva a intentarlo.",
+    "notFound": {
+      "title": "Esta página no existe",
+      "body": "Es posible que el enlace sea incorrecto o que la página se haya movido. Vuelva al inicio o utilice el buscador.",
+      "action": "Volver al inicio"
+    },
+    "serverError": {
+      "title": "Se ha producido un error",
+      "body": "El problema está de nuestro lado y ya se nos ha notificado. Vuelva a intentarlo dentro de unos instantes.",
+      "action": "Reintentar"
+    },
+    "forbidden": {
+      "title": "Acceso no autorizado",
+      "body": "Su cuenta no tiene los permisos necesarios para ver esta página. Contáctenos si cree que se trata de un error."
+    },
+    "offline": {
+      "title": "Está sin conexión",
+      "body": "Su dispositivo ya no está conectado a internet. La página se actualizará en cuanto vuelva la conexión."
+    }
+  },
+  "a11y": {
+    "skipToContent": "Ir al contenido principal",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú",
+    "mainNavigation": "Navegación principal",
+    "breadcrumb": "Ruta de navegación",
+    "loading": "Cargando",
+    "requiredField": "Campo obligatorio",
+    "errorPrefix": "Error:",
+    "newWindow": "Se abre en una pestaña nueva",
+    "sortAscending": "Ordenar de forma ascendente",
+    "sortDescending": "Ordenar de forma descendente",
+    "page": "Página {number}"
+  },
+  "showcase": {
+    "title": "Biblioteca de componentes",
+    "subtitle": "Todos los componentes de la interfaz, en cada uno de sus estados, en los dos temas y en las dos direcciones de lectura.",
+    "sections": {
+      "colors": "Colores",
+      "typography": "Tipografía",
+      "buttons": "Botones",
+      "inputs": "Campos de formulario",
+      "feedback": "Avisos y estados",
+      "overlays": "Capas superpuestas",
+      "dataDisplay": "Presentación de datos",
+      "navigation": "Navegación",
+      "motion": "Animación",
+      "rtl": "Dirección de lectura"
+    }
+  },
+  "whatsapp": {
+    "fabLabel": "Escríbanos por WhatsApp",
+    "bubbleMessage": "¿Tiene alguna pregunta? Escríbanos",
+    "prefillGeneric": "Hola CFI, me gustaría recibir información sobre sus formaciones.",
+    "prefillCourse": "Hola CFI, me interesa la formación «{courseTitle}»."
+  }
+}

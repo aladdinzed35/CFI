@@ -1,0 +1,84 @@
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { FlatCompat } from '@eslint/eslintrc';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({ baseDirectory: __dirname });
+
+const config = [
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'public/sw.js',
+      'coverage/**',
+      'playwright-report/**',
+      'test-results/**',
+      'src/generated/**',
+    ],
+  },
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  {
+    rules: {
+      // Zero `any` is a hard requirement (§0.5).
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+      ],
+      // Forbidden packages (§4).
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            { name: 'axios', message: 'Use the native fetch API (§4).' },
+            { name: 'moment', message: 'Use date-fns (§4).' },
+            { name: 'bcrypt', message: 'Use @node-rs/argon2 (§4).' },
+            { name: 'bcryptjs', message: 'Use @node-rs/argon2 (§4).' },
+            { name: 'styled-components', message: 'Use Tailwind + design tokens (§4).' },
+          ],
+          patterns: [
+            { group: ['@vercel/*'], message: 'Vercel-only packages break Hostinger deployment (§2 C1).' },
+            {
+              group: ['@mui/*', '@chakra-ui/*', 'antd'],
+              message: 'No opinionated UI kits — use components/ui (§4).',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // Prisma is server-only. UI components never import it (§5).
+    files: ['src/components/**/*.{ts,tsx}', 'src/app/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            { name: '@prisma/client', message: 'UI never imports Prisma — go through server/services (§5).' },
+            { name: 'axios', message: 'Use the native fetch API (§4).' },
+          ],
+          patterns: [
+            { group: ['@/server/db', '@/server/db/*'], message: 'UI never imports the Prisma client directly (§5).' },
+            { group: ['@vercel/*'], message: 'Vercel-only packages break Hostinger deployment (§2 C1).' },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['scripts/**/*.ts', 'prisma/**/*.ts', 'tests/**/*.ts', 'tests/**/*.tsx'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
+];
+
+export default config;

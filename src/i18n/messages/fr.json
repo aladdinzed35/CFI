@@ -1,0 +1,258 @@
+{
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "continue": "Continuer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "reset": "Réinitialiser",
+    "loading": "Chargement…",
+    "retry": "Réessayer",
+    "copy": "Copier",
+    "copied": "Copié",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non",
+    "required": "Obligatoire",
+    "optional": "Facultatif",
+    "seeAll": "Tout voir",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
+  },
+  "nav": {
+    "formations": "Formations",
+    "parcours": "Parcours",
+    "method": "Notre méthode",
+    "pricing": "Tarifs",
+    "blog": "Blog",
+    "contact": "Contact",
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "dashboard": "Tableau de bord",
+    "myCourses": "Mes formations",
+    "requests": "Mes demandes",
+    "certificates": "Mes certificats",
+    "notes": "Mes notes",
+    "agenda": "Agenda",
+    "discussions": "Discussions",
+    "leaderboard": "Classement",
+    "profile": "Profil",
+    "logout": "Se déconnecter",
+    "admin": "Administration"
+  },
+  "footer": {
+    "about": "À propos",
+    "address": "Adresse",
+    "hours": "Horaires",
+    "usefulLinks": "Liens utiles",
+    "faq": "Questions fréquentes",
+    "terms": "Conditions générales d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "cookies": "Cookies",
+    "verifyCertificate": "Vérifier un certificat",
+    "contactUs": "Nous contacter",
+    "newsletter": {
+      "title": "Recevoir nos nouvelles formations",
+      "placeholder": "Votre adresse e-mail",
+      "submit": "S'inscrire",
+      "success": "Merci, votre inscription est enregistrée. Vous recevrez nos prochaines formations par e-mail."
+    },
+    "rights": "© CFI — Centre de formation immersive. Tous droits réservés.",
+    "followUs": "Nous suivre"
+  },
+  "theme": {
+    "toggle": "Changer de thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "locale": {
+    "switchLanguage": "Changer de langue",
+    "current": "Langue actuelle",
+    "betaNotice": "La version arabe de l'interface est en bêta. Signalez-nous toute erreur de traduction."
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Centre de formation immersive · Tanger",
+      "headline": "Des formations immersives, encadrées par des professionnels",
+      "subheadline": "Des formations complètes à distance, des mises en situation réelles et un encadrement humain au centre, à Tanger. Vous avancez à votre rythme, sans jamais rester seul.",
+      "ctaPrimary": "Créer un compte",
+      "ctaSecondary": "Voir les formations"
+    },
+    "proof": {
+      "learners": "Nos apprenants",
+      "courses": "Formations",
+      "successRate": "Taux de réussite"
+    },
+    "method": {
+      "title": "Notre méthode immersive",
+      "subtitle": "Quatre principes qui font la différence entre suivre une formation et savoir exercer le métier."
+    },
+    "featured": {
+      "title": "Formations à la une",
+      "subtitle": "Une sélection de nos formations les plus demandées, mise à jour chaque mois.",
+      "seeAll": "Voir toutes les formations"
+    },
+    "paths": {
+      "title": "Parcours",
+      "subtitle": "Des formations enchaînées dans le bon ordre, jusqu'au certificat, à un tarif groupé."
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "step1": {
+        "title": "Créez votre compte",
+        "body": "Quelques informations suffisent : nom, adresse e-mail et téléphone. Vous confirmez ensuite votre adresse."
+      },
+      "step2": {
+        "title": "Votre compte est validé par notre équipe",
+        "body": "Nous vérifions vos informations et activons votre compte, généralement sous 24 heures ouvrées."
+      },
+      "step3": {
+        "title": "Choisissez votre formation et envoyez votre justificatif",
+        "body": "Réglez par virement bancaire ou en espèces au centre, puis déposez votre justificatif de virement depuis votre espace."
+      },
+      "step4": {
+        "title": "Accès activé, vous apprenez",
+        "body": "Dès la vérification du paiement, la formation s'ouvre : vidéos, ressources, quiz et suivi de votre progression."
+      }
+    },
+    "pricing": {
+      "title": "Le juste prix, sans surprise",
+      "subtitle": "Comparez avec ce que coûte une formation équivalente en présentiel. Tout est inclus : ressources, certificat, encadrement et sessions en direct."
+    },
+    "proofs": {
+      "title": "Ils se sont formés chez nous"
+    },
+    "instructors": {
+      "title": "Nos formateurs"
+    },
+    "center": {
+      "title": "Le centre, à Tanger"
+    },
+    "faq": {
+      "title": "Questions fréquentes"
+    },
+    "finalCta": {
+      "title": "Commencez votre formation dès aujourd'hui",
+      "body": "Créez votre compte en deux minutes. Notre équipe le valide sous 24 heures ouvrées et vous accompagne dans le choix de votre formation.",
+      "primary": "Créer un compte",
+      "secondary": "Nous écrire sur WhatsApp"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Se connecter",
+      "subtitle": "Accédez à votre espace de formation.",
+      "submit": "Se connecter",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Vous n'avez pas encore de compte ?",
+      "createAccount": "Créer un compte",
+      "rememberMe": "Rester connecté"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "subtitle": "Votre compte est validé manuellement par notre équipe, généralement sous 24 heures ouvrées.",
+      "submit": "Créer mon compte",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter"
+    },
+    "verify": {
+      "title": "Confirmez votre adresse e-mail",
+      "body": "Nous avons envoyé un lien de confirmation à {email}. Ouvrez-le pour activer votre inscription. Pensez à vérifier vos courriers indésirables.",
+      "resend": "Renvoyer le lien",
+      "resendIn": "Nouvel envoi possible dans {seconds, plural, one {# seconde} other {# secondes}}",
+      "resent": "Le lien de confirmation a été renvoyé.",
+      "changeEmail": "Modifier mon adresse e-mail"
+    },
+    "pending": {
+      "title": "Votre compte est en cours de validation",
+      "body": "Merci pour votre inscription. Notre équipe vérifie vos informations et valide votre compte manuellement, généralement sous 24 heures ouvrées. Vous recevrez un e-mail dès que votre compte sera activé.",
+      "whatsappPrompt": "Besoin d'accélérer les choses ? Écrivez-nous sur WhatsApp.",
+      "whatsappCta": "Écrivez-nous sur WhatsApp",
+      "status": "Statut : en attente de validation",
+      "refresh": "Actualiser le statut"
+    },
+    "fields": {
+      "fullName": "Nom complet",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone",
+      "password": "Mot de passe",
+      "passwordConfirm": "Confirmer le mot de passe",
+      "city": "Ville",
+      "professionalStatus": "Situation professionnelle",
+      "preferredLocale": "Langue préférée",
+      "acceptTerms": "J'accepte les conditions générales d'utilisation et la politique de confidentialité."
+    }
+  },
+  "errors": {
+    "required": "Ce champ est obligatoire.",
+    "invalidEmail": "L'adresse e-mail n'est pas valide. Format attendu : nom@exemple.com.",
+    "invalidPhone": "Le numéro de téléphone n'est pas valide. Format attendu : 06 12 34 56 78.",
+    "weakPassword": "Le mot de passe est trop simple. Utilisez au moins 10 caractères, avec des lettres et des chiffres.",
+    "passwordMismatch": "Les deux mots de passe ne sont pas identiques. Saisissez-les à nouveau.",
+    "tooShort": "Ce champ doit contenir au moins {min, plural, one {# caractère} other {# caractères}}.",
+    "tooLong": "Ce champ ne peut pas dépasser {max, plural, one {# caractère} other {# caractères}}.",
+    "fileTooLarge": "Le fichier est trop volumineux. Taille maximale : {max}.",
+    "fileWrongType": "Ce format de fichier n'est pas accepté. Formats acceptés : {formats}.",
+    "network": "La connexion au serveur a échoué. Vérifiez votre connexion, puis réessayez.",
+    "notFound": {
+      "title": "Cette page n'existe pas",
+      "body": "Le lien est peut-être erroné, ou la page a été déplacée. Revenez à l'accueil ou utilisez la recherche.",
+      "action": "Retour à l'accueil"
+    },
+    "serverError": {
+      "title": "Une erreur est survenue",
+      "body": "Le problème vient de notre côté et nous en avons été informés. Réessayez dans quelques instants.",
+      "action": "Réessayer"
+    },
+    "forbidden": {
+      "title": "Accès non autorisé",
+      "body": "Votre compte n'a pas les droits nécessaires pour consulter cette page. Contactez-nous si vous pensez qu'il s'agit d'une erreur."
+    },
+    "offline": {
+      "title": "Vous êtes hors ligne",
+      "body": "Votre appareil n'est plus connecté à Internet. La page se mettra à jour dès le retour de la connexion."
+    }
+  },
+  "a11y": {
+    "skipToContent": "Aller au contenu principal",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "mainNavigation": "Navigation principale",
+    "breadcrumb": "Fil d'Ariane",
+    "loading": "Chargement en cours",
+    "requiredField": "Champ obligatoire",
+    "errorPrefix": "Erreur :",
+    "newWindow": "Ouvre dans un nouvel onglet",
+    "sortAscending": "Trier par ordre croissant",
+    "sortDescending": "Trier par ordre décroissant",
+    "page": "Page {number}"
+  },
+  "showcase": {
+    "title": "Bibliothèque de composants",
+    "subtitle": "Tous les composants de l'interface, dans chacun de leurs états, dans les deux thèmes et dans les deux sens de lecture.",
+    "sections": {
+      "colors": "Couleurs",
+      "typography": "Typographie",
+      "buttons": "Boutons",
+      "inputs": "Champs de saisie",
+      "feedback": "Retours et statuts",
+      "overlays": "Surfaces superposées",
+      "dataDisplay": "Affichage des données",
+      "navigation": "Navigation",
+      "motion": "Animation",
+      "rtl": "Sens de lecture"
+    }
+  },
+  "whatsapp": {
+    "fabLabel": "Nous écrire sur WhatsApp",
+    "bubbleMessage": "Une question ? Écrivez-nous",
+    "prefillGeneric": "Bonjour CFI, je souhaite des renseignements sur vos formations.",
+    "prefillCourse": "Bonjour CFI, je suis intéressé(e) par la formation « {courseTitle} »."
+  }
+}

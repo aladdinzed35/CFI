@@ -1,0 +1,258 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "loading": "Loading…",
+    "retry": "Try again",
+    "copy": "Copy",
+    "copied": "Copied",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "required": "Required",
+    "optional": "Optional",
+    "seeAll": "See all",
+    "showMore": "Show more",
+    "showLess": "Show less"
+  },
+  "nav": {
+    "formations": "Courses",
+    "parcours": "Learning paths",
+    "method": "Our method",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "contact": "Contact",
+    "login": "Log in",
+    "register": "Create an account",
+    "dashboard": "Dashboard",
+    "myCourses": "My courses",
+    "requests": "My requests",
+    "certificates": "My certificates",
+    "notes": "My notes",
+    "agenda": "Calendar",
+    "discussions": "Discussions",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile",
+    "logout": "Log out",
+    "admin": "Administration"
+  },
+  "footer": {
+    "about": "About",
+    "address": "Address",
+    "hours": "Opening hours",
+    "usefulLinks": "Useful links",
+    "faq": "Frequently asked questions",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "cookies": "Cookies",
+    "verifyCertificate": "Verify a certificate",
+    "contactUs": "Contact us",
+    "newsletter": {
+      "title": "Get our new courses by email",
+      "placeholder": "Your email address",
+      "submit": "Subscribe",
+      "success": "Thank you, your subscription has been recorded. You will receive our new courses by email."
+    },
+    "rights": "© CFI — Centre de formation immersive. All rights reserved.",
+    "followUs": "Follow us"
+  },
+  "theme": {
+    "toggle": "Switch theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "locale": {
+    "switchLanguage": "Change language",
+    "current": "Current language",
+    "betaNotice": "The Arabic interface is in beta. Please report any translation error to us."
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Immersive training centre · Tanger",
+      "headline": "Immersive training, taught by working professionals",
+      "subheadline": "Complete courses you follow remotely, real-world practice, and human support at the centre in Tanger. You move at your own pace, and never on your own.",
+      "ctaPrimary": "Create an account",
+      "ctaSecondary": "Browse the courses"
+    },
+    "proof": {
+      "learners": "Our learners",
+      "courses": "Courses",
+      "successRate": "Success rate"
+    },
+    "method": {
+      "title": "Our immersive method",
+      "subtitle": "Four principles that make the difference between following a course and actually being able to do the job."
+    },
+    "featured": {
+      "title": "Featured courses",
+      "subtitle": "A selection of our most requested courses, updated every month.",
+      "seeAll": "See all courses"
+    },
+    "paths": {
+      "title": "Learning paths",
+      "subtitle": "Courses arranged in the right order, all the way to the certificate, at a bundle price."
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "step1": {
+        "title": "Create your account",
+        "body": "A few details are enough: name, email address and phone number. You then confirm your address."
+      },
+      "step2": {
+        "title": "Your account is approved by our team",
+        "body": "We check your details and activate your account, usually within 24 business hours."
+      },
+      "step3": {
+        "title": "Choose your course and send your receipt",
+        "body": "Pay by bank transfer or in cash at the centre, then upload your transfer receipt from your account area."
+      },
+      "step4": {
+        "title": "Access granted, you start learning",
+        "body": "As soon as the payment is verified, the course opens: videos, resources, quizzes and progress tracking."
+      }
+    },
+    "pricing": {
+      "title": "A fair price, no surprises",
+      "subtitle": "Compare it with what an equivalent in-person course costs. Everything is included: resources, certificate, support and live sessions."
+    },
+    "proofs": {
+      "title": "They trained with us"
+    },
+    "instructors": {
+      "title": "Our instructors"
+    },
+    "center": {
+      "title": "The centre, in Tanger"
+    },
+    "faq": {
+      "title": "Frequently asked questions"
+    },
+    "finalCta": {
+      "title": "Start your training today",
+      "body": "Create your account in two minutes. Our team approves it within 24 business hours and helps you choose the right course.",
+      "primary": "Create an account",
+      "secondary": "Message us on WhatsApp"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "subtitle": "Access your training area.",
+      "submit": "Log in",
+      "forgotPassword": "Forgotten your password?",
+      "noAccount": "Do not have an account yet?",
+      "createAccount": "Create an account",
+      "rememberMe": "Keep me logged in"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Your account is approved manually by our team, usually within 24 business hours.",
+      "submit": "Create my account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Log in"
+    },
+    "verify": {
+      "title": "Confirm your email address",
+      "body": "We have sent a confirmation link to {email}. Open it to activate your registration. Remember to check your spam folder.",
+      "resend": "Resend the link",
+      "resendIn": "A new link can be sent in {seconds, plural, one {# second} other {# seconds}}",
+      "resent": "The confirmation link has been sent again.",
+      "changeEmail": "Change my email address"
+    },
+    "pending": {
+      "title": "Your account is being reviewed",
+      "body": "Thank you for registering. Our team is checking your details and approves every account manually, usually within 24 business hours. You will receive an email as soon as your account is activated.",
+      "whatsappPrompt": "Need to speed things up? Message us on WhatsApp.",
+      "whatsappCta": "Message us on WhatsApp",
+      "status": "Status: awaiting approval",
+      "refresh": "Refresh the status"
+    },
+    "fields": {
+      "fullName": "Full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "password": "Password",
+      "passwordConfirm": "Confirm the password",
+      "city": "City",
+      "professionalStatus": "Professional status",
+      "preferredLocale": "Preferred language",
+      "acceptTerms": "I accept the terms of use and the privacy policy."
+    }
+  },
+  "errors": {
+    "required": "This field is required.",
+    "invalidEmail": "This email address is not valid. Expected format: name@example.com.",
+    "invalidPhone": "This phone number is not valid. Expected format: 06 12 34 56 78.",
+    "weakPassword": "This password is too simple. Use at least 10 characters, with letters and digits.",
+    "passwordMismatch": "The two passwords are not identical. Please enter them again.",
+    "tooShort": "This field must contain at least {min, plural, one {# character} other {# characters}}.",
+    "tooLong": "This field cannot exceed {max, plural, one {# character} other {# characters}}.",
+    "fileTooLarge": "This file is too large. Maximum size: {max}.",
+    "fileWrongType": "This file format is not accepted. Accepted formats: {formats}.",
+    "network": "The connection to the server failed. Check your connection, then try again.",
+    "notFound": {
+      "title": "This page does not exist",
+      "body": "The link may be wrong, or the page has been moved. Go back to the home page or use the search.",
+      "action": "Back to the home page"
+    },
+    "serverError": {
+      "title": "Something went wrong",
+      "body": "The problem is on our side and we have been notified. Please try again in a few moments.",
+      "action": "Try again"
+    },
+    "forbidden": {
+      "title": "Access not allowed",
+      "body": "Your account does not have the permissions needed to view this page. Contact us if you believe this is a mistake."
+    },
+    "offline": {
+      "title": "You are offline",
+      "body": "Your device is no longer connected to the internet. The page will update as soon as the connection is back."
+    }
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "openMenu": "Open the menu",
+    "closeMenu": "Close the menu",
+    "mainNavigation": "Main navigation",
+    "breadcrumb": "Breadcrumb",
+    "loading": "Loading",
+    "requiredField": "Required field",
+    "errorPrefix": "Error:",
+    "newWindow": "Opens in a new tab",
+    "sortAscending": "Sort in ascending order",
+    "sortDescending": "Sort in descending order",
+    "page": "Page {number}"
+  },
+  "showcase": {
+    "title": "Component library",
+    "subtitle": "Every interface component, in each of its states, in both themes and in both reading directions.",
+    "sections": {
+      "colors": "Colours",
+      "typography": "Typography",
+      "buttons": "Buttons",
+      "inputs": "Form fields",
+      "feedback": "Feedback and status",
+      "overlays": "Overlays",
+      "dataDisplay": "Data display",
+      "navigation": "Navigation",
+      "motion": "Motion",
+      "rtl": "Reading direction"
+    }
+  },
+  "whatsapp": {
+    "fabLabel": "Message us on WhatsApp",
+    "bubbleMessage": "Have a question? Message us",
+    "prefillGeneric": "Hello CFI, I would like some information about your courses.",
+    "prefillCourse": "Hello CFI, I am interested in the “{courseTitle}” course."
+  }
+}

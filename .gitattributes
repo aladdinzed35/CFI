@@ -1,0 +1,23 @@
+# Normalise to LF in the repository. The team is on Windows, the build runs on Linux
+# (CI and Hostinger) — without this, every checkout rewrites every file and diffs
+# become unreadable.
+* text=auto eol=lf
+
+# Binary assets: never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary
+*.mp4 binary
+*.zip binary
+
+# Generated — collapse in diffs and exclude from language statistics.
+package-lock.json linguist-generated=true -diff
+prisma/migrations/**/*.sql linguist-generated=true
