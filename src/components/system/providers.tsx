@@ -2,6 +2,7 @@
 
 import { ToastProvider, ToastViewport } from '@radix-ui/react-toast';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
+import { Toaster } from '@/components/ui/toast';
 import { useDirection } from '@/hooks/use-direction';
 
 /**
@@ -36,6 +37,14 @@ export function Providers({ children, toastLabel }: ProvidersProps): React.JSX.E
         swipeThreshold={48}
       >
         {children}
+        {/*
+          Subscribes to the toast store and renders one Radix Toast per live
+          record. It must sit inside ToastProvider — that is what gives the
+          toasts their region, their swipe axis and their announcement — and
+          it is the reason `toast()` can be called from anywhere in the app
+          without the caller wiring up a portal.
+        */}
+        <Toaster />
         <ToastViewport className="safe-b fixed bottom-0 end-0 z-50 m-0 flex w-full max-w-[min(24rem,100vw)] list-none flex-col gap-2 p-4" />
       </ToastProvider>
     </TooltipProvider>

@@ -360,3 +360,52 @@ entry, not an edit to this one.
 - *Dropping the Auth.js email provider.* Rejected: verification and password-reset mail is core to
   the account lifecycle. (Note that we send those through our own mail service rather than the
   Auth.js provider, but the peer constraint applies to the installed tree regardless.)
+
+---
+
+## 2026-07-25 — Two light-theme accents darkened from the values stated in the spec
+
+**Context.** §11.2 fixes the palette by hex value, and §21 separately requires ≥4.5:1 contrast for
+text and ≥3:1 for UI boundaries **in both themes**, calling out "the brass and teal accents
+specifically". Measured in the browser against the real computed theme values, the light theme
+missed on two of them:
+
+| Token | Spec value | White on fill | Token as text on page bg |
+|---|---|---|---|
+| `--accent-brass` | `#A9702A` | **4.17:1** ✗ | 3.79:1 ✗ |
+| `--accent-strait` | `#0A7F72` | 4.89:1 ✓ | **4.45:1** ✗ |
+
+Both tokens are used as *text*, not only as fills — `PriceTag` renders the price in brass, and
+section eyebrows render in strait — so the 4.5:1 text threshold is the binding one for each.
+
+**Decision.** In the light theme only, `--accent-brass: #98621e` and `--accent-strait: #097468`.
+Dark theme is untouched; it already passed with a wide margin (10.48:1 and 12.13:1). The two values
+are duplicated in the `prefers-color-scheme: light` fallback block and must be changed together.
+
+Measured after the change — all 22 token pairings pass in both themes:
+
+| Token | White on fill | As text on page bg |
+|---|---|---|
+| `--accent-brass` | 5.12:1 ✓ | 4.66:1 ✓ |
+| `--accent-strait` | 5.66:1 ✓ | 5.15:1 ✓ |
+
+**Rationale.** Where the spec contradicts itself, the accessibility requirement wins over the
+decorative one: §21 states a measurable acceptance criterion that CI enforces via axe, while the
+palette hex is a starting point for an intent ("brass = money and achievement", "strait = primary
+action"). The correction is roughly a 9 % darkening — both accents remain unmistakably brass and
+teal, and the dark theme, which is the default and carries the brand impression, is unchanged.
+
+Shipping the stated values would have meant knowingly failing the §26 acceptance checklist
+("axe reports zero violations on 12 key screens in both locales") on every screen showing a price.
+
+**Rejected alternatives.**
+- *Keep the hex values and accept the failure.* Rejected: §26 is a hard gate, and price text is on
+  nearly every commercial screen.
+- *Keep the fills and use dark ink on brass instead of white.* Rejected: light-theme brass is
+  already mid-dark, so dark ink scores worse than white, and it would invert the ink direction
+  between themes for one token only.
+- *Use the failing values for fills and a separate darker token for text.* Rejected: two brasses is
+  exactly the kind of token sprawl the design system exists to prevent, and it pushes the choice of
+  which-brass onto every call site.
+- *Enlarge all brass/strait text to 18.66px+ to qualify for the 3:1 large-text threshold.* Rejected:
+  prices in dense tables and eyebrow labels cannot be large text.

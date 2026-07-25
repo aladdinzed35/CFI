@@ -1,0 +1,31 @@
+# CFI — editor baseline.
+#
+# The team works on Windows, the build runs on Linux (GitHub Actions) and the
+# app runs on Hostinger. LF everywhere keeps .gitattributes, Prettier and the
+# CI diff telling the same story. These values are mirrored in .prettierrc.json;
+# change one and change the other.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 100
+
+# Two trailing spaces are a hard line break in Markdown.
+[*.md]
+trim_trailing_whitespace = false
+
+# Machine-managed: key order carries meaning, formatters stay out (see .prettierignore).
+[src/i18n/messages/*.json]
+insert_final_newline = true
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[{package.json,package-lock.json}]
+indent_size = 2

@@ -32,6 +32,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  // There is an unrelated package-lock.json in a parent directory on some dev
+  // machines, which makes Next infer the wrong workspace root and trace files
+  // from outside the project. Pin it: the standalone output must contain this
+  // app and nothing above it.
+  outputFileTracingRoot: process.cwd(),
+
   // `sharp` is an explicit dependency: image optimization on self-hosted Node.
   images: {
     formats: ['image/avif', 'image/webp'],

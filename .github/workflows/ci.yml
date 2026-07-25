@@ -1,0 +1,309 @@
+# CFI — continuous integration (spec §22, §20).
+#
+# Four jobs, in decreasing order of how fast they tell you something useful:
+#
+#   verify        every push and PR. Blocking, ordered cheapest-first so a typo
+#                 fails in 90 seconds instead of after a Playwright run.
+#   integration   pull requests only. Real MySQL 8 service container.
+#   e2e           pull requests only. Production build + Playwright, fr and ar.
+#   secret-scan   every push and PR. §20 requires grepping the built client
+#                 bundle for secret-shaped strings.
+#
+# Only `actions/checkout` and `actions/setup-node` are used. No third-party
+# action gets a token or a shell on this repository.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A new push to the same branch supersedes the run in flight.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: "1"
+  # `src/lib/env.ts` validates the whole environment at module load and exits 1
+  # on a missing secret. CI holds none, so it runs on the module's explicitly
+  # fake build placeholders. Never set this on a running server.
+  SKIP_ENV_VALIDATION: "1"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Blocking, ordered: install → typecheck → lint → i18n → rtl → unit → build.
+  # ---------------------------------------------------------------------------
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # `npm ci` runs `postinstall: prisma generate`, and Prisma refuses to
+      # generate without the datasource URL — even though it never connects.
+      DATABASE_URL: mysql://cfi:cfi_ci@127.0.0.1:3306/cfi_ci
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Translation parity (fr · ar · en · es)
+        run: npm run i18n:check
+
+      - name: RTL logical properties
+        run: npm run rtl:check
+
+      - name: Unit tests
+        run: npm test -- tests/unit
+
+      - name: Build
+        run: npm run build
+
+  # ---------------------------------------------------------------------------
+  # Integration — the transactional guarantees that only a real database proves.
+  # ---------------------------------------------------------------------------
+  integration:
+    name: Integration (MySQL 8)
+    if: github.event_name == 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: cfi_ci_root
+          MYSQL_DATABASE: cfi_test
+          MYSQL_USER: cfi
+          MYSQL_PASSWORD: cfi_ci
+        ports:
+          - 3306:3306
+        # The job starts the moment the container is reported healthy; without
+        # this, the first Prisma call races MySQL's own initialisation.
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -pcfi_ci_root --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+          --health-start-period=30s
+
+    env:
+      DATABASE_URL: mysql://cfi:cfi_ci@127.0.0.1:3306/cfi_test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply the schema
+        # `db push` rather than `migrate deploy`: the assertion here is that the
+        # code matches `schema.prisma`, and it must hold before the first
+        # migration exists.
+        run: npx prisma db push --skip-generate --accept-data-loss
+
+      - name: Integration tests
+        run: npm test -- tests/integration
+
+  # ---------------------------------------------------------------------------
+  # E2E — the built app, both form factors, French in full and Arabic critical.
+  # ---------------------------------------------------------------------------
+  e2e:
+    name: E2E (Playwright · fr + ar)
+    if: github.event_name == 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: cfi_ci_root
+          MYSQL_DATABASE: cfi_e2e
+          MYSQL_USER: cfi
+          MYSQL_PASSWORD: cfi_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -pcfi_ci_root --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+          --health-start-period=30s
+
+    env:
+      DATABASE_URL: mysql://cfi:cfi_ci@127.0.0.1:3306/cfi_e2e
+      APP_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      PORT: "3000"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply the schema
+        run: npx prisma db push --skip-generate --accept-data-loss
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Chromium
+        # Every Playwright project uses the Chromium channel; the other engines
+        # are 300 MB of download this suite never opens.
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        # `playwright.config.ts` starts `npm run start` itself and waits for it.
+        run: npm run test:e2e -- --pass-with-no-tests
+
+  # ---------------------------------------------------------------------------
+  # §20 — "Add a CI check that greps the built client bundles for known secret
+  # prefixes." Built with canary values so a leak is unambiguous rather than
+  # heuristic: none of these strings has any reason to reach the browser.
+  # ---------------------------------------------------------------------------
+  secret-scan:
+    name: Client bundle secret scan
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    env:
+      DATABASE_URL: mysql://cfi:CFI_CANARY_DB_PASSWORD@127.0.0.1:3306/cfi_ci
+      AUTH_SECRET: CFI_CANARY_AUTH_SECRET_kZ8mQ2wR7tY1uI4oP6aS9dF3gH5jK0lX
+      CRON_SECRET: CFI_CANARY_CRON_SECRET_bN4vC7xZ2qW
+      SMTP_PASSWORD: CFI_CANARY_SMTP_PASSWORD
+      S3_SECRET_ACCESS_KEY: CFI_CANARY_S3_SECRET_ACCESS_KEY
+      BUNNY_TOKEN_AUTH_KEY: CFI_CANARY_BUNNY_TOKEN_AUTH_KEY
+      BUNNY_STREAM_API_KEY: CFI_CANARY_BUNNY_STREAM_API_KEY
+      ANTHROPIC_API_KEY: sk-ant-CFI_CANARY_ANTHROPIC_API_KEY
+      VOYAGE_API_KEY: CFI_CANARY_VOYAGE_API_KEY
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with canary secrets
+        run: npm run build
+
+      - name: Scan .next/static for secret-shaped strings
+        run: |
+          set -euo pipefail
+
+          bundle_dir=.next/static
+          if [ ! -d "$bundle_dir" ]; then
+            echo "::error::$bundle_dir is missing — the build produced no client bundle."
+            exit 1
+          fi
+
+          mapfile -t files < <(find "$bundle_dir" -type f \( -name '*.js' -o -name '*.css' \))
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "::error::no client JavaScript or CSS found under $bundle_dir."
+            exit 1
+          fi
+          echo "Scanning ${#files[@]} client asset(s)."
+
+          # Inlined data URIs are legitimately long base64 runs. Redact them so
+          # they cannot trigger the shape check below. If this check ever fires
+          # on something else that is genuinely innocent, widen this sed — never
+          # delete the check.
+          haystack="$RUNNER_TEMP/client-bundle.txt"
+          cat "${files[@]}" \
+            | sed -E 's#data:[^,]{0,120};base64,[A-Za-z0-9+/=]+#DATA_URI_REDACTED#g' \
+            > "$haystack"
+
+          status=0
+
+          # Never echo a match: the whole point is that it might be a real secret.
+          report() {
+            echo "::error::client bundle leak — $1"
+            grep -lE "$2" "${files[@]}" 2>/dev/null | sed 's/^/    /' || true
+            status=1
+          }
+
+          check() {
+            if grep -qE "$2" "$haystack"; then report "$1" "$2"; fi
+          }
+
+          # 1. The canary values injected above. A hit is a certainty, not a guess.
+          check "a build-time canary secret reached the browser" \
+                'CFI_CANARY_[A-Z0-9_]+'
+
+          # 2. Anthropic key prefix (§20 "known secret prefixes").
+          check "an Anthropic API key prefix (sk-ant-)" \
+                'sk-ant-[A-Za-z0-9_-]{6,}'
+
+          # 3. A database connection string.
+          check "a MySQL connection string" \
+                'mysql://[A-Za-z0-9_.%-]+:[^@[:space:]]+@'
+
+          # 4. A server-only variable name sitting next to a literal value.
+          #    The bare name alone is not enough: `src/lib/env.ts` documents
+          #    every variable in a metadata table, and `clientEnv` is designed
+          #    to be imported by client components, so the names themselves can
+          #    legitimately appear. A name *bound to a string* cannot.
+          check "a server-only environment variable bound to a literal value" \
+                '(AUTH_SECRET|CRON_SECRET|SMTP_PASSWORD|S3_SECRET_ACCESS_KEY|BUNNY_TOKEN_AUTH_KEY|BUNNY_STREAM_API_KEY|ANTHROPIC_API_KEY|VOYAGE_API_KEY|DATABASE_URL)"?[[:space:]]*[:=][[:space:]]*"[^"]{8,}"'
+
+          # 5. AUTH_SECRET shape — `openssl rand -base64 48` is 64 base64
+          #    characters. Require at least one `+`, `/` or `=` so that minified
+          #    identifiers and content hashes do not match.
+          if grep -ohE '[A-Za-z0-9+/]{64,}={0,2}' "$haystack" | grep -qE '[+/=]'; then
+            report "a base64 secret shape (64+ chars, AUTH_SECRET-like)" \
+                   '[A-Za-z0-9+/]{64,}={0,2}'
+          fi
+
+          if [ "$status" -ne 0 ]; then
+            echo "Secrets must live in server-only modules. A value reaches the"
+            echo "browser when a client component imports it, directly or through"
+            echo "a barrel file. Only NEXT_PUBLIC_* may be bundled (§20)."
+            exit 1
+          fi
+
+          echo "No secret-shaped strings in the client bundle."

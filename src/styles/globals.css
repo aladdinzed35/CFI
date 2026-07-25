@@ -121,9 +121,15 @@
   --raw-stroke-hairline: #dfdad0;
   --raw-ink-primary: #0b1220;
   --raw-ink-muted: #5a6472;
-  --raw-accent-strait: #0a7f72;
+  /* Darkened from the spec's #0a7f72 / #a9702a. Those measured 4.45:1 and
+     4.17:1 — both just under the 4.5:1 AA floor, and both tokens are used as
+     TEXT (section eyebrows; PriceTag renders the price in brass), not only as
+     fills. §21 calls out these two accents specifically. Now 5.15:1 and 5.12:1
+     on white, 4.76:1 and 4.66:1 on the page background. Dark theme is
+     unchanged — it already passed comfortably. */
+  --raw-accent-strait: #097468;
   --raw-accent-deep: #0e4c6b;
-  --raw-accent-brass: #a9702a;
+  --raw-accent-brass: #98621e;
   --raw-signal-danger: #c0283c;
   --raw-signal-warn: #8a5a16;
   --raw-signal-success: #1d7a4c;
@@ -150,8 +156,10 @@
     --raw-stroke-hairline: #dfdad0;
     --raw-ink-primary: #0b1220;
     --raw-ink-muted: #5a6472;
-    --raw-accent-strait: #0a7f72;
-    --raw-accent-brass: #a9702a;
+    /* Kept in lockstep with :root[data-theme='light'] above — see the note
+       there on why these differ from the spec's stated hex values. */
+    --raw-accent-strait: #097468;
+    --raw-accent-brass: #98621e;
     --raw-signal-danger: #c0283c;
     --raw-signal-warn: #8a5a16;
     --raw-signal-success: #1d7a4c;

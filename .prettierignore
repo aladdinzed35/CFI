@@ -1,0 +1,34 @@
+# Dependencies and lockfile — never hand-formatted.
+node_modules/
+package-lock.json
+
+# Build output and generated code.
+.next/
+out/
+build/
+dist/
+src/generated/
+public/sw.js
+public/sw.js.map
+next-env.d.ts
+
+# Test and coverage artifacts.
+coverage/
+playwright-report/
+test-results/
+blob-report/
+tests/e2e/__screenshots__/
+
+# Local upload driver (development only).
+.storage/
+
+# Translation catalogues.
+#
+# `src/i18n/messages/*.json` is machine-managed: key order mirrors the French
+# source file so that `npm run i18n:check` diffs stay readable, and Arabic
+# values carry bidi control characters that a reformat would happily mangle.
+# Edit them through the translation workflow, never through a formatter.
+src/i18n/messages/
+
+# Prisma migrations are emitted by the CLI and replayed verbatim in production.
+prisma/migrations/
