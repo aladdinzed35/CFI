@@ -74,7 +74,11 @@
   "locale": {
     "switchLanguage": "Changer de langue",
     "current": "Langue actuelle",
-    "betaNotice": "La version arabe de l'interface est en bêta. Signalez-nous toute erreur de traduction."
+    "betaNotice": "La version arabe de l'interface est en bêta. Signalez-nous toute erreur de traduction.",
+    "fr": "Français",
+    "ar": "العربية",
+    "en": "English",
+    "es": "Español"
   },
   "home": {
     "hero": {
@@ -164,14 +168,57 @@
       "forgotPassword": "Mot de passe oublié ?",
       "noAccount": "Vous n'avez pas encore de compte ?",
       "createAccount": "Créer un compte",
-      "rememberMe": "Rester connecté"
+      "rememberMe": "Rester connecté",
+      "emailPlaceholder": "nom@exemple.com",
+      "passwordPlaceholder": "Votre mot de passe",
+      "rememberMeHint": "Ne cochez pas cette case sur un ordinateur partagé.",
+      "submitting": "Connexion en cours…",
+      "failed": "L'adresse e-mail ou le mot de passe ne correspond pas. Vérifiez vos identifiants, puis réessayez.",
+      "success": "Vous êtes connecté. Redirection vers votre espace…"
     },
     "register": {
       "title": "Créer un compte",
       "subtitle": "Votre compte est validé manuellement par notre équipe, généralement sous 24 heures ouvrées.",
       "submit": "Créer mon compte",
       "hasAccount": "Vous avez déjà un compte ?",
-      "signIn": "Se connecter"
+      "signIn": "Se connecter",
+      "lead": "Quelques informations suffisent. Vous confirmez ensuite votre adresse e-mail, puis notre équipe valide votre compte.",
+      "submitting": "Création du compte en cours…",
+      "placeholders": {
+        "fullName": "Prénom et nom",
+        "email": "nom@exemple.com",
+        "phone": "06 12 34 56 78",
+        "password": "Au moins 10 caractères",
+        "passwordConfirm": "Saisissez à nouveau le mot de passe",
+        "city": "Tanger"
+      },
+      "hints": {
+        "phone": "Nous l'utilisons pour vous joindre sur WhatsApp au sujet de votre compte.",
+        "password": "Au moins 10 caractères, avec des lettres et des chiffres.",
+        "city": "Facultatif.",
+        "professionalStatus": "Facultatif. Cela nous aide à vous orienter vers la bonne formation.",
+        "preferredLocale": "La langue de l'interface et de nos e-mails."
+      },
+      "terms": {
+        "prefix": "J'accepte les",
+        "termsLink": "conditions générales d'utilisation",
+        "connector": "et la",
+        "privacyLink": "politique de confidentialité",
+        "suffix": "."
+      },
+      "passwordStrength": {
+        "label": "Robustesse du mot de passe",
+        "weak": "Faible",
+        "medium": "Moyen",
+        "strong": "Fort",
+        "excellent": "Excellent",
+        "announce": "Robustesse du mot de passe : {level}."
+      },
+      "success": {
+        "title": "Votre compte est créé",
+        "body": "Nous avons envoyé un lien de confirmation à votre adresse e-mail. Ouvrez-le pour poursuivre votre inscription.",
+        "action": "Continuer"
+      }
     },
     "verify": {
       "title": "Confirmez votre adresse e-mail",
@@ -181,13 +228,118 @@
       "resent": "Le lien de confirmation a été renvoyé.",
       "changeEmail": "Modifier mon adresse e-mail"
     },
+    "verifyEmail": {
+      "title": "Confirmez votre adresse e-mail",
+      "body": "Nous avons envoyé un lien de confirmation à {maskedEmail}. Ouvrez-le pour activer votre inscription.",
+      "spamHint": "Le message n'arrive pas ? Vérifiez vos courriers indésirables avant de demander un nouvel envoi.",
+      "resend": "Renvoyer le lien",
+      "resending": "Envoi en cours…",
+      "resent": "Le lien de confirmation a été renvoyé. Il reste valable 24 heures.",
+      "cooldown": "Nouvel envoi possible dans {seconds, plural, one {# seconde} other {# secondes}}.",
+      "wrongAddress": "Ce n'est pas la bonne adresse ?",
+      "changeEmail": "Recommencer avec une autre adresse",
+      "verifying": "Vérification du lien en cours…",
+      "success": {
+        "title": "Votre adresse e-mail est confirmée",
+        "body": "Merci. Notre équipe vérifie maintenant vos informations et valide votre compte.",
+        "action": "Continuer"
+      },
+      "expired": {
+        "title": "Ce lien a expiré",
+        "body": "Les liens de confirmation restent valables 24 heures. Demandez-en un nouveau pour terminer votre inscription.",
+        "action": "Recevoir un nouveau lien"
+      },
+      "invalid": {
+        "title": "Ce lien n'est pas valide",
+        "body": "Le lien est incomplet ou a déjà été utilisé. Demandez un nouvel envoi pour confirmer votre adresse.",
+        "action": "Recevoir un nouveau lien"
+      }
+    },
     "pending": {
       "title": "Votre compte est en cours de validation",
       "body": "Merci pour votre inscription. Notre équipe vérifie vos informations et valide votre compte manuellement, généralement sous 24 heures ouvrées. Vous recevrez un e-mail dès que votre compte sera activé.",
       "whatsappPrompt": "Besoin d'accélérer les choses ? Écrivez-nous sur WhatsApp.",
       "whatsappCta": "Écrivez-nous sur WhatsApp",
       "status": "Statut : en attente de validation",
-      "refresh": "Actualiser le statut"
+      "refresh": "Actualiser le statut",
+      "statusLabel": "Statut du compte",
+      "statusPending": "En attente de validation",
+      "statusChecking": "Vérification du statut…",
+      "statusApproved": "Compte validé",
+      "statusRejected": "Inscription non validée",
+      "autoRefresh": "Cette page se met à jour automatiquement. Vous n'avez rien à faire.",
+      "lastChecked": "Dernière vérification à {time}",
+      "approved": {
+        "title": "Votre compte est validé",
+        "body": "Votre espace de formation est ouvert. Vous pouvez choisir votre première formation.",
+        "action": "Accéder à mon espace"
+      },
+      "rejected": {
+        "title": "Votre inscription n'a pas pu être validée",
+        "body": "Notre équipe n'a pas pu valider votre compte. Le motif vous a été envoyé par e-mail.",
+        "action": "Voir le détail"
+      },
+      "signOut": "Se déconnecter"
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Indiquez l'adresse e-mail de votre compte. Nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+      "emailPlaceholder": "nom@exemple.com",
+      "submit": "Envoyer le lien",
+      "submitting": "Envoi en cours…",
+      "backToLogin": "Retour à la connexion",
+      "sent": {
+        "title": "Vérifiez votre boîte de réception",
+        "body": "Si un compte existe avec l'adresse {maskedEmail}, un lien de réinitialisation vient d'être envoyé. Il reste valable une heure.",
+        "hint": "Le message n'arrive pas ? Vérifiez vos courriers indésirables, puis réessayez dans quelques minutes.",
+        "action": "Retour à la connexion"
+      }
+    },
+    "resetPassword": {
+      "title": "Choisir un nouveau mot de passe",
+      "subtitle": "Votre nouveau mot de passe doit contenir au moins 10 caractères, avec des lettres et des chiffres.",
+      "password": "Nouveau mot de passe",
+      "passwordConfirm": "Confirmer le nouveau mot de passe",
+      "submit": "Enregistrer le nouveau mot de passe",
+      "submitting": "Enregistrement en cours…",
+      "sessionsRevokedNotice": "Par sécurité, toutes vos sessions ouvertes seront fermées, y compris sur vos autres appareils.",
+      "success": {
+        "title": "Votre mot de passe est modifié",
+        "body": "Toutes vos sessions ont été fermées. Connectez-vous avec votre nouveau mot de passe.",
+        "action": "Se connecter"
+      },
+      "expired": {
+        "title": "Ce lien a expiré",
+        "body": "Les liens de réinitialisation restent valables une heure et ne servent qu'une seule fois. Demandez-en un nouveau.",
+        "action": "Demander un nouveau lien"
+      }
+    },
+    "rejected": {
+      "title": "Votre inscription n'a pas pu être validée",
+      "body": "Après vérification, notre équipe n'a pas pu valider votre compte.",
+      "reasonLabel": "Motif",
+      "noReason": "Aucun motif n'a été précisé.",
+      "whatsappPrompt": "Vous pensez qu'il s'agit d'une erreur ? Écrivez-nous sur WhatsApp, nous réexaminerons votre dossier.",
+      "whatsappCta": "Écrivez-nous sur WhatsApp",
+      "signOut": "Se déconnecter"
+    },
+    "suspended": {
+      "title": "Votre compte est suspendu",
+      "body": "L'accès à votre espace de formation est suspendu pour le moment.",
+      "reasonLabel": "Motif",
+      "noReason": "Aucun motif n'a été précisé.",
+      "whatsappPrompt": "Pour réactiver votre compte, écrivez-nous sur WhatsApp.",
+      "whatsappCta": "Écrivez-nous sur WhatsApp",
+      "signOut": "Se déconnecter"
+    },
+    "professionalStatus": {
+      "placeholder": "Sélectionnez votre situation",
+      "student": "Étudiant",
+      "employed": "Salarié",
+      "jobSeeker": "En recherche d'emploi",
+      "entrepreneur": "Entrepreneur",
+      "publicSector": "Fonctionnaire",
+      "other": "Autre"
     },
     "fields": {
       "fullName": "Nom complet",
@@ -198,7 +350,443 @@
       "city": "Ville",
       "professionalStatus": "Situation professionnelle",
       "preferredLocale": "Langue préférée",
-      "acceptTerms": "J'accepte les conditions générales d'utilisation et la politique de confidentialité."
+      "acceptTerms": "J'accepte les conditions générales d'utilisation et la politique de confidentialité.",
+      "honeypot": "Ne remplissez pas ce champ",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe"
+    }
+  },
+  "student": {
+    "shell": {
+      "brandHome": "CFI — retour à mon espace",
+      "navLabel": "Navigation principale",
+      "expand": "Déplier le menu",
+      "collapse": "Replier le menu",
+      "accountMenu": "Menu du compte",
+      "language": "Changer de langue",
+      "notifications": {
+        "trigger": "Notifications",
+        "title": "Notifications",
+        "empty": "Vous n'avez aucune notification pour le moment.",
+        "markAllRead": "Tout marquer comme lu",
+        "unread": "{count, plural, =0 {Aucune notification non lue} one {# notification non lue} other {# notifications non lues}}"
+      },
+      "theme": {
+        "toLight": "Passer au thème clair",
+        "toDark": "Passer au thème sombre",
+        "lightEnabled": "Thème clair activé",
+        "darkEnabled": "Thème sombre activé"
+      }
+    },
+    "dashboard": {
+      "welcome": "Bienvenue, {firstName}",
+      "lead": "Votre compte est actif. Voici les trois étapes pour commencer votre première formation.",
+      "status": {
+        "label": "Statut du compte :",
+        "active": "Compte validé"
+      },
+      "onboarding": {
+        "title": "Pour bien démarrer",
+        "progressLabel": "Progression de la mise en route",
+        "progress": "{done} étape sur {total} terminée",
+        "state": {
+          "done": "terminée",
+          "current": "étape en cours",
+          "upcoming": "à venir"
+        },
+        "profile": {
+          "title": "Complétez votre profil",
+          "body": "Ajoutez une photo : c'est ce que votre formateur voit en premier."
+        },
+        "course": {
+          "title": "Choisissez votre formation",
+          "body": "Parcourez le catalogue et trouvez la formation qui correspond à votre projet."
+        },
+        "request": {
+          "title": "Demandez l'accès",
+          "body": "Envoyez votre justificatif de virement ; notre équipe active votre accès après vérification."
+        }
+      }
+    }
+  },
+  "emails": {
+    "common": {
+      "greeting": "Bonjour {name},",
+      "linkFallback": "Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur : {url}",
+      "signature": "L'équipe du Centre de formation immersive",
+      "whatsappCta": "Écrire sur WhatsApp"
+    },
+    "verifyEmail": {
+      "subject": "Confirmez votre adresse e-mail",
+      "preheader": "Un dernier clic pour activer votre inscription.",
+      "heading": "Confirmez votre adresse e-mail",
+      "body1": "Merci d'avoir créé votre compte au Centre de formation immersive.",
+      "body2": "Confirmez votre adresse e-mail pour que notre équipe puisse vérifier vos informations. Ce lien reste valable 24 heures.",
+      "body3": "Si vous n'êtes pas à l'origine de cette inscription, ignorez ce message : aucun compte ne sera activé.",
+      "cta": "Confirmer mon adresse e-mail",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    },
+    "accountPending": {
+      "subject": "Votre compte est en cours de validation",
+      "preheader": "Notre équipe vérifie vos informations, généralement sous 24 heures ouvrées.",
+      "heading": "Votre compte est en cours de validation",
+      "body1": "Votre adresse e-mail est confirmée. Merci.",
+      "body2": "Notre équipe vérifie vos informations et valide votre compte manuellement, généralement sous 24 heures ouvrées. Vous recevrez un e-mail dès que votre compte sera activé.",
+      "body3": "Besoin d'accélérer les choses ? Écrivez-nous sur WhatsApp.",
+      "cta": "Écrire sur WhatsApp",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    },
+    "adminNewAccount": {
+      "subject": "Nouveau compte à valider",
+      "preheader": "{name} vient de confirmer son adresse e-mail.",
+      "heading": "Nouveau compte à valider",
+      "body1": "{name} a confirmé son adresse e-mail et attend la validation de son compte.",
+      "body2": "E-mail : {email} · Téléphone : {phone} · Ville : {city} · Inscrit le {date}",
+      "body3": "Ouvrez la fiche pour vérifier les informations, puis validez ou refusez le compte.",
+      "cta": "Ouvrir la fiche du compte",
+      "footer": "Message automatique destiné aux administrateurs de la plateforme CFI."
+    },
+    "accountApproved": {
+      "subject": "Bienvenue — votre compte est validé",
+      "preheader": "Votre espace de formation est ouvert.",
+      "heading": "Votre compte est validé",
+      "body1": "Votre compte est validé : votre espace de formation est désormais accessible.",
+      "body2": "Trois étapes pour commencer :",
+      "step1": "Connectez-vous à votre espace.",
+      "step2": "Choisissez la formation qui correspond à votre objectif.",
+      "step3": "Envoyez votre justificatif de virement : votre accès est activé dès vérification.",
+      "cta": "Se connecter",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    },
+    "accountRejected": {
+      "subject": "Votre inscription n'a pas pu être validée",
+      "preheader": "Le motif, et la marche à suivre pour vous inscrire à nouveau.",
+      "heading": "Votre inscription n'a pas pu être validée",
+      "body1": "Après vérification, notre équipe n'a pas pu valider votre inscription.",
+      "body2": "Motif : {reason}",
+      "body3": "Vous pouvez corriger les informations concernées et vous inscrire à nouveau. Notre équipe reste joignable sur WhatsApp.",
+      "cta": "Écrire sur WhatsApp",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    },
+    "passwordReset": {
+      "subject": "Réinitialisation du mot de passe",
+      "preheader": "Un lien valable une heure pour choisir un nouveau mot de passe.",
+      "heading": "Réinitialisation du mot de passe",
+      "body1": "Vous avez demandé à réinitialiser le mot de passe de votre compte.",
+      "body2": "Choisissez un nouveau mot de passe en suivant le lien ci-dessous. Il reste valable une heure et ne peut servir qu'une seule fois.",
+      "body3": "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message : votre mot de passe actuel reste valable.",
+      "cta": "Choisir un nouveau mot de passe",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    },
+    "passwordChanged": {
+      "subject": "Votre mot de passe a été modifié",
+      "preheader": "Confirmation de sécurité pour votre compte.",
+      "heading": "Votre mot de passe a été modifié",
+      "body1": "Le mot de passe de votre compte a été modifié le {date} à {time}.",
+      "body2": "Par sécurité, toutes vos sessions ouvertes ont été fermées. Reconnectez-vous avec votre nouveau mot de passe.",
+      "body3": "Si vous n'êtes pas à l'origine de ce changement, écrivez-nous immédiatement sur WhatsApp : nous sécuriserons votre compte.",
+      "cta": "Se connecter",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    },
+    "newLogin": {
+      "subject": "Nouvelle connexion détectée",
+      "preheader": "Une connexion depuis un appareil que nous ne connaissions pas.",
+      "heading": "Nouvelle connexion détectée",
+      "body1": "Votre compte vient d'être utilisé depuis un appareil que nous ne connaissions pas.",
+      "body2": "Appareil : {device} · Adresse IP : {ip} · Ville : {city} · Le {date} à {time}",
+      "body3": "Ce n'était pas vous ? Changez votre mot de passe sans attendre, puis écrivez-nous sur WhatsApp.",
+      "cta": "Sécuriser mon compte",
+      "footer": "Message envoyé par le Centre de formation immersive, à Tanger. Une question ? Écrivez-nous sur WhatsApp."
+    }
+  },
+  "admin": {
+    "nav": {
+      "title": "Administration",
+      "sectionLabel": "Navigation de l'administration",
+      "accounts": "Comptes",
+      "pendingWork": "{count, plural, =0 {Aucun compte à valider} one {# compte à valider} other {# comptes à valider}}",
+      "backToSite": "Retour au site",
+      "signOut": "Se déconnecter",
+      "collapse": "Réduire le menu",
+      "expand": "Déployer le menu",
+      "dashboard": "Tableau de bord",
+      "groupOperations": "Opérations",
+      "accountMenu": "Menu de l’administrateur",
+      "pendingWorkLabel": "Travail en attente"
+    },
+    "accounts": {
+      "title": "Comptes",
+      "subtitle": "Vérifiez les informations de chaque inscription, puis validez ou refusez le compte.",
+      "searchPlaceholder": "Rechercher par nom, adresse e-mail ou téléphone",
+      "resultCount": "{count, plural, =0 {Aucun compte} one {# compte} other {# comptes}}",
+      "emailVerified": "Adresse e-mail confirmée",
+      "emailUnverified": "Adresse e-mail non confirmée",
+      "whatsapp": "Écrire à {name} sur WhatsApp",
+      "openReview": "Ouvrir la fiche de {name}",
+      "tabs": {
+        "toReview": "À valider",
+        "active": "Actifs",
+        "pendingEmail": "En attente d'e-mail",
+        "rejected": "Refusés",
+        "suspended": "Suspendus"
+      },
+      "columns": {
+        "name": "Nom",
+        "email": "Adresse e-mail",
+        "phone": "Téléphone",
+        "city": "Ville",
+        "registeredAt": "Inscrit le",
+        "locale": "Langue",
+        "status": "Statut",
+        "actions": "Actions",
+        "role": "Rôle",
+        "lastLogin": "Dernière connexion"
+      },
+      "status": {
+        "pendingEmail": "En attente d'e-mail",
+        "pendingApproval": "À valider",
+        "active": "Actif",
+        "rejected": "Refusé",
+        "suspended": "Suspendu"
+      },
+      "drawer": {
+        "title": "Vérification du compte",
+        "profile": "Profil",
+        "fullName": "Nom complet",
+        "email": "Adresse e-mail",
+        "phoneE164": "Téléphone (format international)",
+        "phoneNational": "Téléphone (format national)",
+        "city": "Ville",
+        "professionalStatus": "Situation professionnelle",
+        "locale": "Langue préférée",
+        "registeredAt": "Inscrit le",
+        "verifiedAt": "Adresse confirmée le",
+        "signals": "Signaux de vérification",
+        "ip": "Adresse IP d'inscription",
+        "userAgent": "Navigateur",
+        "notProvided": "Non renseigné",
+        "close": "Fermer la fiche",
+        "previous": "Compte précédent",
+        "next": "Compte suivant",
+        "keyboardHint": "Raccourcis clavier : A pour valider, R pour refuser, J et K pour parcourir la file.",
+        "status": "Statut",
+        "lastLogin": "Dernière connexion",
+        "queuePosition": "Compte {index} sur {total}",
+        "openDetail": "Ouvrir la fiche complète",
+        "shortcutsTitle": "Raccourcis clavier",
+        "shortcutsHelp": "Afficher les raccourcis clavier",
+        "shortcutApprove": "Valider le compte affiché",
+        "shortcutReject": "Ouvrir le formulaire de refus",
+        "shortcutNext": "Compte suivant de la file",
+        "shortcutPrevious": "Compte précédent de la file",
+        "shortcutClose": "Fermer la fiche",
+        "duplicatesTitle": "Doublons possibles",
+        "noDuplicates": "Aucun doublon détecté.",
+        "approvedAt": "Validé le",
+        "rejectionReason": "Motif du refus",
+        "decisionUnavailable": "Ce compte n’attend pas de décision. Seuls les comptes à valider peuvent être validés ou refusés."
+      },
+      "warnings": {
+        "duplicatePhone": "Ce numéro de téléphone est déjà utilisé par un autre compte.",
+        "duplicateName": "Un compte au même nom est déjà enregistré dans la même ville.",
+        "disposableDomain": "Le domaine de cette adresse e-mail figure dans la liste des adresses jetables. Vérifiez l'identité avant de valider.",
+        "typoDomain": "Le domaine de cette adresse ressemble à une faute de frappe. Vouliez-vous écrire {suggestion} ?",
+        "foreignPhone": "Ce numéro n'est pas marocain. Assurez-vous qu'il est joignable avant de valider.",
+        "seeAccount": "Voir le compte concerné"
+      },
+      "approve": {
+        "action": "Valider le compte",
+        "pending": "Validation en cours…",
+        "success": "Le compte de {name} est validé. Un e-mail de bienvenue vient de lui être envoyé.",
+        "unchanged": "Le compte de {name} était déjà validé. Aucun e-mail n’a été envoyé."
+      },
+      "reject": {
+        "action": "Refuser",
+        "title": "Refuser ce compte",
+        "body": "Le motif choisi est envoyé à la personne concernée. Elle pourra corriger ses informations et s'inscrire à nouveau.",
+        "reasonLabel": "Motif du refus",
+        "reasonPlaceholder": "Sélectionnez un motif",
+        "detailsLabel": "Précisions envoyées à la personne",
+        "detailsPlaceholder": "Expliquez ce qui doit être corrigé.",
+        "detailsRequired": "Précisez le motif pour que la personne sache quoi corriger.",
+        "submit": "Refuser le compte",
+        "pending": "Refus en cours…",
+        "success": "Le compte de {name} est refusé. Le motif lui a été envoyé par e-mail.",
+        "unchanged": "Le compte de {name} était déjà refusé. Aucun e-mail n’a été envoyé."
+      },
+      "rejectReasons": {
+        "incompleteInfo": "Informations incomplètes",
+        "duplicate": "Doublon",
+        "invalidPhone": "Numéro invalide",
+        "other": "Autre"
+      },
+      "bulk": {
+        "selected": "{count, plural, one {# compte sélectionné} other {# comptes sélectionnés}}",
+        "selectAll": "Sélectionner tous les comptes de la page",
+        "clear": "Annuler la sélection",
+        "approve": "Valider la sélection",
+        "reject": "Refuser la sélection",
+        "reasonLabel": "Motif commun à tous les comptes refusés",
+        "confirmApprove": "{count, plural, one {Valider # compte ?} other {Valider # comptes ?}}",
+        "confirmReject": "{count, plural, one {Refuser # compte ?} other {Refuser # comptes ?}}",
+        "approveSuccess": "{count, plural, one {# compte validé.} other {# comptes validés.}}",
+        "rejectSuccess": "{count, plural, one {# compte refusé.} other {# comptes refusés.}}",
+        "confirmTitle": "Confirmer le refus groupé",
+        "confirmWord": "REFUSER",
+        "typeToConfirm": "Tapez {word} pour confirmer.",
+        "mismatch": "Le texte ne correspond pas. Tapez {word} exactement, en majuscules.",
+        "unchanged": "{count, plural, =0 {Aucun compte inchangé} one {# compte était déjà dans cet état} other {# comptes étaient déjà dans cet état}}",
+        "failed": "{count, plural, =0 {Aucun échec} one {# compte n’a pas pu être traité} other {# comptes n’ont pas pu être traités}}"
+      },
+      "empty": {
+        "toReview": {
+          "title": "Aucun compte à valider",
+          "body": "La file est vide. Les nouvelles inscriptions apparaissent ici dès que l'adresse e-mail est confirmée."
+        },
+        "active": {
+          "title": "Aucun compte actif",
+          "body": "Les comptes que vous validez apparaissent ici."
+        },
+        "pendingEmail": {
+          "title": "Aucun compte en attente d'e-mail",
+          "body": "Les inscriptions dont l'adresse n'est pas encore confirmée apparaissent ici."
+        },
+        "rejected": {
+          "title": "Aucun compte refusé",
+          "body": "Les comptes que vous refusez apparaissent ici, avec leur motif."
+        },
+        "suspended": {
+          "title": "Aucun compte suspendu",
+          "body": "Les comptes dont vous suspendez l'accès apparaissent ici."
+        },
+        "search": {
+          "title": "Aucun résultat",
+          "body": "Aucun compte ne correspond à votre recherche. Vérifiez l'orthographe ou élargissez les filtres."
+        }
+      },
+      "whatsappMessage": "Bonjour {name}, ici le CFI, au sujet de votre inscription.",
+      "never": "Jamais",
+      "roles": {
+        "student": "Étudiant",
+        "instructor": "Formateur",
+        "admin": "Administrateur",
+        "superAdmin": "Super-administrateur"
+      },
+      "table": {
+        "caption": "Liste des comptes",
+        "columnsMenu": "Colonnes",
+        "selectRow": "Sélectionner ce compte",
+        "previousPage": "Page précédente",
+        "nextPage": "Page suivante",
+        "pageSummary": "{from}–{to} sur {total}",
+        "loading": "Chargement des comptes",
+        "errorTitle": "Les comptes n’ont pas pu être chargés",
+        "errorDescription": "Rechargez la page. Si le problème persiste, prévenez le développeur."
+      },
+      "filters": {
+        "title": "Filtres",
+        "role": "Rôle",
+        "locale": "Langue",
+        "city": "Ville",
+        "cityPlaceholder": "Tanger",
+        "registeredFrom": "Inscrit à partir du",
+        "registeredTo": "Inscrit jusqu’au",
+        "emailStatus": "Adresse e-mail",
+        "anyRole": "Tous les rôles",
+        "anyLocale": "Toutes les langues",
+        "anyEmailStatus": "Confirmée ou non",
+        "verified": "Confirmée uniquement",
+        "unverified": "Non confirmée uniquement",
+        "apply": "Appliquer",
+        "reset": "Réinitialiser les filtres",
+        "active": "{count, plural, =0 {Aucun filtre} one {# filtre actif} other {# filtres actifs}}"
+      }
+    },
+    "actionError": {
+      "unauthenticated": "Votre session a expiré. Connectez-vous à nouveau, puis reprenez.",
+      "forbidden": "Votre compte n’a pas les droits nécessaires pour cette action.",
+      "notFound": "Ce compte est introuvable. Il a peut-être été supprimé entre-temps.",
+      "validation": "Les informations envoyées ne sont pas valides. Vérifiez le formulaire, puis réessayez.",
+      "conflict": "Ce compte a été modifié entre-temps. Rechargez la page, puis reprenez.",
+      "rateLimited": "Trop d’actions en peu de temps. Patientez quelques instants, puis réessayez.",
+      "csrf": "La requête n’a pas pu être authentifiée. Rechargez la page, puis réessayez.",
+      "server": "L’action n’a pas abouti. Réessayez dans quelques instants."
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "subtitle": "Ce qui attend une décision de votre part, en premier.",
+      "bandLabel": "À traiter maintenant",
+      "accountsToReview": "{count, plural, =0 {Aucun compte à valider} one {# compte à valider} other {# comptes à valider}}",
+      "accountsCta": "Ouvrir la file",
+      "oldestWaiting": "Le plus ancien attend depuis {hours, plural, =0 {moins d’une heure} one {# heure} other {# heures}}.",
+      "clearTitle": "La file est vide",
+      "clearBody": "Aucun compte n’attend de décision. Les nouvelles inscriptions arrivent ici dès que l’adresse e-mail est confirmée.",
+      "breakdownTitle": "Répartition des comptes",
+      "openQueue": "Ouvrir la file « {queue} »"
+    },
+    "detail": {
+      "back": "Retour aux comptes",
+      "notFoundTitle": "Ce compte est introuvable",
+      "notFoundBody": "Le compte a peut-être été supprimé. Revenez à la liste pour retrouver la personne concernée.",
+      "tabs": {
+        "profile": "Profil",
+        "security": "Sécurité",
+        "notes": "Notes internes",
+        "journal": "Journal"
+      },
+      "actions": {
+        "email": "Envoyer un e-mail",
+        "call": "Appeler",
+        "whatsapp": "Écrire sur WhatsApp"
+      },
+      "profile": {
+        "identity": "Identité",
+        "moderation": "Modération",
+        "approvedAt": "Validé le",
+        "approvedBy": "Validé par",
+        "rejectionReason": "Motif du refus",
+        "tags": "Étiquettes"
+      },
+      "security": {
+        "title": "Appareils connectés",
+        "body": "Chaque session correspond à un appareil connecté. La déconnexion prend effet dès la requête suivante.",
+        "device": "Appareil",
+        "ip": "Adresse IP",
+        "startedAt": "Ouverte le",
+        "expiresAt": "Expire le",
+        "unknownDevice": "Appareil inconnu",
+        "revoke": "Déconnecter cet appareil",
+        "revokeAll": "Déconnecter tous les appareils",
+        "revokeAllTitle": "Déconnecter tous les appareils",
+        "revokeAllBody": "Toutes les sessions de cette personne seront fermées. Elle devra se reconnecter avec son mot de passe.",
+        "confirmWord": "DECONNECTER",
+        "noSessions": "Aucune session active.",
+        "attemptsTitle": "Connexions",
+        "failedAttempts": "{count, plural, =0 {Aucune tentative de connexion échouée} one {# tentative de connexion échouée} other {# tentatives de connexion échouées}}",
+        "lockedUntil": "Compte bloqué jusqu’au {date}.",
+        "notLocked": "Le compte n’est pas bloqué.",
+        "lastLogin": "Dernière connexion",
+        "lastLoginIp": "Dernière adresse IP",
+        "revoked": "L’appareil a été déconnecté.",
+        "revokedAll": "{count, plural, =0 {Aucune session à fermer} one {# session fermée} other {# sessions fermées}}",
+        "lockLabel": "Blocage"
+      },
+      "notes": {
+        "title": "Note interne",
+        "body": "Visible uniquement par l’administration. Chaque modification est enregistrée dans le journal.",
+        "label": "Note",
+        "placeholder": "Ce qu’il faut savoir sur ce compte.",
+        "empty": "Aucune note pour le moment.",
+        "saved": "La note a été enregistrée."
+      },
+      "journal": {
+        "title": "Journal du compte",
+        "body": "Les cinquante derniers événements enregistrés pour ce compte.",
+        "empty": "Aucun événement enregistré pour ce compte.",
+        "system": "Système",
+        "by": "Par {actor}"
+      },
+      "tabsLabel": "Sections du compte"
     }
   },
   "errors": {
@@ -212,6 +800,18 @@
     "fileTooLarge": "Le fichier est trop volumineux. Taille maximale : {max}.",
     "fileWrongType": "Ce format de fichier n'est pas accepté. Formats acceptés : {formats}.",
     "network": "La connexion au serveur a échoué. Vérifiez votre connexion, puis réessayez.",
+    "rateLimited": "Vous avez fait trop de tentatives. Réessayez dans {minutes, plural, one {# minute} other {# minutes}}.",
+    "accountLocked": "Votre compte est temporairement bloqué après plusieurs tentatives de connexion. Réessayez dans {minutes, plural, one {# minute} other {# minutes}}, ou réinitialisez votre mot de passe.",
+    "invalidCredentials": "L'adresse e-mail ou le mot de passe ne correspond pas. Vérifiez vos identifiants, puis réessayez.",
+    "emailNotVerified": "Votre adresse e-mail n'est pas encore confirmée. Ouvrez le lien que nous vous avons envoyé, ou demandez un nouvel envoi.",
+    "accountRejected": "Votre inscription n'a pas été validée. Écrivez-nous sur WhatsApp pour connaître la marche à suivre.",
+    "accountSuspended": "Votre compte est suspendu. Écrivez-nous sur WhatsApp pour demander sa réactivation.",
+    "tokenExpired": "Ce lien a expiré. Demandez-en un nouveau pour continuer.",
+    "tokenAlreadyUsed": "Ce lien a déjà été utilisé. Demandez-en un nouveau si vous en avez encore besoin.",
+    "emailAlreadyRegistered": "Un compte existe déjà avec cette adresse e-mail. Connectez-vous, ou réinitialisez votre mot de passe.",
+    "disposableEmail": "Les adresses e-mail jetables ne sont pas acceptées. Utilisez une adresse personnelle ou professionnelle permanente.",
+    "botDetected": "Nous n'avons pas pu vérifier ce formulaire. Rechargez la page, puis remplissez-le à nouveau.",
+    "sessionExpired": "Votre session a expiré. Connectez-vous à nouveau pour continuer.",
     "notFound": {
       "title": "Cette page n'existe pas",
       "body": "Le lien est peut-être erroné, ou la page a été déplacée. Revenez à l'accueil ou utilisez la recherche.",
@@ -230,6 +830,19 @@
       "title": "Vous êtes hors ligne",
       "body": "Votre appareil n'est plus connecté à Internet. La page se mettra à jour dès le retour de la connexion."
     }
+  },
+  "accessDenied": {
+    "code": "403",
+    "title": "Cette page ne vous est pas accessible",
+    "body": "Votre compte n'a pas les droits nécessaires pour consulter cette page.",
+    "whatToDo": "Que faire ?",
+    "tipSignedOut": "Connectez-vous avec un compte disposant des droits nécessaires.",
+    "tipSignedIn": "Si vous pensez qu'il s'agit d'une erreur, contactez notre équipe : nous vérifierons les droits de votre compte.",
+    "signedInAs": "Vous êtes connecté en tant que",
+    "actionSignedOut": "Se connecter",
+    "actionSignedIn": "Retour à mon espace",
+    "secondarySignedOut": "Retour à l'accueil",
+    "secondarySignedIn": "Changer de compte"
   },
   "a11y": {
     "skipToContent": "Aller au contenu principal",

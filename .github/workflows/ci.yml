@@ -67,8 +67,15 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Two distinct failures. Parity proves the four catalogues agree with each
+      # other; usage proves they agree with the code. Neither implies the other,
+      # and next-intl only logs a missing key at render time — so without the
+      # second check a page can ship rendering raw keys with the build green.
       - name: Translation parity (fr · ar · en · es)
-        run: npm run i18n:check
+        run: npm run i18n:parity
+
+      - name: Translation keys used in code exist
+        run: npm run i18n:usage
 
       - name: RTL logical properties
         run: npm run rtl:check

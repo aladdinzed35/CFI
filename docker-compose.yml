@@ -1,0 +1,54 @@
+# Local development database.
+#
+# Production is MySQL 8 on Hostinger (§2 C2), so development runs MySQL 8 too.
+# This is not fussiness: the differences that bite are exactly the ones this
+# project relies on —
+#   · FULLTEXT `WITH PARSER ngram`, which §4 requires for Arabic search and
+#     which MariaDB does not implement at all;
+#   · SELECT … FOR UPDATE SKIP LOCKED, used by the §19.5 job drain (MariaDB
+#     gained it only in 10.6);
+#   · JSON as a real type rather than a LONGTEXT alias;
+#   · the utf8mb4_0900_* collations.
+# A migration authored against MariaDB can therefore apply cleanly here and
+# fail on the host. Use this, not a XAMPP/WAMP instance.
+#
+#   docker compose up -d      start
+#   docker compose down       stop, keep data
+#   docker compose down -v    stop and destroy the volume
+#
+# Port 3307 on purpose: XAMPP and other local stacks squat on 3306, and a
+# silent connection to the wrong server is a genuinely nasty afternoon.
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: cfi-mysql
+    restart: unless-stopped
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: cfi_dev_root
+      MYSQL_DATABASE: cfi
+      MYSQL_USER: cfi
+      MYSQL_PASSWORD: cfi_dev
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      # Arabic and French tokenise poorly with the default parser; ngram_token_size=2
+      # is what the §16.3 hybrid retrieval assumes.
+      - --ngram_token_size=2
+      # Matches the Hostinger plan's modest ceiling, so connection-pool bugs
+      # surface here rather than in production.
+      - --max_connections=60
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-p$$MYSQL_ROOT_PASSWORD']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    volumes:
+      - cfi-mysql-data:/var/lib/mysql
+
+volumes:
+  cfi-mysql-data:
+    name: cfi-mysql-data

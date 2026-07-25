@@ -74,7 +74,11 @@
   "locale": {
     "switchLanguage": "Change language",
     "current": "Current language",
-    "betaNotice": "The Arabic interface is in beta. Please report any translation error to us."
+    "betaNotice": "The Arabic interface is in beta. Please report any translation error to us.",
+    "fr": "Français",
+    "ar": "العربية",
+    "en": "English",
+    "es": "Español"
   },
   "home": {
     "hero": {
@@ -164,14 +168,57 @@
       "forgotPassword": "Forgotten your password?",
       "noAccount": "Do not have an account yet?",
       "createAccount": "Create an account",
-      "rememberMe": "Keep me logged in"
+      "rememberMe": "Keep me logged in",
+      "emailPlaceholder": "name@example.com",
+      "passwordPlaceholder": "Your password",
+      "rememberMeHint": "Do not tick this box on a shared computer.",
+      "submitting": "Logging in…",
+      "failed": "This email address and password do not match. Check your details, then try again.",
+      "success": "You are logged in. Taking you to your area…"
     },
     "register": {
       "title": "Create an account",
       "subtitle": "Your account is approved manually by our team, usually within 24 business hours.",
       "submit": "Create my account",
       "hasAccount": "Already have an account?",
-      "signIn": "Log in"
+      "signIn": "Log in",
+      "lead": "A few details are enough. You then confirm your email address, and our team approves your account.",
+      "submitting": "Creating your account…",
+      "placeholders": {
+        "fullName": "First name and surname",
+        "email": "name@example.com",
+        "phone": "06 12 34 56 78",
+        "password": "At least 10 characters",
+        "passwordConfirm": "Enter the password again",
+        "city": "Tanger"
+      },
+      "hints": {
+        "phone": "We use it to reach you on WhatsApp about your account.",
+        "password": "At least 10 characters, with letters and digits.",
+        "city": "Optional.",
+        "professionalStatus": "Optional. It helps us point you to the right course.",
+        "preferredLocale": "The language of the interface and of our emails."
+      },
+      "terms": {
+        "prefix": "I accept the",
+        "termsLink": "terms of use",
+        "connector": "and the",
+        "privacyLink": "privacy policy",
+        "suffix": "."
+      },
+      "passwordStrength": {
+        "label": "Password strength",
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong",
+        "excellent": "Excellent",
+        "announce": "Password strength: {level}."
+      },
+      "success": {
+        "title": "Your account has been created",
+        "body": "We have sent a confirmation link to your email address. Open it to continue your registration.",
+        "action": "Continue"
+      }
     },
     "verify": {
       "title": "Confirm your email address",
@@ -181,13 +228,118 @@
       "resent": "The confirmation link has been sent again.",
       "changeEmail": "Change my email address"
     },
+    "verifyEmail": {
+      "title": "Confirm your email address",
+      "body": "We have sent a confirmation link to {maskedEmail}. Open it to activate your registration.",
+      "spamHint": "Message not arriving? Check your spam folder before asking for a new one.",
+      "resend": "Resend the link",
+      "resending": "Sending…",
+      "resent": "The confirmation link has been sent again. It stays valid for 24 hours.",
+      "cooldown": "A new link can be sent in {seconds, plural, one {# second} other {# seconds}}.",
+      "wrongAddress": "Not the right address?",
+      "changeEmail": "Start again with another address",
+      "verifying": "Checking the link…",
+      "success": {
+        "title": "Your email address is confirmed",
+        "body": "Thank you. Our team is now checking your details and approving your account.",
+        "action": "Continue"
+      },
+      "expired": {
+        "title": "This link has expired",
+        "body": "Confirmation links stay valid for 24 hours. Ask for a new one to finish your registration.",
+        "action": "Get a new link"
+      },
+      "invalid": {
+        "title": "This link is not valid",
+        "body": "The link is incomplete or has already been used. Ask for a new one to confirm your address.",
+        "action": "Get a new link"
+      }
+    },
     "pending": {
       "title": "Your account is being reviewed",
       "body": "Thank you for registering. Our team is checking your details and approves every account manually, usually within 24 business hours. You will receive an email as soon as your account is activated.",
       "whatsappPrompt": "Need to speed things up? Message us on WhatsApp.",
       "whatsappCta": "Message us on WhatsApp",
       "status": "Status: awaiting approval",
-      "refresh": "Refresh the status"
+      "refresh": "Refresh the status",
+      "statusLabel": "Account status",
+      "statusPending": "Awaiting approval",
+      "statusChecking": "Checking the status…",
+      "statusApproved": "Account approved",
+      "statusRejected": "Registration not approved",
+      "autoRefresh": "This page updates by itself. There is nothing for you to do.",
+      "lastChecked": "Last checked at {time}",
+      "approved": {
+        "title": "Your account is approved",
+        "body": "Your training area is open. You can choose your first course.",
+        "action": "Go to my area"
+      },
+      "rejected": {
+        "title": "Your registration could not be approved",
+        "body": "Our team was unable to approve your account. The reason has been sent to you by email.",
+        "action": "See the details"
+      },
+      "signOut": "Log out"
+    },
+    "forgotPassword": {
+      "title": "Forgotten password",
+      "subtitle": "Enter the email address of your account. We will send you a link to choose a new password.",
+      "emailPlaceholder": "name@example.com",
+      "submit": "Send the link",
+      "submitting": "Sending…",
+      "backToLogin": "Back to log in",
+      "sent": {
+        "title": "Check your inbox",
+        "body": "If an account exists for {maskedEmail}, a reset link has just been sent. It stays valid for one hour.",
+        "hint": "Message not arriving? Check your spam folder, then try again in a few minutes.",
+        "action": "Back to log in"
+      }
+    },
+    "resetPassword": {
+      "title": "Choose a new password",
+      "subtitle": "Your new password must contain at least 10 characters, with letters and digits.",
+      "password": "New password",
+      "passwordConfirm": "Confirm the new password",
+      "submit": "Save the new password",
+      "submitting": "Saving…",
+      "sessionsRevokedNotice": "For security, all your open sessions will be closed, including on your other devices.",
+      "success": {
+        "title": "Your password has been changed",
+        "body": "All your sessions have been closed. Log in with your new password.",
+        "action": "Log in"
+      },
+      "expired": {
+        "title": "This link has expired",
+        "body": "Reset links stay valid for one hour and can only be used once. Ask for a new one.",
+        "action": "Request a new link"
+      }
+    },
+    "rejected": {
+      "title": "Your registration could not be approved",
+      "body": "After checking your details, our team was unable to approve your account.",
+      "reasonLabel": "Reason",
+      "noReason": "No reason was given.",
+      "whatsappPrompt": "Do you think this is a mistake? Message us on WhatsApp and we will look at your file again.",
+      "whatsappCta": "Message us on WhatsApp",
+      "signOut": "Log out"
+    },
+    "suspended": {
+      "title": "Your account is suspended",
+      "body": "Access to your training area is suspended for the time being.",
+      "reasonLabel": "Reason",
+      "noReason": "No reason was given.",
+      "whatsappPrompt": "To reactivate your account, message us on WhatsApp.",
+      "whatsappCta": "Message us on WhatsApp",
+      "signOut": "Log out"
+    },
+    "professionalStatus": {
+      "placeholder": "Select your situation",
+      "student": "Student",
+      "employed": "Employed",
+      "jobSeeker": "Looking for work",
+      "entrepreneur": "Entrepreneur",
+      "publicSector": "Civil servant",
+      "other": "Other"
     },
     "fields": {
       "fullName": "Full name",
@@ -198,7 +350,443 @@
       "city": "City",
       "professionalStatus": "Professional status",
       "preferredLocale": "Preferred language",
-      "acceptTerms": "I accept the terms of use and the privacy policy."
+      "acceptTerms": "I accept the terms of use and the privacy policy.",
+      "honeypot": "Do not fill in this field",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    }
+  },
+  "student": {
+    "shell": {
+      "brandHome": "CFI — back to my space",
+      "navLabel": "Main navigation",
+      "expand": "Expand the menu",
+      "collapse": "Collapse the menu",
+      "accountMenu": "Account menu",
+      "language": "Change language",
+      "notifications": {
+        "trigger": "Notifications",
+        "title": "Notifications",
+        "empty": "You have no notifications at the moment.",
+        "markAllRead": "Mark all as read",
+        "unread": "{count, plural, =0 {No unread notifications} one {# unread notification} other {# unread notifications}}"
+      },
+      "theme": {
+        "toLight": "Switch to the light theme",
+        "toDark": "Switch to the dark theme",
+        "lightEnabled": "Light theme enabled",
+        "darkEnabled": "Dark theme enabled"
+      }
+    },
+    "dashboard": {
+      "welcome": "Welcome, {firstName}",
+      "lead": "Your account is active. Here are the three steps to start your first course.",
+      "status": {
+        "label": "Account status:",
+        "active": "Account approved"
+      },
+      "onboarding": {
+        "title": "Getting started",
+        "progressLabel": "Getting-started progress",
+        "progress": "{done} of {total} steps completed",
+        "state": {
+          "done": "completed",
+          "current": "current step",
+          "upcoming": "upcoming"
+        },
+        "profile": {
+          "title": "Complete your profile",
+          "body": "Add a photo — it is the first thing your instructor sees."
+        },
+        "course": {
+          "title": "Choose your course",
+          "body": "Browse the catalogue and find the course that matches your goal."
+        },
+        "request": {
+          "title": "Request access",
+          "body": "Send your transfer receipt; our team activates your access once it is verified."
+        }
+      }
+    }
+  },
+  "emails": {
+    "common": {
+      "greeting": "Hello {name},",
+      "linkFallback": "If the button does not work, copy this link into your browser: {url}",
+      "signature": "The Centre de formation immersive team",
+      "whatsappCta": "Message us on WhatsApp"
+    },
+    "verifyEmail": {
+      "subject": "Confirm your email address",
+      "preheader": "One last click to activate your registration.",
+      "heading": "Confirm your email address",
+      "body1": "Thank you for creating your account at the Centre de formation immersive.",
+      "body2": "Confirm your email address so that our team can check your details. This link stays valid for 24 hours.",
+      "body3": "If you did not register with us, ignore this message: no account will be activated.",
+      "cta": "Confirm my email address",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "accountPending": {
+      "subject": "Your account is being reviewed",
+      "preheader": "Our team is checking your details, usually within 24 business hours.",
+      "heading": "Your account is being reviewed",
+      "body1": "Your email address is confirmed. Thank you.",
+      "body2": "Our team is checking your details and approves every account manually, usually within 24 business hours. You will receive an email as soon as your account is activated.",
+      "body3": "Need to speed things up? Message us on WhatsApp.",
+      "cta": "Message us on WhatsApp",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "adminNewAccount": {
+      "subject": "New account to review",
+      "preheader": "{name} has just confirmed their email address.",
+      "heading": "New account to review",
+      "body1": "{name} has confirmed their email address and is waiting for their account to be approved.",
+      "body2": "Email: {email} · Phone: {phone} · City: {city} · Registered on {date}",
+      "body3": "Open the account record to check the details, then approve or reject it.",
+      "cta": "Open the account record",
+      "footer": "Automatic message for the administrators of the CFI platform."
+    },
+    "accountApproved": {
+      "subject": "Welcome — your account is approved",
+      "preheader": "Your training area is open.",
+      "heading": "Your account is approved",
+      "body1": "Your account is approved: your training area is now available.",
+      "body2": "Three steps to get started:",
+      "step1": "Log in to your area.",
+      "step2": "Choose the course that matches your goal.",
+      "step3": "Send your transfer receipt: your access is activated as soon as it is verified.",
+      "cta": "Log in",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "accountRejected": {
+      "subject": "Your registration could not be approved",
+      "preheader": "The reason, and how to register again.",
+      "heading": "Your registration could not be approved",
+      "body1": "After checking your details, our team was unable to approve your registration.",
+      "body2": "Reason: {reason}",
+      "body3": "You can correct the details concerned and register again. Our team remains available on WhatsApp.",
+      "cta": "Message us on WhatsApp",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "passwordReset": {
+      "subject": "Password reset",
+      "preheader": "A link valid for one hour to choose a new password.",
+      "heading": "Password reset",
+      "body1": "You asked to reset the password of your account.",
+      "body2": "Choose a new password using the link below. It stays valid for one hour and can only be used once.",
+      "body3": "If you did not make this request, ignore this message: your current password remains valid.",
+      "cta": "Choose a new password",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "passwordChanged": {
+      "subject": "Your password has been changed",
+      "preheader": "A security confirmation for your account.",
+      "heading": "Your password has been changed",
+      "body1": "The password of your account was changed on {date} at {time}.",
+      "body2": "For security, all your open sessions have been closed. Log in again with your new password.",
+      "body3": "If you did not make this change, message us on WhatsApp straight away: we will secure your account.",
+      "cta": "Log in",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "newLogin": {
+      "subject": "New login detected",
+      "preheader": "A login from a device we did not know about.",
+      "heading": "New login detected",
+      "body1": "Your account has just been used from a device we did not know about.",
+      "body2": "Device: {device} · IP address: {ip} · City: {city} · On {date} at {time}",
+      "body3": "Was this not you? Change your password straight away, then message us on WhatsApp.",
+      "cta": "Secure my account",
+      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    }
+  },
+  "admin": {
+    "nav": {
+      "title": "Administration",
+      "sectionLabel": "Administration navigation",
+      "accounts": "Accounts",
+      "pendingWork": "{count, plural, =0 {No account to review} one {# account to review} other {# accounts to review}}",
+      "backToSite": "Back to the site",
+      "signOut": "Log out",
+      "collapse": "Collapse the menu",
+      "expand": "Expand the menu",
+      "dashboard": "Dashboard",
+      "groupOperations": "Operations",
+      "accountMenu": "Administrator menu",
+      "pendingWorkLabel": "Pending work"
+    },
+    "accounts": {
+      "title": "Accounts",
+      "subtitle": "Check the details of each registration, then approve or reject the account.",
+      "searchPlaceholder": "Search by name, email address or phone number",
+      "resultCount": "{count, plural, =0 {No account} one {# account} other {# accounts}}",
+      "emailVerified": "Email address confirmed",
+      "emailUnverified": "Email address not confirmed",
+      "whatsapp": "Message {name} on WhatsApp",
+      "openReview": "Open the record for {name}",
+      "tabs": {
+        "toReview": "To review",
+        "active": "Active",
+        "pendingEmail": "Awaiting email",
+        "rejected": "Rejected",
+        "suspended": "Suspended"
+      },
+      "columns": {
+        "name": "Name",
+        "email": "Email address",
+        "phone": "Phone",
+        "city": "City",
+        "registeredAt": "Registered on",
+        "locale": "Language",
+        "status": "Status",
+        "actions": "Actions",
+        "role": "Role",
+        "lastLogin": "Last login"
+      },
+      "status": {
+        "pendingEmail": "Awaiting email",
+        "pendingApproval": "To review",
+        "active": "Active",
+        "rejected": "Rejected",
+        "suspended": "Suspended"
+      },
+      "drawer": {
+        "title": "Account review",
+        "profile": "Profile",
+        "fullName": "Full name",
+        "email": "Email address",
+        "phoneE164": "Phone (international format)",
+        "phoneNational": "Phone (national format)",
+        "city": "City",
+        "professionalStatus": "Professional status",
+        "locale": "Preferred language",
+        "registeredAt": "Registered on",
+        "verifiedAt": "Address confirmed on",
+        "signals": "Review signals",
+        "ip": "Registration IP address",
+        "userAgent": "Browser",
+        "notProvided": "Not provided",
+        "close": "Close the record",
+        "previous": "Previous account",
+        "next": "Next account",
+        "keyboardHint": "Keyboard shortcuts: A to approve, R to reject, J and K to move through the queue.",
+        "status": "Status",
+        "lastLogin": "Last login",
+        "queuePosition": "Account {index} of {total}",
+        "openDetail": "Open the full record",
+        "shortcutsTitle": "Keyboard shortcuts",
+        "shortcutsHelp": "Show the keyboard shortcuts",
+        "shortcutApprove": "Approve the account on screen",
+        "shortcutReject": "Open the rejection form",
+        "shortcutNext": "Next account in the queue",
+        "shortcutPrevious": "Previous account in the queue",
+        "shortcutClose": "Close the record",
+        "duplicatesTitle": "Possible duplicates",
+        "noDuplicates": "No duplicate found.",
+        "approvedAt": "Approved on",
+        "rejectionReason": "Rejection reason",
+        "decisionUnavailable": "This account is not waiting for a decision. Only accounts under review can be approved or rejected."
+      },
+      "warnings": {
+        "duplicatePhone": "This phone number is already used by another account.",
+        "duplicateName": "An account with the same name is already registered in the same city.",
+        "disposableDomain": "The domain of this email address is on the disposable-address list. Check the identity before approving.",
+        "typoDomain": "The domain of this address looks like a typo. Did you mean {suggestion}?",
+        "foreignPhone": "This number is not Moroccan. Make sure it can be reached before approving.",
+        "seeAccount": "View the account concerned"
+      },
+      "approve": {
+        "action": "Approve the account",
+        "pending": "Approving…",
+        "success": "The account of {name} is approved. A welcome email has just been sent.",
+        "unchanged": "{name}’s account was already approved. No email was sent."
+      },
+      "reject": {
+        "action": "Reject",
+        "title": "Reject this account",
+        "body": "The reason you choose is sent to the person concerned. They can correct their details and register again.",
+        "reasonLabel": "Reason for rejection",
+        "reasonPlaceholder": "Select a reason",
+        "detailsLabel": "Details sent to the person",
+        "detailsPlaceholder": "Explain what needs to be corrected.",
+        "detailsRequired": "Give a reason so the person knows what to correct.",
+        "submit": "Reject the account",
+        "pending": "Rejecting…",
+        "success": "The account of {name} is rejected. The reason has been sent by email.",
+        "unchanged": "{name}’s account was already rejected. No email was sent."
+      },
+      "rejectReasons": {
+        "incompleteInfo": "Incomplete information",
+        "duplicate": "Duplicate",
+        "invalidPhone": "Invalid phone number",
+        "other": "Other"
+      },
+      "bulk": {
+        "selected": "{count, plural, one {# account selected} other {# accounts selected}}",
+        "selectAll": "Select every account on this page",
+        "clear": "Clear the selection",
+        "approve": "Approve the selection",
+        "reject": "Reject the selection",
+        "reasonLabel": "Shared reason for every rejected account",
+        "confirmApprove": "{count, plural, one {Approve # account?} other {Approve # accounts?}}",
+        "confirmReject": "{count, plural, one {Reject # account?} other {Reject # accounts?}}",
+        "approveSuccess": "{count, plural, one {# account approved.} other {# accounts approved.}}",
+        "rejectSuccess": "{count, plural, one {# account rejected.} other {# accounts rejected.}}",
+        "confirmTitle": "Confirm the bulk rejection",
+        "confirmWord": "REJECT",
+        "typeToConfirm": "Type {word} to confirm.",
+        "mismatch": "The text does not match. Type {word} exactly, in capitals.",
+        "unchanged": "{count, plural, =0 {No account unchanged} one {# account was already in that state} other {# accounts were already in that state}}",
+        "failed": "{count, plural, =0 {No failure} one {# account could not be processed} other {# accounts could not be processed}}"
+      },
+      "empty": {
+        "toReview": {
+          "title": "No account to review",
+          "body": "The queue is empty. New registrations appear here as soon as the email address is confirmed."
+        },
+        "active": {
+          "title": "No active account",
+          "body": "The accounts you approve appear here."
+        },
+        "pendingEmail": {
+          "title": "No account awaiting email confirmation",
+          "body": "Registrations whose address is not confirmed yet appear here."
+        },
+        "rejected": {
+          "title": "No rejected account",
+          "body": "The accounts you reject appear here, with their reason."
+        },
+        "suspended": {
+          "title": "No suspended account",
+          "body": "The accounts whose access you suspend appear here."
+        },
+        "search": {
+          "title": "No results",
+          "body": "No account matches your search. Check the spelling or widen the filters."
+        }
+      },
+      "whatsappMessage": "Hello {name}, this is CFI about your registration.",
+      "never": "Never",
+      "roles": {
+        "student": "Student",
+        "instructor": "Instructor",
+        "admin": "Administrator",
+        "superAdmin": "Super administrator"
+      },
+      "table": {
+        "caption": "Account list",
+        "columnsMenu": "Columns",
+        "selectRow": "Select this account",
+        "previousPage": "Previous page",
+        "nextPage": "Next page",
+        "pageSummary": "{from}–{to} of {total}",
+        "loading": "Loading accounts",
+        "errorTitle": "The accounts could not be loaded",
+        "errorDescription": "Reload the page. If the problem persists, tell the developer."
+      },
+      "filters": {
+        "title": "Filters",
+        "role": "Role",
+        "locale": "Language",
+        "city": "City",
+        "cityPlaceholder": "Tangier",
+        "registeredFrom": "Registered from",
+        "registeredTo": "Registered until",
+        "emailStatus": "Email address",
+        "anyRole": "All roles",
+        "anyLocale": "All languages",
+        "anyEmailStatus": "Confirmed or not",
+        "verified": "Confirmed only",
+        "unverified": "Unconfirmed only",
+        "apply": "Apply",
+        "reset": "Reset the filters",
+        "active": "{count, plural, =0 {No filter} one {# active filter} other {# active filters}}"
+      }
+    },
+    "actionError": {
+      "unauthenticated": "Your session has expired. Log in again, then carry on.",
+      "forbidden": "Your account does not have the rights for this action.",
+      "notFound": "This account no longer exists. It may have been deleted in the meantime.",
+      "validation": "The submitted information is not valid. Check the form, then try again.",
+      "conflict": "This account changed in the meantime. Reload the page, then carry on.",
+      "rateLimited": "Too many actions in a short time. Wait a moment, then try again.",
+      "csrf": "The request could not be authenticated. Reload the page, then try again.",
+      "server": "The action did not go through. Try again in a moment."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "What is waiting for a decision from you, first.",
+      "bandLabel": "To handle now",
+      "accountsToReview": "{count, plural, =0 {No account to review} one {# account to review} other {# accounts to review}}",
+      "accountsCta": "Open the queue",
+      "oldestWaiting": "The oldest has been waiting {hours, plural, =0 {less than an hour} one {# hour} other {# hours}}.",
+      "clearTitle": "The queue is empty",
+      "clearBody": "No account is waiting for a decision. New signups arrive here as soon as the email address is confirmed.",
+      "breakdownTitle": "Accounts by status",
+      "openQueue": "Open the “{queue}” queue"
+    },
+    "detail": {
+      "back": "Back to accounts",
+      "notFoundTitle": "This account no longer exists",
+      "notFoundBody": "The account may have been deleted. Go back to the list to find the person concerned.",
+      "tabs": {
+        "profile": "Profile",
+        "security": "Security",
+        "notes": "Internal notes",
+        "journal": "Audit trail"
+      },
+      "actions": {
+        "email": "Send an email",
+        "call": "Call",
+        "whatsapp": "Message on WhatsApp"
+      },
+      "profile": {
+        "identity": "Identity",
+        "moderation": "Moderation",
+        "approvedAt": "Approved on",
+        "approvedBy": "Approved by",
+        "rejectionReason": "Rejection reason",
+        "tags": "Tags"
+      },
+      "security": {
+        "title": "Connected devices",
+        "body": "Each session is one connected device. Signing a device out takes effect on the very next request.",
+        "device": "Device",
+        "ip": "IP address",
+        "startedAt": "Opened on",
+        "expiresAt": "Expires on",
+        "unknownDevice": "Unknown device",
+        "revoke": "Sign this device out",
+        "revokeAll": "Sign all devices out",
+        "revokeAllTitle": "Sign all devices out",
+        "revokeAllBody": "Every session of this person will be closed. They will have to log in again with their password.",
+        "confirmWord": "SIGNOUT",
+        "noSessions": "No active session.",
+        "attemptsTitle": "Logins",
+        "failedAttempts": "{count, plural, =0 {No failed login attempt} one {# failed login attempt} other {# failed login attempts}}",
+        "lockedUntil": "Account locked until {date}.",
+        "notLocked": "The account is not locked.",
+        "lastLogin": "Last login",
+        "lastLoginIp": "Last IP address",
+        "revoked": "The device has been signed out.",
+        "revokedAll": "{count, plural, =0 {No session to close} one {# session closed} other {# sessions closed}}",
+        "lockLabel": "Lock"
+      },
+      "notes": {
+        "title": "Internal note",
+        "body": "Visible to the administration only. Every change is written to the audit trail.",
+        "label": "Note",
+        "placeholder": "What one should know about this account.",
+        "empty": "No note yet.",
+        "saved": "The note has been saved."
+      },
+      "journal": {
+        "title": "Account audit trail",
+        "body": "The last fifty events recorded for this account.",
+        "empty": "No event recorded for this account.",
+        "system": "System",
+        "by": "By {actor}"
+      },
+      "tabsLabel": "Account sections"
     }
   },
   "errors": {
@@ -212,6 +800,18 @@
     "fileTooLarge": "This file is too large. Maximum size: {max}.",
     "fileWrongType": "This file format is not accepted. Accepted formats: {formats}.",
     "network": "The connection to the server failed. Check your connection, then try again.",
+    "rateLimited": "You have made too many attempts. Try again in {minutes, plural, one {# minute} other {# minutes}}.",
+    "accountLocked": "Your account is temporarily locked after several login attempts. Try again in {minutes, plural, one {# minute} other {# minutes}}, or reset your password.",
+    "invalidCredentials": "This email address and password do not match. Check your details, then try again.",
+    "emailNotVerified": "Your email address is not confirmed yet. Open the link we sent you, or ask for a new one.",
+    "accountRejected": "Your registration was not approved. Message us on WhatsApp to find out what to do next.",
+    "accountSuspended": "Your account is suspended. Message us on WhatsApp to ask for it to be reactivated.",
+    "tokenExpired": "This link has expired. Ask for a new one to continue.",
+    "tokenAlreadyUsed": "This link has already been used. Ask for a new one if you still need it.",
+    "emailAlreadyRegistered": "An account already exists for this email address. Log in, or reset your password.",
+    "disposableEmail": "Disposable email addresses are not accepted. Use a permanent personal or work address.",
+    "botDetected": "We could not verify this form. Reload the page, then fill it in again.",
+    "sessionExpired": "Your session has expired. Log in again to continue.",
     "notFound": {
       "title": "This page does not exist",
       "body": "The link may be wrong, or the page has been moved. Go back to the home page or use the search.",
@@ -230,6 +830,19 @@
       "title": "You are offline",
       "body": "Your device is no longer connected to the internet. The page will update as soon as the connection is back."
     }
+  },
+  "accessDenied": {
+    "code": "403",
+    "title": "This page is not available to you",
+    "body": "Your account does not have the permissions required to view this page.",
+    "whatToDo": "What to do",
+    "tipSignedOut": "Sign in with an account that has the required permissions.",
+    "tipSignedIn": "If you believe this is a mistake, contact our team and we will check your account permissions.",
+    "signedInAs": "You are signed in as",
+    "actionSignedOut": "Sign in",
+    "actionSignedIn": "Back to my space",
+    "secondarySignedOut": "Back to home",
+    "secondarySignedIn": "Switch account"
   },
   "a11y": {
     "skipToContent": "Skip to main content",

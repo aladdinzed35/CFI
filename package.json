@@ -20,7 +20,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "i18n:check": "tsx scripts/check-i18n.ts",
+    "i18n:check": "tsx scripts/check-i18n.ts && tsx scripts/check-i18n-usage.ts",
+    "i18n:parity": "tsx scripts/check-i18n.ts",
+    "i18n:usage": "tsx scripts/check-i18n-usage.ts",
     "rtl:check": "tsx scripts/check-rtl.ts",
     "reindex": "tsx scripts/reindex.ts"
   },
