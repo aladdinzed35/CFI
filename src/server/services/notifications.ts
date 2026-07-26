@@ -37,6 +37,7 @@
 import { Prisma, type Locale, type Role } from '@prisma/client';
 
 import { db } from '@/server/db';
+import { sendMailInputSchema, validateTemplateProps } from '@/server/mail/send';
 import { env } from '@/lib/env';
 import type { AccountEmailTemplateId } from './accounts/state-machine';
 
@@ -381,6 +382,35 @@ export async function queueEmail(
     userId: input.userId ?? null,
   };
 
+  // Validate HERE, not when the cron eventually runs it.
+  //
+  // A malformed payload is a code defect, not a transient fault: retrying it
+  // three times cannot help. Validating only inside the runner meant a missing
+  // template prop surfaced as a silent RETRY loop in a cron summary nobody
+  // reads — while the administrator had already been told the mail was sent.
+  // That shipped: `account-approved` omitted `catalogUrl`, so every welcome
+  // e-mail failed and no newly approved student was ever notified.
+  //
+  // Throwing rolls back the surrounding transaction, which is the correct
+  // trade: an approval whose student is never told is worse than a visible
+  // failure the administrator can retry.
+  const validation = sendMailInputSchema.safeParse(payload);
+  if (!validation.success) {
+    const detail = validation.error.issues
+      .map((issue) => `${issue.path.join('.') || '(racine)'} : ${issue.message}`)
+      .join(' · ');
+    throw new Error(`Enveloppe d’e-mail invalide pour « ${input.template} » — ${detail}`);
+  }
+
+  // The envelope types `props` as `unknown`, so it alone would have accepted the
+  // `account-approved` payload that was missing `catalogUrl`. Check the props
+  // against the TEMPLATE's own schema too, which is the check that actually
+  // catches a caller passing the wrong shape.
+  const propsError = validateTemplateProps(input.template, input.props);
+  if (propsError !== null) {
+    throw new Error(`Props d’e-mail invalides pour « ${input.template} » — ${propsError}`);
+  }
+
   const job = await client.job.create({
     data: {
       type: SEND_EMAIL_JOB,
@@ -459,17 +489,41 @@ export function absoluteUrl(locale: Locale, path: string): string {
  * in every locale).
  */
 export const ACCOUNT_ROUTES = {
-  /** Where e-mail #1's button lands, carrying the raw token. */
-  verifyEmail: (token: string) => `/verification-email/${encodeURIComponent(token)}`,
+  /**
+   * Where e-mail #1's button lands, carrying the raw token.
+   *
+   * `/verifier/…` — the token-CONSUMING route, distinct from
+   * `/verification-email`, which is the "check your inbox" screen and takes no
+   * token. Getting these two confused shipped a verification link that 404'd,
+   * which silently broke the whole account lifecycle: the address could never
+   * be confirmed, so no account could ever reach PENDING_APPROVAL.
+   * `scripts/check-routes.ts` now asserts every path here resolves.
+   */
+  verifyEmail: (token: string) => `/verifier/${encodeURIComponent(token)}`,
   /** The waiting screen of §9.1. */
   waiting: () => '/compte-en-attente',
   login: () => '/connexion',
   /** Where e-mail #13's button lands, carrying the raw token. */
-  resetPassword: (token: string) => `/mot-de-passe/nouveau/${encodeURIComponent(token)}`,
+  resetPassword: (token: string) => `/reinitialiser/${encodeURIComponent(token)}`,
   /** Deep link into the review drawer of §17.2. */
   adminAccount: (userId: string) => `/admin/comptes/${encodeURIComponent(userId)}`,
-  /** The student's own security page — « ce n'était pas vous ? ». */
-  security: () => '/espace/profil/securite',
+  /**
+   * « Découvrez nos formations » in the welcome e-mail (#4).
+   *
+   * The catalogue proper is §12.3 and arrives with M2. Until it exists this is
+   * the home page: a welcome e-mail is the first thing a newly approved student
+   * opens, and a 404 there is a worse first impression than one extra click.
+   * Point this at `/formations` when M2 lands — `check-routes.ts` verifies it.
+   */
+  catalog: () => '/',
+  /**
+   * « Ce n'était pas vous ? » — the student's own security page.
+   *
+   * That page is built in §13.4 (a later milestone). Until it exists, point at
+   * the account root rather than a 404: a security e-mail whose link is dead is
+   * worse than one that lands a click away from the right place.
+   */
+  security: () => '/espace',
 } as const;
 
 /* -------------------------------------------------------------------------- */

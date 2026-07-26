@@ -193,7 +193,9 @@ export default async function StudentLayout({
                 title: t('notifications.title'),
                 empty: t('notifications.empty'),
                 markAllRead: t('notifications.markAllRead'),
-                unread: t('notifications.unread'),
+                // ICU plural — omitting `count` throws FORMATTING_ERROR at
+                // render time and 500s the whole authenticated shell.
+                unread: t('notifications.unread', { count: unread }),
               }}
               translate={(key, values) => tMessages(key, values)}
             />

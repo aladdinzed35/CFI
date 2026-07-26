@@ -409,6 +409,14 @@
       }
     }
   },
+  "notifications": {
+    "accountPendingApproval": "حسابك قيد التحقّق",
+    "accountAwaitingReview": "حساب جديد بانتظار المصادقة — {studentName}",
+    "accountApproved": "تمت المصادقة على حسابك",
+    "accountSuspended": "تم تعليق حسابك",
+    "accountReinstated": "تمت إعادة تفعيل حسابك",
+    "passwordChanged": "تم تغيير كلمة المرور الخاصة بك"
+  },
   "emails": {
     "common": {
       "greeting": "مرحبًا {name}،",

@@ -28,7 +28,7 @@ import { formatPhoneDisplay, parsePhone, toWhatsAppNumber } from '@/lib/phone';
 import { isDisposableDomain } from '@/lib/validation/disposable-domains';
 import { can, type PermissionUser } from '@/server/auth/permissions';
 import type { NotificationDbClient } from '@/server/services/notifications';
-import { parseRejectionReason, type RejectionReason } from './moderation';
+import { parseRejectionReason, type RejectionReason } from './rejection-reason';
 
 /* -------------------------------------------------------------------------- */
 /* Query shape                                                                 */

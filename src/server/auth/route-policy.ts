@@ -56,14 +56,31 @@ export const ROUTES = {
   verifyEmail: '/verification-email',
   /** Waiting for an administrator's decision — status `PENDING_APPROVAL` (§9.1). */
   pendingApproval: '/compte-en-attente',
-  /** The account was refused; the screen carries the reason and a way back. */
-  rejected: '/compte-refuse',
-  /** The account is suspended; the screen explains how to have it reinstated. */
-  suspended: '/compte-suspendu',
+  /**
+   * Refused and suspended accounts land on the SAME screen as those waiting.
+   *
+   * It is not a shortcut: `compte-en-attente` renders `StatusPoll`, which
+   * already has designed states for PENDING_APPROVAL, REJECTED and SUSPENDED —
+   * including the translated rejection reason, the free-text detail and the
+   * WhatsApp route back — and it polls, so an account reinstated by an
+   * administrator is released without the person reloading anything. Two extra
+   * routes would have duplicated all of that and then drifted from it.
+   *
+   * §5 lists a single `en-attente` route under (auth) for this reason.
+   * Previously these pointed at /compte-refuse and /compte-suspendu, which were
+   * never built: a refused student was redirected to a 404. `check-routes.ts`
+   * now fails the build on that.
+   */
+  rejected: '/compte-en-attente',
+  suspended: '/compte-en-attente',
   /** The authenticated student app (§13). */
   student: '/espace',
-  /** The one `/espace` page a not-yet-approved account may open (§9.1). */
-  profile: '/espace/profil',
+  /**
+   * The one `/espace` page a not-yet-approved account may open (§9.1).
+   * `/espace/profil` itself arrives with §13.4; until then this is the account
+   * root, so the policy never points at a route that does not exist.
+   */
+  profile: '/espace',
   /** The administration panel (§17). */
   admin: '/admin',
   /** The designed 403: a refusal that must be explained rather than hidden. */

@@ -97,7 +97,11 @@ function buildOptions(): SMTPPool.Options {
     // require rather than merely offer: an SMTP server that cannot upgrade is a
     // server we refuse to hand a password to.
     secure: env.SMTP_SECURE,
-    requireTLS: !env.SMTP_SECURE,
+    // Defaults to "required whenever the connection is not already implicit
+    // TLS". SMTP_REQUIRE_TLS=false is the documented escape hatch for a local
+    // sink (Mailpit advertises STARTTLS but answers 502 to it); it must never
+    // be set against a real server, and production leaves it unset.
+    requireTLS: (env.SMTP_REQUIRE_TLS ?? true) && !env.SMTP_SECURE,
     auth: { user: env.SMTP_USER, pass: env.SMTP_PASSWORD },
     pool: true,
     maxConnections: MAX_CONNECTIONS,

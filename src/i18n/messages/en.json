@@ -409,6 +409,14 @@
       }
     }
   },
+  "notifications": {
+    "accountPendingApproval": "Your account is being reviewed",
+    "accountAwaitingReview": "New account to review — {studentName}",
+    "accountApproved": "Your account has been approved",
+    "accountSuspended": "Your account has been suspended",
+    "accountReinstated": "Your account has been reinstated",
+    "passwordChanged": "Your password has been changed"
+  },
   "emails": {
     "common": {
       "greeting": "Hello {name},",

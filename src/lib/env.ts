@@ -328,6 +328,14 @@ const serverShape = z.object({
   SMTP_HOST: requiredString,
   SMTP_PORT: integerWithDefault(465, 1, 65535),
   SMTP_SECURE: booleanWithDefault('true'),
+  /**
+   * Whether to demand STARTTLS on a non-implicit-TLS connection. Unset means
+   * "required whenever SMTP_SECURE is false", which is right for a real server
+   * on port 587 and is what production uses. It exists to be turned OFF against
+   * a local sink such as Mailpit, which advertises STARTTLS without
+   * implementing it and answers `502 Command not implemented`.
+   */
+  SMTP_REQUIRE_TLS: booleanWithDefault('true').optional(),
   SMTP_USER: requiredString,
   SMTP_PASSWORD: stringWithDefault(''),
   MAIL_FROM_NAME: requiredString,
@@ -412,7 +420,14 @@ function crossFieldRules(value: Partial<ServerValues>, report: IssueSink): void 
     demand('VOYAGE_API_KEY', value.VOYAGE_API_KEY, 'lorsque EMBEDDINGS_PROVIDER vaut voyage')
   }
 
-  if (value.VIDEO_PROVIDER === 'bunny') {
+  // VIDEO_PROVIDER has no "not configured" member and defaults to bunny, so
+  // demanding its credentials unconditionally means a fresh checkout that
+  // copies .env.example cannot boot — even though no video exists before M4.
+  // The requirement is therefore production-only, matching how AUTH_SECRET and
+  // CRON_SECRET are handled: strict where it matters, loudly degraded in
+  // development. A dev without these keys gets a warning at boot and a failed
+  // playback token later, never a silent wrong answer.
+  if (value.VIDEO_PROVIDER === 'bunny' && value.NODE_ENV === 'production') {
     const reason = 'lorsque VIDEO_PROVIDER vaut bunny'
     demand('BUNNY_STREAM_LIBRARY_ID', value.BUNNY_STREAM_LIBRARY_ID, reason)
     demand('BUNNY_STREAM_API_KEY', value.BUNNY_STREAM_API_KEY, reason)
@@ -643,6 +658,15 @@ function applyDevFallbacks(source: RawEnv): Prepared {
   } else if (cronSecret.trim().length < CRON_SECRET_MIN) {
     warnings.push(
       `CRON_SECRET compte moins de ${CRON_SECRET_MIN} caractères : toléré en développement, refusé en production.`,
+    )
+  }
+
+  // Video credentials are not required to boot in development (see
+  // crossFieldRules), but their absence must never be silent — otherwise the
+  // first failed playback in M4 looks like a bug rather than a missing key.
+  if ((raw.VIDEO_PROVIDER ?? 'bunny').trim() === 'bunny' && !isPresent(raw.BUNNY_STREAM_LIBRARY_ID)) {
+    warnings.push(
+      'Bunny Stream n’est pas configuré : la lecture vidéo sera indisponible. Sans effet avant le jalon M4 ; obligatoire en production.',
     )
   }
 

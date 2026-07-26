@@ -118,12 +118,21 @@ export interface RenderedEmail {
  */
 interface CompiledTemplate {
   readonly id: EmailTemplateId;
+  /** `null` when the props satisfy this template's schema, else why not. */
+  validateProps(props: unknown): string | null;
   render(props: unknown, ctx: EmailContext): Promise<RenderedEmail>;
 }
 
 function compile<P>(id: EmailTemplateId, template: EmailTemplate<P>): CompiledTemplate {
   return {
     id,
+    validateProps(rawProps) {
+      const result = template.schema.safeParse(rawProps);
+      if (result.success) return null;
+      return result.error.issues
+        .map((issue) => `${issue.path.join('.') || '(racine)'} : ${issue.message}`)
+        .join(' · ');
+    },
     async render(rawProps, ctx) {
       const props = template.schema.parse(rawProps);
       return {
@@ -133,6 +142,24 @@ function compile<P>(id: EmailTemplateId, template: EmailTemplate<P>): CompiledTe
       };
     },
   };
+}
+
+/**
+ * Validates a template's props WITHOUT rendering, so a caller can reject a
+ * malformed notification at the moment it is queued.
+ *
+ * `sendMailInputSchema` deliberately types `props` as `unknown` — the envelope
+ * cannot know the shape each template wants. That left a gap: `account-approved`
+ * shipped without its required `catalogUrl`, the envelope validated happily, and
+ * the defect only appeared inside the cron as a silent retry loop while the
+ * administrator was told the mail had gone out. Returns `null` when valid, or a
+ * human-readable summary of what is wrong.
+ */
+export function validateTemplateProps(template: string, props: unknown): string | null {
+  // An unknown id is not this function's error to report: the envelope schema
+  // already constrains `template` to the registered set.
+  const compiled = (registry as Record<string, CompiledTemplate | undefined>)[template];
+  return compiled === undefined ? null : compiled.validateProps(props);
 }
 
 const registry: Record<EmailTemplateId, CompiledTemplate> = {
@@ -314,11 +341,37 @@ export const sendMailInputSchema = z
     // Validated a second time, precisely, by the named template's own schema.
     props: z.unknown(),
     locale: z.enum(locales).optional(),
-    relatedType: z.string().trim().min(1).max(64),
-    relatedId: z.string().trim().min(1).max(191),
+    // Nullable: not every notification hangs off an entity. When they are null
+    // an explicit `idempotencyKey` is required instead — see the refinement.
+    relatedType: z.string().trim().min(1).max(64).nullable().optional(),
+    relatedId: z.string().trim().min(1).max(191).nullable().optional(),
+    /**
+     * Overrides the derived `template:relatedId` half of the §18 key. Needed
+     * where the natural key is wrong: a *resent* verification link keys on the
+     * token rather than the user, otherwise the resend is swallowed as a
+     * duplicate and the student never gets a second mail (§9.1).
+     *
+     * The recipient is always appended by `sendMailFromPayload`, so an override
+     * can never collapse a multi-recipient send into one delivery.
+     */
+    idempotencyKey: z.string().trim().min(1).max(191).optional(),
+    /** Recipient account when there is one — powers the per-user e-mail log. */
+    userId: z.string().trim().min(1).max(191).nullable().optional(),
     replyTo: recipientSchema.optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((value, ctx) => {
+    // A key must always be computable, or §18's "never twice" guarantee is
+    // silently unenforceable for this send.
+    if (value.idempotencyKey === undefined && (value.relatedId ?? null) === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['idempotencyKey'],
+        message:
+          'requis lorsque relatedId est absent : sans lui, la clé d’idempotence §18 ne peut pas être calculée',
+      });
+    }
+  });
 
 /** `template:relatedId:recipient` — the §18 key, verbatim. */
 export function idempotencyKey(
@@ -378,7 +431,14 @@ export async function sendMailFromPayload(input: unknown): Promise<SendMailResul
   const failures: DeliveryFailure[] = [];
 
   for (const recipient of recipients) {
-    const key = idempotencyKey(template, parsed.relatedId, recipient);
+    // The recipient is appended in BOTH branches, so §18's "per event per
+    // recipient" holds even when the caller supplies its own key. Keying an
+    // admin broadcast on the event alone would deliver to whoever happened to
+    // be first and silently drop the rest.
+    const key =
+      parsed.idempotencyKey === undefined
+        ? idempotencyKey(template, parsed.relatedId ?? 'none', recipient)
+        : `${parsed.idempotencyKey}:${recipient}`;
     const pending = inFlight.get(key);
 
     const work =
@@ -388,8 +448,8 @@ export async function sendMailFromPayload(input: unknown): Promise<SendMailResul
         recipient,
         template,
         rendered,
-        relatedType: parsed.relatedType,
-        relatedId: parsed.relatedId,
+        relatedType: parsed.relatedType ?? null,
+        relatedId: parsed.relatedId ?? null,
         replyTo: parsed.replyTo ?? brand.contactEmail,
       });
 
@@ -421,8 +481,11 @@ interface DeliverArgs {
   readonly recipient: string;
   readonly template: EmailTemplateId;
   readonly rendered: RenderedEmail;
-  readonly relatedType: string;
-  readonly relatedId: string;
+  // Nullable: an e-mail need not hang off an entity. `EmailLog.relatedType` and
+  // `relatedId` are themselves nullable columns, and the idempotency key is
+  // computed by the caller, so nothing here depends on them being present.
+  readonly relatedType: string | null;
+  readonly relatedId: string | null;
   readonly replyTo: string;
 }
 

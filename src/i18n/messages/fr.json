@@ -409,6 +409,14 @@
       }
     }
   },
+  "notifications": {
+    "accountPendingApproval": "Votre compte est en cours de validation",
+    "accountAwaitingReview": "Nouveau compte à valider — {studentName}",
+    "accountApproved": "Votre compte est validé",
+    "accountSuspended": "Votre compte a été suspendu",
+    "accountReinstated": "Votre compte a été réactivé",
+    "passwordChanged": "Votre mot de passe a été modifié"
+  },
   "emails": {
     "common": {
       "greeting": "Bonjour {name},",

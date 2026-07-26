@@ -58,65 +58,27 @@ import { toFieldIssues, type FieldIssue } from './register';
 /* Rejection reasons (§17.2)                                                   */
 /* -------------------------------------------------------------------------- */
 
-/**
- * The four reasons the review drawer offers. Codes, not French labels: the
- * student's rejection e-mail is written in *their* locale, so the reason has to
- * survive as data (§10.2).
- *
- * `INCOMPLETE_INFO` → « Informations incomplètes »
- * `DUPLICATE`       → « Doublon »
- * `INVALID_PHONE`   → « Numéro invalide »
- * `OTHER`           → « Autre », which is why free text is mandatory with it.
- */
-export const REJECTION_REASON_CODES = [
-  'INCOMPLETE_INFO',
-  'DUPLICATE',
-  'INVALID_PHONE',
-  'OTHER',
-] as const;
+// The rejection-reason codec lives in its own leaf module: importing it from
+// here created a cycle with queries.ts that webpack resolved to undefined at
+// runtime. Re-exported so existing importers keep working.
+export {
+  REJECTION_REASON_CODES,
+  REJECTION_DETAILS_MIN,
+  REJECTION_DETAILS_MAX,
+  serializeRejectionReason,
+  parseRejectionReason,
+  type RejectionReasonCode,
+  type RejectionReason,
+} from './rejection-reason';
 
-export type RejectionReasonCode = (typeof REJECTION_REASON_CODES)[number];
-
-export interface RejectionReason {
-  readonly code: RejectionReasonCode;
-  /** Free text. Required for `OTHER`, optional and additive for the others. */
-  readonly details: string | null;
-}
-
-export const REJECTION_DETAILS_MIN = 5;
-export const REJECTION_DETAILS_MAX = 1_000;
-
-/**
- * `User.rejectionReason` is a single TEXT column but the reason is two fields, so
- * it is stored as compact JSON. {@link parseRejectionReason} reads it back and
- * tolerates a legacy plain string, which it reports as `OTHER` + details.
- */
-export function serializeRejectionReason(reason: RejectionReason): string {
-  return JSON.stringify({ code: reason.code, details: reason.details });
-}
-
-export function parseRejectionReason(raw: string | null): RejectionReason | null {
-  if (raw === null || raw.trim() === '') return null;
-
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed)) {
-      const record = parsed as Record<string, unknown>;
-      const code = record.code;
-      if (typeof code === 'string' && (REJECTION_REASON_CODES as readonly string[]).includes(code)) {
-        const details = record.details;
-        return {
-          code: code as RejectionReasonCode,
-          details: typeof details === 'string' && details.trim() !== '' ? details : null,
-        };
-      }
-    }
-  } catch {
-    // Not JSON — fall through to the legacy interpretation.
-  }
-
-  return { code: 'OTHER', details: raw };
-}
+// Only what this module itself uses; the rest is re-exported above for callers.
+import {
+  REJECTION_REASON_CODES,
+  REJECTION_DETAILS_MIN,
+  REJECTION_DETAILS_MAX,
+  serializeRejectionReason,
+  type RejectionReason,
+} from './rejection-reason';
 
 /* -------------------------------------------------------------------------- */
 /* Input schemas                                                               */
@@ -388,6 +350,10 @@ function studentEmailProps(
       return {
         fullName: subject.fullName,
         loginUrl: absoluteUrl(subject.locale, ACCOUNT_ROUTES.login()),
+        // Required by the template's own schema. Its absence made every
+        // welcome e-mail fail payload validation and retry silently, while the
+        // administrator was told it had been sent.
+        catalogUrl: absoluteUrl(subject.locale, ACCOUNT_ROUTES.catalog()),
       };
     case 'account-rejected':
       return {

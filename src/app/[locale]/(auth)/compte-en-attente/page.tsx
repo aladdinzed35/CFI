@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Hourglass } from 'lucide-react';
+import { Hourglass, ShieldX } from 'lucide-react';
 
 import { AUTH_ROUTES, requirePageUser } from '@/server/auth';
 import { resolveBrandContext } from '@/server/mail';
@@ -65,30 +65,50 @@ export default async function PendingApprovalPage({
   if (user.status === 'PENDING_EMAIL') redirect({ href: AUTH_ROUTES.pendingEmail, locale });
 
   const t = await getTranslations('auth.pending');
+  const tRejected = await getTranslations('auth.rejected');
+  const tSuspended = await getTranslations('auth.suspended');
   const brand = await resolveBrandContext();
+
+  // This screen serves three statuses (see ROUTES.rejected / ROUTES.suspended),
+  // so the header must follow the status. A fixed « votre compte est en cours de
+  // validation » above a red refusal notice contradicts itself, and the person
+  // reading it has just been told two different things about their account.
+  const heading =
+    user.status === 'REJECTED'
+      ? { title: tRejected('title'), tone: 'danger' as const }
+      : user.status === 'SUSPENDED'
+        ? { title: tSuspended('title'), tone: 'danger' as const }
+        : { title: t('title'), tone: 'warn' as const };
 
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-3">
         <span
           aria-hidden="true"
-          className="grid size-12 shrink-0 place-items-center rounded-md border border-warn/30 bg-warn-wash text-warn"
+          className={
+            heading.tone === 'danger'
+              ? 'grid size-12 shrink-0 place-items-center rounded-md border border-danger/30 bg-danger-wash text-danger'
+              : 'grid size-12 shrink-0 place-items-center rounded-md border border-warn/30 bg-warn-wash text-warn'
+          }
         >
-          <Hourglass className="size-6" />
+          {heading.tone === 'danger' ? <ShieldX className="size-6" /> : <Hourglass className="size-6" />}
         </span>
 
-        <h1 className="font-display text-title text-balance text-ink">{t('title')}</h1>
+        <h1 className="font-display text-title text-balance text-ink">{heading.title}</h1>
 
         <StatusPill
           domain="account"
-          status="PENDING_APPROVAL"
-          label={t('statusPending')}
+          status={user.status}
+          label={heading.title}
           srPrefix={t('statusLabel')}
           className="self-start"
         />
 
-        {/* §28.3, verbatim — including « généralement sous 24 heures ouvrées ». */}
-        <p className="text-body text-pretty text-ink-muted">{t('body')}</p>
+        {/* §28.3, verbatim — including « généralement sous 24 heures ouvrées ».
+            Only shown while the wait is real; StatusPoll owns the other two. */}
+        {user.status === 'PENDING_APPROVAL' ? (
+          <p className="text-body text-pretty text-ink-muted">{t('body')}</p>
+        ) : null}
       </header>
 
       <StatusPoll

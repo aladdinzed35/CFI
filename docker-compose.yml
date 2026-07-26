@@ -48,6 +48,29 @@ services:
       start_period: 20s
     volumes:
       - cfi-mysql-data:/var/lib/mysql
+      # Runs once, on first initialisation of an empty data volume. Grants the
+      # app user the rights `prisma migrate dev` needs for its shadow database.
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
+
+  # Local SMTP sink. Development must never be able to mail a real student, and
+  # the verification flow cannot be tested without reading the actual message:
+  # only the SHA-256 of a token is persisted (§9.1), so the raw token exists
+  # nowhere but the email itself.
+  #
+  #   SMTP   127.0.0.1:1025   (point SMTP_HOST/SMTP_PORT here in .env)
+  #   Web UI http://localhost:8025
+  #   API    http://localhost:8025/api/v1/messages   ← used by the e2e suite
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: cfi-mailpit
+    restart: unless-stopped
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
   cfi-mysql-data:
