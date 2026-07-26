@@ -139,6 +139,12 @@ model User {
   @@index([referredById])
   @@index([approvedById])
   @@index([deletedAt])
+  // §17.2 duplicate detection runs on EVERY open of the review drawer:
+  // `WHERE phone = ?` and `WHERE fullName = ? AND city = ?`. Neither was
+  // indexed — the @@fulltext below cannot serve an equality lookup — so both
+  // were full table scans on the busiest screen an administrator uses.
+  @@index([phone])
+  @@index([fullName, city])
   @@fulltext([fullName, email, phone])
 }
 
