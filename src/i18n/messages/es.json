@@ -60,10 +60,30 @@
       "title": "Reciba nuestras nuevas formaciones",
       "placeholder": "Su dirección de correo electrónico",
       "submit": "Suscribirse",
-      "success": "Gracias, su suscripción ha quedado registrada. Recibirá nuestras nuevas formaciones por correo electrónico."
+      "success": "Gracias, su suscripción ha quedado registrada. Recibirá nuestras nuevas formaciones por correo electrónico.",
+      "label": "Correo electrónico",
+      "hint": "Una o dos veces al mes, solo nuestras nuevas formaciones. Baja con un clic.",
+      "submitting": "Suscribiendo…",
+      "invalidEmail": "El correo electrónico no es válido. Formato esperado: nombre@ejemplo.com.",
+      "error": "No se ha podido registrar la suscripción. Inténtelo de nuevo en unos instantes.",
+      "rateLimited": "Ya ha enviado esta solicitud. Revise su bandeja de entrada antes de volver a intentarlo.",
+      "alreadySubscribed": "Esta dirección ya está suscrita. Recibirá nuestras próximas formaciones."
     },
     "rights": "© CFI — Centre de formation immersive. Todos los derechos reservados.",
-    "followUs": "Síganos"
+    "followUs": "Síganos",
+    "columns": {
+      "about": "El centro",
+      "courses": "Formaciones",
+      "links": "Enlaces útiles",
+      "contact": "Contactar"
+    },
+    "seeAllCourses": "Ver todas las formaciones",
+    "allCategories": "Todos los ámbitos",
+    "phone": "Teléfono",
+    "email": "Correo electrónico",
+    "whatsapp": "WhatsApp",
+    "legalNotices": "Aviso legal",
+    "legalLine": "Centre de formation immersive · Tánger, Marruecos · Tarifas en dírhams, impuestos incluidos."
   },
   "theme": {
     "toggle": "Cambiar de tema",
@@ -86,25 +106,74 @@
       "headline": "Formaciones inmersivas, impartidas por profesionales",
       "subheadline": "Formaciones completas a distancia, prácticas en situaciones reales y acompañamiento humano en el centro, en Tanger. Avanza a su ritmo, sin quedarse nunca solo.",
       "ctaPrimary": "Crear una cuenta",
-      "ctaSecondary": "Ver las formaciones"
+      "ctaSecondary": "Ver las formaciones",
+      "trustLine": "Centro de formación en Tánger · Acompañamiento presencial y a distancia",
+      "latticeLabel": "Vista animada de las formaciones del catálogo",
+      "proofLabel": "En cifras",
+      "scrollHint": "Desplácese para descubrir"
     },
     "proof": {
       "learners": "Nuestros alumnos",
       "courses": "Formaciones",
-      "successRate": "Tasa de éxito"
+      "successRate": "Tasa de éxito",
+      "sectionLabel": "Nuestras cifras",
+      "graduates": "Titulados",
+      "instructors": "Formadores",
+      "categories": "Ámbitos",
+      "yearsOpen": "Años de experiencia",
+      "liveSessions": "Sesiones en directo"
     },
     "method": {
       "title": "Nuestro método inmersivo",
-      "subtitle": "Cuatro principios que marcan la diferencia entre seguir una formación y saber ejercer el oficio."
+      "subtitle": "Cuatro principios que marcan la diferencia entre seguir una formación y saber ejercer el oficio.",
+      "sectionLabel": "Método",
+      "tile1": {
+        "title": "Situaciones reales de trabajo",
+        "body": "Trabaja sobre los casos que encontrará en su puesto, no sobre ejemplos inventados. Cada módulo termina con una situación que resolver."
+      },
+      "tile2": {
+        "title": "Proyectos corregidos uno a uno",
+        "body": "Un formador corrige sus trabajos y le responde personalmente, indicando lo que está bien y lo que debe cambiar."
+      },
+      "tile3": {
+        "title": "Acompañamiento humano continuo",
+        "body": "Rara vez una pregunta queda sin respuesta más de un día laborable. Contacta con su formador por mensajería o por WhatsApp."
+      },
+      "tile4": {
+        "title": "En el centro y a distancia",
+        "body": "Los vídeos y los recursos están disponibles en línea a cualquier hora; los talleres y las sesiones en directo se celebran en el centro, en Tánger."
+      }
     },
     "featured": {
       "title": "Formaciones destacadas",
       "subtitle": "Una selección de nuestras formaciones más solicitadas, actualizada cada mes.",
-      "seeAll": "Ver todas las formaciones"
+      "seeAll": "Ver todas las formaciones",
+      "sectionLabel": "Catálogo",
+      "chipsLabel": "Filtrar por ámbito",
+      "chipAll": "Todos los ámbitos",
+      "scrollHint": "Desplácese para ver las demás formaciones",
+      "empty": {
+        "title": "Ninguna formación destacada por ahora",
+        "body": "El catálogo completo sigue disponible: recórralo para encontrar la formación que encaja con su proyecto.",
+        "action": "Ver todas las formaciones"
+      }
     },
     "paths": {
       "title": "Itinerarios",
-      "subtitle": "Formaciones encadenadas en el orden adecuado, hasta el certificado, con un precio conjunto."
+      "subtitle": "Formaciones encadenadas en el orden adecuado, hasta el certificado, con un precio conjunto.",
+      "sectionLabel": "Itinerarios",
+      "seeAll": "Ver todos los itinerarios",
+      "courseCount": "{count, plural, one {# formación} other {# formaciones}}",
+      "durationLabel": "Duración total",
+      "bundleLabel": "Precio del itinerario",
+      "savingLabel": "Ahorra {amount}",
+      "certificateStep": "Certificado del itinerario",
+      "stepLabel": "Etapa {number}",
+      "empty": {
+        "title": "Ningún itinerario publicado por ahora",
+        "body": "Los itinerarios agrupan varias formaciones en el orden correcto. Mientras tanto, elija una formación del catálogo.",
+        "action": "Ver todas las formaciones"
+      }
     },
     "howItWorks": {
       "title": "Cómo funciona",
@@ -123,23 +192,80 @@
       "step4": {
         "title": "Acceso activado, empieza a aprender",
         "body": "En cuanto se verifica el pago, la formación se abre: vídeos, recursos, cuestionarios y seguimiento de su progreso."
-      }
+      },
+      "sectionLabel": "Inscripción",
+      "subtitle": "Cuatro etapas, desde la creación de la cuenta hasta la primera clase. Calcule un día laborable en total.",
+      "stepLabel": "Etapa {number}",
+      "note": "Sin pago en línea: paga por transferencia bancaria o en efectivo en el centro."
     },
     "pricing": {
       "title": "Un precio justo, sin sorpresas",
-      "subtitle": "Compárelo con lo que cuesta una formación presencial equivalente. Todo está incluido: recursos, certificado, acompañamiento y sesiones en directo."
+      "subtitle": "Compárelo con lo que cuesta una formación presencial equivalente. Todo está incluido: recursos, certificado, acompañamiento y sesiones en directo.",
+      "sectionLabel": "Tarifas",
+      "cfiLabel": "En CFI",
+      "marketLabel": "Horquilla observada en formación presencial",
+      "marketNote": "Horquilla indicativa para una formación presencial equivalente en la región, sin promociones. No se nombra ninguna institución.",
+      "includedTitle": "Incluido en la tarifa",
+      "included": {
+        "access": "Acceso a la formación durante todo su periodo de acceso",
+        "resources": "Recursos descargables: plantillas, fichas y ejercicios",
+        "certificate": "Certificado de finalización",
+        "coaching": "Acompañamiento de un formador y corrección de sus trabajos",
+        "live": "Sesiones en directo y talleres en el centro",
+        "updates": "Actualizaciones del contenido sin coste adicional"
+      },
+      "facilitiesTitle": "Facilidades de pago",
+      "facilities": {
+        "transfer": "Transferencia bancaria, con una referencia que indicar en el concepto",
+        "installments": "Pago en varios plazos en las formaciones que lo permiten",
+        "cash": "Pago en efectivo en la recepción del centro"
+      },
+      "cta": "Ver todas las formaciones",
+      "disclaimer": "Todas las tarifas se indican en dírhams, impuestos incluidos."
     },
     "proofs": {
-      "title": "Se formaron con nosotros"
+      "title": "Se formaron con nosotros",
+      "sectionLabel": "Testimonios",
+      "subtitle": "Personas formadas aquí cuentan a qué se dedican hoy.",
+      "previous": "Testimonio anterior",
+      "next": "Testimonio siguiente",
+      "slideLabel": "Testimonio {index} de {total}",
+      "ratingLabel": "Valoración otorgada: {rating} sobre 5",
+      "partnersTitle": "Contratan a nuestros titulados",
+      "empty": {
+        "title": "Los primeros testimonios están en camino",
+        "body": "Nuestras promociones actuales compartirán aquí su experiencia muy pronto. Escríbanos si desea hablar con un antiguo alumno.",
+        "action": "Escríbanos por WhatsApp"
+      }
     },
     "instructors": {
-      "title": "Nuestros formadores"
+      "title": "Nuestros formadores",
+      "sectionLabel": "Equipo docente",
+      "subtitle": "Profesionales en activo que enseñan el oficio que ejercen.",
+      "courseCount": "{count, plural, one {# formación} other {# formaciones}}",
+      "profileCta": "Ver el perfil",
+      "seeAll": "Ver todos los formadores"
     },
     "center": {
-      "title": "El centro, en Tanger"
+      "title": "El centro, en Tanger",
+      "sectionLabel": "El centro",
+      "subtitle": "Un lugar real, con aulas equipadas y un equipo al que puede conocer.",
+      "body": "Los talleres, las sesiones en directo y los exámenes se celebran allí. También puede venir a trabajar a nuestras aulas en horario de apertura.",
+      "addressLabel": "Dirección",
+      "hoursLabel": "Horario",
+      "phoneLabel": "Teléfono",
+      "galleryLabel": "Fotos del centro",
+      "mapCta": "Mostrar el mapa",
+      "mapNotice": "El mapa lo proporciona Google. Solo se carga después de su clic.",
+      "mapTitle": "Mapa de localización del centro",
+      "directions": "Cómo llegar",
+      "visitCta": "Pedir cita por WhatsApp"
     },
     "faq": {
-      "title": "Preguntas frecuentes"
+      "title": "Preguntas frecuentes",
+      "sectionLabel": "Preguntas frecuentes",
+      "subtitle": "Las preguntas que más nos hacen antes de inscribirse.",
+      "seeAll": "Ver todas las preguntas"
     },
     "finalCta": {
       "title": "Empiece hoy mismo su formación",
@@ -888,5 +1014,726 @@
     "bubbleMessage": "¿Tiene alguna pregunta? Escríbanos",
     "prefillGeneric": "Hola CFI, me gustaría recibir información sobre sus formaciones.",
     "prefillCourse": "Hola CFI, me interesa la formación «{courseTitle}»."
+  },
+  "publicNav": {
+    "brandHome": "CFI — volver a la página de inicio",
+    "label": "Navegación principal",
+    "courses": "Formaciones",
+    "paths": "Itinerarios",
+    "method": "Nuestro método",
+    "pricing": "Tarifas",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "register": "Crear una cuenta",
+    "dashboard": "Mi espacio",
+    "myCourses": "Mis formaciones",
+    "accountMenu": "Menú de la cuenta",
+    "signedInAs": "Ha iniciado sesión como {name}",
+    "logout": "Cerrar sesión",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú",
+    "menuTitle": "Menú",
+    "menuHint": "Explore el sitio o acceda a su espacio.",
+    "skipToContent": "Ir al contenido principal"
+  },
+  "catalog": {
+    "title": "Formaciones",
+    "lead": "Todas nuestras formaciones, filtrables por ámbito, nivel, formato y tarifa.",
+    "resultCount": "{count, plural, =0 {Ninguna formación} one {# formación} other {# formaciones}}",
+    "resultsRegion": "Resultados de la búsqueda",
+    "searchLabel": "Buscar una formación",
+    "searchPlaceholder": "Título, ámbito o palabra clave",
+    "searchSubmit": "Buscar",
+    "searchClear": "Borrar la búsqueda",
+    "activeQuery": "Búsqueda: {query}",
+    "filters": {
+      "title": "Filtros",
+      "open": "Filtrar",
+      "openWithCount": "{count, plural, =0 {Filtrar} one {Filtrar · # filtro activo} other {Filtrar · # filtros activos}}",
+      "sheetTitle": "Filtrar las formaciones",
+      "apply": "Mostrar los resultados",
+      "applyWithCount": "{count, plural, =0 {Mostrar todas las formaciones} one {Mostrar # formación} other {Mostrar # formaciones}}",
+      "clear": "Restablecer los filtros",
+      "clearOne": "Quitar el filtro {label}",
+      "activeLabel": "Filtros activos",
+      "groupLabel": "Grupo de filtros: {label}",
+      "category": {
+        "label": "Ámbito",
+        "all": "Todos los ámbitos"
+      },
+      "level": {
+        "label": "Nivel",
+        "all": "Todos los niveles",
+        "debutant": "Principiante",
+        "intermediaire": "Intermedio",
+        "avance": "Avanzado",
+        "tousNiveaux": "Abierto a todos los niveles"
+      },
+      "delivery": {
+        "label": "Formato",
+        "all": "Todos los formatos",
+        "enLigne": "En línea",
+        "presentiel": "En el centro",
+        "hybride": "Híbrido: en línea y en el centro"
+      },
+      "price": {
+        "label": "Tarifa",
+        "all": "Todas las tarifas",
+        "free": "Gratuita",
+        "under": "Menos de {max}",
+        "between": "De {min} a {max}",
+        "over": "Más de {min}",
+        "customLabel": "Horquilla personalizada",
+        "minLabel": "Tarifa mínima",
+        "maxLabel": "Tarifa máxima",
+        "rangeAnnounce": "Tarifa de {min} a {max}"
+      },
+      "duration": {
+        "label": "Duración",
+        "all": "Todas las duraciones",
+        "under": "Menos de {hours, plural, one {# hora} other {# horas}}",
+        "between": "De {min} a {max} horas",
+        "over": "Más de {hours, plural, one {# hora} other {# horas}}"
+      },
+      "language": {
+        "label": "Idioma de la formación",
+        "all": "Todos los idiomas",
+        "fr": "Francés",
+        "ar": "Árabe",
+        "en": "Inglés",
+        "es": "Español"
+      },
+      "rating": {
+        "label": "Valoración",
+        "all": "Todas las valoraciones",
+        "from": "{stars, plural, one {# estrella o más} other {# estrellas o más}}"
+      },
+      "features": {
+        "label": "Opciones",
+        "certificate": "Con certificado",
+        "installments": "Pago a plazos",
+        "live": "Sesiones en directo",
+        "preview": "Con clase de prueba"
+      }
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "relevance": "Relevancia",
+      "newest": "Novedades",
+      "priceAsc": "Tarifa ascendente",
+      "priceDesc": "Tarifa descendente",
+      "popular": "Popularidad",
+      "topRated": "Mejor valoradas"
+    },
+    "view": {
+      "label": "Visualización",
+      "grid": "Vista en cuadrícula",
+      "list": "Vista en lista"
+    },
+    "card": {
+      "lessonCount": "{count, plural, one {# clase} other {# clases}}",
+      "studentCount": "{count, plural, =0 {Primera promoción} one {# inscrito} other {# inscritos}}",
+      "ratingCount": "{count, plural, =0 {Aún sin opiniones} one {# opinión} other {# opiniones}}",
+      "new": "Nuevo",
+      "featured": "Destacada",
+      "free": "Gratuita",
+      "lastSeats": "{count, plural, one {# plaza libre} other {# plazas libres}}",
+      "full": "Plazas agotadas",
+      "open": "Ver la formación {title}"
+    },
+    "empty": {
+      "title": "Ninguna formación coincide con estos filtros",
+      "body": "Amplíe un criterio o restablezca los filtros para ver todo el catálogo.",
+      "action": "Restablecer los filtros"
+    },
+    "emptySearch": {
+      "title": "Ninguna formación coincide con «{query}»",
+      "body": "Compruebe la ortografía, pruebe con una palabra más general o explore por ámbitos.",
+      "action": "Borrar la búsqueda"
+    },
+    "emptyCatalog": {
+      "title": "El catálogo todavía no está abierto",
+      "body": "Las primeras formaciones están en preparación. Déjenos su correo electrónico y le avisaremos cuando se publiquen.",
+      "action": "Escríbanos por WhatsApp"
+    },
+    "loadMore": "Mostrar más formaciones",
+    "loadingMore": "Cargando formaciones…",
+    "loading": "Cargando el catálogo",
+    "allLoaded": "Ha visto todas las formaciones que coinciden con estos filtros.",
+    "pagination": {
+      "label": "Páginas de resultados",
+      "summary": "Página {page} de {total}"
+    },
+    "error": {
+      "title": "No se ha podido cargar el catálogo",
+      "body": "Ha fallado la conexión con el servidor. Recargue la página; si el problema continúa, escríbanos por WhatsApp.",
+      "action": "Reintentar"
+    }
+  },
+  "course": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbCatalog": "Formaciones",
+    "breadcrumbLabel": "Ruta de navegación",
+    "meta": {
+      "label": "Información sobre la formación",
+      "rating": "{rating} sobre 5",
+      "ratingCount": "{count, plural, =0 {Aún sin opiniones} one {# opinión} other {# opiniones}}",
+      "enrolled": "{count, plural, =0 {Primera promoción} one {# inscrito} other {# inscritos}}",
+      "updatedAt": "Actualizada el {date}",
+      "language": "Idioma de la formación",
+      "level": "Nivel",
+      "delivery": "Formato",
+      "duration": "Duración",
+      "lessons": "{count, plural, one {# clase} other {# clases}}",
+      "modules": "{count, plural, one {# módulo} other {# módulos}}",
+      "category": "Ámbito",
+      "new": "Nuevo"
+    },
+    "level": {
+      "debutant": "Principiante",
+      "intermediaire": "Intermedio",
+      "avance": "Avanzado",
+      "tousNiveaux": "Abierto a todos los niveles"
+    },
+    "delivery": {
+      "enLigne": "En línea",
+      "presentiel": "En el centro",
+      "hybride": "Híbrido: en línea y en el centro"
+    },
+    "media": {
+      "coverAlt": "Ilustración de la formación {title}",
+      "promoLabel": "Vídeo de presentación",
+      "promoPlay": "Reproducir el vídeo de presentación"
+    },
+    "objectives": {
+      "title": "Lo que va a aprender",
+      "subtitle": "Las competencias que sabrá poner en práctica al terminar la formación."
+    },
+    "description": {
+      "title": "Sobre esta formación",
+      "showMore": "Leer más",
+      "showLess": "Mostrar menos"
+    },
+    "programme": {
+      "title": "Programa",
+      "subtitle": "El detalle de los módulos y las clases, en el orden en que los seguirá.",
+      "moduleCount": "{count, plural, one {# módulo} other {# módulos}}",
+      "lessonCount": "{count, plural, one {# clase} other {# clases}}",
+      "expandAll": "Desplegar todo",
+      "collapseAll": "Plegar todo",
+      "moduleLabel": "Módulo {number}",
+      "moduleSummary": "{lessons, plural, one {# clase} other {# clases}} · {duration}",
+      "lessonTypeLabel": "Tipo de clase",
+      "lessonType": {
+        "video": "Vídeo",
+        "document": "Documento",
+        "article": "Artículo",
+        "quiz": "Cuestionario",
+        "assignment": "Trabajo",
+        "live": "Sesión en directo"
+      },
+      "previewBadge": "Clase de prueba",
+      "previewCta": "Ver la clase de prueba",
+      "previewModalTitle": "Clase de prueba — {lessonTitle}",
+      "previewModalHint": "Este extracto está disponible sin cuenta. La formación completa incluye {count, plural, one {# clase} other {# clases}}.",
+      "previewModalCta": "Cree una cuenta para desbloquearlo todo",
+      "previewUnavailable": "Esta clase de prueba no está disponible por el momento. Inténtelo de nuevo en unos instantes.",
+      "locked": "Disponible una vez activado su acceso",
+      "empty": {
+        "title": "El programa se está ultimando",
+        "body": "El detalle de los módulos se publicará antes de abrir las inscripciones. Escríbanos para recibir el plan completo.",
+        "action": "Pedir el programa por WhatsApp"
+      }
+    },
+    "resources": {
+      "title": "Recursos incluidos",
+      "subtitle": "Documentos para descargar y conservar, disponibles desde la activación de su acceso.",
+      "count": "{count, plural, one {# recurso} other {# recursos}}",
+      "empty": "Esta formación no incluye recursos descargables."
+    },
+    "prerequisites": {
+      "title": "Requisitos previos",
+      "none": "Sin requisitos previos: la formación parte de lo básico.",
+      "strict": "Formación que debe cursar antes que esta",
+      "soft": "Formación recomendada antes que esta",
+      "seeCourse": "Ver la formación {title}"
+    },
+    "audience": {
+      "title": "A quién se dirige esta formación",
+      "empty": "Esta formación está abierta a cualquier persona interesada en el ámbito."
+    },
+    "instructor": {
+      "title": "Su formador",
+      "titlePlural": "Sus formadores",
+      "courseCount": "{count, plural, one {# formación} other {# formaciones}}",
+      "studentCount": "{count, plural, =0 {Primera promoción} one {# alumno formado} other {# alumnos formados}}",
+      "seeProfile": "Ver el perfil",
+      "contact": "Hacer una pregunta al formador",
+      "photoAlt": "Retrato de {name}"
+    },
+    "reviews": {
+      "title": "Opiniones de los alumnos",
+      "subtitle": "Solo se publican las opiniones de personas realmente inscritas.",
+      "average": "{rating} sobre 5",
+      "count": "{count, plural, =0 {Ninguna opinión} one {# opinión} other {# opiniones}}",
+      "distributionLabel": "Distribución de las valoraciones",
+      "starsRow": "{stars, plural, one {# estrella} other {# estrellas}}",
+      "starsShare": "{count, plural, =0 {ninguna opinión} one {# opinión} other {# opiniones}}",
+      "verified": "Inscripción verificada",
+      "postedOn": "Publicada el {date}",
+      "showMore": "Mostrar más opiniones",
+      "seeAll": "Ver todas las opiniones",
+      "empty": {
+        "title": "Aún no hay opiniones",
+        "body": "Esta formación acaba de abrirse. Las primeras opiniones se publicarán en cuanto los alumnos la terminen."
+      }
+    },
+    "faq": {
+      "title": "Preguntas sobre esta formación",
+      "subtitle": "¿Tiene otra pregunta? Escríbanos: respondemos en un día laborable.",
+      "contactCta": "Hacer una pregunta por WhatsApp"
+    },
+    "similar": {
+      "title": "Formaciones similares",
+      "subtitle": "Otras formaciones del mismo ámbito, que suelen cursarse juntas.",
+      "empty": "Ninguna formación similar por el momento."
+    },
+    "purchase": {
+      "title": "Reserve su plaza",
+      "priceLabel": "Tarifa de la formación",
+      "comparePrefix": "En lugar de",
+      "compareLabel": "Tarifa habitual: {price}",
+      "discount": "-{percent} %",
+      "free": "Gratuita",
+      "includedTitle": "Qué incluye",
+      "included": {
+        "lessons": "{count, plural, one {# clase} other {# clases}} de contenido",
+        "duration": "{duration} de vídeo y ejercicios",
+        "resources": "Recursos descargables",
+        "certificate": "Certificado de finalización",
+        "coaching": "Acompañamiento y corrección de sus trabajos",
+        "live": "Sesiones en directo en el centro",
+        "mobile": "Acceso desde un ordenador o un teléfono"
+      },
+      "accessTitle": "Duración del acceso",
+      "accessLifetime": "Acceso de por vida",
+      "accessLimited": "Acceso durante {days, plural, one {# día} other {# días}}",
+      "certificateTitle": "Certificado",
+      "certificateYes": "Se entrega un certificado al final, siempre que obtenga un {score} % en las evaluaciones.",
+      "certificateNo": "Esta formación no da lugar a un certificado.",
+      "seatsTitle": "Plazas",
+      "seatsLeft": "{count, plural, =0 {Plazas agotadas} one {# plaza libre} other {# plazas libres}}",
+      "seatsUnlimited": "Inscripciones abiertas",
+      "seatsFull": "Plazas agotadas",
+      "seatsFullHint": "Escríbanos por WhatsApp y le avisaremos de la próxima promoción.",
+      "installments": "Pago posible en {count, plural, one {# plazo} other {# plazos}}",
+      "paymentNote": "Pago por transferencia bancaria o en efectivo en el centro. Sin pago en línea.",
+      "approvalNote": "Su acceso se activa después de que nuestro equipo verifique el justificante de la transferencia.",
+      "stickyPriceLabel": "Tarifa",
+      "stickyLabel": "Tarifa e inscripción"
+    },
+    "cta": {
+      "guest": "Cree una cuenta para inscribirse",
+      "guestHint": "Volverá a esta formación justo después de crear su cuenta.",
+      "pendingEmail": "Confirme su correo electrónico",
+      "pendingEmailHint": "Abra el enlace que le hemos enviado o pida uno nuevo.",
+      "pendingApproval": "Cuenta en proceso de validación",
+      "pendingApprovalHint": "Nuestro equipo está validando su cuenta, normalmente en 24 horas laborables. Después podrá solicitar el acceso.",
+      "pendingApprovalWhatsapp": "Escríbanos por WhatsApp",
+      "active": "Solicitar el acceso — {price}",
+      "activeFree": "Solicitar el acceso",
+      "requestPending": "Solicitud en tramitación",
+      "requestPendingHint": "Estamos verificando su justificante de transferencia. Siga el avance desde su espacio.",
+      "enrolled": "Continuar la formación",
+      "enrolledHint": "Retomará en la clase donde lo dejó.",
+      "completedReview": "Repasar la formación",
+      "completedCertificate": "Descargar el certificado",
+      "completedHint": "Formación terminada. Su certificado sigue disponible para descargar en cualquier momento."
+    },
+    "share": {
+      "label": "Compartir",
+      "title": "Compartir esta formación",
+      "copyLink": "Copiar el enlace",
+      "copied": "Enlace copiado",
+      "copyFailed": "No se ha podido copiar el enlace. Selecciónelo y cópielo manualmente.",
+      "whatsapp": "Compartir por WhatsApp",
+      "facebook": "Compartir en Facebook",
+      "linkedin": "Compartir en LinkedIn",
+      "email": "Compartir por correo electrónico",
+      "emailSubject": "Formación {title} — Centre de formation immersive"
+    },
+    "wishlist": {
+      "add": "Añadir a mi lista",
+      "remove": "Quitar de mi lista",
+      "added": "Formación añadida a su lista.",
+      "removed": "Formación eliminada de su lista.",
+      "signedOut": "Inicie sesión para guardar esta formación en su lista."
+    },
+    "whatsappCta": "Hacer una pregunta por WhatsApp",
+    "notFound": {
+      "title": "Esta formación no existe",
+      "body": "Puede que el enlace sea erróneo o que la formación se haya retirado del catálogo. Explore las formaciones disponibles.",
+      "action": "Ver todas las formaciones"
+    }
+  },
+  "pages": {
+    "method": {
+      "title": "Nuestro método",
+      "lead": "Lo que significa realmente «formación inmersiva» y cómo se desarrolla su formación con nosotros.",
+      "principlesTitle": "Los cuatro principios",
+      "journeyTitle": "El desarrollo de una formación",
+      "journeyLead": "De la primera clase al certificado, esto es lo que le espera semana a semana.",
+      "facilitiesTitle": "El centro y sus instalaciones",
+      "facilitiesLead": "Aulas equipadas en Tánger, abiertas a los alumnos durante el horario de apertura.",
+      "teamTitle": "El equipo docente",
+      "accreditationsTitle": "Acreditaciones y colaboraciones",
+      "accreditationsEmpty": "Nuestras acreditaciones se publicarán aquí en cuanto las obtengamos.",
+      "ctaTitle": "¿Quiere comentarlo antes de inscribirse?",
+      "ctaBody": "Escríbanos por WhatsApp: le orientamos hacia la formación que encaja con su proyecto, sin compromiso.",
+      "ctaAction": "Escríbanos por WhatsApp",
+      "ctaSecondary": "Ver todas las formaciones"
+    },
+    "about": {
+      "title": "Sobre el centro",
+      "lead": "Un centro de formación en Tánger, nacido de una constatación sencilla: un oficio no se aprende viendo vídeos a solas.",
+      "storyTitle": "Nuestra historia",
+      "missionTitle": "Nuestra misión",
+      "valuesTitle": "Lo que nos importa",
+      "figuresTitle": "El centro en cifras",
+      "teamTitle": "El equipo",
+      "centerTitle": "Nuestras instalaciones",
+      "accreditationsTitle": "Acreditaciones y colaboraciones",
+      "ctaTitle": "Venga a vernos",
+      "ctaBody": "El centro está abierto a visitas durante el horario de apertura. Avísenos y le enseñaremos las instalaciones.",
+      "ctaAction": "Pedir cita por WhatsApp"
+    },
+    "pricing": {
+      "title": "Tarifas",
+      "lead": "La tarifa de cada formación, lo que incluye y los medios de pago aceptados.",
+      "tableCaption": "Tarifas por ámbito de formación",
+      "columnCategory": "Ámbito",
+      "columnCourses": "Formaciones",
+      "columnRange": "Horquilla de tarifas",
+      "columnDuration": "Duración media",
+      "courseCount": "{count, plural, =0 {Ninguna formación} one {# formación} other {# formaciones}}",
+      "rangeSingle": "{price}",
+      "rangeBetween": "De {min} a {max}",
+      "seeCategory": "Ver las formaciones del ámbito {category}",
+      "includedTitle": "Incluido en cada tarifa",
+      "facilitiesTitle": "Medios de pago",
+      "facilityTransfer": {
+        "title": "Transferencia bancaria",
+        "body": "Recibirá nuestros datos bancarios y una referencia que debe indicar en el concepto. Después suba el justificante desde su espacio."
+      },
+      "facilityInstallments": {
+        "title": "Pago a plazos",
+        "body": "En las formaciones que lo permiten, la tarifa puede pagarse en dos o tres transferencias. El acceso se abre con el primer pago verificado."
+      },
+      "facilityCash": {
+        "title": "Efectivo en el centro",
+        "body": "Acérquese a la recepción en horario de apertura. Su acceso se activa tras el cobro, el mismo día."
+      },
+      "transferNoticeTitle": "Transferencia inmediata o transferencia ordinaria",
+      "transferNoticeBody": "Le recomendamos la transferencia inmediata: su acceso se activa el mismo día. Con una transferencia ordinaria, los fondos pueden tardar hasta 48 horas laborables en llegar a nuestra cuenta, y el acceso solo se activa cuando se reciben efectivamente.",
+      "noOnlinePaymentTitle": "Sin pago con tarjeta",
+      "noOnlinePaymentBody": "No cobramos ningún pago en línea. En este sitio nunca se le piden datos bancarios.",
+      "faqTitle": "Preguntas sobre las tarifas",
+      "ctaTitle": "¿Tiene alguna duda sobre una tarifa?",
+      "ctaBody": "Escríbanos: le confirmamos la tarifa, la duración del acceso y las facilidades posibles para su formación.",
+      "ctaAction": "Escríbanos por WhatsApp",
+      "empty": {
+        "title": "Las tarifas se publicarán al abrir el catálogo",
+        "body": "Las primeras formaciones están en preparación. Escríbanos y le enviaremos la lista de tarifas en cuanto se publique.",
+        "action": "Escríbanos por WhatsApp"
+      }
+    },
+    "contact": {
+      "title": "Contacto",
+      "lead": "La forma más rápida de localizarnos es WhatsApp. El formulario sigue disponible si prefiere el correo electrónico.",
+      "whatsappTitle": "Lo más rápido: WhatsApp",
+      "whatsappBody": "Respondemos a los mensajes durante el horario de apertura del centro, normalmente en menos de una hora.",
+      "whatsappCta": "Escribir por WhatsApp",
+      "formTitle": "Escríbanos",
+      "formLead": "Respondemos en un día laborable. Los campos marcados con un asterisco son obligatorios.",
+      "fields": {
+        "fullName": "Nombre completo",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "courseInterest": "Formación que le interesa",
+        "message": "Su mensaje",
+        "honeypot": "No rellene este campo"
+      },
+      "placeholders": {
+        "fullName": "Nombre y apellidos",
+        "email": "nombre@ejemplo.com",
+        "phone": "06 12 34 56 78",
+        "courseInterest": "Seleccione una formación",
+        "message": "Cuéntenos qué busca y desde dónde parte."
+      },
+      "hints": {
+        "phone": "Opcional. Lo usamos para llamarle o responderle por WhatsApp.",
+        "courseInterest": "Opcional. Elija «Todavía no lo sé» si duda.",
+        "message": "Entre 20 y 2.000 caracteres."
+      },
+      "courseInterestNone": "Todavía no lo sé",
+      "submit": "Enviar el mensaje",
+      "submitting": "Enviando…",
+      "errors": {
+        "fullName": "Indique su nombre completo para que sepamos a quién responder.",
+        "email": "El correo electrónico no es válido. Formato esperado: nombre@ejemplo.com.",
+        "phone": "El número de teléfono no es válido. Formato esperado: 06 12 34 56 78.",
+        "messageRequired": "Escriba su mensaje para que podamos responderle de forma útil.",
+        "messageTooShort": "Su mensaje es demasiado corto. Describa su necesidad con al menos {min, plural, one {# carácter} other {# caracteres}}.",
+        "messageTooLong": "Su mensaje supera los {max, plural, one {# carácter} other {# caracteres}}. Resúmalo y le pediremos los detalles.",
+        "rateLimited": "Ya ha enviado varios mensajes. Inténtelo de nuevo dentro de {minutes, plural, one {# minuto} other {# minutos}}, o escríbanos por WhatsApp.",
+        "server": "No se ha podido enviar el mensaje. Inténtelo de nuevo en unos instantes, o escríbanos por WhatsApp."
+      },
+      "success": {
+        "title": "Su mensaje ha salido",
+        "body": "Le responderemos a {email} en un día laborable. Para una respuesta inmediata, escríbanos por WhatsApp.",
+        "action": "Enviar otro mensaje",
+        "whatsappCta": "Escribir por WhatsApp"
+      },
+      "infoTitle": "Dónde encontrarnos",
+      "addressLabel": "Dirección",
+      "hoursLabel": "Horario",
+      "phoneLabel": "Teléfono",
+      "emailLabel": "Correo electrónico",
+      "mapCta": "Mostrar el mapa",
+      "mapNotice": "El mapa lo proporciona Google. Solo se carga después de su clic.",
+      "mapTitle": "Mapa de localización del centro",
+      "directions": "Cómo llegar"
+    },
+    "instructors": {
+      "title": "Nuestros formadores",
+      "lead": "Profesionales en activo que enseñan el oficio que ejercen a diario.",
+      "courseCount": "{count, plural, =0 {Ninguna formación publicada} one {# formación} other {# formaciones}}",
+      "studentCount": "{count, plural, =0 {Primera promoción} one {# alumno formado} other {# alumnos formados}}",
+      "specialtyLabel": "Especialidad",
+      "seeCourses": "Ver sus formaciones",
+      "seeProfile": "Ver el perfil",
+      "photoAlt": "Retrato de {name}",
+      "empty": {
+        "title": "El equipo docente se está formando",
+        "body": "Los perfiles de nuestros formadores se publicarán antes de abrir las inscripciones.",
+        "action": "Ver todas las formaciones"
+      }
+    },
+    "blog": {
+      "title": "Blog",
+      "lead": "Artículos prácticos sobre los oficios que enseñamos, escritos por nuestros formadores.",
+      "readingTime": "{minutes, plural, one {# min de lectura} other {# min de lectura}}",
+      "publishedOn": "Publicado el {date}",
+      "updatedOn": "Actualizado el {date}",
+      "author": "Por {name}",
+      "categoriesLabel": "Categorías",
+      "allCategories": "Todas las categorías",
+      "postCount": "{count, plural, =0 {Ningún artículo} one {# artículo} other {# artículos}}",
+      "relatedCourses": "Formaciones relacionadas con este artículo",
+      "relatedPosts": "Leer a continuación",
+      "backToBlog": "Volver al blog",
+      "shareLabel": "Compartir este artículo",
+      "coverAlt": "Ilustración del artículo {title}",
+      "empty": {
+        "title": "Ningún artículo publicado por ahora",
+        "body": "Nuestros formadores están preparando los primeros artículos. Vuelva pronto o síganos para enterarse.",
+        "action": "Ver todas las formaciones"
+      },
+      "notFound": {
+        "title": "Este artículo no existe",
+        "body": "Puede que el enlace sea erróneo o que el artículo se haya retirado. Explore los artículos disponibles.",
+        "action": "Volver al blog"
+      }
+    },
+    "certificate": {
+      "title": "Verificar un certificado",
+      "lead": "Introduzca el código impreso en el certificado para comprobar que lo ha emitido el centro.",
+      "codeLabel": "Código del certificado",
+      "codePlaceholder": "CFI-2026-XXXXXX",
+      "codeHint": "El código figura en la parte inferior del certificado, bajo el sello.",
+      "submit": "Verificar el certificado",
+      "submitting": "Verificando…",
+      "errorRequired": "Introduzca el código del certificado para iniciar la verificación.",
+      "errorFormat": "Este código no tiene el formato esperado. Formato esperado: CFI-2026-XXXXXX.",
+      "valid": {
+        "title": "Certificado auténtico",
+        "body": "Este certificado ha sido emitido por el Centre de formation immersive.",
+        "holderLabel": "Expedido a",
+        "courseLabel": "Formación",
+        "issuedLabel": "Expedido el",
+        "hoursLabel": "Carga horaria",
+        "referenceLabel": "Código del certificado",
+        "instructorLabel": "Formador"
+      },
+      "invalid": {
+        "title": "Ningún certificado coincide con este código",
+        "body": "Compruebe el código carácter a carácter. Si es correcto y el centro le entregó el certificado, escríbanos.",
+        "action": "Escríbanos por WhatsApp"
+      },
+      "revoked": {
+        "title": "Este certificado ha sido anulado",
+        "body": "Este certificado ya no es válido. Escríbanos para conocer el motivo de la anulación.",
+        "action": "Escríbanos por WhatsApp"
+      }
+    },
+    "paths": {
+      "title": "Itinerarios",
+      "lead": "Varias formaciones encadenadas en el orden correcto, hasta el certificado, con una tarifa conjunta.",
+      "courseCount": "{count, plural, one {# formación} other {# formaciones}}",
+      "totalDuration": "Duración total",
+      "bundlePrice": "Tarifa del itinerario",
+      "separatePrice": "Por separado: {price}",
+      "saving": "Ahorra {amount}",
+      "includedCourses": "Formaciones incluidas",
+      "stepLabel": "Etapa {number}",
+      "certificateStep": "Certificado del itinerario",
+      "cta": "Solicitar el acceso al itinerario",
+      "seeCourse": "Ver la formación",
+      "empty": {
+        "title": "Ningún itinerario publicado por ahora",
+        "body": "Los itinerarios agrupan varias formaciones. Mientras tanto, elija una formación del catálogo.",
+        "action": "Ver todas las formaciones"
+      },
+      "notFound": {
+        "title": "Este itinerario no existe",
+        "body": "Puede que el enlace sea erróneo o que el itinerario se haya retirado. Explore los itinerarios disponibles.",
+        "action": "Ver todos los itinerarios"
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "lead": "Inscripción, pago, acceso a las formaciones y certificados: las respuestas a las preguntas más habituales.",
+      "searchLabel": "Buscar una pregunta",
+      "searchPlaceholder": "Pago, certificado, acceso…",
+      "allGroups": "Todas las secciones",
+      "resultCount": "{count, plural, =0 {Ninguna pregunta} one {# pregunta} other {# preguntas}}",
+      "empty": {
+        "title": "Ninguna pregunta coincide con su búsqueda",
+        "body": "Pruebe con una palabra más general o háganos su pregunta directamente por WhatsApp.",
+        "action": "Escríbanos por WhatsApp"
+      },
+      "stillHaveQuestions": "¿No está su pregunta?",
+      "stillHaveQuestionsBody": "Escríbanos por WhatsApp: respondemos durante el horario de apertura del centro.",
+      "whatsappCta": "Escríbanos por WhatsApp"
+    }
+  },
+  "legal": {
+    "sectionLabel": "Información legal",
+    "terms": {
+      "title": "Condiciones generales de uso",
+      "lead": "Las normas de uso de la plataforma y de las formaciones del Centre de formation immersive."
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "lead": "Qué datos recogemos, por qué los recogemos, cuánto tiempo los conservamos y cómo ejercer sus derechos."
+    },
+    "notices": {
+      "title": "Aviso legal",
+      "lead": "La identidad del editor del sitio, el alojamiento y los datos de contacto."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "lead": "Las cookies que instala este sitio, su función y cómo rechazarlas."
+    },
+    "lastUpdated": "Última actualización: {date}",
+    "tocTitle": "Índice",
+    "backToTop": "Volver arriba",
+    "contactPrompt": "¿Tiene alguna duda sobre este documento? Escríbanos y le responderemos.",
+    "contactCta": "Escríbanos por WhatsApp",
+    "notFound": {
+      "title": "Este documento aún no está publicado",
+      "body": "Se publicará próximamente. Mientras tanto, escríbanos para cualquier consulta jurídica.",
+      "action": "Escríbanos por WhatsApp"
+    }
+  },
+  "seo": {
+    "siteName": "Centre de formation immersive",
+    "titleTemplate": "{title} · CFI",
+    "defaultTitle": "CFI — centro de formación inmersiva en Tánger",
+    "defaultDescription": "Formación profesional inmersiva en Tánger: contenido en línea, situaciones reales de trabajo, acompañamiento humano y certificado. Inscripción por transferencia bancaria o en efectivo en el centro.",
+    "home": {
+      "title": "Formación profesional inmersiva en Tánger",
+      "description": "Aprenda un oficio con situaciones reales de trabajo, un formador que corrige sus trabajos y un centro abierto en Tánger. Tarifas claras y certificado al final."
+    },
+    "catalog": {
+      "title": "Todas nuestras formaciones",
+      "description": "Recorra el catálogo completo: ámbito, nivel, formato, duración y tarifa. Cada formación detalla su programa, su formador y lo que incluye."
+    },
+    "course": {
+      "title": "{title}",
+      "description": "{summary}",
+      "descriptionFallback": "Formación {title} en el Centre de formation immersive de Tánger: programa detallado, formador, recursos, certificado y tarifa con todo incluido."
+    },
+    "paths": {
+      "title": "Itinerarios de formación",
+      "description": "Formaciones encadenadas en el orden correcto hasta el certificado, con tarifa conjunta. Duración total, contenido y ahorro de cada itinerario."
+    },
+    "pathDetail": {
+      "title": "{title}",
+      "description": "Itinerario {title}: las formaciones incluidas, la duración total, la tarifa conjunta y el certificado que se entrega al final."
+    },
+    "method": {
+      "title": "Nuestro método inmersivo",
+      "description": "Situaciones reales de trabajo, proyectos corregidos uno a uno, acompañamiento humano continuo, centro en Tánger y contenido en línea: así formamos."
+    },
+    "pricing": {
+      "title": "Tarifas de las formaciones",
+      "description": "La tarifa de cada ámbito de formación, lo que incluye y los medios de pago aceptados: transferencia bancaria, plazos o efectivo en el centro."
+    },
+    "contact": {
+      "title": "Contactar",
+      "description": "Escríbanos por WhatsApp o mediante el formulario. Dirección, horario y teléfono del Centre de formation immersive en Tánger."
+    },
+    "about": {
+      "title": "Sobre el centro",
+      "description": "La historia del Centre de formation immersive, su equipo, sus instalaciones en Tánger y lo que nos importa en la formación profesional."
+    },
+    "instructors": {
+      "title": "Nuestros formadores",
+      "description": "Profesionales en activo que enseñan el oficio que ejercen: trayectoria, especialidades y formaciones de cada formador."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Artículos prácticos sobre los oficios que enseñamos, escritos por nuestros formadores: consejos, herramientas y experiencia de campo."
+    },
+    "blogPost": {
+      "title": "{title}",
+      "description": "{summary}",
+      "descriptionFallback": "Artículo del Centre de formation immersive de Tánger: {title}."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "description": "Inscripción, validación de la cuenta, pago por transferencia, acceso a las formaciones y certificados: las respuestas más solicitadas."
+    },
+    "certificate": {
+      "title": "Verificar un certificado",
+      "description": "Introduzca el código de un certificado para comprobar que lo ha emitido el Centre de formation immersive."
+    },
+    "legal": {
+      "title": "Información legal",
+      "description": "Condiciones generales de uso, política de privacidad, aviso legal y cookies del Centre de formation immersive."
+    },
+    "notFound": {
+      "title": "Página no encontrada",
+      "description": "Esta página no existe o se ha movido. Vuelva al inicio o recorra el catálogo de formaciones."
+    },
+    "ogAlt": {
+      "default": "Centre de formation immersive — Tánger",
+      "home": "Página de inicio del Centre de formation immersive, en Tánger",
+      "catalog": "Catálogo de formaciones del Centre de formation immersive",
+      "course": "Formación {title} en el Centre de formation immersive",
+      "path": "Itinerario {title} en el Centre de formation immersive",
+      "method": "El método inmersivo del centro: situaciones reales y acompañamiento",
+      "pricing": "Tarifas de las formaciones del Centre de formation immersive",
+      "contact": "Datos de contacto y dirección del centro, en Tánger",
+      "about": "El Centre de formation immersive y su equipo, en Tánger",
+      "instructors": "Los formadores del Centre de formation immersive",
+      "blog": "El blog del Centre de formation immersive",
+      "blogPost": "Artículo: {title}",
+      "faq": "Preguntas frecuentes sobre las formaciones del centro",
+      "certificate": "Verificación de un certificado emitido por el centro",
+      "legal": "Información legal del Centre de formation immersive"
+    }
   }
 }

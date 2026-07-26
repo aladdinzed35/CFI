@@ -409,3 +409,116 @@ Shipping the stated values would have meant knowingly failing the §26 acceptanc
   which-brass onto every call site.
 - *Enlarge all brass/strait text to 18.66px+ to qualify for the 3:1 large-text threshold.* Rejected:
   prices in dense tables and eyebrow labels cannot be large text.
+
+---
+
+## 2026-07-26 — A small open model behind an OpenAI-compatible endpoint, local embeddings, and a policy that refuses rather than guesses
+
+**Context.** The specification builds the assistant on Anthropic for generation
+(`ANTHROPIC_API_KEY`, a Haiku-class chat model, a Sonnet-class reasoning model) and on
+Voyage for embeddings (`voyage-3-lite`, 1024 dims), with a local MiniLM only as a
+fallback. The owner's requirement is different and explicit: *"a little open source model
+that won't require much resources, contextual based only on the app and its data, fast
+replies, 100 % precision and accuracy."*
+
+Two things had to be reconciled. The first is commercial and operational: two API keys, a
+per-call cost on every question and every re-index, a monthly bill that scales with
+success, and two external services whose outage becomes CFI's outage — for a single
+training centre in Tanger whose corpus is a few thousand chunks. The second is the harder
+one: **100 % accuracy is not a property any generative model has**, and a plan that
+depends on one behaving is not a plan. The requirement *behind* it — never be confidently
+wrong about a price, a RIB or a transfer delay — is entirely achievable, but only if
+correctness is structural rather than prompted.
+
+**Decision.** Three changes, taken together.
+
+1. **Embeddings run locally, in-process.** `Xenova/multilingual-e5-small` as
+   int8-quantised ONNX via `@huggingface/transformers` (transformers.js v3): 384
+   dimensions, ~135 MB on disk, ~150–200 MB resident, a few milliseconds per text on one
+   CPU core, fr/ar/en/es in one vector space. Lazily loaded, cached for the process
+   lifetime, batched at 16, and **serialised at concurrency 1** because CFI is one shared
+   Node process and ONNX inference must never starve request handling. No API key, no
+   per-call cost, no network at query time. `EMBEDDINGS_PROVIDER` and `VOYAGE_API_KEY` are
+   retired, and the stored vector width drops from 1024 to 384 — a quarter of the corpus
+   size and of the cosine pass.
+
+2. **Generation goes behind one interface with an OpenAI-compatible implementation.**
+   `AI_BASE_URL` + optional `AI_API_KEY` + `AI_MODEL_CHAT`, so the identical code runs
+   against Ollama on the VPS (no key), or Groq / Together / OpenRouter, by changing a URL.
+   Temperature 0, a hard output-token ceiling, an abort deadline kept distinct from a
+   caller abort, a runaway-stream guard, and typed errors. Alongside it a **`'none'`
+   provider** that is a first-class configuration, not an error state: with no model
+   configured at all, curated answers and grounded retrieval still work, and that is what
+   the app boots into. `ANTHROPIC_API_KEY` and `AI_MODEL_REASONING` are retired.
+
+3. **The answer policy is three tiers, and refusing is one of them.** Tier 1: an
+   admin-approved Q&A pair matched by normalised text (or by retrieval above a high floor)
+   is returned **verbatim with its source, with no model involved**. Tier 2: retrieval from
+   CFI's own content only, above a similarity floor, where every answer must cite the
+   chunks it used — and `verifyCitations` / `enforceGrounding` *enforce* it, discarding an
+   answer that cites nothing or cites something it was not given. Tier 3: refuse plainly
+   and offer the WhatsApp hand-off. The tier logic is pure, dependency-free and
+   unit-testable; the thresholds are named constants carrying their own reasoning.
+
+**Rationale.** The three changes are one idea: *make the model the least load-bearing part
+of the system.*
+
+Locally, embeddings are free and private, and the corpus is far too small to justify a
+vendor. The E5 family is trained for asymmetric retrieval — a short question against a long
+passage — which is precisely this workload, and it outperforms the
+`paraphrase-multilingual-MiniLM-L12-v2` the spec named as the local fallback at the same
+size and dimension. Arabic is a first-class locale here, which is what rules out every fast
+English-only small model regardless of how attractive their benchmarks look.
+
+Speaking the OpenAI chat-completions format directly, rather than through any vendor SDK,
+is what makes the model a swappable component. A self-hosted 3B model on a small VPS
+becomes a legitimate production configuration rather than a degraded one, and moving to a
+hosted endpoint later — for quality, or for speed — is a base URL, not a migration.
+
+The tiering is the part that answers the accuracy requirement honestly. Tier 1 is exactly
+100 % accurate because no model touches it: approved text is returned byte for byte, and at
+a training centre the same twenty questions — price, schedule, RIB, transfer delay, how to
+enrol, what is included, is there a certificate — are the majority of real traffic. Those
+are precisely the questions where being wrong costs money, and precisely the ones a human
+can answer once and have answered correctly forever. Tier 2 covers the long tail with
+sources attached, and its guarantee holds *even when the model misbehaves*, because a
+missing or fabricated citation is caught in code and turned into a refusal. Tier 3 makes
+silence the default failure mode: a refusal costs a WhatsApp conversation the centre was
+going to have anyway, while a confident wrong price costs a customer and a refund.
+
+The by-product is a system that improves without retraining anything: every refusal is a
+row in the content-gap backlog, and every gap an admin fills becomes a tier-1 answer. The
+assistant genuinely gets more precise over time — through curation, which is auditable and
+instant, rather than through fine-tuning, which is neither.
+
+**Rejected alternatives.**
+- *Keep Anthropic for generation and Voyage for embeddings, as specified.* Rejected: two
+  keys, two bills, two availability dependencies and a per-question cost, for a corpus of a
+  few thousand chunks — and it would not have improved accuracy in the way that matters,
+  because a frontier model is still a generative model and still asserts things
+  confidently. A stronger model raises tier-2 fluency; it does not create a guarantee.
+- *Fine-tune a small model on CFI's content.* Rejected, and it is worth stating plainly
+  since it is what "a model that learns" usually means to a non-engineer: fine-tuning bakes
+  a snapshot of the curriculum into weights that cannot be corrected without retraining,
+  cannot be audited, and will confidently teach last term's prices. Retrieval is cheaper,
+  auditable, and correct the second an admin saves an edit.
+- *Prompt-only grounding ("answer only from the context, and cite your sources").* Rejected
+  as the sole mechanism: it is necessary and it is not sufficient. Any instruction a model
+  follows most of the time is a guarantee that fails exactly when a student asks something
+  unusual — the case that matters. The prompt asks; the code enforces.
+- *No refusal path — always answer with the best available material.* Rejected: this is the
+  single most damaging option on the list. It converts every gap in the content into a
+  fabricated answer about a real business, at the exact moment a prospect is deciding
+  whether to trust the centre with a bank transfer.
+- *A larger open model (14B–70B) self-hosted for better Arabic.* Rejected for now on
+  hardware grounds, and because the mitigation is better: Arabic quality on the
+  commercially critical questions comes from curated Arabic answers written by a human, not
+  from model size. The provider interface makes the upgrade a one-line change if that stops
+  being true.
+- *`EMBEDDINGS_PROVIDER=voyage|local` kept as a switch.* Rejected: two embedding spaces that
+  are silently incompatible, one corpus, and a re-index nobody remembers to run after
+  flipping it. One model, recorded per chunk in `KnowledgeChunk.embeddingModel`, with a
+  length check that refuses a vector of the wrong width instead of reading garbage.
+- *Making the assistant hard-fail when no model is configured.* Rejected: tiers 1 and 2 are
+  useful with no model at all, and a deployment without an endpoint should get exact curated
+  answers and cited sources, not a broken dock.

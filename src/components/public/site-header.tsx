@@ -1,0 +1,224 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
+
+import { Button } from '@/components/ui/button';
+import { LocaleSwitcher } from '@/components/ui/locale-switcher';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { MobileNav, type PublicAccountLink, type PublicNavItem } from '@/components/public/mobile-nav';
+import { cn } from '@/lib/cn';
+import { Link, usePathname } from '@/i18n/navigation';
+
+/**
+ * The public header (§12.1) — the most-seen component in the product.
+ *
+ * Sticky, and **transparent until the page has scrolled 24 px**, at which point
+ * it becomes translucent: `.surface-blur` (a 72 % abyss wash plus a 14 px
+ * backdrop blur) and a hairline bottom border. Over the homepage lattice that
+ * means the hero is uninterrupted at rest and the header separates itself the
+ * instant content starts sliding under it.
+ *
+ * ## Why this is a client component
+ * The scroll threshold, the locale menu, the theme toggle and the mobile sheet
+ * are all interactive. What is *not* here is data: the brand strings and the
+ * session-derived account link are resolved on the server by the public layout
+ * and arrive as props, so no page pays for a database read on the client and the
+ * header never renders a state the server did not already commit to.
+ *
+ * ## Right-to-left
+ * Every inset is logical (`ms-auto`, `ps-`, `pe-`), so the header mirrors
+ * wholesale in Arabic. The one thing that must *not* mirror is the brand mark,
+ * and it does not: an eight-point zellige star is its own mirror image, and it
+ * carries no `rtl:` class in any case (§10.3).
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Routes                                                                      */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The six public sections of §12.1, in the order the spec lists them. Slugs stay
+ * French in every locale (§10.1), so the paths are literal and shared.
+ */
+const NAV_ROUTES = [
+  { href: '/formations', labelKey: 'formations' },
+  { href: '/parcours', labelKey: 'parcours' },
+  { href: '/notre-methode', labelKey: 'method' },
+  { href: '/tarifs', labelKey: 'pricing' },
+  { href: '/blog', labelKey: 'blog' },
+  { href: '/contact', labelKey: 'contact' },
+] as const;
+
+const SIGN_IN_HREF = '/connexion';
+const REGISTER_HREF = '/inscription';
+
+/** Scroll distance after which the header stops being transparent (§12.1). */
+const TRANSLUCENT_AFTER_PX = 24;
+
+/* -------------------------------------------------------------------------- */
+/* Brand                                                                       */
+/* -------------------------------------------------------------------------- */
+
+/** The zellige eight-point star: two squares, one rotated 45°. */
+function BrandMark({ className }: { className?: string }): React.JSX.Element {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinejoin="round"
+    >
+      <rect x="4.4" y="4.4" width="15.2" height="15.2" rx="1" />
+      <rect x="4.4" y="4.4" width="15.2" height="15.2" rx="1" transform="rotate(45 12 12)" />
+    </svg>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Header                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export interface SiteHeaderProps {
+  /** `SiteSetting['brand.name']`, e.g. « CFI ». */
+  readonly brandName: string;
+  /** `SiteSetting['brand.fullName']` — the accessible name of the home link. */
+  readonly brandFullName: string;
+  /**
+   * Where a signed-in visitor's own space is, already labelled. `null` for an
+   * anonymous visitor, who gets the two authentication calls to action instead.
+   */
+  readonly account: PublicAccountLink | null;
+}
+
+/** `true` when `href` is the current page or one of its descendants. */
+function isActive(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export function SiteHeader({
+  brandName,
+  brandFullName,
+  account,
+}: SiteHeaderProps): React.JSX.Element {
+  const t = useTranslations();
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  // Mirrors `scrolled` without re-reading state inside the listener, so a scroll
+  // event only reaches React on the two frames where the threshold is crossed.
+  const scrolledRef = useRef(false);
+
+  useEffect(() => {
+    const read = (): void => {
+      const next = window.scrollY > TRANSLUCENT_AFTER_PX;
+      if (next === scrolledRef.current) return;
+      scrolledRef.current = next;
+      setScrolled(next);
+    };
+
+    // A reload restores the previous scroll position before this runs.
+    read();
+    window.addEventListener('scroll', read, { passive: true });
+    return () => window.removeEventListener('scroll', read);
+  }, []);
+
+  const items: readonly PublicNavItem[] = NAV_ROUTES.map((route) => ({
+    href: route.href,
+    label: t(`nav.${route.labelKey}`),
+  }));
+
+  return (
+    <header
+      className={cn(
+        'sticky top-0 z-30 w-full print:static',
+        'transition-[background-color,border-color,backdrop-filter] duration-200 ease-[var(--ease-out-strait)]',
+        scrolled ? 'surface-blur hairline-b' : 'border-b border-transparent bg-transparent',
+      )}
+    >
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
+        <Link
+          href="/"
+          aria-label={brandFullName}
+          className="inline-flex shrink-0 items-center gap-2.5 rounded-md py-1"
+        >
+          {/* A logo is never mirrored (§10.3). */}
+          <BrandMark className="size-7 shrink-0 text-strait lg:size-8" />
+          <span className="font-display text-heading tracking-tight text-ink">{brandName}</span>
+        </Link>
+
+        <nav aria-label={t('a11y.mainNavigation')} className="hidden lg:block">
+          <ul className="flex items-center gap-1">
+            {items.map((item) => {
+              const current = isActive(pathname, item.href);
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={current ? 'page' : undefined}
+                    className={cn(
+                      'inline-flex h-11 items-center rounded-md px-3 text-sm font-medium',
+                      'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
+                      current ? 'bg-strait-wash text-ink' : 'text-ink-muted hover:bg-raised hover:text-ink',
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="ms-auto flex shrink-0 items-center gap-2">
+          {/* Both controls stay visible at every width. §12.1 describes the
+              mobile header as "logo + hamburger", but that sentence is about the
+              *navigation*: burying the language switcher two taps deep on a
+              four-locale Moroccan site would cost more than the 108 px it
+              occupies, and at 360 px the row still measures under 300 px. */}
+          <LocaleSwitcher label={t('locale.switchLanguage')} />
+          <ThemeToggle
+            switchToLightLabel={t('landing.switchToLight')}
+            switchToDarkLabel={t('landing.switchToDark')}
+            lightEnabledMessage={t('theme.light')}
+            darkEnabledMessage={t('theme.dark')}
+          />
+
+          {account === null ? (
+            <div className="hidden items-center gap-2 lg:flex">
+              <Button asChild variant="ghost" size="sm">
+                <Link href={SIGN_IN_HREF}>{t('nav.login')}</Link>
+              </Button>
+              <Button asChild variant="primary" size="sm">
+                <Link href={REGISTER_HREF}>{t('nav.register')}</Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="hidden items-center lg:flex">
+              <Button asChild variant="primary" size="sm">
+                <Link href={account.href}>{account.label}</Link>
+              </Button>
+            </div>
+          )}
+
+          <MobileNav
+            className="lg:hidden"
+            items={items}
+            openLabel={t('a11y.openMenu')}
+            closeLabel={t('a11y.closeMenu')}
+            navLabel={t('a11y.mainNavigation')}
+            title={brandName}
+            account={account}
+            signInLabel={t('nav.login')}
+            signInHref={SIGN_IN_HREF}
+            registerLabel={t('nav.register')}
+            registerHref={REGISTER_HREF}
+          />
+        </div>
+      </div>
+    </header>
+  );
+}

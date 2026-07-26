@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
   // app and nothing above it.
   outputFileTracingRoot: process.cwd(),
 
+  // transformers.js loads ONNX Runtime through native bindings and resolves the
+  // model cache at runtime. Bundling it breaks both, so it stays external and is
+  // required from node_modules by the server at request time.
+  serverExternalPackages: ['@huggingface/transformers'],
+
   // `sharp` is an explicit dependency: image optimization on self-hosted Node.
   images: {
     formats: ['image/avif', 'image/webp'],

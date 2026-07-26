@@ -6,13 +6,14 @@
  * `FeatureFlag.key`, and a stable hand-written `id` for the CMS rows that have
  * no other unique column). Running it twice changes nothing but `updatedAt`.
  *
- * Scope — milestone **M0**. Everything seeded here is data the rest of the build
+ * Scope — milestones **M0** and **M2**. M0 seeds the data the rest of the build
  * depends on from day one: configuration, categories, the demo accounts, the
- * gamification catalogue and the public CMS content. The catalogue itself
- * (courses, lessons, quizzes), the payment requests, the community and the AI
- * corpus belong to later milestones; each has an honest no-op function below
- * that names its milestone. There is deliberately no fake course in here — an
- * empty catalogue is a true statement about M0, a placeholder course is not.
+ * gamification catalogue and the public CMS content. M2 adds the catalogue
+ * itself — courses, modules, lessons, parcours and moderated reviews — from
+ * `prisma/seed/catalog.ts`. The payment requests, the learning activity, the
+ * assessments and the AI corpus belong to later milestones; each has an honest
+ * no-op function below that names its milestone, because an empty group is a
+ * true statement about the build and a placeholder row is not.
  *
  * Usage
  *   npm run db:seed              # upsert everything
@@ -28,6 +29,8 @@ import { hash } from '@node-rs/argon2';
 import { AccountStatus, Locale, type Prisma, PrismaClient, Role } from '@prisma/client';
 
 import { parsePhone } from '../src/lib/phone';
+
+import { seedCatalog } from './seed/catalog';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Environment
@@ -2113,15 +2116,11 @@ async function seedLegalPages(tx: Prisma.TransactionClient): Promise<GroupResult
 // sitemap and the AI index would all repeat.
 // ═══════════════════════════════════════════════════════════════════════════
 
-/**
- * Cours, modules, leçons, ressources et parcours (§23), avec leurs traductions.
- * Appartient au jalon **M2 — Catalogue & site public**, qui livre le modèle de
- * contenu, les couvertures sous `public/brand/seed/` et les pages qui les
- * affichent. Rien à insérer avant.
- */
-export function seedCatalog(): GroupResult {
-  return deferred('Catalogue (cours, modules, leçons, parcours)', 'M2');
-}
+// Le catalogue — cours, modules, leçons, parcours et avis — vit dans
+// `prisma/seed/catalog.ts` et s'écrit avec les autres groupes ci-dessus : c'est
+// le seul groupe assez volumineux pour mériter son propre module, et le seul
+// dont le contenu change régulièrement. Les ressources téléchargeables
+// arriveront avec les fichiers eux-mêmes.
 
 /**
  * Articles de blog, annonces et sessions live (§23).
@@ -2437,10 +2436,10 @@ async function main(): Promise<void> {
     await runGroup(seedFaq);
     await runGroup(seedTestimonials);
     await runGroup(seedLegalPages);
+    await runGroup(seedCatalog);
 
     log.title('Groupes reportés à un jalon ultérieur');
     const laterMilestones: readonly GroupResult[] = [
-      seedCatalog(),
       seedEditorialContent(),
       seedEnrollmentRequests(),
       seedLearningActivity(),

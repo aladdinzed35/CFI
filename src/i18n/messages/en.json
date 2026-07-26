@@ -60,10 +60,30 @@
       "title": "Get our new courses by email",
       "placeholder": "Your email address",
       "submit": "Subscribe",
-      "success": "Thank you, your subscription has been recorded. You will receive our new courses by email."
+      "success": "Thank you, your subscription has been recorded. You will receive our new courses by email.",
+      "label": "Email address",
+      "hint": "Once or twice a month, our new courses only. Unsubscribe in one click.",
+      "submitting": "Subscribing…",
+      "invalidEmail": "The email address is not valid. Expected format: name@example.com.",
+      "error": "The subscription could not be saved. Try again in a few moments.",
+      "rateLimited": "You have already sent this request. Check your inbox before trying again.",
+      "alreadySubscribed": "This address is already subscribed. You will receive our next courses."
     },
     "rights": "© CFI — Centre de formation immersive. All rights reserved.",
-    "followUs": "Follow us"
+    "followUs": "Follow us",
+    "columns": {
+      "about": "The centre",
+      "courses": "Courses",
+      "links": "Useful links",
+      "contact": "Contact us"
+    },
+    "seeAllCourses": "See all courses",
+    "allCategories": "All fields",
+    "phone": "Phone",
+    "email": "Email address",
+    "whatsapp": "WhatsApp",
+    "legalNotices": "Legal notices",
+    "legalLine": "Centre de formation immersive · Tanger, Morocco · Prices in dirhams, taxes included."
   },
   "theme": {
     "toggle": "Switch theme",
@@ -86,25 +106,74 @@
       "headline": "Immersive training, taught by working professionals",
       "subheadline": "Complete courses you follow remotely, real-world practice, and human support at the centre in Tanger. You move at your own pace, and never on your own.",
       "ctaPrimary": "Create an account",
-      "ctaSecondary": "Browse the courses"
+      "ctaSecondary": "Browse the courses",
+      "trustLine": "Training centre in Tanger · On-site and remote support",
+      "latticeLabel": "Animated preview of the course catalogue",
+      "proofLabel": "In numbers",
+      "scrollHint": "Scroll to explore"
     },
     "proof": {
       "learners": "Our learners",
       "courses": "Courses",
-      "successRate": "Success rate"
+      "successRate": "Success rate",
+      "sectionLabel": "Our numbers",
+      "graduates": "Graduates",
+      "instructors": "Instructors",
+      "categories": "Fields",
+      "yearsOpen": "Years of experience",
+      "liveSessions": "Live sessions"
     },
     "method": {
       "title": "Our immersive method",
-      "subtitle": "Four principles that make the difference between following a course and actually being able to do the job."
+      "subtitle": "Four principles that make the difference between following a course and actually being able to do the job.",
+      "sectionLabel": "Method",
+      "tile1": {
+        "title": "Real working situations",
+        "body": "You work on the cases you will meet on the job, not on invented examples. Every module ends with a situation to handle."
+      },
+      "tile2": {
+        "title": "Projects marked one by one",
+        "body": "Your work is reviewed by an instructor who answers you by name, with what works and what has to change."
+      },
+      "tile3": {
+        "title": "Continuous human support",
+        "body": "A question rarely stays unanswered for more than one working day. You reach your instructor by message or on WhatsApp."
+      },
+      "tile4": {
+        "title": "On site and remote",
+        "body": "Videos and resources are available online at any hour; workshops and live sessions take place at the centre, in Tanger."
+      }
     },
     "featured": {
       "title": "Featured courses",
       "subtitle": "A selection of our most requested courses, updated every month.",
-      "seeAll": "See all courses"
+      "seeAll": "See all courses",
+      "sectionLabel": "Catalogue",
+      "chipsLabel": "Filter by field",
+      "chipAll": "All fields",
+      "scrollHint": "Scroll to see the other courses",
+      "empty": {
+        "title": "No featured course at the moment",
+        "body": "The full catalogue is still open: browse it to find the course that matches your plan.",
+        "action": "See all courses"
+      }
     },
     "paths": {
       "title": "Learning paths",
-      "subtitle": "Courses arranged in the right order, all the way to the certificate, at a bundle price."
+      "subtitle": "Courses arranged in the right order, all the way to the certificate, at a bundle price.",
+      "sectionLabel": "Learning paths",
+      "seeAll": "See all learning paths",
+      "courseCount": "{count, plural, one {# course} other {# courses}}",
+      "durationLabel": "Total duration",
+      "bundleLabel": "Path price",
+      "savingLabel": "You save {amount}",
+      "certificateStep": "Path certificate",
+      "stepLabel": "Step {number}",
+      "empty": {
+        "title": "No published path at the moment",
+        "body": "Paths group several courses in the right order. In the meantime, pick a course from the catalogue.",
+        "action": "See all courses"
+      }
     },
     "howItWorks": {
       "title": "How it works",
@@ -123,23 +192,80 @@
       "step4": {
         "title": "Access granted, you start learning",
         "body": "As soon as the payment is verified, the course opens: videos, resources, quizzes and progress tracking."
-      }
+      },
+      "sectionLabel": "Registration",
+      "subtitle": "Four steps, from creating the account to the first lesson. Allow one working day in total.",
+      "stepLabel": "Step {number}",
+      "note": "No online payment: you pay by bank transfer or in cash at the centre."
     },
     "pricing": {
       "title": "A fair price, no surprises",
-      "subtitle": "Compare it with what an equivalent in-person course costs. Everything is included: resources, certificate, support and live sessions."
+      "subtitle": "Compare it with what an equivalent in-person course costs. Everything is included: resources, certificate, support and live sessions.",
+      "sectionLabel": "Pricing",
+      "cfiLabel": "At CFI",
+      "marketLabel": "Range observed for on-site training",
+      "marketNote": "Indicative range for equivalent on-site training in the region, excluding promotions. No institution is named.",
+      "includedTitle": "Included in the price",
+      "included": {
+        "access": "Access to the course for its whole access period",
+        "resources": "Downloadable resources: templates, sheets and exercises",
+        "certificate": "Certificate of completion",
+        "coaching": "Instructor support and marking of your work",
+        "live": "Live sessions and workshops at the centre",
+        "updates": "Content updates at no extra cost"
+      },
+      "facilitiesTitle": "Payment options",
+      "facilities": {
+        "transfer": "Bank transfer, with a reference to write in the payment description",
+        "installments": "Payment in several instalments on eligible courses",
+        "cash": "Cash payment at the centre reception"
+      },
+      "cta": "See all courses",
+      "disclaimer": "All prices are shown in dirhams, taxes included."
     },
     "proofs": {
-      "title": "They trained with us"
+      "title": "They trained with us",
+      "sectionLabel": "Testimonials",
+      "subtitle": "People trained here tell you what they do today.",
+      "previous": "Previous testimonial",
+      "next": "Next testimonial",
+      "slideLabel": "Testimonial {index} of {total}",
+      "ratingLabel": "Rating given: {rating} out of 5",
+      "partnersTitle": "They hire our graduates",
+      "empty": {
+        "title": "The first testimonials are coming",
+        "body": "Our current cohorts will share their experience here soon. Write to us if you would like to talk to a former learner.",
+        "action": "Write to us on WhatsApp"
+      }
     },
     "instructors": {
-      "title": "Our instructors"
+      "title": "Our instructors",
+      "sectionLabel": "Teaching team",
+      "subtitle": "Working professionals who teach the trade they practise.",
+      "courseCount": "{count, plural, one {# course} other {# courses}}",
+      "profileCta": "See profile",
+      "seeAll": "See all instructors"
     },
     "center": {
-      "title": "The centre, in Tanger"
+      "title": "The centre, in Tanger",
+      "sectionLabel": "The centre",
+      "subtitle": "A real place, with equipped rooms and a team you can meet.",
+      "body": "Workshops, live sessions and exams take place on site. You can also come and work in our rooms during opening hours.",
+      "addressLabel": "Address",
+      "hoursLabel": "Opening hours",
+      "phoneLabel": "Phone",
+      "galleryLabel": "Photos of the centre",
+      "mapCta": "Show the map",
+      "mapNotice": "The map is provided by Google. It only loads after you click.",
+      "mapTitle": "Map showing the centre",
+      "directions": "Directions",
+      "visitCta": "Book a visit on WhatsApp"
     },
     "faq": {
-      "title": "Frequently asked questions"
+      "title": "Frequently asked questions",
+      "sectionLabel": "Frequently asked questions",
+      "subtitle": "The questions we are asked most often before enrolment.",
+      "seeAll": "See all questions"
     },
     "finalCta": {
       "title": "Start your training today",
@@ -888,5 +1014,726 @@
     "bubbleMessage": "Have a question? Message us",
     "prefillGeneric": "Hello CFI, I would like some information about your courses.",
     "prefillCourse": "Hello CFI, I am interested in the “{courseTitle}” course."
+  },
+  "publicNav": {
+    "brandHome": "CFI — back to the homepage",
+    "label": "Main navigation",
+    "courses": "Courses",
+    "paths": "Learning paths",
+    "method": "Our method",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "contact": "Contact",
+    "login": "Sign in",
+    "register": "Create an account",
+    "dashboard": "My space",
+    "myCourses": "My courses",
+    "accountMenu": "Account menu",
+    "signedInAs": "Signed in as {name}",
+    "logout": "Sign out",
+    "openMenu": "Open the menu",
+    "closeMenu": "Close the menu",
+    "menuTitle": "Menu",
+    "menuHint": "Browse the site or go to your space.",
+    "skipToContent": "Skip to main content"
+  },
+  "catalog": {
+    "title": "Courses",
+    "lead": "All our courses, filterable by field, level, format and price.",
+    "resultCount": "{count, plural, =0 {No course} one {# course} other {# courses}}",
+    "resultsRegion": "Search results",
+    "searchLabel": "Search for a course",
+    "searchPlaceholder": "Title, field or keyword",
+    "searchSubmit": "Search",
+    "searchClear": "Clear the search",
+    "activeQuery": "Search: {query}",
+    "filters": {
+      "title": "Filters",
+      "open": "Filter",
+      "openWithCount": "{count, plural, =0 {Filter} one {Filter · # active filter} other {Filter · # active filters}}",
+      "sheetTitle": "Filter the courses",
+      "apply": "Show the results",
+      "applyWithCount": "{count, plural, =0 {Show all courses} one {Show # course} other {Show # courses}}",
+      "clear": "Reset the filters",
+      "clearOne": "Remove the {label} filter",
+      "activeLabel": "Active filters",
+      "groupLabel": "Filter group: {label}",
+      "category": {
+        "label": "Field",
+        "all": "All fields"
+      },
+      "level": {
+        "label": "Level",
+        "all": "All levels",
+        "debutant": "Beginner",
+        "intermediaire": "Intermediate",
+        "avance": "Advanced",
+        "tousNiveaux": "Open to all levels"
+      },
+      "delivery": {
+        "label": "Format",
+        "all": "All formats",
+        "enLigne": "Online",
+        "presentiel": "At the centre",
+        "hybride": "Hybrid: online and at the centre"
+      },
+      "price": {
+        "label": "Price",
+        "all": "All prices",
+        "free": "Free",
+        "under": "Under {max}",
+        "between": "From {min} to {max}",
+        "over": "Over {min}",
+        "customLabel": "Custom range",
+        "minLabel": "Minimum price",
+        "maxLabel": "Maximum price",
+        "rangeAnnounce": "Price from {min} to {max}"
+      },
+      "duration": {
+        "label": "Duration",
+        "all": "All durations",
+        "under": "Under {hours, plural, one {# hour} other {# hours}}",
+        "between": "From {min} to {max} hours",
+        "over": "Over {hours, plural, one {# hour} other {# hours}}"
+      },
+      "language": {
+        "label": "Course language",
+        "all": "All languages",
+        "fr": "French",
+        "ar": "Arabic",
+        "en": "English",
+        "es": "Spanish"
+      },
+      "rating": {
+        "label": "Rating",
+        "all": "All ratings",
+        "from": "{stars, plural, one {# star and above} other {# stars and above}}"
+      },
+      "features": {
+        "label": "Options",
+        "certificate": "With certificate",
+        "installments": "Instalment payment",
+        "live": "Live sessions",
+        "preview": "With a free preview lesson"
+      }
+    },
+    "sort": {
+      "label": "Sort by",
+      "relevance": "Relevance",
+      "newest": "Newest",
+      "priceAsc": "Price, low to high",
+      "priceDesc": "Price, high to low",
+      "popular": "Popularity",
+      "topRated": "Top rated"
+    },
+    "view": {
+      "label": "Display",
+      "grid": "Grid view",
+      "list": "List view"
+    },
+    "card": {
+      "lessonCount": "{count, plural, one {# lesson} other {# lessons}}",
+      "studentCount": "{count, plural, =0 {First cohort} one {# learner} other {# learners}}",
+      "ratingCount": "{count, plural, =0 {No reviews yet} one {# review} other {# reviews}}",
+      "new": "New",
+      "featured": "Featured",
+      "free": "Free",
+      "lastSeats": "{count, plural, one {# seat left} other {# seats left}}",
+      "full": "Fully booked",
+      "open": "View the course {title}"
+    },
+    "empty": {
+      "title": "No course matches these filters",
+      "body": "Widen one criterion or reset the filters to see the whole catalogue.",
+      "action": "Reset the filters"
+    },
+    "emptySearch": {
+      "title": "No course matches “{query}”",
+      "body": "Check the spelling, try a broader word, or browse by field.",
+      "action": "Clear the search"
+    },
+    "emptyCatalog": {
+      "title": "The catalogue is not open yet",
+      "body": "The first courses are being prepared. Leave us your email address and we will tell you when they go live.",
+      "action": "Write to us on WhatsApp"
+    },
+    "loadMore": "Show more courses",
+    "loadingMore": "Loading courses…",
+    "loading": "Loading the catalogue",
+    "allLoaded": "You have seen every course matching these filters.",
+    "pagination": {
+      "label": "Result pages",
+      "summary": "Page {page} of {total}"
+    },
+    "error": {
+      "title": "The catalogue could not be loaded",
+      "body": "The connection to the server failed. Reload the page; if the problem persists, write to us on WhatsApp.",
+      "action": "Try again"
+    }
+  },
+  "course": {
+    "breadcrumbHome": "Home",
+    "breadcrumbCatalog": "Courses",
+    "breadcrumbLabel": "Breadcrumb",
+    "meta": {
+      "label": "Course information",
+      "rating": "{rating} out of 5",
+      "ratingCount": "{count, plural, =0 {No reviews yet} one {# review} other {# reviews}}",
+      "enrolled": "{count, plural, =0 {First cohort} one {# learner} other {# learners}}",
+      "updatedAt": "Updated on {date}",
+      "language": "Course language",
+      "level": "Level",
+      "delivery": "Format",
+      "duration": "Duration",
+      "lessons": "{count, plural, one {# lesson} other {# lessons}}",
+      "modules": "{count, plural, one {# module} other {# modules}}",
+      "category": "Field",
+      "new": "New"
+    },
+    "level": {
+      "debutant": "Beginner",
+      "intermediaire": "Intermediate",
+      "avance": "Advanced",
+      "tousNiveaux": "Open to all levels"
+    },
+    "delivery": {
+      "enLigne": "Online",
+      "presentiel": "At the centre",
+      "hybride": "Hybrid: online and at the centre"
+    },
+    "media": {
+      "coverAlt": "Illustration for the course {title}",
+      "promoLabel": "Introduction video",
+      "promoPlay": "Play the introduction video"
+    },
+    "objectives": {
+      "title": "What you will learn",
+      "subtitle": "The skills you will be able to put into practice by the end of the course."
+    },
+    "description": {
+      "title": "About this course",
+      "showMore": "Read more",
+      "showLess": "Show less"
+    },
+    "programme": {
+      "title": "Programme",
+      "subtitle": "Every module and lesson, in the order you will follow them.",
+      "moduleCount": "{count, plural, one {# module} other {# modules}}",
+      "lessonCount": "{count, plural, one {# lesson} other {# lessons}}",
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all",
+      "moduleLabel": "Module {number}",
+      "moduleSummary": "{lessons, plural, one {# lesson} other {# lessons}} · {duration}",
+      "lessonTypeLabel": "Lesson type",
+      "lessonType": {
+        "video": "Video",
+        "document": "Document",
+        "article": "Article",
+        "quiz": "Quiz",
+        "assignment": "Assignment",
+        "live": "Live session"
+      },
+      "previewBadge": "Free preview",
+      "previewCta": "Watch the preview",
+      "previewModalTitle": "Free preview — {lessonTitle}",
+      "previewModalHint": "This extract is open without an account. The full course contains {count, plural, one {# lesson} other {# lessons}}.",
+      "previewModalCta": "Create an account to unlock everything",
+      "previewUnavailable": "This preview lesson is temporarily unavailable. Try again in a few moments.",
+      "locked": "Available once your access is activated",
+      "empty": {
+        "title": "The programme is being finalised",
+        "body": "The module breakdown will be published before enrolment opens. Write to us to receive the full outline.",
+        "action": "Request the programme on WhatsApp"
+      }
+    },
+    "resources": {
+      "title": "Included resources",
+      "subtitle": "Documents to download and keep, available as soon as your access is activated.",
+      "count": "{count, plural, one {# resource} other {# resources}}",
+      "empty": "This course does not come with downloadable resources."
+    },
+    "prerequisites": {
+      "title": "Prerequisites",
+      "none": "No prerequisites: the course starts from the basics.",
+      "strict": "Course to complete before this one",
+      "soft": "Course recommended before this one",
+      "seeCourse": "View the course {title}"
+    },
+    "audience": {
+      "title": "Who this course is for",
+      "empty": "This course is open to anyone interested in the field."
+    },
+    "instructor": {
+      "title": "Your instructor",
+      "titlePlural": "Your instructors",
+      "courseCount": "{count, plural, one {# course} other {# courses}}",
+      "studentCount": "{count, plural, =0 {First cohort} one {# learner taught} other {# learners taught}}",
+      "seeProfile": "See profile",
+      "contact": "Ask the instructor a question",
+      "photoAlt": "Portrait of {name}"
+    },
+    "reviews": {
+      "title": "Learner reviews",
+      "subtitle": "Only reviews from people who actually enrolled are published.",
+      "average": "{rating} out of 5",
+      "count": "{count, plural, =0 {No reviews} one {# review} other {# reviews}}",
+      "distributionLabel": "Rating breakdown",
+      "starsRow": "{stars, plural, one {# star} other {# stars}}",
+      "starsShare": "{count, plural, =0 {no reviews} one {# review} other {# reviews}}",
+      "verified": "Verified enrolment",
+      "postedOn": "Posted on {date}",
+      "showMore": "Show more reviews",
+      "seeAll": "See all reviews",
+      "empty": {
+        "title": "No reviews yet",
+        "body": "This course has just opened. The first reviews will appear once learners have finished it."
+      }
+    },
+    "faq": {
+      "title": "Questions about this course",
+      "subtitle": "Another question? Write to us — we answer within one working day.",
+      "contactCta": "Ask a question on WhatsApp"
+    },
+    "similar": {
+      "title": "Similar courses",
+      "subtitle": "Other courses in the same field, often taken together.",
+      "empty": "No similar course at the moment."
+    },
+    "purchase": {
+      "title": "Book your seat",
+      "priceLabel": "Course price",
+      "comparePrefix": "Instead of",
+      "compareLabel": "Usual price: {price}",
+      "discount": "-{percent} %",
+      "free": "Free",
+      "includedTitle": "What is included",
+      "included": {
+        "lessons": "{count, plural, one {# lesson} other {# lessons}} of content",
+        "duration": "{duration} of video and exercises",
+        "resources": "Downloadable resources",
+        "certificate": "Certificate of completion",
+        "coaching": "Instructor support and marking of your work",
+        "live": "Live sessions at the centre",
+        "mobile": "Access from a computer or a phone"
+      },
+      "accessTitle": "Access period",
+      "accessLifetime": "Lifetime access",
+      "accessLimited": "Access for {days, plural, one {# day} other {# days}}",
+      "certificateTitle": "Certificate",
+      "certificateYes": "A certificate is issued at the end, provided you reach {score} % across the assessments.",
+      "certificateNo": "This course does not lead to a certificate.",
+      "seatsTitle": "Seats",
+      "seatsLeft": "{count, plural, =0 {Fully booked} one {# seat left} other {# seats left}}",
+      "seatsUnlimited": "Enrolment open",
+      "seatsFull": "Fully booked",
+      "seatsFullHint": "Write to us on WhatsApp and we will tell you about the next cohort.",
+      "installments": "Payment possible in {count, plural, one {# instalment} other {# instalments}}",
+      "paymentNote": "Payment by bank transfer or in cash at the centre. No online payment.",
+      "approvalNote": "Your access is activated once our team has checked your transfer receipt.",
+      "stickyPriceLabel": "Price",
+      "stickyLabel": "Price and enrolment"
+    },
+    "cta": {
+      "guest": "Create an account to enrol",
+      "guestHint": "You will come straight back to this course after creating your account.",
+      "pendingEmail": "Confirm your email address",
+      "pendingEmailHint": "Open the link we sent you, or ask for a new one.",
+      "pendingApproval": "Account being validated",
+      "pendingApprovalHint": "Our team is validating your account, usually within 24 working hours. You will then be able to request access.",
+      "pendingApprovalWhatsapp": "Write to us on WhatsApp",
+      "active": "Request access — {price}",
+      "activeFree": "Request access",
+      "requestPending": "Request being processed",
+      "requestPendingHint": "We are checking your transfer receipt. Follow the progress from your space.",
+      "enrolled": "Continue the course",
+      "enrolledHint": "You will resume at the lesson where you stopped.",
+      "completedReview": "Review the course",
+      "completedCertificate": "Download the certificate",
+      "completedHint": "Course completed. Your certificate stays downloadable at any time."
+    },
+    "share": {
+      "label": "Share",
+      "title": "Share this course",
+      "copyLink": "Copy the link",
+      "copied": "Link copied",
+      "copyFailed": "The link could not be copied. Select it and copy it manually.",
+      "whatsapp": "Share on WhatsApp",
+      "facebook": "Share on Facebook",
+      "linkedin": "Share on LinkedIn",
+      "email": "Share by email",
+      "emailSubject": "{title} course — Centre de formation immersive"
+    },
+    "wishlist": {
+      "add": "Add to my list",
+      "remove": "Remove from my list",
+      "added": "Course added to your list.",
+      "removed": "Course removed from your list.",
+      "signedOut": "Sign in to save this course to your list."
+    },
+    "whatsappCta": "Ask a question on WhatsApp",
+    "notFound": {
+      "title": "This course does not exist",
+      "body": "The link may be wrong, or the course has been removed from the catalogue. Browse the available courses.",
+      "action": "See all courses"
+    }
+  },
+  "pages": {
+    "method": {
+      "title": "Our method",
+      "lead": "What “immersive training” actually means, and how your course runs with us.",
+      "principlesTitle": "The four principles",
+      "journeyTitle": "How a course unfolds",
+      "journeyLead": "From the first lesson to the certificate, here is what awaits you week after week.",
+      "facilitiesTitle": "The centre and its facilities",
+      "facilitiesLead": "Equipped rooms in Tanger, open to learners during opening hours.",
+      "teamTitle": "The teaching team",
+      "accreditationsTitle": "Accreditations and partnerships",
+      "accreditationsEmpty": "Our accreditations will be published here as soon as they are granted.",
+      "ctaTitle": "Would you like to talk it through before enrolling?",
+      "ctaBody": "Write to us on WhatsApp: we will point you to the course that matches your plan, with no commitment.",
+      "ctaAction": "Write to us on WhatsApp",
+      "ctaSecondary": "See all courses"
+    },
+    "about": {
+      "title": "About the centre",
+      "lead": "A training centre in Tanger, born from a simple observation: you do not learn a trade by watching videos alone.",
+      "storyTitle": "Our story",
+      "missionTitle": "Our mission",
+      "valuesTitle": "What matters to us",
+      "figuresTitle": "The centre in numbers",
+      "teamTitle": "The team",
+      "centerTitle": "Our premises",
+      "accreditationsTitle": "Accreditations and partnerships",
+      "ctaTitle": "Come and see us",
+      "ctaBody": "The centre is open to visits during opening hours. Let us know and we will show you around.",
+      "ctaAction": "Book a visit on WhatsApp"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "lead": "The price of each course, what it covers, and the payment methods we accept.",
+      "tableCaption": "Prices by field of training",
+      "columnCategory": "Field",
+      "columnCourses": "Courses",
+      "columnRange": "Price range",
+      "columnDuration": "Average duration",
+      "courseCount": "{count, plural, =0 {No course} one {# course} other {# courses}}",
+      "rangeSingle": "{price}",
+      "rangeBetween": "From {min} to {max}",
+      "seeCategory": "See the courses in {category}",
+      "includedTitle": "Included in every price",
+      "facilitiesTitle": "Payment methods",
+      "facilityTransfer": {
+        "title": "Bank transfer",
+        "body": "You receive our bank details and a reference to write in the transfer description. Then upload your receipt from your space."
+      },
+      "facilityInstallments": {
+        "title": "Payment in instalments",
+        "body": "On eligible courses, the price can be paid in two or three transfers. Access opens once the first payment is verified."
+      },
+      "facilityCash": {
+        "title": "Cash at the centre",
+        "body": "Come to the reception during opening hours. Your access is activated after payment, on the same day."
+      },
+      "transferNoticeTitle": "Instant transfer or standard transfer",
+      "transferNoticeBody": "We recommend an instant transfer: your access is then activated the same day. With a standard transfer, funds can take up to 48 working hours to reach our account, and access is only activated once they have actually arrived.",
+      "noOnlinePaymentTitle": "No card payment",
+      "noOnlinePaymentBody": "We take no payment online. You are never asked for bank card details on this site.",
+      "faqTitle": "Questions about pricing",
+      "ctaTitle": "A question about a price?",
+      "ctaBody": "Write to us: we will confirm the price, the access period and the options available for your course.",
+      "ctaAction": "Write to us on WhatsApp",
+      "empty": {
+        "title": "Prices will be published when the catalogue opens",
+        "body": "The first courses are being prepared. Write to us and we will send you the price list as soon as it is out.",
+        "action": "Write to us on WhatsApp"
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "lead": "The fastest way to reach us is WhatsApp. The form is here if you prefer email.",
+      "whatsappTitle": "Fastest: WhatsApp",
+      "whatsappBody": "We answer messages during the centre's opening hours, usually in under an hour.",
+      "whatsappCta": "Write on WhatsApp",
+      "formTitle": "Write to us",
+      "formLead": "We answer within one working day. Fields marked with an asterisk are required.",
+      "fields": {
+        "fullName": "Full name",
+        "email": "Email address",
+        "phone": "Phone",
+        "courseInterest": "Course you are interested in",
+        "message": "Your message",
+        "honeypot": "Do not fill in this field"
+      },
+      "placeholders": {
+        "fullName": "First and last name",
+        "email": "name@example.com",
+        "phone": "06 12 34 56 78",
+        "courseInterest": "Select a course",
+        "message": "Tell us what you are looking for and where you are starting from."
+      },
+      "hints": {
+        "phone": "Optional. We use it to call you back or reply on WhatsApp.",
+        "courseInterest": "Optional. Choose “I am not sure yet” if you are undecided.",
+        "message": "Between 20 and 2,000 characters."
+      },
+      "courseInterestNone": "I am not sure yet",
+      "submit": "Send the message",
+      "submitting": "Sending…",
+      "errors": {
+        "fullName": "Enter your full name so we know who to reply to.",
+        "email": "The email address is not valid. Expected format: name@example.com.",
+        "phone": "The phone number is not valid. Expected format: 06 12 34 56 78.",
+        "messageRequired": "Write your message so we can give you a useful answer.",
+        "messageTooShort": "Your message is too short. Describe your need in at least {min, plural, one {# character} other {# characters}}.",
+        "messageTooLong": "Your message is longer than {max, plural, one {# character} other {# characters}}. Shorten it and we will come back to you for the details.",
+        "rateLimited": "You have already sent several messages. Try again in {minutes, plural, one {# minute} other {# minutes}}, or write to us on WhatsApp.",
+        "server": "The message could not be sent. Try again in a few moments, or write to us on WhatsApp."
+      },
+      "success": {
+        "title": "Your message is on its way",
+        "body": "We will reply to {email} within one working day. For an immediate answer, write to us on WhatsApp.",
+        "action": "Send another message",
+        "whatsappCta": "Write on WhatsApp"
+      },
+      "infoTitle": "Find us",
+      "addressLabel": "Address",
+      "hoursLabel": "Opening hours",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email address",
+      "mapCta": "Show the map",
+      "mapNotice": "The map is provided by Google. It only loads after you click.",
+      "mapTitle": "Map showing the centre",
+      "directions": "Directions"
+    },
+    "instructors": {
+      "title": "Our instructors",
+      "lead": "Working professionals who teach the trade they practise every day.",
+      "courseCount": "{count, plural, =0 {No published course} one {# course} other {# courses}}",
+      "studentCount": "{count, plural, =0 {First cohort} one {# learner taught} other {# learners taught}}",
+      "specialtyLabel": "Speciality",
+      "seeCourses": "See their courses",
+      "seeProfile": "See profile",
+      "photoAlt": "Portrait of {name}",
+      "empty": {
+        "title": "The teaching team is being assembled",
+        "body": "Our instructors' profiles will be published before enrolment opens.",
+        "action": "See all courses"
+      }
+    },
+    "blog": {
+      "title": "Blog",
+      "lead": "Practical articles about the trades we teach, written by our instructors.",
+      "readingTime": "{minutes, plural, one {# min read} other {# min read}}",
+      "publishedOn": "Published on {date}",
+      "updatedOn": "Updated on {date}",
+      "author": "By {name}",
+      "categoriesLabel": "Categories",
+      "allCategories": "All categories",
+      "postCount": "{count, plural, =0 {No article} one {# article} other {# articles}}",
+      "relatedCourses": "Courses related to this article",
+      "relatedPosts": "Read next",
+      "backToBlog": "Back to the blog",
+      "shareLabel": "Share this article",
+      "coverAlt": "Illustration for the article {title}",
+      "empty": {
+        "title": "No article published yet",
+        "body": "Our instructors are writing the first articles. Come back soon, or follow us to be notified.",
+        "action": "See all courses"
+      },
+      "notFound": {
+        "title": "This article does not exist",
+        "body": "The link may be wrong, or the article has been removed. Browse the available articles.",
+        "action": "Back to the blog"
+      }
+    },
+    "certificate": {
+      "title": "Verify a certificate",
+      "lead": "Enter the code printed on the certificate to check that it was really issued by the centre.",
+      "codeLabel": "Certificate code",
+      "codePlaceholder": "CFI-2026-XXXXXX",
+      "codeHint": "The code is at the bottom of the certificate, under the stamp.",
+      "submit": "Verify the certificate",
+      "submitting": "Verifying…",
+      "errorRequired": "Enter the certificate code to start the check.",
+      "errorFormat": "This code is not in the expected format. Expected format: CFI-2026-XXXXXX.",
+      "valid": {
+        "title": "Genuine certificate",
+        "body": "This certificate was indeed issued by the Centre de formation immersive.",
+        "holderLabel": "Issued to",
+        "courseLabel": "Course",
+        "issuedLabel": "Issued on",
+        "hoursLabel": "Number of hours",
+        "referenceLabel": "Certificate code",
+        "instructorLabel": "Instructor"
+      },
+      "invalid": {
+        "title": "No certificate matches this code",
+        "body": "Check the code character by character. If it is correct and the centre gave you the certificate, write to us.",
+        "action": "Write to us on WhatsApp"
+      },
+      "revoked": {
+        "title": "This certificate has been revoked",
+        "body": "This certificate is no longer valid. Write to us to find out why it was revoked.",
+        "action": "Write to us on WhatsApp"
+      }
+    },
+    "paths": {
+      "title": "Learning paths",
+      "lead": "Several courses chained in the right order, all the way to the certificate, at a bundle price.",
+      "courseCount": "{count, plural, one {# course} other {# courses}}",
+      "totalDuration": "Total duration",
+      "bundlePrice": "Path price",
+      "separatePrice": "Separately: {price}",
+      "saving": "You save {amount}",
+      "includedCourses": "Courses included",
+      "stepLabel": "Step {number}",
+      "certificateStep": "Path certificate",
+      "cta": "Request access to the path",
+      "seeCourse": "View the course",
+      "empty": {
+        "title": "No published path at the moment",
+        "body": "Paths group several courses together. In the meantime, pick a course from the catalogue.",
+        "action": "See all courses"
+      },
+      "notFound": {
+        "title": "This path does not exist",
+        "body": "The link may be wrong, or the path has been removed. Browse the available paths.",
+        "action": "See all learning paths"
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "lead": "Enrolment, payment, course access and certificates: answers to the questions we get most.",
+      "searchLabel": "Search for a question",
+      "searchPlaceholder": "Payment, certificate, access…",
+      "allGroups": "All sections",
+      "resultCount": "{count, plural, =0 {No question} one {# question} other {# questions}}",
+      "empty": {
+        "title": "No question matches your search",
+        "body": "Try a broader word, or ask us your question directly on WhatsApp.",
+        "action": "Write to us on WhatsApp"
+      },
+      "stillHaveQuestions": "Your question is not here?",
+      "stillHaveQuestionsBody": "Write to us on WhatsApp: we answer during the centre's opening hours.",
+      "whatsappCta": "Write to us on WhatsApp"
+    }
+  },
+  "legal": {
+    "sectionLabel": "Legal information",
+    "terms": {
+      "title": "Terms of use",
+      "lead": "The rules for using the platform and the courses of the Centre de formation immersive."
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "lead": "What data we collect, why we collect it, how long we keep it and how to exercise your rights."
+    },
+    "notices": {
+      "title": "Legal notices",
+      "lead": "The identity of the site publisher, the host and the contact details."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "lead": "The cookies this site sets, what they do and how to refuse them."
+    },
+    "lastUpdated": "Last updated: {date}",
+    "tocTitle": "Contents",
+    "backToTop": "Back to top",
+    "contactPrompt": "A question about this document? Write to us and we will answer.",
+    "contactCta": "Write to us on WhatsApp",
+    "notFound": {
+      "title": "This document is not published yet",
+      "body": "It will go online shortly. In the meantime, write to us with any legal question.",
+      "action": "Write to us on WhatsApp"
+    }
+  },
+  "seo": {
+    "siteName": "Centre de formation immersive",
+    "titleTemplate": "{title} · CFI",
+    "defaultTitle": "CFI — immersive training centre in Tanger",
+    "defaultDescription": "Immersive professional training in Tanger: online content, real working situations, human support and a certificate. Enrolment by bank transfer or cash at the centre.",
+    "home": {
+      "title": "Immersive professional training in Tanger",
+      "description": "Learn a trade through real working situations, with an instructor who marks your work and a centre open in Tanger. Clear prices, certificate at the end."
+    },
+    "catalog": {
+      "title": "All our courses",
+      "description": "Browse the full catalogue: field, level, format, duration and price. Every course details its programme, its instructor and what it includes."
+    },
+    "course": {
+      "title": "{title}",
+      "description": "{summary}",
+      "descriptionFallback": "The {title} course at the Centre de formation immersive in Tanger: detailed programme, instructor, resources, certificate and all-inclusive price."
+    },
+    "paths": {
+      "title": "Learning paths",
+      "description": "Courses chained in the right order up to the certificate, at a bundle price. Total duration, content and savings for every path."
+    },
+    "pathDetail": {
+      "title": "{title}",
+      "description": "The {title} path: the courses included, the total duration, the bundle price and the certificate awarded at the end."
+    },
+    "method": {
+      "title": "Our immersive method",
+      "description": "Real working situations, projects marked one by one, continuous human support, a centre in Tanger and online content: this is how we teach."
+    },
+    "pricing": {
+      "title": "Course prices",
+      "description": "The price of every field of training, what it covers and the payment methods we accept: bank transfer, instalments or cash at the centre."
+    },
+    "contact": {
+      "title": "Contact us",
+      "description": "Write to us on WhatsApp or through the form. Address, opening hours and phone number of the Centre de formation immersive in Tanger."
+    },
+    "about": {
+      "title": "About the centre",
+      "description": "The story of the Centre de formation immersive, its team, its premises in Tanger and what matters to us in professional training."
+    },
+    "instructors": {
+      "title": "Our instructors",
+      "description": "Working professionals who teach the trade they practise: background, specialities and courses for each instructor."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Practical articles about the trades we teach, written by our instructors: advice, tools and field experience."
+    },
+    "blogPost": {
+      "title": "{title}",
+      "description": "{summary}",
+      "descriptionFallback": "An article from the Centre de formation immersive in Tanger: {title}."
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "description": "Enrolment, account validation, payment by transfer, course access and certificates: answers to the questions we get most."
+    },
+    "certificate": {
+      "title": "Verify a certificate",
+      "description": "Enter a certificate code to check that it was really issued by the Centre de formation immersive."
+    },
+    "legal": {
+      "title": "Legal information",
+      "description": "Terms of use, privacy policy, legal notices and cookies of the Centre de formation immersive."
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "This page does not exist or has been moved. Go back to the homepage or browse the course catalogue."
+    },
+    "ogAlt": {
+      "default": "Centre de formation immersive — Tanger",
+      "home": "Homepage of the Centre de formation immersive, in Tanger",
+      "catalog": "Course catalogue of the Centre de formation immersive",
+      "course": "The {title} course at the Centre de formation immersive",
+      "path": "The {title} path at the Centre de formation immersive",
+      "method": "The centre's immersive method: real situations and human support",
+      "pricing": "Course prices at the Centre de formation immersive",
+      "contact": "Contact details and address of the centre, in Tanger",
+      "about": "The Centre de formation immersive and its team, in Tanger",
+      "instructors": "The instructors of the Centre de formation immersive",
+      "blog": "The blog of the Centre de formation immersive",
+      "blogPost": "Article: {title}",
+      "faq": "Frequently asked questions about the centre's courses",
+      "certificate": "Verification of a certificate issued by the centre",
+      "legal": "Legal information of the Centre de formation immersive"
+    }
   }
 }

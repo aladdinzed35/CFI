@@ -1267,7 +1267,9 @@ model KnowledgeChunk {
   heading        String?
   content        String      @db.Text
   tokenCount     Int         @default(0)
-  embedding      Bytes? // Float32Array buffer, 1024 dims
+  embedding      Bytes? // Float32Array buffer, 384 dims (multilingual-e5-small).
+  // Changing AI_EMBEDDING_MODEL changes this width and invalidates every stored
+  // vector — a reindex, not a migration. See docs/AI.md.
   embeddingModel String?
   checksum       String // skip re-embedding unchanged content
   isPublic       Boolean     @default(false) // true = usable for guests (marketing, FAQ)

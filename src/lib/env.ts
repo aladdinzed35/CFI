@@ -124,11 +124,14 @@ const META: Readonly<Record<string, VariableMeta>> = {
     origin: 'Bunny.net → Stream → sécurité → clé d’authentification par jeton',
   },
   AI_ENABLED: { section: 'IA', origin: 'commutateur produit de l’assistant' },
-  ANTHROPIC_API_KEY: { section: 'IA', origin: 'console Anthropic → API keys' },
-  AI_MODEL_CHAT: { section: 'IA', origin: 'identifiant de modèle Anthropic' },
-  AI_MODEL_REASONING: { section: 'IA', origin: 'identifiant de modèle Anthropic' },
-  EMBEDDINGS_PROVIDER: { section: 'IA', origin: 'voyage (API distante) ou local' },
-  VOYAGE_API_KEY: { section: 'IA', origin: 'tableau de bord Voyage AI → API keys' },
+  AI_PROVIDER: { section: 'IA', origin: 'none, ou openai-compatible — voir docs/AI.md' },
+  AI_BASE_URL: { section: 'IA', origin: 'http://127.0.0.1:11434/v1 (Ollama) ou l’URL du fournisseur' },
+  AI_API_KEY: { section: 'IA', origin: 'clé du fournisseur ; inutile pour Ollama en local' },
+  AI_MODEL_CHAT: { section: 'IA', origin: 'nom du modèle ouvert, ex. qwen2.5:7b-instruct' },
+  AI_EMBEDDING_MODEL: { section: 'IA', origin: 'modèle ONNX local ; ne change qu’avec une réindexation' },
+  AI_EMBEDDING_DTYPE: { section: 'IA', origin: 'q8 (135 Mo, recommandé) ou fp32' },
+  AI_MAX_OUTPUT_TOKENS: { section: 'IA', origin: 'plafond de coût par réponse' },
+  AI_TIMEOUT_MS: { section: 'IA', origin: 'délai avant abandon de la génération' },
   AI_DAILY_TOKEN_BUDGET_PER_USER: { section: 'IA', origin: 'garde-fou de coût, choix produit' },
   AI_MONTHLY_COST_CAP_USD: { section: 'IA', origin: 'garde-fou de coût, choix produit' },
   CRON_SECRET: { section: 'Tâches planifiées', origin: 'à générer : openssl rand -hex 24' },
@@ -359,13 +362,20 @@ const serverShape = z.object({
   BUNNY_STREAM_CDN_HOSTNAME: optionalString,
   BUNNY_TOKEN_AUTH_KEY: optionalString,
 
-  // IA
+  // IA — see docs/AI.md. Embeddings run LOCALLY in-process (no key, no network);
+  // generation goes to any OpenAI-compatible endpoint, so the same code runs
+  // against Ollama, Groq, Together or OpenRouter by changing a base URL.
   AI_ENABLED: booleanWithDefault('false'),
-  ANTHROPIC_API_KEY: optionalString,
-  AI_MODEL_CHAT: stringWithDefault('claude-haiku-4-5-20251001'),
-  AI_MODEL_REASONING: stringWithDefault('claude-sonnet-5'),
-  EMBEDDINGS_PROVIDER: requiredEnum(['voyage', 'local'] as const),
-  VOYAGE_API_KEY: optionalString,
+  /** `none` keeps tiers 1-2 (curated answers + grounded retrieval) fully working. */
+  AI_PROVIDER: requiredEnum(['none', 'openai-compatible'] as const),
+  AI_BASE_URL: optionalUrl,
+  /** Absent for a local Ollama, which authenticates nothing. */
+  AI_API_KEY: optionalString,
+  AI_MODEL_CHAT: stringWithDefault('qwen2.5:7b-instruct'),
+  AI_EMBEDDING_MODEL: stringWithDefault('Xenova/multilingual-e5-small'),
+  AI_EMBEDDING_DTYPE: requiredEnum(['q8', 'fp32'] as const),
+  AI_MAX_OUTPUT_TOKENS: integerWithDefault(800, 64, 8_000),
+  AI_TIMEOUT_MS: integerWithDefault(30_000, 1_000, 120_000),
   AI_DAILY_TOKEN_BUDGET_PER_USER: integerWithDefault(60_000, 1_000, 10_000_000),
   AI_MONTHLY_COST_CAP_USD: decimalWithDefault(150, 0, 100_000),
 
@@ -412,12 +422,12 @@ function crossFieldRules(value: Partial<ServerValues>, report: IssueSink): void 
     demand('LOCAL_STORAGE_PATH', value.LOCAL_STORAGE_PATH, 'lorsque STORAGE_DRIVER vaut local')
   }
 
-  if (value.AI_ENABLED) {
-    demand('ANTHROPIC_API_KEY', value.ANTHROPIC_API_KEY, 'lorsque AI_ENABLED vaut true')
-  }
-
-  if (value.EMBEDDINGS_PROVIDER === 'voyage') {
-    demand('VOYAGE_API_KEY', value.VOYAGE_API_KEY, 'lorsque EMBEDDINGS_PROVIDER vaut voyage')
+  // Only the generation endpoint needs configuring, and only when one is
+  // selected. AI_ENABLED alone requires NOTHING: embeddings are local, and
+  // curated answers plus grounded retrieval work with AI_PROVIDER=none — the
+  // assistant is useful before a single token is bought.
+  if (value.AI_PROVIDER === 'openai-compatible') {
+    demand('AI_BASE_URL', value.AI_BASE_URL, 'lorsque AI_PROVIDER vaut openai-compatible')
   }
 
   // VIDEO_PROVIDER has no "not configured" member and defaults to bunny, so
@@ -606,9 +616,8 @@ const BUILD_PLACEHOLDERS: Readonly<Record<string, string>> = {
   BUNNY_STREAM_API_KEY: 'build',
   BUNNY_STREAM_CDN_HOSTNAME: 'build.invalid',
   BUNNY_TOKEN_AUTH_KEY: 'build',
-  EMBEDDINGS_PROVIDER: 'local',
-  ANTHROPIC_API_KEY: 'skip-env-validation-placeholder',
-  VOYAGE_API_KEY: 'skip-env-validation-placeholder',
+  AI_PROVIDER: 'none',
+  AI_EMBEDDING_DTYPE: 'q8',
   CRON_SECRET: 'skip-env-validation-placeholder-cron',
 }
 
