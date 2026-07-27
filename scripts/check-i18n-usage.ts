@@ -113,6 +113,10 @@ let dynamic = 0;
 const BINDING =
   /(?:const|let)\s+(\w+)\s*=\s*(?:await\s+)?(?:useTranslations|getTranslations)\s*\(\s*(?:'([^']+)'|"([^"]+)"|\{[^}]*namespace:\s*(?:'([^']+)'|"([^"]+)")[^}]*\})?\s*\)/g;
 
+/** Any namespace requested in the file, however the result is captured. */
+const AMBIENT_NAMESPACE =
+  /(?:useTranslations|getTranslations)\s*\(\s*(?:'([^']+)'|\{[^}]*namespace:\s*'([^']+)'[^}]*\})/g;
+
 for (const file of files) {
   const source = readFileSync(file, 'utf8');
   if (!/useTranslations|getTranslations/.test(source)) continue;
@@ -136,6 +140,23 @@ for (const file of files) {
   }
   if (bindings.size === 0) continue;
 
+  // Namespaces requested ANYWHERE in the file, whether or not the call was of
+  // the form `const t = getTranslations(…)`. A translator is commonly obtained
+  // through a destructuring pattern the binding regex cannot see:
+  //
+  //   const [result, t] = await Promise.all([load(), getTranslations({…})]);
+  //
+  // Missing those made the guard resolve every key against the *other* binding
+  // in the file and report a dozen keys that plainly existed. Adding them as
+  // fallback candidates for every binding trades a little precision for zero
+  // false positives — the same trade made above, and the right one for a check
+  // that blocks the build.
+  const ambient = new Set<string>();
+  for (const match of source.matchAll(AMBIENT_NAMESPACE)) {
+    const ns = match[1] ?? match[2];
+    if (ns !== undefined) ambient.add(ns);
+  }
+
   for (const [name, namespaces] of bindings) {
     // `t('key')`, `t.rich('key')`, `t.raw('key')`, `t.markup('key')`
     const call = new RegExp(`\\b${name}(?:\\.(?:rich|raw|markup|has))?\\s*\\(\\s*(['"\`])([^'"\`]*)\\1`, 'g');
@@ -147,7 +168,9 @@ for (const file of files) {
         dynamic += 1;
         continue;
       }
-      const candidates = [...namespaces].map((ns) => (ns === '' ? key : `${ns}.${key}`));
+      const candidates = [...namespaces, ...ambient].map((ns) =>
+        ns === '' ? key : `${ns}.${key}`,
+      );
       checked += 1;
       if (candidates.some((candidate) => known.has(candidate))) continue;
 

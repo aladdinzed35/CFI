@@ -1068,14 +1068,13 @@
         "debutant": "Beginner",
         "intermediaire": "Intermediate",
         "avance": "Advanced",
-        "tousNiveaux": "Open to all levels"
+        "tous-niveaux": "Open to all levels"
       },
       "delivery": {
         "label": "Format",
-        "all": "All formats",
-        "enLigne": "Online",
+        "en-ligne": "Online",
         "presentiel": "At the centre",
-        "hybride": "Hybrid: online and at the centre"
+        "hybride": "Hybrid"
       },
       "price": {
         "label": "Price",
@@ -1107,29 +1106,32 @@
       "rating": {
         "label": "Rating",
         "all": "All ratings",
-        "from": "{stars, plural, one {# star and above} other {# stars and above}}"
+        "from": "{stars, plural, one {# star and above} other {# stars and above}}",
+        "chip": "{rating} stars and up"
       },
       "features": {
         "label": "Options",
-        "certificate": "With certificate",
-        "installments": "Instalment payment",
-        "live": "Live sessions",
-        "preview": "With a free preview lesson"
-      }
+        "certificat": "With certificate",
+        "tranches": "Instalment payment",
+        "direct": "Live sessions",
+        "essai": "With a free preview lesson"
+      },
+      "remove": "Remove the {label} filter",
+      "clearAll": "Reset the filters"
     },
     "sort": {
       "label": "Sort by",
-      "relevance": "Relevance",
-      "newest": "Newest",
-      "priceAsc": "Price, low to high",
-      "priceDesc": "Price, high to low",
-      "popular": "Popularity",
-      "topRated": "Top rated"
+      "pertinence": "Relevance",
+      "nouveautes": "Newest",
+      "prix-asc": "Price, low to high",
+      "prix-desc": "Price, high to low",
+      "populaire": "Popularity",
+      "mieux-notees": "Top rated"
     },
     "view": {
       "label": "Display",
-      "grid": "Grid view",
-      "list": "List view"
+      "grille": "Grid view",
+      "liste": "List view"
     },
     "card": {
       "lessonCount": "{count, plural, one {# lesson} other {# lessons}}",
@@ -1163,13 +1165,16 @@
     "allLoaded": "You have seen every course matching these filters.",
     "pagination": {
       "label": "Result pages",
-      "summary": "Page {page} of {total}"
+      "summary": "Page {page} of {total}",
+      "previous": "Previous page",
+      "next": "Next page"
     },
     "error": {
       "title": "The catalogue could not be loaded",
       "body": "The connection to the server failed. Reload the page; if the problem persists, write to us on WhatsApp.",
       "action": "Try again"
-    }
+    },
+    "subtitle": "All our courses, filterable by field, level, format and price."
   },
   "course": {
     "breadcrumbHome": "Home",
@@ -1191,15 +1196,15 @@
       "new": "New"
     },
     "level": {
-      "debutant": "Beginner",
-      "intermediaire": "Intermediate",
-      "avance": "Advanced",
-      "tousNiveaux": "Open to all levels"
+      "DEBUTANT": "Beginner",
+      "INTERMEDIAIRE": "Intermediate",
+      "AVANCE": "Advanced",
+      "TOUS_NIVEAUX": "Open to all levels"
     },
     "delivery": {
-      "enLigne": "Online",
-      "presentiel": "At the centre",
-      "hybride": "Hybrid: online and at the centre"
+      "EN_LIGNE": "Online",
+      "PRESENTIEL": "At the centre",
+      "HYBRIDE": "Hybrid: online and at the centre"
     },
     "media": {
       "coverAlt": "Illustration for the course {title}",

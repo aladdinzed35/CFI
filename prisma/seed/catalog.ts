@@ -198,7 +198,7 @@ const COURSES: readonly SeedCourse[] = [
           'Savoir utiliser un ordinateur et naviguer sur Internet',
           'Un projet ou une activité réelle sur laquelle travailler',
         ],
-        seoTitle: 'Formation marketing digital à Tanger — les fondations | CFI',
+        seoTitle: 'Formation marketing digital à Tanger — les fondations',
         seoDescription:
           'Formation marketing digital pour débutants à Tanger : offre, audience, réseaux sociaux, publicité en ligne et mesure des résultats. En centre et à distance.',
       },
@@ -223,7 +223,7 @@ const COURSES: readonly SeedCourse[] = [
           'إتقان استعمال الحاسوب والتصفح على الإنترنت',
           'مشروع أو نشاط حقيقي للاشتغال عليه',
         ],
-        seoTitle: 'تكوين في التسويق الرقمي بطنجة — الأسس | CFI',
+        seoTitle: 'تكوين في التسويق الرقمي بطنجة — الأسس',
         seoDescription:
           'دورة تدريبية في التسويق الرقمي للمبتدئين بطنجة: العرض، الجمهور، الشبكات الاجتماعية، الإعلانات الرقمية وقياس النتائج. حضورياً وعن بعد.',
       },
@@ -248,7 +248,7 @@ const COURSES: readonly SeedCourse[] = [
           'Comfortable with a computer and browsing the web',
           'A real project or business to work on',
         ],
-        seoTitle: 'Digital marketing training in Tanger — the foundations | CFI',
+        seoTitle: 'Digital marketing training in Tanger — the foundations',
         seoDescription:
           'Beginner digital marketing training in Tanger: offer, audience, social media, online advertising and measuring results. On site and online.',
       },
@@ -273,7 +273,7 @@ const COURSES: readonly SeedCourse[] = [
           'Saber usar un ordenador y navegar por Internet',
           'Un proyecto o una actividad real sobre la que trabajar',
         ],
-        seoTitle: 'Formación en marketing digital en Tánger — los fundamentos | CFI',
+        seoTitle: 'Formación en marketing digital en Tánger — los fundamentos',
         seoDescription:
           'Formación de marketing digital para principiantes en Tánger: oferta, público, redes sociales, publicidad en línea y medición de resultados. Presencial y en línea.',
       },
@@ -624,7 +624,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un compte Meta Business et un moyen de paiement en ligne',
           'Un budget publicitaire de test, même modeste',
         ],
-        seoTitle: 'Formation Meta Ads et Google Ads à Tanger | CFI',
+        seoTitle: 'Formation Meta Ads et Google Ads à Tanger',
         seoDescription:
           'Formation publicité en ligne : structurer un compte, suivre les conversions, tester des annonces et arbitrer un budget sur Meta Ads et Google Ads.',
       },
@@ -650,7 +650,7 @@ const COURSES: readonly SeedCourse[] = [
           'حساب Meta Business ووسيلة أداء إلكترونية',
           'ميزانية إعلانية للتجريب، ولو متواضعة',
         ],
-        seoTitle: 'تكوين في Meta Ads وGoogle Ads بطنجة | CFI',
+        seoTitle: 'تكوين في Meta Ads وGoogle Ads بطنجة',
         seoDescription:
           'دورة تدريبية في الإعلانات الرقمية: تنظيم الحساب، تتبع التحويلات، اختبار الإعلانات وتوزيع الميزانية على Meta Ads وGoogle Ads.',
       },
@@ -676,7 +676,7 @@ const COURSES: readonly SeedCourse[] = [
           'A Meta Business account and an online payment method',
           'A test advertising budget, however modest',
         ],
-        seoTitle: 'Meta Ads and Google Ads training in Tanger | CFI',
+        seoTitle: 'Meta Ads and Google Ads training in Tanger',
         seoDescription:
           'Online advertising training: account structure, conversion tracking, ad testing and budget arbitration on Meta Ads and Google Ads.',
       },
@@ -702,7 +702,7 @@ const COURSES: readonly SeedCourse[] = [
           'Una cuenta de Meta Business y un medio de pago en línea',
           'Un presupuesto publicitario de prueba, aunque sea modesto',
         ],
-        seoTitle: 'Formación en Meta Ads y Google Ads en Tánger | CFI',
+        seoTitle: 'Formación en Meta Ads y Google Ads en Tánger',
         seoDescription:
           'Formación en publicidad en línea: estructura de cuenta, seguimiento de conversiones, prueba de anuncios y reparto de presupuesto en Meta Ads y Google Ads.',
       },
@@ -871,7 +871,7 @@ const COURSES: readonly SeedCourse[] = [
           'Aucune connaissance en programmation n’est nécessaire',
           'Trois à cinq heures de travail personnel par semaine',
         ],
-        seoTitle: 'Formation développement web à Tanger — HTML, CSS, JavaScript | CFI',
+        seoTitle: 'Formation développement web à Tanger — HTML, CSS, JavaScript',
         seoDescription:
           'Formation développement web pour débutants à Tanger : HTML, CSS, JavaScript, Git et mise en ligne. Groupe limité à 18, projet final évalué.',
       },
@@ -897,7 +897,7 @@ const COURSES: readonly SeedCourse[] = [
           'لا حاجة إلى أي معرفة سابقة بالبرمجة',
           'من ثلاث إلى خمس ساعات عمل شخصي أسبوعياً',
         ],
-        seoTitle: 'تكوين في تطوير الويب بطنجة — HTML وCSS وJavaScript | CFI',
+        seoTitle: 'تكوين في تطوير الويب بطنجة — HTML وCSS وJavaScript',
         seoDescription:
           'دورة تدريبية في تطوير الويب للمبتدئين بطنجة: HTML وCSS وJavaScript وGit والنشر. مجموعة محدودة في 18 مشاركاً ومشروع ختامي مقيَّم.',
       },
@@ -923,7 +923,7 @@ const COURSES: readonly SeedCourse[] = [
           'No programming knowledge required',
           'Three to five hours of personal work a week',
         ],
-        seoTitle: 'Web development training in Tanger — HTML, CSS, JavaScript | CFI',
+        seoTitle: 'Web development training in Tanger — HTML, CSS, JavaScript',
         seoDescription:
           'Beginner web development training in Tanger: HTML, CSS, JavaScript, Git and deployment. Groups capped at 18, assessed final project.',
       },
@@ -949,7 +949,7 @@ const COURSES: readonly SeedCourse[] = [
           'No se necesita ningún conocimiento de programación',
           'De tres a cinco horas de trabajo personal por semana',
         ],
-        seoTitle: 'Formación en desarrollo web en Tánger — HTML, CSS, JavaScript | CFI',
+        seoTitle: 'Formación en desarrollo web en Tánger — HTML, CSS, JavaScript',
         seoDescription:
           'Formación en desarrollo web para principiantes en Tánger: HTML, CSS, JavaScript, Git y publicación. Grupos de 18 y proyecto final evaluado.',
       },
@@ -1296,7 +1296,7 @@ const COURSES: readonly SeedCourse[] = [
           'Git et la ligne de commande au quotidien',
           'Six à huit heures de travail personnel par semaine',
         ],
-        seoTitle: 'Formation React et Next.js à Tanger | CFI',
+        seoTitle: 'Formation React et Next.js à Tanger',
         seoDescription:
           'Formation avancée React et Next.js : composants, état, rendu serveur, base de données, authentification et déploiement en production.',
       },
@@ -1322,7 +1322,7 @@ const COURSES: readonly SeedCourse[] = [
           'استعمال Git وسطر الأوامر يومياً',
           'من ست إلى ثماني ساعات عمل شخصي أسبوعياً',
         ],
-        seoTitle: 'تكوين في React وNext.js بطنجة | CFI',
+        seoTitle: 'تكوين في React وNext.js بطنجة',
         seoDescription:
           'دورة تدريبية متقدمة في React وNext.js: المكوّنات، الحالة، العرض من الخادم، قاعدة البيانات، المصادقة والنشر في الإنتاج.',
       },
@@ -1348,7 +1348,7 @@ const COURSES: readonly SeedCourse[] = [
           'Git and the command line on a daily basis',
           'Six to eight hours of personal work a week',
         ],
-        seoTitle: 'React and Next.js training in Tanger | CFI',
+        seoTitle: 'React and Next.js training in Tanger',
         seoDescription:
           'Advanced React and Next.js training: components, state, server rendering, database, authentication and production deployment.',
       },
@@ -1374,7 +1374,7 @@ const COURSES: readonly SeedCourse[] = [
           'Git y la línea de comandos a diario',
           'De seis a ocho horas de trabajo personal por semana',
         ],
-        seoTitle: 'Formación en React y Next.js en Tánger | CFI',
+        seoTitle: 'Formación en React y Next.js en Tánger',
         seoDescription:
           'Formación avanzada en React y Next.js: componentes, estado, renderizado en servidor, base de datos, autenticación y despliegue en producción.',
       },
@@ -1476,7 +1476,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un compte Figma gratuit',
           'Une culture visuelle de base — pas de niveau requis en dessin',
         ],
-        seoTitle: 'Formation UI/UX design à Tanger — Figma et ergonomie | CFI',
+        seoTitle: 'Formation UI/UX design à Tanger — Figma et ergonomie',
         seoDescription:
           'Formation UI/UX : recherche utilisateur, parcours, maquettes Figma, systèmes de composants, accessibilité et tests d’utilisabilité.',
       },
@@ -1498,7 +1498,7 @@ const COURSES: readonly SeedCourse[] = [
           'رؤساء المشاريع المطالبون بالحسم في خيارات التصميم',
         ],
         requirements: ['حساب Figma مجاني', 'ثقافة بصرية أساسية — لا مستوى مطلوب في الرسم'],
-        seoTitle: 'تكوين في تصميم واجهات المستخدم بطنجة — Figma والإرغونوميا | CFI',
+        seoTitle: 'تكوين في تصميم واجهات المستخدم بطنجة — Figma والإرغونوميا',
         seoDescription:
           'دورة تدريبية في تجربة وواجهة المستخدم: البحث مع المستعملين، المسارات، نماذج Figma، أنظمة المكوّنات، قابلية الولوج والاختبارات.',
       },
@@ -1520,7 +1520,7 @@ const COURSES: readonly SeedCourse[] = [
           'Project managers who must arbitrate design decisions',
         ],
         requirements: ['A free Figma account', 'Basic visual culture — no drawing skill required'],
-        seoTitle: 'UI/UX design training in Tanger — Figma and usability | CFI',
+        seoTitle: 'UI/UX design training in Tanger — Figma and usability',
         seoDescription:
           'UI/UX training: user research, journeys, Figma mockups, component systems, accessibility and usability testing.',
       },
@@ -1542,7 +1542,7 @@ const COURSES: readonly SeedCourse[] = [
           'Jefes de proyecto que deben arbitrar decisiones de diseño',
         ],
         requirements: ['Una cuenta gratuita de Figma', 'Cultura visual básica — no se exige nivel de dibujo'],
-        seoTitle: 'Formación en diseño UI/UX en Tánger — Figma y usabilidad | CFI',
+        seoTitle: 'Formación en diseño UI/UX en Tánger — Figma y usabilidad',
         seoDescription:
           'Formación UI/UX: investigación con usuarios, recorridos, maquetas en Figma, sistemas de componentes, accesibilidad y pruebas de usabilidad.',
       },
@@ -1631,7 +1631,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un téléphone récent avec de l’espace de stockage libre',
           'Aucune expérience du montage n’est nécessaire',
         ],
-        seoTitle: 'Formation montage vidéo formats courts à Tanger | CFI',
+        seoTitle: 'Formation montage vidéo formats courts à Tanger',
         seoDescription:
           'Formation pratique au montage vidéo pour Reels et Shorts : tournage au téléphone, montage, sous-titres et export. En présentiel à Tanger.',
       },
@@ -1652,7 +1652,7 @@ const COURSES: readonly SeedCourse[] = [
           'صنّاع المحتوى المبتدئون',
         ],
         requirements: ['هاتف حديث بمساحة تخزين متاحة', 'لا حاجة إلى أي تجربة سابقة في المونتاج'],
-        seoTitle: 'تكوين في مونتاج الصيغ القصيرة بطنجة | CFI',
+        seoTitle: 'تكوين في مونتاج الصيغ القصيرة بطنجة',
         seoDescription:
           'دورة تطبيقية في المونتاج لـReels وShorts: التصوير بالهاتف، التركيب، الترجمة المكتوبة والتصدير. حضورياً بطنجة.',
       },
@@ -1673,7 +1673,7 @@ const COURSES: readonly SeedCourse[] = [
           'Beginner content creators',
         ],
         requirements: ['A recent phone with free storage', 'No editing experience required'],
-        seoTitle: 'Short-form video editing training in Tanger | CFI',
+        seoTitle: 'Short-form video editing training in Tanger',
         seoDescription:
           'Hands-on video editing training for Reels and Shorts: phone shooting, editing, subtitles and export. On site in Tanger.',
       },
@@ -1694,7 +1694,7 @@ const COURSES: readonly SeedCourse[] = [
           'Creadores de contenido principiantes',
         ],
         requirements: ['Un teléfono reciente con espacio libre', 'No se necesita experiencia en edición'],
-        seoTitle: 'Formación en edición de vídeo de formato corto en Tánger | CFI',
+        seoTitle: 'Formación en edición de vídeo de formato corto en Tánger',
         seoDescription:
           'Formación práctica de edición de vídeo para Reels y Shorts: grabación con móvil, montaje, subtítulos y exportación. Presencial en Tánger.',
       },
@@ -1777,7 +1777,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un niveau B1 environ : comprendre et écrire des phrases complètes',
           'Apporter deux écrits professionnels récents',
         ],
-        seoTitle: 'Formation français professionnel à Tanger — écrits du travail | CFI',
+        seoTitle: 'Formation français professionnel à Tanger — écrits du travail',
         seoDescription:
           'Formation français professionnel : e-mails, comptes rendus, offres et relances. Travail sur vos propres écrits, en centre et à distance.',
       },
@@ -1799,7 +1799,7 @@ const COURSES: readonly SeedCourse[] = [
           'المستقلّون الذين يحرّرون عروضهم وتذكيراتهم',
         ],
         requirements: ['مستوى B1 تقريباً: فهم وكتابة جمل كاملة', 'إحضار كتابتين مهنيتين حديثتين'],
-        seoTitle: 'تكوين في الفرنسية المهنية بطنجة — كتابات العمل | CFI',
+        seoTitle: 'تكوين في الفرنسية المهنية بطنجة — كتابات العمل',
         seoDescription:
           'دورة تدريبية في الفرنسية المهنية: الرسائل والمحاضر والعروض والتذكيرات. اشتغال على كتاباتكم، حضورياً وعن بعد.',
       },
@@ -1824,7 +1824,7 @@ const COURSES: readonly SeedCourse[] = [
           'Roughly a B1 level: understanding and writing full sentences',
           'Bring two recent pieces of professional writing',
         ],
-        seoTitle: 'Professional French training in Tanger — workplace writing | CFI',
+        seoTitle: 'Professional French training in Tanger — workplace writing',
         seoDescription:
           'Professional French training: emails, minutes, proposals and follow-ups. Work on your own writing, on site and online.',
       },
@@ -1849,7 +1849,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un nivel B1 aproximado: comprender y escribir frases completas',
           'Traer dos escritos profesionales recientes',
         ],
-        seoTitle: 'Formación en francés profesional en Tánger — escritos de trabajo | CFI',
+        seoTitle: 'Formación en francés profesional en Tánger — escritos de trabajo',
         seoDescription:
           'Formación en francés profesional: correos, actas, ofertas y recordatorios. Trabajo sobre sus propios escritos, presencial y en línea.',
       },
@@ -1938,7 +1938,7 @@ const COURSES: readonly SeedCourse[] = [
           'Notions scolaires d’anglais',
           'Assiduité : la progression à l’oral dépend de la régularité',
         ],
-        seoTitle: 'Formation anglais professionnel à Tanger | CFI',
+        seoTitle: 'Formation anglais professionnel à Tanger',
         seoDescription:
           'Formation d’anglais professionnel centrée sur l’oral : présentation, téléphone, réunions et e-mails simples. En présentiel à Tanger.',
       },
@@ -1959,7 +1959,7 @@ const COURSES: readonly SeedCourse[] = [
           'المبتدئون الذين يحتاجون إلى الكلام لا إلى المراجعة',
         ],
         requirements: ['معارف مدرسية في الإنجليزية', 'المواظبة: التقدم الشفوي رهين بالانتظام'],
-        seoTitle: 'تكوين في الإنجليزية المهنية بطنجة | CFI',
+        seoTitle: 'تكوين في الإنجليزية المهنية بطنجة',
         seoDescription:
           'دورة في الإنجليزية المهنية تركّز على الشفوي: التقديم، الهاتف، الاجتماعات والرسائل البسيطة. حضورياً بطنجة.',
       },
@@ -1980,7 +1980,7 @@ const COURSES: readonly SeedCourse[] = [
           'Beginners who need to speak, not to revise',
         ],
         requirements: ['School-level notions of English', 'Regular attendance: speaking progress depends on it'],
-        seoTitle: 'Professional English training in Tanger | CFI',
+        seoTitle: 'Professional English training in Tanger',
         seoDescription:
           'Professional English training focused on speaking: introductions, phone calls, meetings and simple emails. On site in Tanger.',
       },
@@ -2001,7 +2001,7 @@ const COURSES: readonly SeedCourse[] = [
           'Principiantes que necesitan hablar, no repasar',
         ],
         requirements: ['Nociones escolares de inglés', 'Asiduidad: el progreso oral depende de la regularidad'],
-        seoTitle: 'Formación en inglés profesional en Tánger | CFI',
+        seoTitle: 'Formación en inglés profesional en Tánger',
         seoDescription:
           'Formación de inglés profesional centrada en el habla: presentaciones, teléfono, reuniones y correos sencillos. Presencial en Tánger.',
       },
@@ -2083,7 +2083,7 @@ const COURSES: readonly SeedCourse[] = [
           'Une idée de projet, même imparfaite',
           'Aucune connaissance juridique ou comptable préalable',
         ],
-        seoTitle: 'Formation création d’entreprise au Maroc — Tanger | CFI',
+        seoTitle: 'Formation création d’entreprise au Maroc — Tanger',
         seoDescription:
           'Créer son entreprise au Maroc : business plan, statut juridique, immatriculation, CNSS, TVA et financement. Formation à Tanger, en centre et à distance.',
       },
@@ -2105,7 +2105,7 @@ const COURSES: readonly SeedCourse[] = [
           'الأجراء الذين يعدّون إعادة توجيه مهني',
         ],
         requirements: ['فكرة مشروع، ولو غير مكتملة', 'لا حاجة إلى معرفة قانونية أو محاسباتية سابقة'],
-        seoTitle: 'تكوين في إحداث المقاولة بالمغرب — طنجة | CFI',
+        seoTitle: 'تكوين في إحداث المقاولة بالمغرب — طنجة',
         seoDescription:
           'إحداث مقاولة بالمغرب: خطة العمل، الشكل القانوني، التسجيل، الضمان الاجتماعي، الضريبة على القيمة المضافة والتمويل. تكوين بطنجة حضورياً وعن بعد.',
       },
@@ -2127,7 +2127,7 @@ const COURSES: readonly SeedCourse[] = [
           'Employees preparing a career change',
         ],
         requirements: ['A project idea, however rough', 'No prior legal or accounting knowledge'],
-        seoTitle: 'Business creation training in Morocco — Tanger | CFI',
+        seoTitle: 'Business creation training in Morocco — Tanger',
         seoDescription:
           'Start a business in Morocco: business plan, legal form, registration, social security, VAT and funding. Training in Tanger, on site and online.',
       },
@@ -2149,7 +2149,7 @@ const COURSES: readonly SeedCourse[] = [
           'Empleados que preparan una reconversión',
         ],
         requirements: ['Una idea de proyecto, aunque sea imperfecta', 'Ningún conocimiento jurídico o contable previo'],
-        seoTitle: 'Formación para crear empresa en Marruecos — Tánger | CFI',
+        seoTitle: 'Formación para crear empresa en Marruecos — Tánger',
         seoDescription:
           'Crear una empresa en Marruecos: plan de negocio, forma jurídica, registro, seguridad social, IVA y financiación. Formación en Tánger.',
       },
@@ -2242,7 +2242,7 @@ const COURSES: readonly SeedCourse[] = [
           'Gérer ou accompagner une activité réelle',
           'Un niveau d’arithmétique courant suffit',
         ],
-        seoTitle: 'Formation comptabilité TPE à Tanger | CFI',
+        seoTitle: 'Formation comptabilité TPE à Tanger',
         seoDescription:
           'Formation comptabilité et gestion pour TPE : pièces, écritures, bilan, compte de résultat, trésorerie et échéances fiscales. Présentiel à Tanger.',
       },
@@ -2264,7 +2264,7 @@ const COURSES: readonly SeedCourse[] = [
           'المقاولون الذاتيون في مرحلة نمو',
         ],
         requirements: ['تسيير نشاط حقيقي أو مواكبته', 'مستوى حسابي عادي يكفي'],
-        seoTitle: 'تكوين في محاسبة المقاولات الصغيرة بطنجة | CFI',
+        seoTitle: 'تكوين في محاسبة المقاولات الصغيرة بطنجة',
         seoDescription:
           'دورة في المحاسبة والتدبير للمقاولات الصغيرة جداً: الوثائق، التسجيلات، الميزانية، حساب النتيجة، الخزينة والاستحقاقات. حضورياً بطنجة.',
       },
@@ -2286,7 +2286,7 @@ const COURSES: readonly SeedCourse[] = [
           'Growing sole traders',
         ],
         requirements: ['Running or supporting a real business', 'Everyday arithmetic is enough'],
-        seoTitle: 'Small business accounting training in Tanger | CFI',
+        seoTitle: 'Small business accounting training in Tanger',
         seoDescription:
           'Accounting and management training for very small businesses: records, entries, balance sheet, P&L, cash flow and tax deadlines. On site in Tanger.',
       },
@@ -2308,7 +2308,7 @@ const COURSES: readonly SeedCourse[] = [
           'Autónomos en crecimiento',
         ],
         requirements: ['Gestionar o acompañar una actividad real', 'Basta un nivel de aritmética corriente'],
-        seoTitle: 'Formación en contabilidad para microempresas en Tánger | CFI',
+        seoTitle: 'Formación en contabilidad para microempresas en Tánger',
         seoDescription:
           'Formación en contabilidad y gestión para microempresas: documentos, asientos, balance, resultados, tesorería y vencimientos. Presencial en Tánger.',
       },
@@ -2400,7 +2400,7 @@ const COURSES: readonly SeedCourse[] = [
           'Savoir utiliser un ordinateur : fichiers, dossiers, clavier',
           'Excel installé, ou un compte gratuit en ligne',
         ],
-        seoTitle: 'Formation Excel à Tanger — de zéro à l’analyse | CFI',
+        seoTitle: 'Formation Excel à Tanger — de zéro à l’analyse',
         seoDescription:
           'Formation Excel donnée en arabe à Tanger : tableaux, formules, RECHERCHEX, graphiques et tableaux croisés dynamiques. Supports en français et en arabe.',
       },
@@ -2422,7 +2422,7 @@ const COURSES: readonly SeedCourse[] = [
           'كل من لا يزال ينقل الأرقام يدوياً',
         ],
         requirements: ['إتقان استعمال الحاسوب: الملفات والمجلدات ولوحة المفاتيح', 'إكسل مثبَّت، أو حساب مجاني على الإنترنت'],
-        seoTitle: 'تكوين في إكسل بطنجة — من الصفر إلى التحليل | CFI',
+        seoTitle: 'تكوين في إكسل بطنجة — من الصفر إلى التحليل',
         seoDescription:
           'دورة تدريبية في إكسل بالعربية بطنجة: الجداول، الصيغ، RECHERCHEX، الرسوم البيانية والجداول المحورية. حوامل بالفرنسية والعربية.',
       },
@@ -2444,7 +2444,7 @@ const COURSES: readonly SeedCourse[] = [
           'Anyone still retyping numbers by hand',
         ],
         requirements: ['Comfortable with a computer: files, folders, keyboard', 'Excel installed, or a free online account'],
-        seoTitle: 'Excel training in Tanger — from zero to analysis | CFI',
+        seoTitle: 'Excel training in Tanger — from zero to analysis',
         seoDescription:
           'Excel training taught in Arabic in Tanger: tables, formulas, XLOOKUP, charts and pivot tables. Materials in French and Arabic.',
       },
@@ -2466,7 +2466,7 @@ const COURSES: readonly SeedCourse[] = [
           'Cualquiera que siga copiando cifras a mano',
         ],
         requirements: ['Saber usar un ordenador: archivos, carpetas, teclado', 'Excel instalado o una cuenta gratuita en línea'],
-        seoTitle: 'Formación de Excel en Tánger — de cero al análisis | CFI',
+        seoTitle: 'Formación de Excel en Tánger — de cero al análisis',
         seoDescription:
           'Formación de Excel impartida en árabe en Tánger: tablas, fórmulas, BUSCARX, gráficos y tablas dinámicas. Materiales en francés y árabe.',
       },
@@ -2764,7 +2764,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un ordinateur et une connexion correcte',
           'Aucune compétence technique particulière',
         ],
-        seoTitle: 'Formation IA générative au quotidien — Tanger | CFI',
+        seoTitle: 'Formation IA générative au quotidien — Tanger',
         seoDescription:
           'Formation à l’usage professionnel de l’IA générative : consignes précises, vérification des réponses, traduction, tableaux et confidentialité des données.',
       },
@@ -2782,7 +2782,7 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: ['موظفو المكاتب بمختلف المصالح', 'الأساتذة والمكوّنون', 'المستقلّون الذين ينتجون كتابات كثيرة'],
         requirements: ['حاسوب واتصال جيد', 'لا حاجة إلى أي كفاءة تقنية خاصة'],
-        seoTitle: 'تكوين في الذكاء الاصطناعي التوليدي — طنجة | CFI',
+        seoTitle: 'تكوين في الذكاء الاصطناعي التوليدي — طنجة',
         seoDescription:
           'دورة تدريبية في الاستعمال المهني للذكاء الاصطناعي التوليدي: التعليمات الدقيقة، التحقق من الأجوبة، الترجمة، الجداول وسرية المعطيات.',
       },
@@ -2800,7 +2800,7 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: ['Office staff, across all departments', 'Teachers and trainers', 'Freelancers who produce a lot of writing'],
         requirements: ['A computer and a decent connection', 'No particular technical skill'],
-        seoTitle: 'Generative AI at work training — Tanger | CFI',
+        seoTitle: 'Generative AI at work training — Tanger',
         seoDescription:
           'Training on professional use of generative AI: precise instructions, checking answers, translation, tables and data confidentiality.',
       },
@@ -2818,7 +2818,7 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: ['Personal de oficina, de todos los servicios', 'Docentes y formadores', 'Autónomos que producen muchos textos'],
         requirements: ['Un ordenador y una conexión decente', 'Ninguna competencia técnica particular'],
-        seoTitle: 'Formación en IA generativa en el trabajo — Tánger | CFI',
+        seoTitle: 'Formación en IA generativa en el trabajo — Tánger',
         seoDescription:
           'Formación sobre el uso profesional de la IA generativa: instrucciones precisas, verificación de respuestas, traducción, tablas y confidencialidad.',
       },

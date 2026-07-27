@@ -1068,14 +1068,13 @@
         "debutant": "Débutant",
         "intermediaire": "Intermédiaire",
         "avance": "Avancé",
-        "tousNiveaux": "Ouvert à tous les niveaux"
+        "tous-niveaux": "Ouvert à tous les niveaux"
       },
       "delivery": {
         "label": "Format",
-        "all": "Tous les formats",
-        "enLigne": "En ligne",
+        "en-ligne": "En ligne",
         "presentiel": "Au centre",
-        "hybride": "Hybride : en ligne et au centre"
+        "hybride": "Hybride"
       },
       "price": {
         "label": "Tarif",
@@ -1107,29 +1106,32 @@
       "rating": {
         "label": "Note",
         "all": "Toutes les notes",
-        "from": "{stars, plural, one {# étoile et plus} other {# étoiles et plus}}"
+        "from": "{stars, plural, one {# étoile et plus} other {# étoiles et plus}}",
+        "chip": "{rating} étoiles et plus"
       },
       "features": {
         "label": "Options",
-        "certificate": "Avec certificat",
-        "installments": "Paiement en tranches",
-        "live": "Sessions en direct",
-        "preview": "Avec leçon d'essai"
-      }
+        "certificat": "Avec certificat",
+        "tranches": "Paiement en tranches",
+        "direct": "Sessions en direct",
+        "essai": "Avec leçon d'essai"
+      },
+      "remove": "Retirer le filtre {label}",
+      "clearAll": "Réinitialiser les filtres"
     },
     "sort": {
       "label": "Trier par",
-      "relevance": "Pertinence",
-      "newest": "Nouveautés",
-      "priceAsc": "Tarif croissant",
-      "priceDesc": "Tarif décroissant",
-      "popular": "Popularité",
-      "topRated": "Mieux notées"
+      "pertinence": "Pertinence",
+      "nouveautes": "Nouveautés",
+      "prix-asc": "Tarif croissant",
+      "prix-desc": "Tarif décroissant",
+      "populaire": "Popularité",
+      "mieux-notees": "Mieux notées"
     },
     "view": {
       "label": "Affichage",
-      "grid": "Affichage en grille",
-      "list": "Affichage en liste"
+      "grille": "Affichage en grille",
+      "liste": "Affichage en liste"
     },
     "card": {
       "lessonCount": "{count, plural, one {# leçon} other {# leçons}}",
@@ -1163,13 +1165,16 @@
     "allLoaded": "Vous avez vu toutes les formations correspondant à ces filtres.",
     "pagination": {
       "label": "Pages de résultats",
-      "summary": "Page {page} sur {total}"
+      "summary": "Page {page} sur {total}",
+      "previous": "Page précédente",
+      "next": "Page suivante"
     },
     "error": {
       "title": "Le catalogue n'a pas pu être chargé",
       "body": "La connexion au serveur a échoué. Rechargez la page ; si le problème persiste, écrivez-nous sur WhatsApp.",
       "action": "Réessayer"
-    }
+    },
+    "subtitle": "Toutes nos formations, filtrables par domaine, niveau, format et tarif."
   },
   "course": {
     "breadcrumbHome": "Accueil",
@@ -1191,15 +1196,15 @@
       "new": "Nouveau"
     },
     "level": {
-      "debutant": "Débutant",
-      "intermediaire": "Intermédiaire",
-      "avance": "Avancé",
-      "tousNiveaux": "Ouvert à tous les niveaux"
+      "DEBUTANT": "Débutant",
+      "INTERMEDIAIRE": "Intermédiaire",
+      "AVANCE": "Avancé",
+      "TOUS_NIVEAUX": "Ouvert à tous les niveaux"
     },
     "delivery": {
-      "enLigne": "En ligne",
-      "presentiel": "Au centre",
-      "hybride": "Hybride : en ligne et au centre"
+      "EN_LIGNE": "En ligne",
+      "PRESENTIEL": "Au centre",
+      "HYBRIDE": "Hybride : en ligne et au centre"
     },
     "media": {
       "coverAlt": "Illustration de la formation {title}",

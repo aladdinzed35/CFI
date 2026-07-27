@@ -1068,14 +1068,13 @@
         "debutant": "مبتدئ",
         "intermediaire": "متوسّط",
         "avance": "متقدّم",
-        "tousNiveaux": "مفتوح لكل المستويات"
+        "tous-niveaux": "مفتوح لكل المستويات"
       },
       "delivery": {
         "label": "الصيغة",
-        "all": "كل الصيغ",
-        "enLigne": "عن بُعد",
-        "presentiel": "في المركز",
-        "hybride": "مختلط: عن بُعد وفي المركز"
+        "en-ligne": "عن بعد",
+        "presentiel": "حضوريًا",
+        "hybride": "مختلط"
       },
       "price": {
         "label": "السعر",
@@ -1107,29 +1106,32 @@
       "rating": {
         "label": "التقييم",
         "all": "كل التقييمات",
-        "from": "{stars, plural, zero {# نجمة فأكثر} one {نجمة واحدة فأكثر} two {نجمتان فأكثر} few {# نجوم فأكثر} many {# نجمة فأكثر} other {# نجمة فأكثر}}"
+        "from": "{stars, plural, zero {# نجمة فأكثر} one {نجمة واحدة فأكثر} two {نجمتان فأكثر} few {# نجوم فأكثر} many {# نجمة فأكثر} other {# نجمة فأكثر}}",
+        "chip": "{rating} نجوم فأكثر"
       },
       "features": {
         "label": "خيارات",
-        "certificate": "مع شهادة",
-        "installments": "الأداء على أقساط",
-        "live": "حصص مباشرة",
-        "preview": "مع حصة تجريبية"
-      }
+        "certificat": "مع شهادة",
+        "tranches": "الأداء على أقساط",
+        "direct": "حصص مباشرة",
+        "essai": "مع حصة تجريبية"
+      },
+      "remove": "إزالة عامل التصفية {label}",
+      "clearAll": "إعادة ضبط عوامل التصفية"
     },
     "sort": {
       "label": "الترتيب حسب",
-      "relevance": "الملاءمة",
-      "newest": "الأحدث",
-      "priceAsc": "السعر تصاعديًا",
-      "priceDesc": "السعر تنازليًا",
-      "popular": "الأكثر رواجًا",
-      "topRated": "الأعلى تقييمًا"
+      "pertinence": "الملاءمة",
+      "nouveautes": "الأحدث",
+      "prix-asc": "السعر تصاعديًا",
+      "prix-desc": "السعر تنازليًا",
+      "populaire": "الأكثر رواجًا",
+      "mieux-notees": "الأعلى تقييمًا"
     },
     "view": {
       "label": "طريقة العرض",
-      "grid": "عرض شبكي",
-      "list": "عرض بالقائمة"
+      "grille": "عرض شبكي",
+      "liste": "عرض بالقائمة"
     },
     "card": {
       "lessonCount": "{count, plural, zero {لا توجد حصص} one {حصة واحدة} two {حصتان} few {# حصص} many {# حصة} other {# حصة}}",
@@ -1163,13 +1165,16 @@
     "allLoaded": "اطّلعتم على كل الدورات التدريبية المطابقة لعوامل التصفية هذه.",
     "pagination": {
       "label": "صفحات النتائج",
-      "summary": "الصفحة {page} من {total}"
+      "summary": "الصفحة {page} من {total}",
+      "previous": "الصفحة السابقة",
+      "next": "الصفحة التالية"
     },
     "error": {
       "title": "تعذّر تحميل الكتالوج",
       "body": "أخفق الاتصال بالخادم. أعيدوا تحميل الصفحة؛ وإن استمرّ المشكل، راسلونا على واتساب.",
       "action": "إعادة المحاولة"
-    }
+    },
+    "subtitle": "كل دوراتنا التدريبية، مع إمكانية التصفية حسب المجال والمستوى والصيغة والسعر."
   },
   "course": {
     "breadcrumbHome": "الرئيسية",
@@ -1191,15 +1196,15 @@
       "new": "جديد"
     },
     "level": {
-      "debutant": "مبتدئ",
-      "intermediaire": "متوسّط",
-      "avance": "متقدّم",
-      "tousNiveaux": "مفتوح لكل المستويات"
+      "DEBUTANT": "مبتدئ",
+      "INTERMEDIAIRE": "متوسّط",
+      "AVANCE": "متقدّم",
+      "TOUS_NIVEAUX": "مفتوح لكل المستويات"
     },
     "delivery": {
-      "enLigne": "عن بُعد",
-      "presentiel": "في المركز",
-      "hybride": "مختلط: عن بُعد وفي المركز"
+      "EN_LIGNE": "عن بُعد",
+      "PRESENTIEL": "في المركز",
+      "HYBRIDE": "مختلط: عن بُعد وفي المركز"
     },
     "media": {
       "coverAlt": "صورة الدورة التدريبية {title}",

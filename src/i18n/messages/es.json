@@ -1068,14 +1068,13 @@
         "debutant": "Principiante",
         "intermediaire": "Intermedio",
         "avance": "Avanzado",
-        "tousNiveaux": "Abierto a todos los niveles"
+        "tous-niveaux": "Abierto a todos los niveles"
       },
       "delivery": {
         "label": "Formato",
-        "all": "Todos los formatos",
-        "enLigne": "En línea",
+        "en-ligne": "En línea",
         "presentiel": "En el centro",
-        "hybride": "Híbrido: en línea y en el centro"
+        "hybride": "Híbrido"
       },
       "price": {
         "label": "Tarifa",
@@ -1107,29 +1106,32 @@
       "rating": {
         "label": "Valoración",
         "all": "Todas las valoraciones",
-        "from": "{stars, plural, one {# estrella o más} other {# estrellas o más}}"
+        "from": "{stars, plural, one {# estrella o más} other {# estrellas o más}}",
+        "chip": "{rating} estrellas o más"
       },
       "features": {
         "label": "Opciones",
-        "certificate": "Con certificado",
-        "installments": "Pago a plazos",
-        "live": "Sesiones en directo",
-        "preview": "Con clase de prueba"
-      }
+        "certificat": "Con certificado",
+        "tranches": "Pago a plazos",
+        "direct": "Sesiones en directo",
+        "essai": "Con clase de prueba"
+      },
+      "remove": "Quitar el filtro {label}",
+      "clearAll": "Restablecer los filtros"
     },
     "sort": {
       "label": "Ordenar por",
-      "relevance": "Relevancia",
-      "newest": "Novedades",
-      "priceAsc": "Tarifa ascendente",
-      "priceDesc": "Tarifa descendente",
-      "popular": "Popularidad",
-      "topRated": "Mejor valoradas"
+      "pertinence": "Relevancia",
+      "nouveautes": "Novedades",
+      "prix-asc": "Tarifa ascendente",
+      "prix-desc": "Tarifa descendente",
+      "populaire": "Popularidad",
+      "mieux-notees": "Mejor valoradas"
     },
     "view": {
       "label": "Visualización",
-      "grid": "Vista en cuadrícula",
-      "list": "Vista en lista"
+      "grille": "Vista en cuadrícula",
+      "liste": "Vista en lista"
     },
     "card": {
       "lessonCount": "{count, plural, one {# clase} other {# clases}}",
@@ -1163,13 +1165,16 @@
     "allLoaded": "Ha visto todas las formaciones que coinciden con estos filtros.",
     "pagination": {
       "label": "Páginas de resultados",
-      "summary": "Página {page} de {total}"
+      "summary": "Página {page} de {total}",
+      "previous": "Página anterior",
+      "next": "Página siguiente"
     },
     "error": {
       "title": "No se ha podido cargar el catálogo",
       "body": "Ha fallado la conexión con el servidor. Recargue la página; si el problema continúa, escríbanos por WhatsApp.",
       "action": "Reintentar"
-    }
+    },
+    "subtitle": "Todas nuestras formaciones, filtrables por ámbito, nivel, formato y tarifa."
   },
   "course": {
     "breadcrumbHome": "Inicio",
@@ -1191,15 +1196,15 @@
       "new": "Nuevo"
     },
     "level": {
-      "debutant": "Principiante",
-      "intermediaire": "Intermedio",
-      "avance": "Avanzado",
-      "tousNiveaux": "Abierto a todos los niveles"
+      "DEBUTANT": "Principiante",
+      "INTERMEDIAIRE": "Intermedio",
+      "AVANCE": "Avanzado",
+      "TOUS_NIVEAUX": "Abierto a todos los niveles"
     },
     "delivery": {
-      "enLigne": "En línea",
-      "presentiel": "En el centro",
-      "hybride": "Híbrido: en línea y en el centro"
+      "EN_LIGNE": "En línea",
+      "PRESENTIEL": "En el centro",
+      "HYBRIDE": "Híbrido: en línea y en el centro"
     },
     "media": {
       "coverAlt": "Ilustración de la formación {title}",
