@@ -1016,7 +1016,8 @@
     "prefillCourse": "Hola CFI, me interesa la formación «{courseTitle}».",
     "prefillPath": "Hola CFI, me interesa el itinerario «{pathTitle}».",
     "prefillVisit": "Hola CFI, me gustaría visitar el centro. ¿Cuándo tienen disponibilidad?",
-    "prefillPricing": "Hola CFI, tengo una pregunta sobre sus tarifas."
+    "prefillPricing": "Hola CFI, tengo una pregunta sobre sus tarifas.",
+    "prefillCertificate": "Hola CFI, tengo una pregunta sobre un certificado."
   },
   "publicNav": {
     "brandHome": "CFI — volver a la página de inicio",
@@ -1706,6 +1707,7 @@
     "certificate": {
       "title": "Verificar un certificado",
       "lead": "Introduzca el código impreso en el certificado para comprobar que lo ha emitido el centro.",
+      "scope": "Esta comprobación solo confirma que en nuestro registro figura un certificado con este código: no sustituye a un documento de identidad ni a un expediente de calificaciones.",
       "codeLabel": "Código del certificado",
       "codePlaceholder": "CFI-2026-XXXXXX",
       "codeHint": "El código figura en la parte inferior del certificado, bajo el sello.",
@@ -1774,6 +1776,14 @@
       "searchLabel": "Buscar una pregunta",
       "searchPlaceholder": "Pago, certificado, acceso…",
       "allGroups": "Todas las secciones",
+      "groups": {
+        "inscription": "Inscripción y cuenta",
+        "paiement": "Pago y transferencia",
+        "formations": "Formaciones y acceso",
+        "certificat": "Certificado",
+        "technique": "Preguntas técnicas",
+        "other": "Otras preguntas"
+      },
       "resultCount": "{count, plural, =0 {Ninguna pregunta} one {# pregunta} other {# preguntas}}",
       "empty": {
         "title": "Ninguna pregunta coincide con su búsqueda",

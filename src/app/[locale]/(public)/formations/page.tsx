@@ -127,7 +127,6 @@ export default async function CatalogPage({
               viewList: t('view.liste'),
               openFilters: t('filters.open'),
               clearAll: t('filters.clearAll'),
-              removeFilter: t('filters.remove'),
               activeChips: chips,
             }}
           />
@@ -177,7 +176,7 @@ type Translator = Awaited<ReturnType<typeof getTranslations>>;
 function buildChips(
   filters: CatalogFilters,
   t: Translator,
-): ReadonlyArray<{ key: string; label: string; href: string }> {
+): ReadonlyArray<{ key: string; label: string; href: string; removeLabel: string }> {
   const chips: Array<{ key: string; label: string; href: string }> = [];
 
   // The search term's own chip lives under the field, in `CatalogSearch`.
@@ -233,7 +232,11 @@ function buildChips(
     });
   }
 
-  return chips;
+  // 'filters.remove' is an ICU message requiring {label}. Calling it without one
+  // makes next-intl fail and render the key path as visible text — which is
+  // exactly what the E2E suite caught on the filtered catalogue. Deriving it
+  // here, from the label each chip already has, cannot miss a chip type.
+  return chips.map((chip) => ({ ...chip, removeLabel: t('filters.remove', { label: chip.label }) }));
 }
 
 /**

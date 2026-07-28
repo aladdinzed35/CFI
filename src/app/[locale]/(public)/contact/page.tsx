@@ -158,29 +158,24 @@ export default async function ContactPage({
 
             <dl className="flex flex-col gap-4">
               {contact.address === null ? null : (
-                <div className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                  <div>
+                <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                  <MapPin className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
                     <dt className="text-sm font-medium text-ink">{t('addressLabel')}</dt>
                     <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{contact.address}</dd>
-                  </div>
                 </div>
               )}
 
               {contact.hours === null ? null : (
-                <div className="flex items-start gap-3">
-                  <Clock className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                  <div>
+                <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                  <Clock className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
                     <dt className="text-sm font-medium text-ink">{t('hoursLabel')}</dt>
                     <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{contact.hours}</dd>
-                  </div>
                 </div>
               )}
 
               {contact.phoneE164 === null || contact.phoneDisplay === null ? null : (
-                <div className="flex items-start gap-3">
-                  <Phone className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                  <div>
+                <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                  <Phone className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
                     <dt className="text-sm font-medium text-ink">{t('phoneLabel')}</dt>
                     <dd className="mt-0.5 text-sm">
                       {/* A number is Latin script and stays LTR inside Arabic (§10.3). */}
@@ -192,14 +187,12 @@ export default async function ContactPage({
                         {contact.phoneDisplay}
                       </a>
                     </dd>
-                  </div>
                 </div>
               )}
 
               {contact.email === null ? null : (
-                <div className="flex items-start gap-3">
-                  <Mail className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                  <div>
+                <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                  <Mail className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
                     <dt className="text-sm font-medium text-ink">{t('emailLabel')}</dt>
                     <dd className="mt-0.5 text-sm">
                       <a
@@ -210,7 +203,6 @@ export default async function ContactPage({
                         {contact.email}
                       </a>
                     </dd>
-                  </div>
                 </div>
               )}
             </dl>

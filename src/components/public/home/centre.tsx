@@ -85,43 +85,46 @@ export async function HomeCentreSection({
         <div className="flex flex-col gap-6">
           <p className="text-body text-pretty text-ink-muted">{t('body')}</p>
 
+          {/*
+            A grid rather than nested flex wrappers, and that is a correctness
+            constraint rather than a style choice: HTML allows exactly ONE <div>
+            between a <dl> and its <dt>/<dd>. Wrapping the text in a second div
+            to sit the icon beside it put <dt> two levels deep, which axe
+            reported as `dlitem` on every render of the homepage. Here the icon
+            spans both rows of the first column, so <dt> and <dd> stay direct
+            children of the single permitted wrapper and the layout is unchanged.
+          */}
           <dl className="flex flex-col gap-4">
             {centre.address === null ? null : (
-              <div className="flex items-start gap-3">
-                <MapPin className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                <div>
-                  <dt className="text-sm font-medium text-ink">{t('addressLabel')}</dt>
-                  <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{centre.address}</dd>
-                </div>
+              <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                <MapPin className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
+                <dt className="text-sm font-medium text-ink">{t('addressLabel')}</dt>
+                <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{centre.address}</dd>
               </div>
             )}
 
             {centre.hours === null ? null : (
-              <div className="flex items-start gap-3">
-                <Clock className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                <div>
-                  <dt className="text-sm font-medium text-ink">{t('hoursLabel')}</dt>
-                  <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{centre.hours}</dd>
-                </div>
+              <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                <Clock className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
+                <dt className="text-sm font-medium text-ink">{t('hoursLabel')}</dt>
+                <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{centre.hours}</dd>
               </div>
             )}
 
             {centre.phoneDisplay === null || centre.phoneE164 === null ? null : (
-              <div className="flex items-start gap-3">
-                <Phone className="mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
-                <div>
-                  <dt className="text-sm font-medium text-ink">{t('phoneLabel')}</dt>
-                  <dd className="mt-0.5 text-sm">
-                    {/* A number is Latin script and stays LTR inside Arabic (§10.3). */}
-                    <a
-                      href={`tel:${centre.phoneE164}`}
-                      dir="ltr"
-                      className="force-ltr text-ink underline-offset-4 hover:underline"
-                    >
-                      {centre.phoneDisplay}
-                    </a>
-                  </dd>
-                </div>
+              <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                <Phone className="row-span-2 mt-0.5 size-5 shrink-0 text-strait" aria-hidden="true" />
+                <dt className="text-sm font-medium text-ink">{t('phoneLabel')}</dt>
+                <dd className="mt-0.5 text-sm">
+                  {/* A number is Latin script and stays LTR inside Arabic (§10.3). */}
+                  <a
+                    href={`tel:${centre.phoneE164}`}
+                    dir="ltr"
+                    className="force-ltr text-ink underline-offset-4 hover:underline"
+                  >
+                    {centre.phoneDisplay}
+                  </a>
+                </dd>
               </div>
             )}
           </dl>

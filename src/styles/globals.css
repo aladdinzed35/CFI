@@ -91,11 +91,18 @@
   --raw-on-brass: #2a1c05;
   --raw-on-danger: #2b0207;
 
-  /* Tinted alpha washes — used for status backgrounds and hover states. */
-  --raw-strait-wash: color-mix(in oklab, var(--raw-accent-strait) 12%, transparent);
-  --raw-brass-wash: color-mix(in oklab, var(--raw-accent-brass) 12%, transparent);
-  --raw-danger-wash: color-mix(in oklab, var(--raw-signal-danger) 12%, transparent);
-  --raw-warn-wash: color-mix(in oklab, var(--raw-signal-warn) 12%, transparent);
+  /* Tinted alpha washes — used for status backgrounds and hover states.
+     The strength is a variable because it cannot be one number: 12 % of an
+     accent over a DARK surface barely shifts it, while the same 12 % over a
+     light surface drops the band to ~rgb(224,224,224) and takes the accent
+     text on top of it below 4.5:1 — measured at 3.88:1 for brass and 4.04:1
+     for success on the course page. The light theme therefore tints half as
+     hard; see the override in :root[data-theme='light']. */
+  --wash-strength: 12%;
+  --raw-strait-wash: color-mix(in oklab, var(--raw-accent-strait) var(--wash-strength), transparent);
+  --raw-brass-wash: color-mix(in oklab, var(--raw-accent-brass) var(--wash-strength), transparent);
+  --raw-danger-wash: color-mix(in oklab, var(--raw-signal-danger) var(--wash-strength), transparent);
+  --raw-warn-wash: color-mix(in oklab, var(--raw-signal-warn) var(--wash-strength), transparent);
 
   /* Elevation — low opacity, large radius, cool-tinted. */
   --shadow-1: 0 1px 2px rgb(2 8 20 / 0.32);
@@ -137,6 +144,13 @@
   --raw-on-accent: #ffffff;
   --raw-on-brass: #ffffff;
   --raw-on-danger: #ffffff;
+  /* Half the tint of the dark theme. A 12 % accent over white lands near
+     rgb(224,224,224), which pushed accent-coloured text ON that band to
+     3.88:1 (brass) and 4.04:1 (success) — under the 4.5:1 floor, and invisible
+     to axe because color-mix with transparent yields an oklab() alpha it
+     cannot evaluate. 6 % keeps the tint legible as a status cue and restores
+     the contrast. */
+  --wash-strength: 6%;
 
   --shadow-1: 0 1px 2px rgb(24 20 12 / 0.06);
   --shadow-2: 0 4px 14px -4px rgb(24 20 12 / 0.1);
@@ -166,6 +180,8 @@
     --raw-on-accent: #ffffff;
     --raw-on-brass: #ffffff;
     --raw-on-danger: #ffffff;
+    /* Lockstep with the block above. */
+    --wash-strength: 6%;
     color-scheme: light;
   }
 }

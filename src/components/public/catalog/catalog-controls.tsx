@@ -38,8 +38,13 @@ export interface CatalogControlsProps {
     readonly viewList: string;
     readonly openFilters: string;
     readonly clearAll: string;
-    readonly removeFilter: string;
-    readonly activeChips: ReadonlyArray<{ readonly key: string; readonly label: string; readonly href: string }>;
+    readonly activeChips: ReadonlyArray<{
+      readonly key: string;
+      readonly label: string;
+      readonly href: string;
+      /** Announced name for the remove link, e.g. « Retirer le filtre Débutant ». */
+      readonly removeLabel: string;
+    }>;
   };
 }
 
@@ -147,7 +152,7 @@ export function CatalogControls({
                 className="inline-flex h-9 items-center gap-1.5 rounded-pill border border-hairline bg-raised ps-3 pe-2 text-sm text-ink transition-colors hover:border-strait"
               >
                 {chip.label}
-                <span className="sr-only">{labels.removeFilter}</span>
+                <span className="sr-only">{chip.removeLabel}</span>
                 <X className="size-3.5 text-ink-muted" aria-hidden="true" />
               </a>
             </li>

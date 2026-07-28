@@ -126,29 +126,38 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
     className,
   );
 
-  const content = (
-    <>
-      {loading ? (
-        <span
-          data-spinner=""
-          className={cn('absolute inset-0 grid place-items-center', spinnerTone[resolvedVariant])}
-        >
-          <ButtonSpinner className={spinnerSize[resolvedSize]} />
-        </span>
-      ) : null}
-      {iconStart != null ? (
-        <span aria-hidden="true" className="inline-flex shrink-0 items-center">
-          {iconStart}
-        </span>
-      ) : null}
-      <Slottable>{children}</Slottable>
-      {iconEnd != null ? (
-        <span aria-hidden="true" className="inline-flex shrink-0 items-center">
-          {iconEnd}
-        </span>
-      ) : null}
-    </>
-  );
+  /**
+   * The pieces are an ARRAY, not a Fragment, and that is load-bearing.
+   *
+   * Radix's `Slot` clones its single child to merge props onto it. Wrapping
+   * these in `<>…</>` makes that single child a Fragment, so `className` is
+   * cloned onto the Fragment — React warns "Invalid prop `className` supplied
+   * to `React.Fragment`" on every render, and the slotted element never
+   * receives the button styles. `Slottable` only works when the children reach
+   * `Slot` directly, which an array achieves and a Fragment does not.
+   */
+  const content = [
+    loading ? (
+      <span
+        key="spinner"
+        data-spinner=""
+        className={cn('absolute inset-0 grid place-items-center', spinnerTone[resolvedVariant])}
+      >
+        <ButtonSpinner className={spinnerSize[resolvedSize]} />
+      </span>
+    ) : null,
+    iconStart != null ? (
+      <span key="icon-start" aria-hidden="true" className="inline-flex shrink-0 items-center">
+        {iconStart}
+      </span>
+    ) : null,
+    <Slottable key="children">{children}</Slottable>,
+    iconEnd != null ? (
+      <span key="icon-end" aria-hidden="true" className="inline-flex shrink-0 items-center">
+        {iconEnd}
+      </span>
+    ) : null,
+  ];
 
   // A slotted <a> has no `disabled` attribute; there, aria-disabled is the
   // contract — and the variant styles react to both.

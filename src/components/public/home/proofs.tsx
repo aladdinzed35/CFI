@@ -132,6 +132,13 @@ export function HomeProofs({ testimonials }: HomeProofsProps): React.JSX.Element
         ref={railRef}
         role="list"
         aria-label={t('title')}
+        /*
+          Focusable because it scrolls, exactly as in home/featured.tsx. This
+          testimonial rail overflows horizontally at every width, so without a
+          tab stop a keyboard-only visitor can read the first testimonial and
+          reach none of the others — axe's `scrollable-region-focusable`.
+        */
+        tabIndex={0}
         className="-mx-4 mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-p-4 px-4 pb-2 sm:-mx-6 sm:scroll-p-6 sm:px-6 lg:mx-0 lg:scroll-p-0 lg:px-0"
       >
         {testimonials.map((testimonial, position) => (

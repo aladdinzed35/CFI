@@ -134,26 +134,25 @@ export async function SiteFooter({
 
             {contact.address === null && contact.hours === null ? null : (
               <dl className="mt-5 flex flex-col gap-4">
+                {/* One <div> only between <dl> and its <dt>/<dd> — the icon
+                    spans both rows instead of forcing a second wrapper. Same
+                    note in home/centre.tsx; axe flagged both as `dlitem`. */}
                 {contact.address === null ? null : (
-                  <div className="flex gap-2.5">
-                    <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-ink-muted" />
-                    <div>
-                      <dt className="text-xs uppercase tracking-[0.12em] text-ink-muted">
-                        {t('footer.address')}
-                      </dt>
-                      <dd className="mt-1 text-sm text-pretty text-ink">{contact.address}</dd>
-                    </div>
+                  <div className="grid grid-cols-[auto_1fr] items-start gap-x-2.5">
+                    <MapPin aria-hidden="true" className="row-span-2 mt-0.5 size-4 shrink-0 text-ink-muted" />
+                    <dt className="text-xs uppercase tracking-[0.12em] text-ink-muted">
+                      {t('footer.address')}
+                    </dt>
+                    <dd className="mt-1 text-sm text-pretty text-ink">{contact.address}</dd>
                   </div>
                 )}
                 {contact.hours === null ? null : (
-                  <div className="flex gap-2.5">
-                    <Clock aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-ink-muted" />
-                    <div>
-                      <dt className="text-xs uppercase tracking-[0.12em] text-ink-muted">
-                        {t('footer.hours')}
-                      </dt>
-                      <dd className="mt-1 text-sm text-ink">{contact.hours}</dd>
-                    </div>
+                  <div className="grid grid-cols-[auto_1fr] items-start gap-x-2.5">
+                    <Clock aria-hidden="true" className="row-span-2 mt-0.5 size-4 shrink-0 text-ink-muted" />
+                    <dt className="text-xs uppercase tracking-[0.12em] text-ink-muted">
+                      {t('footer.hours')}
+                    </dt>
+                    <dd className="mt-1 text-sm text-ink">{contact.hours}</dd>
                   </div>
                 )}
               </dl>

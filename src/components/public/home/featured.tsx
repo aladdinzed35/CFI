@@ -204,6 +204,15 @@ export async function HomeFeatured({
           <ul
             role="list"
             aria-label={t('title')}
+            /*
+              Focusable because it scrolls. Below `lg` this rail overflows
+              horizontally, and a region a mouse can pan but a keyboard cannot
+              reach is exactly what axe's `scrollable-region-focusable` catches:
+              a keyboard-only visitor could see the first two cards and had no
+              way to reach the rest. tabIndex 0 makes the arrow keys work on it.
+              Harmless above `lg`, where it becomes a grid and stops scrolling.
+            */
+            tabIndex={0}
             className={cn(
               // Phone: a snap rail. The negative inline margin lets the first
               // and last card sit flush with the page gutter while the rail

@@ -94,7 +94,17 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
-  workers: isCI ? 2 : undefined,
+  /**
+   * Two workers, everywhere — not just in CI.
+   *
+   * Left unbounded, Playwright starts one worker per core and they all drive a
+   * SINGLE `next start` process backed by one MySQL container. That saturates
+   * the server rather than the suite: runs failed on a different project each
+   * time while the server was demonstrably returning correct HTML, and the same
+   * suite passed 22/22 with `--workers=1`. A rotating failure is a resource
+   * signal, not a defect signal, and a suite that cries wolf gets ignored.
+   */
+  workers: 2,
   timeout: 60_000,
   expect: {
     timeout: 10_000,
