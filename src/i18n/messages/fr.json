@@ -1013,7 +1013,10 @@
     "fabLabel": "Nous écrire sur WhatsApp",
     "bubbleMessage": "Une question ? Écrivez-nous",
     "prefillGeneric": "Bonjour CFI, je souhaite des renseignements sur vos formations.",
-    "prefillCourse": "Bonjour CFI, je suis intéressé(e) par la formation « {courseTitle} »."
+    "prefillCourse": "Bonjour CFI, je suis intéressé(e) par la formation « {courseTitle} ».",
+    "prefillPath": "Bonjour CFI, je suis intéressé(e) par le parcours « {pathTitle} ».",
+    "prefillVisit": "Bonjour CFI, je souhaite visiter le centre. Quelles sont vos disponibilités ?",
+    "prefillPricing": "Bonjour CFI, j'ai une question sur vos tarifs."
   },
   "publicNav": {
     "brandHome": "CFI — retour à l'accueil",
@@ -1243,6 +1246,10 @@
       "previewModalTitle": "Leçon d'essai — {lessonTitle}",
       "previewModalHint": "Cet extrait est accessible sans compte. La formation complète compte {count, plural, one {# leçon} other {# leçons}}.",
       "previewModalCta": "Créer un compte pour tout débloquer",
+      "previewTranscript": "Transcription de la leçon",
+      "previewPrevious": "Leçon d'essai précédente",
+      "previewNext": "Leçon d'essai suivante",
+      "previewPosition": "Essai {current} sur {total}",
       "previewUnavailable": "Cette leçon d'essai est momentanément indisponible. Réessayez dans quelques instants.",
       "locked": "Accessible après activation de votre accès",
       "empty": {
@@ -1286,6 +1293,7 @@
       "starsRow": "{stars, plural, one {# étoile} other {# étoiles}}",
       "starsShare": "{count, plural, =0 {aucun avis} one {# avis} other {# avis}}",
       "verified": "Inscription vérifiée",
+      "reply": "Réponse du centre",
       "postedOn": "Publié le {date}",
       "showMore": "Afficher plus d'avis",
       "seeAll": "Voir tous les avis",
@@ -1397,7 +1405,95 @@
       "ctaTitle": "Vous voulez en discuter avant de vous inscrire ?",
       "ctaBody": "Écrivez-nous sur WhatsApp : nous vous orientons vers la formation qui correspond à votre projet, sans engagement.",
       "ctaAction": "Nous écrire sur WhatsApp",
-      "ctaSecondary": "Voir toutes les formations"
+      "ctaSecondary": "Voir toutes les formations",
+      "eyebrow": "Méthode",
+      "principlesLead": "Ce ne sont pas des slogans : chacun se traduit par une contrainte que nous nous imposons, et que vous pouvez vérifier dès la première semaine.",
+      "principles": {
+        "situation": {
+          "title": "Vous travaillez sur des cas réels",
+          "body": "Chaque module part d'une commande telle qu'elle arrive en entreprise : un budget, une échéance, un client qui change d'avis en cours de route. Vous produisez le livrable attendu, pas un exercice d'école.",
+          "proof": "Un livrable par module, évalué sur les critères du métier."
+        },
+        "projects": {
+          "title": "Vos travaux sont corrigés nommément",
+          "body": "Un formateur relit ce que vous rendez et vous répond en vous nommant : ce qui tient, ce qui ne tient pas, et la version suivante à produire. Une note seule n'apprend rien à personne.",
+          "proof": "Une correction écrite et argumentée, avec une seconde remise possible."
+        },
+        "coaching": {
+          "title": "Un formateur, pas un forum",
+          "body": "Vos questions vont à la personne qui a conçu le module, par messagerie ou sur WhatsApp. Vous n'attendez pas qu'un inconnu bienveillant passe par là.",
+          "proof": "Une réponse sous un jour ouvré, pendant toute votre durée d'accès."
+        },
+        "hybrid": {
+          "title": "En ligne pour apprendre, au centre pour pratiquer",
+          "body": "Les vidéos, les ressources et les quiz restent disponibles à toute heure, depuis un téléphone comme depuis un ordinateur. Les ateliers et les sessions en direct se tiennent dans nos salles, à Tanger.",
+          "proof": "Des salles ouvertes aux apprenants pendant les heures d'ouverture."
+        }
+      },
+      "journey": {
+        "step1": {
+          "title": "Avant de commencer",
+          "body": "Un échange court : votre point de départ, votre objectif et le temps dont vous disposez réellement chaque semaine. Le rythme est fixé avec vous, pas contre vous."
+        },
+        "step2": {
+          "title": "Les premières semaines",
+          "body": "Vous alternez les modules en ligne et les ateliers au centre. Le premier livrable est demandé tôt, volontairement : corriger une erreur en deuxième semaine coûte moins cher qu'en dixième."
+        },
+        "step3": {
+          "title": "Le cœur de la formation",
+          "body": "Les cas se rapprochent de votre futur poste. Vous rendez, nous corrigeons, vous reprenez. Votre progression reste visible dans votre espace, module par module."
+        },
+        "step4": {
+          "title": "La fin de parcours",
+          "body": "Un projet complet, présenté et défendu devant le formateur. Une fois validé, votre certificat est délivré avec un code que n'importe qui peut vérifier sur ce site."
+        }
+      },
+      "comparisonTitle": "Pourquoi pas simplement des vidéos gratuites ?",
+      "comparisonLead": "Les tutoriels en ligne sont utiles et nous vous encourageons à en regarder. Voici précisément ce qu'ils ne font pas, et ce que nous faisons à la place.",
+      "comparisonAloneLabel": "Seul, avec des vidéos",
+      "comparisonCentreLabel": "Au centre",
+      "comparison": {
+        "order": {
+          "aspect": "L'ordre des apprentissages",
+          "alone": "Vous suivez des recommandations au hasard ; les manques apparaissent tard, souvent en entretien.",
+          "centre": "Un programme construit, où chaque module suppose le précédent et le vérifie."
+        },
+        "feedback": {
+          "aspect": "Le retour sur votre travail",
+          "alone": "Personne ne regarde ce que vous produisez. Vous ignorez ce qui ne va pas.",
+          "centre": "Un formateur corrige vos livrables et vous dit quoi reprendre, et pourquoi."
+        },
+        "regularity": {
+          "aspect": "La régularité",
+          "alone": "Rien ne vous attend : arrêter ne coûte rien, et cela arrive vite.",
+          "centre": "Des échéances, un groupe et des ateliers qui vous tiennent jusqu'au bout."
+        },
+        "proof": {
+          "aspect": "La preuve pour un employeur",
+          "alone": "Une liste de vidéos regardées ne se met pas sur un CV.",
+          "centre": "Un projet défendu et un certificat vérifiable par son code."
+        }
+      },
+      "facilities": {
+        "rooms": {
+          "title": "Salles de formation",
+          "body": "Les ateliers et les sessions en direct se tiennent au centre, dans des salles réservées à la formation."
+        },
+        "equipment": {
+          "title": "Postes de travail",
+          "body": "Des postes sont mis à disposition des apprenants qui n'ont pas de machine adaptée chez eux."
+        },
+        "workspace": {
+          "title": "Espace de travail",
+          "body": "Un espace calme pour avancer sur vos livrables entre deux sessions, pendant les heures d'ouverture."
+        },
+        "reception": {
+          "title": "Accueil",
+          "body": "L'accueil renseigne sur les inscriptions, encaisse les paiements en espèces et transmet vos justificatifs à l'équipe pédagogique."
+        }
+      },
+      "teamLead": "Les formations sont conçues et corrigées par des professionnels en exercice. Voici qui enseigne aujourd'hui.",
+      "teamCta": "Voir tous les formateurs"
     },
     "about": {
       "title": "À propos du centre",
@@ -1411,7 +1507,42 @@
       "accreditationsTitle": "Agréments et partenariats",
       "ctaTitle": "Venez nous voir",
       "ctaBody": "Le centre est ouvert aux visites pendant les heures d'ouverture. Prévenez-nous et nous vous ferons visiter.",
-      "ctaAction": "Prendre rendez-vous sur WhatsApp"
+      "ctaAction": "Prendre rendez-vous sur WhatsApp",
+      "eyebrow": "Le centre",
+      "story": {
+        "p1": "Le centre est né d'un constat répété : des personnes motivées, des dizaines d'heures de vidéos regardées, et toujours la même impossibilité de montrer un travail fini à un employeur.",
+        "p2": "Nous avons donc construit l'inverse d'une bibliothèque de vidéos : un petit nombre de formations, chacune adossée à des livrables réels, corrigés par la personne qui a conçu le module.",
+        "p3": "Le centre est à Tanger et il est ouvert. On peut y venir, s'asseoir, poser une question à voix haute et repartir avec une réponse. C'est précisément ce qui nous sépare d'une plateforme."
+      },
+      "missionBody": "Amener chaque personne inscrite à un travail qu'elle peut montrer et défendre. Tout le reste — les vidéos, les quiz, les tableaux de bord — n'existe que pour servir cet objectif.",
+      "values": {
+        "honesty": {
+          "title": "Dire les choses telles qu'elles sont",
+          "body": "Les tarifs, les durées et les délais annoncés sont ceux que vous constaterez. Quand une formation ne correspond pas à votre projet, nous vous le disons avant l'inscription."
+        },
+        "practice": {
+          "title": "Faire plutôt que regarder",
+          "body": "Une formation se juge à ce que vous savez produire à la fin, pas au nombre d'heures de vidéo qu'elle contient."
+        },
+        "proximity": {
+          "title": "Rester joignables",
+          "body": "Un formateur, un numéro, une réponse. Le centre est un lieu physique et l'équipe y est présente aux heures d'ouverture."
+        },
+        "followUp": {
+          "title": "Ne laisser personne en route",
+          "body": "Nous suivons les progressions et nous reprenons contact quand quelqu'un décroche, avant que l'abandon soit acquis."
+        }
+      },
+      "figures": {
+        "courses": "Formations publiées",
+        "instructors": "Formateurs",
+        "categories": "Domaines couverts",
+        "learners": "Apprenants inscrits"
+      },
+      "centerBody": "Le centre accueille les ateliers, les sessions en direct et les soutenances de fin de parcours. On peut aussi y régler son inscription en espèces et y déposer un justificatif de virement.",
+      "accreditationsEmpty": "Nos agréments seront publiés ici dès leur obtention.",
+      "teamLead": "Une équipe volontairement réduite : les personnes qui conçoivent les formations sont celles qui corrigent vos travaux.",
+      "teamCta": "Voir tous les formateurs"
     },
     "pricing": {
       "title": "Tarifs",
@@ -1451,6 +1582,24 @@
         "title": "Les tarifs seront publiés à l'ouverture du catalogue",
         "body": "Les premières formations sont en préparation. Écrivez-nous pour recevoir la grille tarifaire dès sa publication.",
         "action": "Nous écrire sur WhatsApp"
+      },
+      "eyebrow": "Tarifs",
+      "comparisonTitle": "Ce que coûte une formation, ici et ailleurs",
+      "comparisonLead": "Notre fourchette est calculée sur le catalogue publié : elle bouge le jour où une formation change de tarif, pas le jour où nous refaisons cette page.",
+      "cfiLabel": "Au CFI",
+      "cfiNote": "Fourchette réelle, du tarif le plus bas au tarif le plus élevé du catalogue publié aujourd'hui.",
+      "marketLabel": "Fourchette observée en présentiel",
+      "marketNote": "Fourchette indicative relevée pour une formation équivalente en présentiel dans la région, hors promotions. Aucun établissement n'est nommé.",
+      "tableTitle": "Le tarif par domaine",
+      "tableLead": "Chaque ligne donne la fourchette réelle des formations publiées dans le domaine, et la durée moyenne de leur contenu.",
+      "tableNote": "Un tarif couvre une formation entière : ni un module isolé, ni un abonnement mensuel. Tous les montants sont en dirhams, toutes taxes comprises.",
+      "included": {
+        "access": "L'accès complet à la formation pendant toute sa durée d'accès, sans limite de visionnage.",
+        "resources": "Les ressources téléchargeables : modèles, fiches de synthèse, jeux de données et exercices corrigés.",
+        "certificate": "Le certificat de fin de formation, avec un code que n'importe qui peut vérifier sur ce site.",
+        "coaching": "L'encadrement par un formateur et la correction écrite de vos livrables.",
+        "live": "Les sessions en direct et les ateliers au centre, à Tanger.",
+        "updates": "Les mises à jour du contenu pendant votre durée d'accès, sans supplément."
       }
     },
     "contact": {
@@ -1482,6 +1631,7 @@
         "message": "Entre 20 et 2 000 caractères."
       },
       "courseInterestNone": "Je ne sais pas encore",
+      "charactersRemaining": "{count, plural, one {# caractère restant} other {# caractères restants}}",
       "submit": "Envoyer le message",
       "submitting": "Envoi en cours…",
       "errors": {
@@ -1523,7 +1673,9 @@
         "title": "L'équipe pédagogique est en cours de constitution",
         "body": "Les profils de nos formateurs seront publiés avant l'ouverture des inscriptions.",
         "action": "Voir toutes les formations"
-      }
+      },
+      "eyebrow": "Équipe pédagogique",
+      "coursesTitle": "Ce qu'il ou elle enseigne"
     },
     "blog": {
       "title": "Blog",
@@ -1604,7 +1756,17 @@
         "title": "Ce parcours n'existe pas",
         "body": "Le lien est peut-être erroné, ou le parcours a été retiré. Parcourez les parcours disponibles.",
         "action": "Voir tous les parcours"
-      }
+      },
+      "eyebrow": "Parcours",
+      "breadcrumbLabel": "Fil d'Ariane",
+      "seeDetail": "Voir le parcours",
+      "outcomeTitle": "À la fin du parcours",
+      "stepsTitle": "Le déroulé, étape par étape",
+      "cumulativeAfter": "Cumul après cette étape : {duration}",
+      "ctaWhatsapp": "Demander ce parcours sur WhatsApp",
+      "ctaFirstCourse": "Commencer par « {title} »",
+      "ctaNote": "Le tarif groupé s'applique à l'ensemble du parcours. Écrivez-nous : nous mettons l'inscription en place avec vous, et le paiement suit la procédure habituelle.",
+      "savingNone": "Le tarif du parcours est celui de la somme des formations qu'il regroupe."
     },
     "faq": {
       "title": "Questions fréquentes",
@@ -1642,6 +1804,7 @@
       "lead": "Les cookies déposés par ce site, leur rôle et la façon de les refuser."
     },
     "lastUpdated": "Dernière mise à jour : {date}",
+    "frenchFallback": "Ce document n'est pas encore disponible dans cette langue. Il vous est présenté dans sa version française d'origine.",
     "tocTitle": "Sommaire",
     "backToTop": "Revenir en haut",
     "contactPrompt": "Une question sur ce document ? Écrivez-nous, nous vous répondons.",

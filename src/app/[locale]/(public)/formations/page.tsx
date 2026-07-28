@@ -3,7 +3,9 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { CatalogControls } from '@/components/public/catalog/catalog-controls';
-import { FilterRail } from '@/components/public/catalog/filter-rail';
+import { CatalogSearch } from '@/components/public/catalog/catalog-search';
+import { FilterGroups, FilterRail } from '@/components/public/catalog/filter-rail';
+import { FilterSheet, FilterSheetProvider } from '@/components/public/catalog/filter-sheet';
 import { ResultsGrid } from '@/components/public/catalog/results-grid';
 import { getCatalog } from '@/server/services/catalog/queries';
 import {
@@ -98,6 +100,7 @@ export default async function CatalogPage({
         <p className="max-w-2xl text-lead text-pretty text-ink-muted">{t('subtitle')}</p>
       </header>
 
+      <FilterSheetProvider>
       <div className="grid gap-8 lg:grid-cols-[17rem_1fr] lg:items-start">
         <FilterRail
           filters={filters}
@@ -108,6 +111,8 @@ export default async function CatalogPage({
         />
 
         <div className="flex flex-col gap-6">
+          <CatalogSearch filters={filters} />
+
           <CatalogControls
             filters={filters}
             activeCount={activeCount}
@@ -145,6 +150,16 @@ export default async function CatalogPage({
         </div>
       </div>
 
+      <FilterSheet filters={filters} resultCount={result.total}>
+        <FilterGroups
+          filters={filters}
+          facets={result.facets}
+          locale={locale}
+          idPrefix="sheet"
+        />
+      </FilterSheet>
+      </FilterSheetProvider>
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -165,14 +180,7 @@ function buildChips(
 ): ReadonlyArray<{ key: string; label: string; href: string }> {
   const chips: Array<{ key: string; label: string; href: string }> = [];
 
-  if (filters.query !== null) {
-    chips.push({
-      key: 'query',
-      label: `« ${filters.query} »`,
-      href: catalogHref(filters, { query: null }),
-    });
-  }
-
+  // The search term's own chip lives under the field, in `CatalogSearch`.
   for (const slug of filters.categories) {
     chips.push({
       key: `category:${slug}`,

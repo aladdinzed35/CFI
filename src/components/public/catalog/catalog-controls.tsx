@@ -3,6 +3,7 @@
 import { useTransition } from 'react';
 import { LayoutGrid, List, SlidersHorizontal, X } from 'lucide-react';
 
+import { useFilterSheetOpener } from '@/components/public/catalog/filter-sheet';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { usePathname, useRouter } from '@/i18n/navigation';
@@ -40,7 +41,6 @@ export interface CatalogControlsProps {
     readonly removeFilter: string;
     readonly activeChips: ReadonlyArray<{ readonly key: string; readonly label: string; readonly href: string }>;
   };
-  onOpenFilters?: () => void;
 }
 
 export function CatalogControls({
@@ -48,8 +48,8 @@ export function CatalogControls({
 
   activeCount,
   labels,
-  onOpenFilters,
 }: CatalogControlsProps): React.JSX.Element {
+  const onOpenFilters = useFilterSheetOpener();
   const router = useRouter();
   const pathname = usePathname();
   const [pending, startTransition] = useTransition();
@@ -69,7 +69,7 @@ export function CatalogControls({
 
         <div className="flex items-center gap-2">
           {/* Below lg the rail is hidden and the sheet takes over. */}
-          {onOpenFilters === undefined ? null : (
+          {onOpenFilters === null ? null : (
             <Button
               type="button"
               variant="secondary"

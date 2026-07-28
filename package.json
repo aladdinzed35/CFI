@@ -24,7 +24,9 @@
     "i18n:parity": "tsx scripts/check-i18n.ts",
     "i18n:usage": "tsx scripts/check-i18n-usage.ts",
     "rtl:check": "tsx scripts/check-rtl.ts",
-    "reindex": "tsx scripts/reindex.ts"
+    "reindex": "tsx scripts/reindex.ts",
+    "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
+    "lighthouse": "lhci autorun"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.699.0",
@@ -79,6 +81,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@eslint/eslintrc": "^3.2.0",
+    "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.49.1",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^22.10.2",

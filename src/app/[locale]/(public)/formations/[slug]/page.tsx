@@ -4,10 +4,12 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Check, Clock, GraduationCap, Layers, Users } from 'lucide-react';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Rating } from '@/components/ui/rating';
+import { CourseJsonLd } from '@/components/public/course/course-jsonld';
+import { Curriculum } from '@/components/public/course/curriculum';
 import { Markdown } from '@/components/public/course/markdown';
+import { Reviews } from '@/components/public/course/reviews';
 import { PurchaseCard } from '@/components/public/course/purchase-card';
 import { resolveEnrollCta } from '@/server/services/catalog/enroll-cta';
 import { getCurrentUser } from '@/server/auth';
@@ -205,57 +207,15 @@ export default async function CoursePage({
             </div>
           </section>
 
-          {course.modules.length === 0 ? null : (
-            <section aria-labelledby="curriculum">
-              <h2 id="curriculum" className="text-heading">
-                {t('programme.title')}
-              </h2>
-              <p className="mt-2 text-sm text-ink-muted">
-                {t('programme.subtitle')}
-              </p>
-
-              <Accordion type="multiple" className="mt-4">
-                {course.modules.map((entry) => (
-                  <AccordionItem key={entry.id} value={entry.id}>
-                    <AccordionTrigger>
-                      <span className="flex flex-col items-start gap-0.5 text-start">
-                        <span>{entry.title}</span>
-                        <span className="text-xs font-normal text-ink-muted">
-                          {t('programme.lessonCount', { count: entry.lessons.length })}
-                        </span>
-                      </span>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="flex flex-col">
-                        {entry.lessons.map((lesson) => (
-                          <li
-                            key={lesson.id}
-                            className="flex items-center justify-between gap-3 border-b border-hairline py-2.5 last:border-b-0"
-                          >
-                            <span className="flex min-w-0 items-center gap-2">
-                              <span className="truncate text-sm text-ink">{lesson.title}</span>
-                              {lesson.preview === null ? null : (
-                                <Badge variant="outline" className="shrink-0">
-                                  {t('programme.previewBadge')}
-                                </Badge>
-                              )}
-                            </span>
-                            <span
-                              data-numeric
-                              className="shrink-0 text-xs text-ink-muted"
-                              dir="ltr"
-                            >
-                              {formatDuration(lesson.estimatedMinutes, locale)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </section>
-          )}
+          {/* The programme is a client island: it opens the preview modal, which
+              §12.4 calls the single most effective conversion tool. Everything
+              around it stays a Server Component. */}
+          <Curriculum
+            locale={locale}
+            modules={course.modules}
+            lessonCount={course.lessonCount}
+            registerHref={cta.kind === 'guest' ? cta.href : null}
+          />
 
           {course.requirementsText.length === 0 ? null : (
             <section aria-labelledby="prerequisites">
@@ -311,6 +271,8 @@ export default async function CoursePage({
             </section>
           )}
 
+          <Reviews locale={locale} reviews={course.reviews} />
+
           {course.similar.length === 0 ? null : (
             <section aria-labelledby="similar">
               <h2 id="similar" className="text-heading">
@@ -334,6 +296,10 @@ export default async function CoursePage({
 
         <PurchaseCard locale={locale} course={course} cta={cta} />
       </div>
+
+      {/* Built from the same payload the page renders, so the markup and the
+          visible content can never disagree — which is what Google penalises. */}
+      <CourseJsonLd locale={locale} course={course} providerName="Centre de Formation Immersive" />
     </div>
   );
 }

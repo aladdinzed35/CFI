@@ -1013,7 +1013,10 @@
     "fabLabel": "Message us on WhatsApp",
     "bubbleMessage": "Have a question? Message us",
     "prefillGeneric": "Hello CFI, I would like some information about your courses.",
-    "prefillCourse": "Hello CFI, I am interested in the “{courseTitle}” course."
+    "prefillCourse": "Hello CFI, I am interested in the “{courseTitle}” course.",
+    "prefillPath": "Hello CFI, I am interested in the “{pathTitle}” path.",
+    "prefillVisit": "Hello CFI, I would like to visit the centre. When are you available?",
+    "prefillPricing": "Hello CFI, I have a question about your prices."
   },
   "publicNav": {
     "brandHome": "CFI — back to the homepage",
@@ -1243,6 +1246,10 @@
       "previewModalTitle": "Free preview — {lessonTitle}",
       "previewModalHint": "This extract is open without an account. The full course contains {count, plural, one {# lesson} other {# lessons}}.",
       "previewModalCta": "Create an account to unlock everything",
+      "previewTranscript": "Lesson transcript",
+      "previewPrevious": "Previous free preview",
+      "previewNext": "Next free preview",
+      "previewPosition": "Preview {current} of {total}",
       "previewUnavailable": "This preview lesson is temporarily unavailable. Try again in a few moments.",
       "locked": "Available once your access is activated",
       "empty": {
@@ -1286,6 +1293,7 @@
       "starsRow": "{stars, plural, one {# star} other {# stars}}",
       "starsShare": "{count, plural, =0 {no reviews} one {# review} other {# reviews}}",
       "verified": "Verified enrolment",
+      "reply": "Reply from the centre",
       "postedOn": "Posted on {date}",
       "showMore": "Show more reviews",
       "seeAll": "See all reviews",
@@ -1397,7 +1405,95 @@
       "ctaTitle": "Would you like to talk it through before enrolling?",
       "ctaBody": "Write to us on WhatsApp: we will point you to the course that matches your plan, with no commitment.",
       "ctaAction": "Write to us on WhatsApp",
-      "ctaSecondary": "See all courses"
+      "ctaSecondary": "See all courses",
+      "eyebrow": "Method",
+      "principlesLead": "These are not slogans: each one translates into a constraint we impose on ourselves, and one you can check from the very first week.",
+      "principles": {
+        "situation": {
+          "title": "You work on real cases",
+          "body": "Every module starts from a brief as it arrives in a company: a budget, a deadline, a client who changes their mind halfway. You produce the deliverable that is expected, not a classroom exercise.",
+          "proof": "One deliverable per module, assessed against the trade's own criteria."
+        },
+        "projects": {
+          "title": "Your work is corrected by name",
+          "body": "An instructor reads what you hand in and answers you by name: what holds up, what does not, and the next version to produce. A mark on its own teaches nobody anything.",
+          "proof": "A written, reasoned correction, with a second submission allowed."
+        },
+        "coaching": {
+          "title": "An instructor, not a forum",
+          "body": "Your questions go to the person who designed the module, by message or on WhatsApp. You are not waiting for a well-meaning stranger to come along.",
+          "proof": "An answer within one working day, for the whole of your access period."
+        },
+        "hybrid": {
+          "title": "Online to learn, at the centre to practise",
+          "body": "Videos, resources and quizzes stay available at any hour, from a phone as much as from a computer. Workshops and live sessions are held in our rooms, in Tanger.",
+          "proof": "Rooms open to learners during opening hours."
+        }
+      },
+      "journey": {
+        "step1": {
+          "title": "Before you start",
+          "body": "A short conversation: where you are starting from, what you are aiming at, and how much time you genuinely have each week. The pace is set with you, not against you."
+        },
+        "step2": {
+          "title": "The first weeks",
+          "body": "You alternate between online modules and workshops at the centre. The first deliverable is asked for early, deliberately: fixing a mistake in week two costs less than fixing it in week ten."
+        },
+        "step3": {
+          "title": "The heart of the course",
+          "body": "The cases move closer to the job you are aiming at. You hand in, we correct, you revise. Your progress stays visible in your space, module by module."
+        },
+        "step4": {
+          "title": "The end of the course",
+          "body": "A complete project, presented and defended in front of the instructor. Once it is approved, your certificate is issued with a code anyone can verify on this site."
+        }
+      },
+      "comparisonTitle": "Why not just free videos?",
+      "comparisonLead": "Online tutorials are useful and we encourage you to watch them. Here is precisely what they do not do, and what we do instead.",
+      "comparisonAloneLabel": "Alone, with videos",
+      "comparisonCentreLabel": "At the centre",
+      "comparison": {
+        "order": {
+          "aspect": "The order you learn things in",
+          "alone": "You follow recommendations at random; the gaps show up late, often in an interview.",
+          "centre": "A built programme, where every module assumes the previous one and checks it."
+        },
+        "feedback": {
+          "aspect": "Feedback on your work",
+          "alone": "Nobody looks at what you produce. You have no idea what is wrong.",
+          "centre": "An instructor corrects your deliverables and tells you what to redo, and why."
+        },
+        "regularity": {
+          "aspect": "Keeping at it",
+          "alone": "Nothing is waiting for you: stopping costs nothing, and it happens fast.",
+          "centre": "Deadlines, a group and workshops that carry you to the end."
+        },
+        "proof": {
+          "aspect": "Proof for an employer",
+          "alone": "A list of videos watched does not go on a CV.",
+          "centre": "A defended project and a certificate anyone can verify by its code."
+        }
+      },
+      "facilities": {
+        "rooms": {
+          "title": "Training rooms",
+          "body": "Workshops and live sessions are held at the centre, in rooms kept for training."
+        },
+        "equipment": {
+          "title": "Workstations",
+          "body": "Workstations are available for learners who do not have a suitable machine at home."
+        },
+        "workspace": {
+          "title": "Work space",
+          "body": "A quiet space to push on with your deliverables between two sessions, during opening hours."
+        },
+        "reception": {
+          "title": "Reception",
+          "body": "Reception answers questions about enrolment, takes cash payments and passes your receipts on to the teaching team."
+        }
+      },
+      "teamLead": "Courses are designed and corrected by practising professionals. Here is who teaches today.",
+      "teamCta": "See all instructors"
     },
     "about": {
       "title": "About the centre",
@@ -1411,7 +1507,42 @@
       "accreditationsTitle": "Accreditations and partnerships",
       "ctaTitle": "Come and see us",
       "ctaBody": "The centre is open to visits during opening hours. Let us know and we will show you around.",
-      "ctaAction": "Book a visit on WhatsApp"
+      "ctaAction": "Book a visit on WhatsApp",
+      "eyebrow": "The centre",
+      "story": {
+        "p1": "The centre grew out of an observation we kept making: motivated people, dozens of hours of videos watched, and always the same inability to show an employer a finished piece of work.",
+        "p2": "So we built the opposite of a video library: a small number of courses, each anchored in real deliverables, corrected by the person who designed the module.",
+        "p3": "The centre is in Tanger and it is open. You can come in, sit down, ask a question out loud and leave with an answer. That is precisely what separates us from a platform."
+      },
+      "missionBody": "To bring every enrolled person to a piece of work they can show and defend. Everything else — the videos, the quizzes, the dashboards — exists only to serve that goal.",
+      "values": {
+        "honesty": {
+          "title": "Saying things as they are",
+          "body": "The prices, durations and delays we announce are the ones you will actually see. When a course does not fit your plan, we say so before you enrol."
+        },
+        "practice": {
+          "title": "Doing rather than watching",
+          "body": "A course is judged on what you can produce at the end, not on how many hours of video it contains."
+        },
+        "proximity": {
+          "title": "Staying reachable",
+          "body": "One instructor, one number, one answer. The centre is a physical place and the team is there during opening hours."
+        },
+        "followUp": {
+          "title": "Leaving nobody behind",
+          "body": "We follow progress and get back in touch when somebody drops off, before dropping out becomes a fact."
+        }
+      },
+      "figures": {
+        "courses": "Published courses",
+        "instructors": "Instructors",
+        "categories": "Fields covered",
+        "learners": "Enrolled learners"
+      },
+      "centerBody": "The centre hosts workshops, live sessions and end-of-course presentations. You can also pay your enrolment in cash there and hand in a transfer receipt.",
+      "accreditationsEmpty": "Our accreditations will be published here as soon as we obtain them.",
+      "teamLead": "A deliberately small team: the people who design the courses are the ones who correct your work.",
+      "teamCta": "See all instructors"
     },
     "pricing": {
       "title": "Pricing",
@@ -1451,6 +1582,24 @@
         "title": "Prices will be published when the catalogue opens",
         "body": "The first courses are being prepared. Write to us and we will send you the price list as soon as it is out.",
         "action": "Write to us on WhatsApp"
+      },
+      "eyebrow": "Prices",
+      "comparisonTitle": "What a course costs, here and elsewhere",
+      "comparisonLead": "Our range is computed from the published catalogue: it moves the day a course changes price, not the day we rewrite this page.",
+      "cfiLabel": "At CFI",
+      "cfiNote": "A real range, from the lowest to the highest price in the catalogue published today.",
+      "marketLabel": "Observed range for in-person training",
+      "marketNote": "An indicative range recorded for equivalent in-person training in the region, excluding promotions. No establishment is named.",
+      "tableTitle": "Price by field",
+      "tableLead": "Each row gives the real price range of the courses published in that field, and the average duration of their content.",
+      "tableNote": "A price covers a whole course: not a single module, and not a monthly subscription. All amounts are in dirhams, all taxes included.",
+      "included": {
+        "access": "Full access to the course for its entire access period, with no viewing limit.",
+        "resources": "Downloadable resources: templates, summary sheets, data sets and corrected exercises.",
+        "certificate": "The completion certificate, with a code anyone can verify on this site.",
+        "coaching": "Supervision by an instructor and written correction of your deliverables.",
+        "live": "Live sessions and workshops at the centre, in Tanger.",
+        "updates": "Content updates during your access period, at no extra cost."
       }
     },
     "contact": {
@@ -1482,6 +1631,7 @@
         "message": "Between 20 and 2,000 characters."
       },
       "courseInterestNone": "I am not sure yet",
+      "charactersRemaining": "{count, plural, one {# character left} other {# characters left}}",
       "submit": "Send the message",
       "submitting": "Sending…",
       "errors": {
@@ -1523,7 +1673,9 @@
         "title": "The teaching team is being assembled",
         "body": "Our instructors' profiles will be published before enrolment opens.",
         "action": "See all courses"
-      }
+      },
+      "eyebrow": "Teaching team",
+      "coursesTitle": "What they teach"
     },
     "blog": {
       "title": "Blog",
@@ -1604,7 +1756,17 @@
         "title": "This path does not exist",
         "body": "The link may be wrong, or the path has been removed. Browse the available paths.",
         "action": "See all learning paths"
-      }
+      },
+      "eyebrow": "Paths",
+      "breadcrumbLabel": "Breadcrumb",
+      "seeDetail": "View the path",
+      "outcomeTitle": "At the end of the path",
+      "stepsTitle": "The sequence, step by step",
+      "cumulativeAfter": "Running total after this step: {duration}",
+      "ctaWhatsapp": "Ask about this path on WhatsApp",
+      "ctaFirstCourse": "Start with “{title}”",
+      "ctaNote": "The bundle price applies to the whole path. Write to us: we set the enrolment up with you, and payment follows the usual procedure.",
+      "savingNone": "The path price is the sum of the courses it brings together."
     },
     "faq": {
       "title": "Frequently asked questions",
@@ -1642,6 +1804,7 @@
       "lead": "The cookies this site sets, what they do and how to refuse them."
     },
     "lastUpdated": "Last updated: {date}",
+    "frenchFallback": "This document is not available in this language yet. It is shown here in its original French version.",
     "tocTitle": "Contents",
     "backToTop": "Back to top",
     "contactPrompt": "A question about this document? Write to us and we will answer.",

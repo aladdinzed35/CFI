@@ -48,13 +48,6 @@ import type { Locale } from '@/i18n/routing';
 const NO_COVER =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='9'/%3E";
 
-const LEVEL_KEYS = {
-  DEBUTANT: 'debutant',
-  INTERMEDIAIRE: 'intermediaire',
-  AVANCE: 'avance',
-  TOUS_NIVEAUX: 'tousNiveaux',
-} as const;
-
 export interface HomeFeaturedProps {
   locale: Locale;
   courses: readonly HomeCourse[];
@@ -89,8 +82,8 @@ export async function HomeFeatured({
       variant: 'grid',
       category: course.categoryName ?? undefined,
       level: {
-        value: tLevel(LEVEL_KEYS[course.level]),
-        label: `${tMeta('level')} : ${tLevel(LEVEL_KEYS[course.level])}`,
+        value: tLevel(course.level),
+        label: `${tMeta('level')} : ${tLevel(course.level)}`,
       },
       duration:
         course.durationMinutes > 0

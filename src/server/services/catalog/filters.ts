@@ -536,15 +536,23 @@ export function hasActiveFilters(filters: CatalogFilters): boolean {
  * kebab-case and whose message key is camelCase. Kept here so the rail, the
  * chips and the cards cannot drift into three different mappings.
  */
+/**
+ * Identity, deliberately. The message keys under `catalog.filters.level` are
+ * keyed by the URL vocabulary itself, so no translation layer is needed — and a
+ * mapping table here is exactly what silently broke when the keys were renamed:
+ * it kept resolving to names the catalogue no longer used, and the labels
+ * rendered as raw keys while every static check passed.
+ */
 export const LEVEL_MESSAGE_KEY: Record<CatalogLevel, string> = {
   debutant: 'debutant',
   intermediaire: 'intermediaire',
   avance: 'avance',
-  'tous-niveaux': 'tousNiveaux',
+  'tous-niveaux': 'tous-niveaux',
 };
 
+/** Identity — see {@link LEVEL_MESSAGE_KEY}. */
 export const DELIVERY_MESSAGE_KEY: Record<CatalogDelivery, string> = {
-  'en-ligne': 'enLigne',
+  'en-ligne': 'en-ligne',
   presentiel: 'presentiel',
   hybride: 'hybride',
 };
