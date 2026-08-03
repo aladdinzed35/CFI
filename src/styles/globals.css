@@ -91,18 +91,22 @@
   --raw-on-brass: #2a1c05;
   --raw-on-danger: #2b0207;
 
-  /* Tinted alpha washes — used for status backgrounds and hover states.
-     The strength is a variable because it cannot be one number: 12 % of an
-     accent over a DARK surface barely shifts it, while the same 12 % over a
-     light surface drops the band to ~rgb(224,224,224) and takes the accent
-     text on top of it below 4.5:1 — measured at 3.88:1 for brass and 4.04:1
-     for success on the course page. The light theme therefore tints half as
-     hard; see the override in :root[data-theme='light']. */
+  /* Tinted washes — OPAQUE, mixed against the surface rather than transparent.
+     Alpha would be the obvious choice and is the wrong one here. A
+     color-mix(..., transparent) resolves to oklab(... / 0.12), and no
+     accessibility tool can evaluate contrast against a translucent backdrop:
+     axe silently reports every element using one as a violation it never
+     measured. Mixing against --raw-bg-surface yields a real colour, so the
+     standard tooling checks these pills like any other element.
+     The visual difference is imperceptible — these sit on surface-coloured
+     cards — and the strength stays a variable because 12 % of an accent barely
+     shifts a dark surface while the same 12 % over white lands near
+     rgb(224,224,224). */
   --wash-strength: 12%;
-  --raw-strait-wash: color-mix(in oklab, var(--raw-accent-strait) var(--wash-strength), transparent);
-  --raw-brass-wash: color-mix(in oklab, var(--raw-accent-brass) var(--wash-strength), transparent);
-  --raw-danger-wash: color-mix(in oklab, var(--raw-signal-danger) var(--wash-strength), transparent);
-  --raw-warn-wash: color-mix(in oklab, var(--raw-signal-warn) var(--wash-strength), transparent);
+  --raw-strait-wash: color-mix(in oklab, var(--raw-accent-strait) var(--wash-strength), var(--raw-bg-surface));
+  --raw-brass-wash: color-mix(in oklab, var(--raw-accent-brass) var(--wash-strength), var(--raw-bg-surface));
+  --raw-danger-wash: color-mix(in oklab, var(--raw-signal-danger) var(--wash-strength), var(--raw-bg-surface));
+  --raw-warn-wash: color-mix(in oklab, var(--raw-signal-warn) var(--wash-strength), var(--raw-bg-surface));
 
   /* Elevation — low opacity, large radius, cool-tinted. */
   --shadow-1: 0 1px 2px rgb(2 8 20 / 0.32);
@@ -128,18 +132,22 @@
   --raw-stroke-hairline: #dfdad0;
   --raw-ink-primary: #0b1220;
   --raw-ink-muted: #5a6472;
-  /* Darkened from the spec's #0a7f72 / #a9702a. Those measured 4.45:1 and
-     4.17:1 — both just under the 4.5:1 AA floor, and both tokens are used as
-     TEXT (section eyebrows; PriceTag renders the price in brass), not only as
-     fills. §21 calls out these two accents specifically. Now 5.15:1 and 5.12:1
-     on white, 4.76:1 and 4.66:1 on the page background. Dark theme is
-     unchanged — it already passed comfortably. */
-  --raw-accent-strait: #097468;
+  /* Darkened from the spec's stated hex values, in two passes.
+     §21 requires 4.5:1 for text, and every one of these accents is used as
+     TEXT — PriceTag renders the price in brass, section eyebrows in strait,
+     status pills in success/warn/danger. The binding case is not the page
+     background but the accent's OWN wash: a tinted pill sits at rgb(224,224,224)
+     in light mode, and measured there the whole palette failed —
+     strait 4.29, danger 4.41, warn 4.48, success 4.04, brass 3.88.
+     These values clear 4.8:1 on that worst-case backdrop and 6.4:1 on white,
+     deliberately with margin so a future tint change cannot silently re-break
+     them. Dark theme is untouched; it passes at 10:1 and above. */
+  --raw-accent-strait: #096b5f;
   --raw-accent-deep: #0e4c6b;
-  --raw-accent-brass: #98621e;
-  --raw-signal-danger: #c0283c;
-  --raw-signal-warn: #8a5a16;
-  --raw-signal-success: #1d7a4c;
+  --raw-accent-brass: #835319;
+  --raw-signal-danger: #b42638;
+  --raw-signal-warn: #825414;
+  --raw-signal-success: #196c44;
 
   --raw-on-accent: #ffffff;
   --raw-on-brass: #ffffff;
@@ -172,11 +180,11 @@
     --raw-ink-muted: #5a6472;
     /* Kept in lockstep with :root[data-theme='light'] above — see the note
        there on why these differ from the spec's stated hex values. */
-    --raw-accent-strait: #097468;
-    --raw-accent-brass: #98621e;
-    --raw-signal-danger: #c0283c;
-    --raw-signal-warn: #8a5a16;
-    --raw-signal-success: #1d7a4c;
+    --raw-accent-strait: #096b5f;
+    --raw-accent-brass: #835319;
+    --raw-signal-danger: #b42638;
+    --raw-signal-warn: #825414;
+    --raw-signal-success: #196c44;
     --raw-on-accent: #ffffff;
     --raw-on-brass: #ffffff;
     --raw-on-danger: #ffffff;
