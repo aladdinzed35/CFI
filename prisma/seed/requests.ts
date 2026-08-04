@@ -65,6 +65,17 @@ interface SeedRequest {
   readonly createdAt: Date;
   /** Which generated test image this request carries. `null` = no receipt yet. */
   readonly receipt: ReceiptVariant;
+  /**
+   * Reuse another request's receipt bytes verbatim, so its SHA-256 collides and
+   * the §17.3 « justificatif déjà utilisé » signal fires.
+   *
+   * Every other receipt is stamped with its own reference and is therefore
+   * byte-unique. That matters: the three shared variants used to make all
+   * twelve rows collide, so the queue flagged 100 % of requests as duplicates
+   * and the one signal meant to catch a real fraud attempt was pure noise — an
+   * admin learns in a day to ignore a badge that is always lit.
+   */
+  readonly duplicateOfSeq?: number;
   readonly receiptUploadedAt?: Date;
   readonly transferDate?: Date;
   readonly transferBankRef?: string;
@@ -191,8 +202,12 @@ const REQUESTS: readonly SeedRequest[] = [
   },
   {
     // The same bytes as request 108 — §9.2 rule 6's « Justificatif déjà
-    // utilisé » badge needs a real duplicate to point at.
+    // utilisé » badge needs a real duplicate to point at. This is now the ONLY
+    // one: sharing three variants across twelve rows made every row a
+    // duplicate, so the badge was lit on the whole queue and pointed at
+    // nothing.
     seq: 110,
+    duplicateOfSeq: 108,
     studentEmail: 'hajar.naciri@gmail.com',
     courseSlug: 'montage-video-formats-courts',
     status: 'UNDER_REVIEW',
@@ -234,15 +249,27 @@ const REQUESTS: readonly SeedRequest[] = [
  * Test receipt images
  * ────────────────────────────────────────────────────────────────────────── */
 
-const RECEIPT_VARIANTS: Record<Exclude<ReceiptVariant, null>, { amount: string; tint: string }> = {
-  A: { amount: '1 900,00 MAD', tint: '#e6f2f0' },
-  B: { amount: '2 400,00 MAD', tint: '#f7efe1' },
-  C: { amount: '1 200,00 MAD', tint: '#eef0f7' },
+const RECEIPT_VARIANTS: Record<Exclude<ReceiptVariant, null>, { tint: string }> = {
+  A: { tint: '#e6f2f0' },
+  B: { tint: '#f7efe1' },
+  C: { tint: '#eef0f7' },
 };
 
-/** An unmistakably fake bank receipt (§23: "clearly marked as test images"). */
-function receiptSvg(variant: Exclude<ReceiptVariant, null>): Buffer {
-  const { amount, tint } = RECEIPT_VARIANTS[variant];
+/**
+ * An unmistakably fake bank receipt (§23: "clearly marked as test images").
+ *
+ * Stamped with the request's OWN reference and amount, for two reasons. It is
+ * what the drawer asks an admin to check — a receipt whose motif reads
+ * `CFI-0000-000000` cannot be reconciled against anything, so the verification
+ * screen could not be exercised honestly. And it makes each image byte-unique,
+ * which is what stops the duplicate-receipt signal firing on every row.
+ */
+function receiptSvg(
+  variant: Exclude<ReceiptVariant, null>,
+  reference: string,
+  amount: string,
+): Buffer {
+  const { tint } = RECEIPT_VARIANTS[variant];
   return Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700">
       <rect width="1000" height="700" fill="${tint}"/>
@@ -252,11 +279,23 @@ function receiptSvg(variant: Exclude<ReceiptVariant, null>): Buffer {
       <text x="120" y="300" font-family="Arial" font-size="30" fill="#0b1220">Ordre de virement</text>
       <text x="120" y="360" font-family="Arial" font-size="26" fill="#5a6472">Bénéficiaire : Centre de Formation Immersive</text>
       <text x="120" y="410" font-family="Arial" font-size="26" fill="#5a6472">Montant : ${amount}</text>
-      <text x="120" y="460" font-family="Arial" font-size="26" fill="#5a6472">Motif : CFI-0000-000000</text>
+      <text x="120" y="460" font-family="Arial" font-size="26" fill="#5a6472">Motif : ${reference}</text>
       <text x="500" y="600" text-anchor="middle" font-family="Arial" font-size="22" fill="#c0283c">NE PAS UTILISER — DONNÉES DE DÉMONSTRATION</text>
     </svg>`,
     'utf8',
   );
+}
+
+/**
+ * `120000` → `1 200,00 MAD`. Written out rather than taken from `Intl`, whose
+ * fr-FR grouping separator is a narrow no-break space that renders as a blank
+ * box in the SVG rasteriser.
+ */
+function receiptAmount(centimes: number): string {
+  const whole = Math.floor(centimes / 100);
+  const cents = String(centimes % 100).padStart(2, '0');
+  const grouped = String(whole).replace(/\B(?=(\d{3})+(?!\d))/gu, ' ');
+  return `${grouped},${cents} MAD`;
 }
 
 function sha256Hex(bytes: Buffer): string {
@@ -298,14 +337,39 @@ export async function seedRequests(tx: Prisma.TransactionClient): Promise<Reques
   const sharp = sharpModule.default;
   const storage = await getStorage();
 
-  // ── Rasterise the three test receipts once ────────────────────────────────
-  const receiptBytes = new Map<Exclude<ReceiptVariant, null>, Buffer>();
-  for (const variant of ['A', 'B', 'C'] as const) {
-    const webp = await sharp(receiptSvg(variant)).webp({ quality: 82 }).toBuffer();
-    receiptBytes.set(variant, webp);
-    // Written for every request below that references the variant; one object
-    // per request so deleting a request's receipt never orphans another's.
-  }
+  /**
+   * Rasterise one request's receipt, memoised by seq.
+   *
+   * Per request rather than per variant, because each image now carries its own
+   * reference — which is the point: it is what makes the bytes unique, and what
+   * gives the verification drawer something real to reconcile. A request with
+   * `duplicateOfSeq` asks for the SOURCE's bytes, which is exactly what reusing
+   * someone else's transfer slip looks like.
+   */
+  const receiptBytes = new Map<number, Buffer>();
+  const bytesForSeq = async (seq: number): Promise<Buffer> => {
+    const cached = receiptBytes.get(seq);
+    if (cached !== undefined) return cached;
+
+    const row = REQUESTS.find((r) => r.seq === seq);
+    if (row === undefined || row.receipt === null) {
+      throw new Error(`Seed §23 : la demande ${seq} n'a pas de justificatif à rendre.`);
+    }
+    const priced = await tx.course.findUnique({
+      where: { slug: row.courseSlug },
+      select: { priceCentimes: true },
+    });
+    if (priced === null) {
+      throw new Error(`Seed §23 : formation « ${row.courseSlug} » introuvable pour la demande ${seq}.`);
+    }
+
+    const due = Math.max(0, priced.priceCentimes - (row.couponDiscountCentimes ?? 0));
+    const webp = await sharp(receiptSvg(row.receipt, referenceFor(seq), receiptAmount(due)))
+      .webp({ quality: 82 })
+      .toBuffer();
+    receiptBytes.set(seq, webp);
+    return webp;
+  };
 
   let created = 0;
   let updated = 0;
@@ -343,8 +407,9 @@ export async function seedRequests(tx: Prisma.TransactionClient): Promise<Reques
       receiptUploadedAt: Date | null;
     };
     if (seed.receipt !== null) {
-      const bytes = receiptBytes.get(seed.receipt);
-      if (bytes === undefined) throw new Error(`Variante de justificatif inconnue : ${seed.receipt}`);
+      // A duplicate carries the other request's bytes verbatim — same SHA-256,
+      // same visible reference, which is what makes it detectable.
+      const bytes = await bytesForSeq(seed.duplicateOfSeq ?? seed.seq);
       const key = receiptKeyFor(seed.seq);
       await storage.put(key, bytes, { contentType: 'image/webp' });
       receiptFields = {

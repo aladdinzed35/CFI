@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { signOut } from '@/server/auth/config';
 import { requirePageAdmin } from '@/server/auth/guards';
 import { accountCounts } from '@/server/services/accounts/queries';
+import { requestQueueCounts } from '@/server/services/enrollment/admin-queries';
 import { isLocale, type Locale } from '@/i18n/routing';
 
 import { AdminShell, type AdminNavGroup } from './admin-nav';
@@ -67,8 +68,11 @@ export default async function AdminLayout({
     getTranslations('landing'),
   ]);
 
-  const counts = await accountCounts(user);
+  // Both queues, in parallel: the rail shows what is waiting behind each entry,
+  // and a `payment.verify`-less admin simply gets no number rather than an error.
+  const [counts, requests] = await Promise.all([accountCounts(user), requestQueueCounts(user)]);
   const pendingAccounts = counts.ok ? counts.data.pendingApproval : 0;
+  const pendingRequests = requests.ok ? requests.data.UNDER_REVIEW : 0;
 
   const groups: readonly AdminNavGroup[] = [
     {
@@ -77,7 +81,21 @@ export default async function AdminLayout({
     },
     {
       label: tNav('groupOperations'),
-      items: [{ href: '/admin/comptes', label: tNav('accounts'), icon: 'accounts' }],
+      items: [
+        {
+          href: '/admin/comptes',
+          label: tNav('accounts'),
+          icon: 'accounts',
+          badge: pendingAccounts,
+        },
+        {
+          href: '/admin/demandes',
+          label: tNav('requests'),
+          icon: 'requests',
+          badge: pendingRequests,
+        },
+        { href: '/admin/paiements', label: tNav('payments'), icon: 'payments' },
+      ],
     },
   ];
 

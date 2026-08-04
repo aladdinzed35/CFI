@@ -4,11 +4,13 @@ import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import {
   ChevronLeft,
   ExternalLink,
+  FileCheck,
   LayoutDashboard,
   LogOut,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
+  Receipt,
   Users,
 } from 'lucide-react';
 
@@ -57,11 +59,13 @@ import { ShellControls } from '@/components/system/shell-controls';
  * client render agree.
  */
 
-export type AdminNavIcon = 'dashboard' | 'accounts';
+export type AdminNavIcon = 'dashboard' | 'accounts' | 'requests' | 'payments';
 
 const NAV_ICONS: Record<AdminNavIcon, React.ComponentType<{ className?: string }>> = {
   dashboard: LayoutDashboard,
   accounts: Users,
+  requests: FileCheck,
+  payments: Receipt,
 };
 
 export interface AdminNavItem {
@@ -71,6 +75,15 @@ export interface AdminNavItem {
   readonly icon: AdminNavIcon;
   /** `true` when only an exact path match counts as active — the panel root. */
   readonly exact?: boolean;
+  /**
+   * Work waiting behind this entry. Omitted, or `0`, renders nothing.
+   *
+   * The top bar carries a single counter, and it counts accounts. Once requests
+   * arrived there were two queues and one number, so an administrator could read
+   * « Aucun compte à valider » while four transfers sat unverified. A count on
+   * the entry itself keeps each queue honest about its own backlog.
+   */
+  readonly badge?: number;
 }
 
 export interface AdminNavGroup {
@@ -109,6 +122,22 @@ export interface AdminShellProps {
 
 const COLLAPSE_STORAGE_KEY = 'cfi.admin.nav.collapsed';
 const SIGN_OUT_FORM_ID = 'cfi-admin-sign-out';
+
+/**
+ * The waiting count on a rail entry. Pushed to the end of the row so the
+ * labels stay left-aligned, and marked `data-numeric dir="ltr"` like every
+ * other figure in the panel — an Arabic reader still sees `12`, not `21`.
+ */
+function NavBadge({ count }: { count?: number }): React.JSX.Element | null {
+  if (count === undefined || count <= 0) return null;
+  return (
+    <Badge tone="warn" variant="solid" size="sm" className="ms-auto min-w-6 justify-center">
+      <span data-numeric dir="ltr" className="force-ltr">
+        {count}
+      </span>
+    </Badge>
+  );
+}
 
 function isActive(pathname: string, item: AdminNavItem): boolean {
   if (item.exact === true) return pathname === item.href;
@@ -200,6 +229,7 @@ export function AdminShell({
                             >
                               <Icon className="size-5 shrink-0" aria-hidden="true" />
                               <span>{item.label}</span>
+                              <NavBadge count={item.badge} />
                             </Link>
                           </DrawerClose>
                         );
@@ -327,7 +357,13 @@ export function AdminShell({
                       key={item.href}
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
-                      title={collapsed ? item.label : undefined}
+                      title={
+                        collapsed
+                          ? item.badge !== undefined && item.badge > 0
+                            ? `${item.label} (${item.badge})`
+                            : item.label
+                          : undefined
+                      }
                       className={cn(
                         'inline-flex min-h-11 items-center gap-3 rounded-md text-sm font-medium',
                         'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
@@ -339,6 +375,10 @@ export function AdminShell({
                     >
                       <Icon className="size-5 shrink-0" aria-hidden="true" />
                       <span className={collapsed ? 'sr-only' : undefined}>{item.label}</span>
+                      {/* Collapsed to an icon rail there is no room for a
+                          number, and a bare dot would say "something" without
+                          saying what — so the count rides the title instead. */}
+                      {collapsed ? null : <NavBadge count={item.badge} />}
                     </Link>
                   );
                 })}
