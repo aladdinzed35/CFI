@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Star } from 'lucide-react';
 import { useDirection } from '@/hooks/use-direction';
 import { cn } from '@/lib/cn';
@@ -29,16 +29,32 @@ const starSizeClasses: Record<RatingSize, string> = {
   lg: 'size-6',
 };
 
-const gapClasses: Record<RatingSize, string> = {
-  sm: 'gap-0.5',
-  md: 'gap-0.5',
-  lg: 'gap-1',
-};
-
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
   return Math.min(max, Math.max(min, value));
 }
+
+/**
+ * Lucide's `Star` outline (viewBox 24 × 24), inlined so a row can define it
+ * once and stamp it with `<use>`.
+ *
+ * The obvious rendering — one `<Star/>` per star — costs a full `<svg><path>`
+ * per glyph, and read-only ratings appear in bulk: the homepage's testimonial
+ * band alone carried 68 inline SVGs, most of them these stars, and the browser
+ * re-parses the same 500-byte path data for every one. Style/Layout was the
+ * single largest slice of the §21 performance budget's overrun.
+ */
+const STAR_PATH =
+  'M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z';
+
+/** Gap between stars, in viewBox units (24 = one star width). */
+const GAP_UNITS: Record<RatingSize, number> = { sm: 3, md: 3, lg: 4 };
+
+const rowHeightClasses: Record<RatingSize, string> = {
+  sm: 'h-3.5',
+  md: 'h-4',
+  lg: 'h-6',
+};
 
 interface StarRowProps {
   count: number;
@@ -49,24 +65,54 @@ interface StarRowProps {
 }
 
 function StarRow({ count, size, filled, cells }: StarRowProps): React.JSX.Element {
+  // useId, not a constant: many ratings render per page, and a duplicated
+  // SVG id would make every row stamp the FIRST row's geometry.
+  const id = useId();
+
+  if (cells) {
+    // Interactive mode is one slider on one page (the review form); its 44 px
+    // cells need per-star layout, and N here is five. Not worth densifying.
+    return (
+      <span className="flex shrink-0 gap-0">
+        {Array.from({ length: count }, (_unused, index) => (
+          <span key={index} className="grid size-11 shrink-0 place-items-center">
+            <Star
+              className={cn(
+                starSizeClasses[size],
+                'shrink-0',
+                filled ? 'fill-brass stroke-brass' : 'fill-none stroke-ink-muted',
+              )}
+              strokeWidth={1.75}
+            />
+          </span>
+        ))}
+      </span>
+    );
+  }
+
+  // Read-only: ONE svg, the path defined once, stamped `count` times. The
+  // height class fixes the scale; `w-auto` follows from the viewBox ratio.
+  const gap = GAP_UNITS[size];
+  const width = count * 24 + (count - 1) * gap;
+
   return (
-    <span className={cn('flex shrink-0', cells ? 'gap-0' : gapClasses[size])}>
+    <svg
+      viewBox={`0 0 ${width} 24`}
+      className={cn(
+        rowHeightClasses[size],
+        'w-auto shrink-0',
+        filled ? 'fill-brass stroke-brass' : 'fill-none stroke-ink-muted',
+      )}
+      strokeWidth={1.75}
+      aria-hidden="true"
+    >
+      <defs>
+        <path id={id} d={STAR_PATH} />
+      </defs>
       {Array.from({ length: count }, (_unused, index) => (
-        <span
-          key={index}
-          className={cn('grid shrink-0 place-items-center', cells && 'size-11')}
-        >
-          <Star
-            className={cn(
-              starSizeClasses[size],
-              'shrink-0',
-              filled ? 'fill-brass stroke-brass' : 'fill-none stroke-ink-muted',
-            )}
-            strokeWidth={1.75}
-          />
-        </span>
+        <use key={index} href={`#${id}`} x={index * (24 + gap)} />
       ))}
-    </span>
+    </svg>
   );
 }
 
