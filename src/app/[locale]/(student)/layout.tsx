@@ -2,7 +2,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Bell, LayoutDashboard, LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Bell, FileCheck, LayoutDashboard, LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 
 import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -155,7 +155,7 @@ export default async function StudentLayout({
     await signOut({ redirectTo: `/${locale}${ROUTES.signIn}` });
   }
 
-  const destinations = navigationFor(user.status, tNav('dashboard'));
+  const destinations = navigationFor(user.status, tNav('dashboard'), tNav('requests'));
 
   return (
     <div className="flex min-h-dvh flex-col bg-abyss">
@@ -356,19 +356,30 @@ interface Destination {
  *    `PENDING_APPROVAL` student inside the shell (§9.1 lets them keep their
  *    profile up to date while they wait) is not shown a dashboard that would
  *    redirect them straight back to the waiting screen.
- * 2. A destination that does not exist yet is not offered either. `/espace`
- *    is the only student route Milestone 1 builds; *Mes formations*, *Mes
- *    demandes*, the profile and the rest arrive with the milestones that build
- *    them, and each is added here at the same time. The product ships no link
- *    that 404s.
+ * 2. A destination that does not exist yet is not offered either. *Mes
+ *    formations*, the profile and the rest arrive with the milestones that
+ *    build them, and each is added here at the same time. The product ships no
+ *    link that 404s.
+ *
+ * *Mes demandes* joined the rail with M3, which built `/espace/demandes`.
+ * Until it did, the page was reachable only from an e-mail or a notification —
+ * every §18 message about a transfer points there, so a student who had closed
+ * the mail had no way back to their own request.
  *
  * `status` is a plain string on purpose: a file under `src/app` may not import
  * `@prisma/client` (§5, enforced by ESLint), and the value flows in already
  * typed from the session.
  */
-function navigationFor(status: string, dashboardLabel: string): readonly Destination[] {
+function navigationFor(
+  status: string,
+  dashboardLabel: string,
+  requestsLabel: string,
+): readonly Destination[] {
   if (status !== 'ACTIVE') return [];
-  return [{ href: ROUTES.student, label: dashboardLabel, Icon: LayoutDashboard }];
+  return [
+    { href: ROUTES.student, label: dashboardLabel, Icon: LayoutDashboard },
+    { href: ROUTES.studentRequests, label: requestsLabel, Icon: FileCheck },
+  ];
 }
 
 /* -------------------------------------------------------------------------- */

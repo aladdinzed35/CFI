@@ -76,6 +76,12 @@ export const ROUTES = {
   /** The authenticated student app (§13). */
   student: '/espace',
   /**
+   * Where a student follows an access request (§13.3). Built by M3, so the
+   * shell may offer it — this file is watched by `check-routes`, which fails
+   * the moment a constant here stops resolving to a real page.
+   */
+  studentRequests: '/espace/demandes',
+  /**
    * The one `/espace` page a not-yet-approved account may open (§9.1).
    * `/espace/profil` itself arrives with §13.4; until then this is the account
    * root, so the policy never points at a route that does not exist.
