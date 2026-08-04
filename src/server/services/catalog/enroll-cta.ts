@@ -16,27 +16,40 @@ import type { ViewerCourseState } from '@/server/services/catalog/course-detail'
  * awaiting approval must be told that regardless of what it may already own.
  */
 
-export type EnrollCtaKind =
+/**
+ * Every CTA this resolver can emit, as a VALUE and not only a type.
+ *
+ * The course page renders `t(\`cta.${cta.kind}\`)` — a computed key, which the
+ * i18n usage checker cannot follow and therefore skips. Four kinds shipped with
+ * no label in any locale, so a suspended visitor read the literal string
+ * `course.cta.blocked` where the button should be. A runtime list lets a unit
+ * test walk the kinds against the message files, which is the only thing that
+ * closes that gap: adding a kind without a label now fails the suite.
+ */
+export const ENROLL_CTA_KINDS = [
   /** Not signed in — register, and come back here afterwards. */
-  | 'guest'
+  'guest',
   /** Signed in, e-mail not confirmed. */
-  | 'pendingEmail'
+  'pendingEmail',
   /** Confirmed, waiting for an administrator. Disabled, with an explanation. */
-  | 'pendingApproval'
+  'pendingApproval',
   /** Refused or suspended: no purchase path, only a way to reach a human. */
-  | 'blocked'
+  'blocked',
   /** Active, not enrolled, no request in flight — the buying state. */
-  | 'active'
+  'active',
   /** A request exists and is being handled. */
-  | 'requestPending'
+  'requestPending',
   /** A request was refused; they may correct it and try again. */
-  | 'requestRejected'
+  'requestRejected',
   /** Enrolled and in progress. */
-  | 'enrolled'
+  'enrolled',
   /** Finished — revisit, and collect the certificate. */
-  | 'completed'
-  /** Access lapsed or was revoked. */
-  | 'accessEnded';
+  'completed',
+  /** Access lapsed or was revoked; re-requesting is open to them. */
+  'accessEnded',
+] as const;
+
+export type EnrollCtaKind = (typeof ENROLL_CTA_KINDS)[number];
 
 export interface EnrollCta {
   readonly kind: EnrollCtaKind;
@@ -44,6 +57,15 @@ export interface EnrollCta {
   readonly actionable: boolean;
   /** Locale-relative target, or `null` when the CTA does not navigate. */
   readonly href: string | null;
+  /**
+   * The buying state, and the only one where the button opens the §9.2 modal
+   * instead of going somewhere. It is a flag rather than an `href` because the
+   * enrollment request is created in place, on this page, from data the page
+   * already resolved — a route would mean a second page that only exists to
+   * host a dialog, and a `kind === 'active'` test scattered across the JSX is
+   * exactly the drift this module was written to prevent.
+   */
+  readonly opensRequestModal: boolean;
   /** Deep link for `Continuer la formation`, when one is known. */
   readonly lastLessonId: string | null;
   /** Present only in `completed`, and only when the certificate is valid. */
@@ -69,6 +91,7 @@ export function resolveEnrollCta({
     lastLessonId: null,
     certificateCode: null,
     requestReference: viewer?.request?.reference ?? null,
+    opensRequestModal: false,
   } as const;
 
   // 1 — anonymous. `?suivant=` brings them back to this exact course, which is
@@ -102,7 +125,12 @@ export function resolveEnrollCta({
         ...base,
         kind: 'completed',
         actionable: true,
-        href: `/espace/formations/${courseSlug}`,
+        // The player lives at `/espace/formations/[slug]`, an M4 route that does
+        // not exist yet. Linking it anyway 404s the two commonest signed-in CTAs
+        // on the conversion page, so until M4 lands this goes to the space the
+        // student actually has. `check-routes` now covers this file, so the
+        // one-line change back cannot be forgotten silently.
+        href: '/espace',
         lastLessonId: enrollment.lastLessonId,
         // Already null for a revoked certificate — `getViewerCourseState`
         // resolves that, so a revoked one is never offered for download.
@@ -115,14 +143,19 @@ export function resolveEnrollCta({
         ...base,
         kind: 'enrolled',
         actionable: true,
-        href: `/espace/formations/${courseSlug}`,
+        // See `completed` above — M4 route, not built yet.
+        href: '/espace',
         lastLessonId: enrollment.lastLessonId,
       };
     }
 
     // EXPIRED or REVOKED: they had access and no longer do. Saying so plainly
-    // beats showing a buy button as though nothing had happened.
-    return { ...base, kind: 'accessEnded', actionable: true, href: null };
+    // beats showing a buy button as though nothing had happened — but a dead
+    // enabled button is worse than either. `createEnrollmentRequest` refuses
+    // only an ACTIVE enrolment, so re-requesting is genuinely open to them:
+    // this opens the same modal under a « Renouveler » label, which
+    // acknowledges the earlier purchase instead of ignoring it.
+    return { ...base, kind: 'accessEnded', actionable: true, href: null, opensRequestModal: true };
   }
 
   // 6 — a request in flight.
@@ -137,6 +170,6 @@ export function resolveEnrollCta({
     // Cancelled or expired requests fall through: they may simply ask again.
   }
 
-  // 7 — active, nothing in the way.
-  return { ...base, kind: 'active', actionable: true, href: null };
+  // 7 — active, nothing in the way. The §9.2 modal opens here.
+  return { ...base, kind: 'active', actionable: true, href: null, opensRequestModal: true };
 }

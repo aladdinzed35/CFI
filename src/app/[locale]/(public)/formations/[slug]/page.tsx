@@ -11,7 +11,11 @@ import { Curriculum } from '@/components/public/course/curriculum';
 import { Markdown } from '@/components/public/course/markdown';
 import { Reviews } from '@/components/public/course/reviews';
 import { PurchaseCard } from '@/components/public/course/purchase-card';
+import type { EnrollmentModalData } from '@/components/enrollment/types';
 import { resolveEnrollCta } from '@/server/services/catalog/enroll-cta';
+import { getBankDetails } from '@/server/services/enrollment/bank-details';
+import { receiptUploadConstraints } from '@/server/actions/enrollment';
+import { getPublicChrome } from '@/server/services/public-chrome';
 import { getCurrentUser } from '@/server/auth';
 import {
   getCourseBySlug,
@@ -100,6 +104,39 @@ export default async function CoursePage({
     courseSlug: course.slug,
     viewer,
   });
+
+  // Only the buying state pays for this: the bank coordinates and the upload
+  // ceilings are read (and shipped to the browser) for a visitor who can
+  // actually open the §9.2 modal, and for nobody else.
+  const enrollment: EnrollmentModalData | undefined = cta.opensRequestModal
+    ? await (async (): Promise<EnrollmentModalData> => {
+        const [bank, chrome, constraints] = await Promise.all([
+          getBankDetails(),
+          getPublicChrome(locale),
+          receiptUploadConstraints(),
+        ]);
+        return {
+          locale,
+          course: {
+            id: course.id,
+            slug: course.slug,
+            title: course.title,
+            priceCentimes: course.priceCentimes,
+            comparePriceCentimes: course.comparePriceCentimes,
+            moduleCount: course.modules.length,
+            durationMinutes: course.durationMinutes,
+            resourceCount: course.resources.length,
+            certificateEnabled: course.certificateEnabled,
+          },
+          bank,
+          whatsappUrl:
+            chrome.contact.whatsappNumber === null
+              ? null
+              : `https://wa.me/${chrome.contact.whatsappNumber}`,
+          constraints,
+        };
+      })()
+    : undefined;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
@@ -294,7 +331,7 @@ export default async function CoursePage({
           )}
         </article>
 
-        <PurchaseCard locale={locale} course={course} cta={cta} />
+        <PurchaseCard locale={locale} course={course} cta={cta} enrollment={enrollment} />
       </div>
 
       {/* Built from the same payload the page renders, so the markup and the

@@ -49,3 +49,7 @@ Thumbs.db
 .eslintcache
 /prisma/*.db
 /prisma/*.db-journal
+
+# lighthouse run artifacts
+.lighthouseci/
+lhci-*.tmp.*

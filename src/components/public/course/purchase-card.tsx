@@ -11,6 +11,8 @@ import type { Locale } from '@/i18n/routing';
 import type { CourseDetail } from '@/server/services/catalog/course-detail';
 
 import type { EnrollCta } from '@/server/services/catalog/enroll-cta';
+import { EnrollCtaButton } from '@/components/public/course/enroll-cta-button';
+import type { EnrollmentModalData } from '@/components/enrollment/types';
 
 /**
  * The sticky purchase card (§12.4), and the mobile bar that replaces it.
@@ -31,12 +33,19 @@ export interface PurchaseCardProps {
   locale: Locale;
   course: CourseDetail;
   cta: EnrollCta;
+  /**
+   * Everything the §9.2 modal needs, resolved by the page. Supplied only when
+   * `cta.opensRequestModal` is true — a visitor who cannot buy never downloads
+   * the bank coordinates.
+   */
+  enrollment?: EnrollmentModalData;
 }
 
 export async function PurchaseCard({
   locale,
   course,
   cta,
+  enrollment,
 }: PurchaseCardProps): Promise<React.JSX.Element> {
   const t = await getTranslations({ locale, namespace: 'course' });
 
@@ -44,7 +53,11 @@ export async function PurchaseCard({
   const label = t(`cta.${cta.kind}`, { price });
 
   const button =
-    cta.href === null ? (
+    cta.opensRequestModal && enrollment !== undefined ? (
+      // The buying state: the request is created here, in a dialog, rather than
+      // on a page of its own (§9.2).
+      <EnrollCtaButton label={label} data={enrollment} />
+    ) : cta.href === null ? (
       <Button size="lg" fullWidth disabled={!cta.actionable}>
         {label}
       </Button>

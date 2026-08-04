@@ -2346,15 +2346,20 @@
       "pendingApproval": "Cuenta en proceso de validación",
       "pendingApprovalHint": "Nuestro equipo está validando su cuenta, normalmente en 24 horas laborables. Después podrá solicitar el acceso.",
       "pendingApprovalWhatsapp": "Escríbanos por WhatsApp",
+      "blocked": "Inscripción no disponible",
+      "blockedHint": "Su cuenta no permite solicitar el acceso por el momento. Escríbanos por WhatsApp para conocer el motivo.",
       "active": "Solicitar el acceso — {price}",
       "activeFree": "Solicitar el acceso",
       "requestPending": "Solicitud en tramitación",
       "requestPendingHint": "Estamos verificando su justificante de transferencia. Siga el avance desde su espacio.",
+      "requestRejected": "Ver el motivo del rechazo",
       "enrolled": "Continuar la formación",
       "enrolledHint": "Retomará en la clase donde lo dejó.",
+      "completed": "Repasar la formación",
       "completedReview": "Repasar la formación",
       "completedCertificate": "Descargar el certificado",
-      "completedHint": "Formación terminada. Su certificado sigue disponible para descargar en cualquier momento."
+      "completedHint": "Formación terminada. Su certificado sigue disponible para descargar en cualquier momento.",
+      "accessEnded": "Renovar el acceso — {price}"
     },
     "share": {
       "label": "Compartir",

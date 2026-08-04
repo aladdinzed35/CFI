@@ -1,7 +1,0 @@
-(node:17636) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-Running Lighthouse 1 time(s) on http://localhost:4311/fr
-Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:4311/fr/formations/marketing-digital-fondations
-Run #1...done.
-Done running Lighthouse!

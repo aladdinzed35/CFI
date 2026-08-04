@@ -2346,15 +2346,20 @@
       "pendingApproval": "Account being validated",
       "pendingApprovalHint": "Our team is validating your account, usually within 24 working hours. You will then be able to request access.",
       "pendingApprovalWhatsapp": "Write to us on WhatsApp",
+      "blocked": "Enrolment unavailable",
+      "blockedHint": "Your account cannot request access at the moment. Write to us on WhatsApp to find out why.",
       "active": "Request access — {price}",
       "activeFree": "Request access",
       "requestPending": "Request being processed",
       "requestPendingHint": "We are checking your transfer receipt. Follow the progress from your space.",
+      "requestRejected": "See the reason for the refusal",
       "enrolled": "Continue the course",
       "enrolledHint": "You will resume at the lesson where you stopped.",
+      "completed": "Review the course",
       "completedReview": "Review the course",
       "completedCertificate": "Download the certificate",
-      "completedHint": "Course completed. Your certificate stays downloadable at any time."
+      "completedHint": "Course completed. Your certificate stays downloadable at any time.",
+      "accessEnded": "Renew access — {price}"
     },
     "share": {
       "label": "Share",
