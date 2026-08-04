@@ -26,7 +26,9 @@
     "rtl:check": "tsx scripts/check-rtl.ts",
     "routes:check": "tsx scripts/check-routes.ts",
     "boundary:check": "tsx scripts/check-client-boundary.ts",
-    "verify": "npm run typecheck && npm run lint && npm run i18n:check && npm run rtl:check && npm run routes:check && npm run boundary:check && npm run test",
+    "messages:check": "tsx scripts/check-client-messages.ts",
+    "fonts:subset": "python scripts/subset-fonts.py",
+    "verify": "npm run typecheck && npm run lint && npm run i18n:check && npm run rtl:check && npm run routes:check && npm run boundary:check && npm run messages:check && npm run test",
     "reindex": "tsx scripts/reindex.ts",
     "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
     "lighthouse": "lhci autorun"

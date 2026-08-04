@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Providers } from '@/components/system/providers';
 import { SkipLink } from '@/components/system/skip-link';
 import { ThemeScript } from '@/components/system/theme-script';
+import { PUBLIC_EXCLUDED_NAMESPACES, omitNamespaces } from '@/i18n/client-messages';
 import { defaultLocale, dirFor, htmlLangFor, isLocale, locales, type Locale } from '@/i18n/routing';
 import '@/styles/globals.css';
 
@@ -131,7 +132,11 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages({ locale });
+  // NOT the whole catalogue: whatever this provider receives is serialised into
+  // the flight payload of every page beneath it, so the administration
+  // vocabulary and the e-mail templates would ride along on the homepage. The
+  // admin layout re-provides its own superset. See `@/i18n/client-messages`.
+  const messages = omitNamespaces(await getMessages({ locale }), PUBLIC_EXCLUDED_NAMESPACES);
   const t = await getTranslations({ locale, namespace: 'a11y' });
 
   return (

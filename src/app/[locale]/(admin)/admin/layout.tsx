@@ -1,11 +1,13 @@
 import { notFound } from 'next/navigation';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 
 import { signOut } from '@/server/auth/config';
 import { requirePageAdmin } from '@/server/auth/guards';
 import { accountCounts } from '@/server/services/accounts/queries';
 import { requestQueueCounts } from '@/server/services/enrollment/admin-queries';
+import { SERVER_ONLY_NAMESPACES, omitNamespaces } from '@/i18n/client-messages';
 import { isLocale, type Locale } from '@/i18n/routing';
 
 import { AdminShell, type AdminNavGroup } from './admin-nav';
@@ -124,7 +126,15 @@ export default async function AdminLayout({
     await signOut({ redirectTo: `/${locale as Locale}/connexion` });
   }
 
+  // The root provider deliberately withholds `admin` and `emails` so a visitor
+  // to the homepage does not download the console's vocabulary. This nested
+  // provider hands the whole catalogue (less the server-only `seo`) back to the
+  // subtree that actually needs it — nesting replaces the context below it, so
+  // it must be a superset, not a delta.
+  const adminMessages = omitNamespaces(await getMessages({ locale }), SERVER_ONLY_NAMESPACES);
+
   return (
+    <NextIntlClientProvider locale={locale} messages={adminMessages}>
     <AdminShell
       groups={groups}
       labels={{
@@ -149,5 +159,6 @@ export default async function AdminLayout({
     >
       {children}
     </AdminShell>
+    </NextIntlClientProvider>
   );
 }
