@@ -97,6 +97,22 @@ export default async function AdminLayout({
         { href: '/admin/paiements', label: tNav('payments'), icon: 'payments' },
       ],
     },
+    {
+      label: tNav('groupCatalog'),
+      items: [
+        { href: '/admin/formations', label: tNav('courses'), icon: 'courses' },
+        { href: '/admin/contenu', label: tNav('cms'), icon: 'cms' },
+      ],
+    },
+    {
+      // Configuration and history: rarely opened, never hunted for at the top
+      // of the rail, and last for exactly that reason.
+      label: tNav('groupSystem'),
+      items: [
+        { href: '/admin/reglages', label: tNav('settings'), icon: 'settings' },
+        { href: '/admin/journal', label: tNav('audit'), icon: 'audit' },
+      ],
+    },
   ];
 
   /**

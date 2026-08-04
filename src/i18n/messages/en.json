@@ -2744,7 +2744,13 @@
       "revoked": {
         "title": "This certificate has been revoked",
         "body": "This certificate is no longer valid. Write to us to find out why it was revoked.",
-        "action": "Write to us on WhatsApp"
+        "action": "Write to us on WhatsApp",
+        "dateLabel": "Annulled on"
+      },
+      "scannedLead": "Here is the verification result for the code on the certificate you scanned.",
+      "checkAnother": "Verify another certificate",
+      "throttled": {
+        "title": "Too many checks in a short time"
       }
     },
     "paths": {
@@ -3031,6 +3037,12 @@
         "reviewDelay": "Verification usually takes less than 24 working hours.",
         "whatsapp": "Contact us on WhatsApp",
         "viewRequests": "View my requests"
+      },
+      "discard": {
+        "title": "Leave without sending the receipt?",
+        "body": "Your request is saved and your reference stays valid. You can send the receipt later from “My requests” — we will send you a reminder too.",
+        "keep": "Continue my request",
+        "leave": "Leave for now"
       }
     },
     "transferTypes": {

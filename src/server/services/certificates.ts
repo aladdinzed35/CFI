@@ -42,8 +42,23 @@ import type { Locale } from '@/i18n/routing';
 export type CertificateVerification =
   /** No certificate carries this code. Also what a malformed code returns. */
   | { readonly found: false }
-  /** Issued, then annulled by the centre. Never to be reported as valid. */
-  | { readonly found: true; readonly revoked: true }
+  /**
+   * Issued, then annulled by the centre. Never to be reported as valid.
+   *
+   * The DATE travels, the REASON does not. §12.5 asks that an annulled
+   * certificate show when it was annulled — an employer holding the printed
+   * document needs to know whether it was valid on the day it was handed over.
+   * `revokedReason` stays internal, and is not selected at all below, so code
+   * that cannot read it cannot leak it.
+   */
+  | {
+      readonly found: true;
+      readonly revoked: true;
+      /** ISO 8601, for the `datetime` attribute of a `<time>` element. */
+      readonly revokedAt: string;
+      /** The same instant written out for the requested locale. */
+      readonly revokedAtLabel: string;
+    }
   | {
       readonly found: true;
       readonly revoked: false;
@@ -111,8 +126,15 @@ export async function verifyCertificate(
   if (row === null) return { found: false };
 
   // Checked before anything else is read, and returned without a single
-  // certificate detail: an annulled document is not a document.
-  if (row.revokedAt !== null) return { found: true, revoked: true };
+  // certificate detail beyond the date: an annulled document is not a document.
+  if (row.revokedAt !== null) {
+    return {
+      found: true,
+      revoked: true,
+      revokedAt: row.revokedAt.toISOString(),
+      revokedAtLabel: formatDate(row.revokedAt, locale),
+    };
+  }
 
   const { course } = row.enrollment;
   const translation =

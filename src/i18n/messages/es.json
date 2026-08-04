@@ -2744,7 +2744,13 @@
       "revoked": {
         "title": "Este certificado ha sido anulado",
         "body": "Este certificado ya no es válido. Escríbanos para conocer el motivo de la anulación.",
-        "action": "Escríbanos por WhatsApp"
+        "action": "Escríbanos por WhatsApp",
+        "dateLabel": "Anulado el"
+      },
+      "scannedLead": "Este es el resultado de la verificación del código que figura en el certificado que ha escaneado.",
+      "checkAnother": "Verificar otro certificado",
+      "throttled": {
+        "title": "Demasiadas verificaciones en poco tiempo"
       }
     },
     "paths": {
@@ -3031,6 +3037,12 @@
         "reviewDelay": "Verificación generalmente en menos de 24 horas laborables.",
         "whatsapp": "Contactar por WhatsApp",
         "viewRequests": "Ver mis solicitudes"
+      },
+      "discard": {
+        "title": "¿Salir sin enviar el justificante?",
+        "body": "Su solicitud está guardada y su referencia sigue siendo válida. Podrá enviar el justificante más tarde desde «Mis solicitudes»; también le enviaremos un recordatorio.",
+        "keep": "Continuar mi solicitud",
+        "leave": "Salir por ahora"
       }
     },
     "transferTypes": {

@@ -88,7 +88,6 @@ export interface RequestModalProps {
 export function RequestModal({ open, onOpenChange, data }: RequestModalProps): React.JSX.Element {
   const t = useTranslations('enrollment.modal');
   const tCommon = useTranslations('common');
-  const tStatus = useTranslations('enrollment.status');
   const describeError = useActionErrorMessage();
   const router = useRouter();
 
@@ -208,8 +207,12 @@ export function RequestModal({ open, onOpenChange, data }: RequestModalProps): R
         {confirmDiscard ? (
           <>
             <ModalBody>
-              <Alert variant="warning" title={tStatus('labels.awaitingReceipt')}>
-                {tStatus('explanations.awaitingReceipt')}
+              {/* `info`, not `warning`: the request is already created and the
+                  reference is theirs. Nothing is being lost by leaving, and
+                  saying otherwise would push someone into an upload they are
+                  not ready for. */}
+              <Alert variant="info" title={t('discard.title')}>
+                {t('discard.body')}
               </Alert>
             </ModalBody>
             <ModalFooter>
@@ -219,10 +222,10 @@ export function RequestModal({ open, onOpenChange, data }: RequestModalProps): R
                   setConfirmDiscard(false);
                 }}
               >
-                {t('actions.continue')}
+                {t('discard.keep')}
               </Button>
-              <Button variant="danger" onClick={close}>
-                {t('actions.close')}
+              <Button variant="ghost" onClick={close}>
+                {t('discard.leave')}
               </Button>
             </ModalFooter>
           </>

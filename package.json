@@ -24,6 +24,9 @@
     "i18n:parity": "tsx scripts/check-i18n.ts",
     "i18n:usage": "tsx scripts/check-i18n-usage.ts",
     "rtl:check": "tsx scripts/check-rtl.ts",
+    "routes:check": "tsx scripts/check-routes.ts",
+    "boundary:check": "tsx scripts/check-client-boundary.ts",
+    "verify": "npm run typecheck && npm run lint && npm run i18n:check && npm run rtl:check && npm run routes:check && npm run boundary:check && npm run test",
     "reindex": "tsx scripts/reindex.ts",
     "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
     "lighthouse": "lhci autorun"

@@ -5,12 +5,16 @@ import {
   ChevronLeft,
   ExternalLink,
   FileCheck,
+  GraduationCap,
   LayoutDashboard,
+  LayoutTemplate,
   LogOut,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
   Receipt,
+  ScrollText,
+  Settings,
   Users,
 } from 'lucide-react';
 
@@ -59,13 +63,31 @@ import { ShellControls } from '@/components/system/shell-controls';
  * client render agree.
  */
 
-export type AdminNavIcon = 'dashboard' | 'accounts' | 'requests' | 'payments';
+export type AdminNavIcon =
+  | 'dashboard'
+  | 'accounts'
+  | 'requests'
+  | 'payments'
+  | 'courses'
+  | 'cms'
+  | 'settings'
+  | 'audit';
 
+/**
+ * One glyph per entry, and every one of them a *noun* the entry is about — a
+ * cap for the catalogue, a template for the CMS, a scroll for the journal.
+ * They are decorative (`aria-hidden`) and the label always travels with them,
+ * because an icon rail collapsed to icons is a memory test, not a navigation.
+ */
 const NAV_ICONS: Record<AdminNavIcon, React.ComponentType<{ className?: string }>> = {
   dashboard: LayoutDashboard,
   accounts: Users,
   requests: FileCheck,
   payments: Receipt,
+  courses: GraduationCap,
+  cms: LayoutTemplate,
+  settings: Settings,
+  audit: ScrollText,
 };
 
 export interface AdminNavItem {
