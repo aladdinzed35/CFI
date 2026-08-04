@@ -638,6 +638,65 @@
       "body3": "¿No ha sido usted? Cambie su contraseña sin esperar y escríbanos por WhatsApp.",
       "cta": "Proteger mi cuenta",
       "footer": "Mensaje enviado por el Centre de formation immersive, en Tanger. ¿Tiene alguna pregunta? Escríbanos por WhatsApp."
+    },
+    "requestReceived": {
+      "subject": "Solicitud recibida — verificación en curso",
+      "preheader": "Hemos recibido su justificante de transferencia.",
+      "heading": "Su solicitud está en curso de tratamiento",
+      "body1": "Hemos recibido su justificante de transferencia para la formación «{courseTitle}». Nuestro equipo lo verifica y activará su acceso en cuanto se confirme el pago.",
+      "body2": "Recibirá un correo en cuanto su formación esté disponible.",
+      "notice48h": "Le recomendamos una transferencia instantánea: su acceso se activa entonces el mismo día. Con una transferencia estándar, el acceso a la formación solo se activará cuando los fondos lleguen efectivamente a nuestra cuenta, lo que puede tardar hasta 48 horas laborables.",
+      "cta": "Ver mis solicitudes"
+    },
+    "adminNewPayment": {
+      "subject": "Nuevo pago por verificar",
+      "preheader": "{studentName} ha enviado un justificante para «{courseTitle}».",
+      "heading": "Nuevo pago por verificar",
+      "body1": "{studentName} ha enviado un justificante de transferencia de {amount} para la formación «{courseTitle}» (referencia {reference}).",
+      "body2": "Verifique el justificante y active el acceso desde la cola de solicitudes.",
+      "cta": "Abrir la solicitud"
+    },
+    "requestInfoNeeded": {
+      "subject": "Justificante por completar",
+      "preheader": "Nuestro equipo necesita una aclaración sobre su solicitud.",
+      "heading": "Su justificante debe completarse",
+      "body1": "Nuestro equipo ha examinado su solicitud {reference} y necesita una aclaración antes de validar su pago.",
+      "adminMessageLabel": "Mensaje de nuestro equipo",
+      "body2": "Reenvíe un justificante desde su espacio: la verificación se reanudará de inmediato.",
+      "cta": "Reenviar un justificante"
+    },
+    "requestApproved": {
+      "subject": "Acceso activado — ¡buena formación!",
+      "preheader": "Su pago está confirmado: la formación le espera.",
+      "heading": "Su acceso está activado",
+      "body1": "Su pago por la formación «{courseTitle}» está confirmado. Su acceso está activo desde ahora.",
+      "body2": "Su factura está adjunta a este mensaje. También la encontrará en su espacio, sección «Mis solicitudes».",
+      "cta": "Empezar la formación"
+    },
+    "requestRejected": {
+      "subject": "Solicitud rechazada",
+      "preheader": "Su solicitud no ha podido validarse.",
+      "heading": "Su solicitud no ha podido validarse",
+      "body1": "Tras la verificación, no hemos podido validar su solicitud {reference} para la formación «{courseTitle}».",
+      "reasonLabel": "Motivo",
+      "body2": "Puede enviar una nueva solicitud con un justificante válido, o escribirnos por WhatsApp para entender qué lo impide.",
+      "cta": "Enviar una nueva solicitud"
+    },
+    "receiptReminder": {
+      "subject": "Recordatorio: su solicitud espera un justificante",
+      "preheader": "Su solicitud {reference} está registrada; falta el justificante.",
+      "heading": "Su solicitud espera un justificante",
+      "body1": "Su solicitud {reference} para la formación «{courseTitle}» está registrada, pero aún no hemos recibido su justificante de transferencia.",
+      "body2": "Envíelo antes del {expiresAt}; de lo contrario, la solicitud caducará automáticamente.",
+      "cta": "Enviar el justificante"
+    },
+    "requestExpired": {
+      "subject": "Solicitud caducada",
+      "preheader": "Su solicitud {reference} ha caducado por falta de justificante.",
+      "heading": "Su solicitud ha caducado",
+      "body1": "Su solicitud {reference} para la formación «{courseTitle}» ha caducado: no hemos recibido un justificante de transferencia en el plazo previsto.",
+      "body2": "Su plaza no está perdida: puede enviar una nueva solicitud en cualquier momento.",
+      "cta": "Enviar una nueva solicitud"
     }
   },
   "admin": {
@@ -653,7 +712,16 @@
       "dashboard": "Panel de control",
       "groupOperations": "Operaciones",
       "accountMenu": "Menú del administrador",
-      "pendingWorkLabel": "Trabajo pendiente"
+      "pendingWorkLabel": "Trabajo pendiente",
+      "requests": "Solicitudes",
+      "payments": "Pagos",
+      "courses": "Formaciones",
+      "cms": "Contenido",
+      "settings": "Ajustes",
+      "audit": "Registro",
+      "groupCatalog": "Catálogo",
+      "groupSystem": "Sistema",
+      "pendingRequests": "{count, plural, =0 {Ninguna solicitud por verificar} one {# solicitud por verificar} other {# solicitudes por verificar}}"
     },
     "accounts": {
       "title": "Cuentas",
@@ -863,7 +931,24 @@
       "clearTitle": "La lista está vacía",
       "clearBody": "Ninguna cuenta espera una decisión. Las nuevas inscripciones llegan aquí en cuanto se confirma la dirección de correo.",
       "breakdownTitle": "Cuentas por estado",
-      "openQueue": "Abrir la lista «{queue}»"
+      "openQueue": "Abrir la lista «{queue}»",
+      "requestsToVerify": "{count, plural, =0 {Ningún pago por verificar} one {# pago por verificar} other {# pagos por verificar}}",
+      "requestsCta": "Abrir las solicitudes",
+      "requestsOldestWaiting": "La más antigua espera desde hace {hours, plural, =0 {menos de una hora} one {# hora} other {# horas}}.",
+      "requestsClear": "Ninguna solicitud espera verificación.",
+      "revenueTitle": "Ingresos cobrados",
+      "revenueHint": "Total de pagos confirmados en el periodo.",
+      "revenueEmpty": "Ningún pago cobrado en el periodo.",
+      "periodLabel": "Periodo",
+      "periods": {
+        "d7": "7 días",
+        "d30": "30 días",
+        "d90": "90 días",
+        "m12": "12 meses"
+      },
+      "vsPrevious": "{percent} % respecto al periodo anterior",
+      "paidEnrollments": "{count, plural, =0 {Ninguna inscripción de pago} one {# inscripción de pago} other {# inscripciones de pago}}",
+      "conversionRate": "Tasa de conversión de las solicitudes"
     },
     "detail": {
       "back": "Volver a las cuentas",
@@ -928,6 +1013,905 @@
         "by": "Por {actor}"
       },
       "tabsLabel": "Secciones de la cuenta"
+    },
+    "requests": {
+      "title": "Solicitudes de pago",
+      "subtitle": "Verifique cada justificante de transferencia y active el acceso o responda al estudiante.",
+      "searchPlaceholder": "Buscar por nombre, referencia o formación",
+      "resultCount": "{count, plural, =0 {Ninguna solicitud} one {# solicitud} other {# solicitudes}}",
+      "openReview": "Abrir la solicitud {reference}",
+      "receiptThumbAlt": "Justificante de {name}",
+      "whatsappMessage": "Hola {name}, le escribe el CFI acerca de su solicitud {reference}.",
+      "tabs": {
+        "toVerify": "Por verificar",
+        "infoRequested": "Información solicitada",
+        "awaitingReceipt": "A la espera del justificante",
+        "approved": "Aprobadas",
+        "rejected": "Rechazadas",
+        "expired": "Caducadas",
+        "all": "Todas"
+      },
+      "columns": {
+        "student": "Estudiante",
+        "course": "Formación",
+        "amount": "Importe",
+        "transferType": "Forma",
+        "declaredDate": "Transferencia declarada el",
+        "submittedAt": "Enviada el",
+        "age": "Espera",
+        "reference": "Referencia",
+        "receipt": "Justificante",
+        "flags": "Señales",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "transferTypes": {
+        "instant": "Instantánea",
+        "standard": "Estándar 48 h",
+        "cash": "Efectivo"
+      },
+      "status": {
+        "awaitingReceipt": "A la espera del justificante",
+        "underReview": "Por verificar",
+        "infoRequested": "Información solicitada",
+        "approved": "Aprobada",
+        "rejected": "Rechazada",
+        "expired": "Caducada",
+        "cancelled": "Anulada"
+      },
+      "ageHours": "{hours, plural, =0 {menos de una hora} one {# hora} other {# horas}}",
+      "ageDays": "{days, plural, one {# día} other {# días}}",
+      "flags": {
+        "duplicateReceipt": "Justificante ya utilizado",
+        "amountMismatch": "Importe distinto del precio",
+        "accountNotValidated": "Cuenta no validada",
+        "secondRequest": "Segunda solicitud",
+        "viewOriginal": "Ver la solicitud original"
+      },
+      "drawer": {
+        "title": "Verificación del pago",
+        "queuePosition": "Solicitud {index} de {total}",
+        "close": "Cerrar la ficha",
+        "previous": "Solicitud anterior",
+        "next": "Solicitud siguiente",
+        "receiptTitle": "Justificante",
+        "noReceipt": "No se ha recibido ningún justificante para esta solicitud.",
+        "zoomIn": "Ampliar",
+        "zoomOut": "Reducir",
+        "rotate": "Girar 90°",
+        "brightness": "Brillo",
+        "contrast": "Contraste",
+        "resetView": "Restablecer la vista",
+        "fullscreen": "Pantalla completa",
+        "download": "Descargar el justificante",
+        "pdfPage": "Página {current} de {total}",
+        "pdfPrevious": "Página anterior",
+        "pdfNext": "Página siguiente",
+        "declaredAmount": "Importe declarado",
+        "expectedAmount": "Importe esperado",
+        "amountMatch": "El importe coincide",
+        "amountMismatch": "El importe no coincide",
+        "declaredDate": "Fecha de transferencia declarada",
+        "bankReference": "Referencia bancaria",
+        "noBankReference": "No indicada",
+        "studentMessage": "Mensaje del estudiante",
+        "noMessage": "Sin mensaje",
+        "studentTitle": "Estudiante",
+        "accountStatus": "Estado de la cuenta",
+        "activeEnrollments": "{count, plural, =0 {Ninguna formación activa} one {# formación activa} other {# formaciones activas}}",
+        "previousPayments": "{count, plural, =0 {Ningún pago anterior} one {# pago anterior} other {# pagos anteriores}}",
+        "hadRejectedRequest": "Ya tuvo una solicitud rechazada",
+        "firstRequest": "Primera solicitud",
+        "courseTitle": "Formación",
+        "priceLabel": "Precio",
+        "couponLabel": "Descuento",
+        "dueLabel": "Importe debido",
+        "internalNote": "Nota interna",
+        "internalNotePlaceholder": "Visible únicamente para la administración.",
+        "keyboardHint": "Atajos de teclado: A para aprobar, I para pedir información, R para rechazar, J y K para recorrer la cola."
+      },
+      "shortcuts": {
+        "title": "Atajos de teclado",
+        "help": "Mostrar los atajos de teclado",
+        "approve": "Aprobar la solicitud mostrada",
+        "requestInfo": "Pedir un justificante más legible",
+        "reject": "Abrir el formulario de rechazo",
+        "next": "Solicitud siguiente de la cola",
+        "previous": "Solicitud anterior de la cola",
+        "close": "Cerrar la ficha"
+      },
+      "approve": {
+        "action": "Aprobar y activar el acceso",
+        "title": "Aprobar la solicitud",
+        "body": "El acceso a la formación se activará inmediatamente y se generará la factura.",
+        "customExpiry": "Fin de acceso personalizado",
+        "customExpiryHint": "Déjelo vacío para aplicar la duración de acceso de la formación.",
+        "partialPayment": "Pago parcial (plazos)",
+        "amountReceived": "Importe cobrado",
+        "sendEmail": "Enviar el correo de confirmación al estudiante",
+        "silent": "No enviar correo",
+        "submit": "Activar el acceso",
+        "pending": "Activando…",
+        "success": "Acceso activado · Factura {invoice} generada · Correo enviado a {email}",
+        "successSilent": "Acceso activado · Factura {invoice} generada · Ningún correo enviado",
+        "undo": "Deshacer",
+        "undoCountdown": "{seconds, plural, one {Anulable durante # segundo} other {Anulable durante # segundos}}",
+        "undone": "La aprobación ha sido anulada. La solicitud sigue por verificar."
+      },
+      "info": {
+        "action": "Pedir un justificante más legible",
+        "title": "Pedir información",
+        "messageLabel": "Mensaje enviado al estudiante",
+        "messagePlaceholder": "Explique qué falta o qué debe ser más legible.",
+        "messageRequired": "Precise qué debe corregir o reenviar el estudiante.",
+        "submit": "Enviar la petición de información",
+        "pending": "Enviando…",
+        "success": "Mensaje enviado a {name}. La solicitud pasa a «Información solicitada»."
+      },
+      "reject": {
+        "action": "Rechazar",
+        "title": "Rechazar la solicitud",
+        "body": "El motivo elegido se envía al estudiante, con un enlace para escribirnos por WhatsApp.",
+        "reasonLabel": "Motivo del rechazo",
+        "reasonPlaceholder": "Seleccione un motivo",
+        "reasons": {
+          "notReceived": "Transferencia no recibida",
+          "unreadable": "Justificante ilegible",
+          "amountMismatch": "Importe incorrecto",
+          "duplicate": "Justificante ya utilizado",
+          "other": "Otro"
+        },
+        "detailsLabel": "Precisiones enviadas al estudiante",
+        "detailsPlaceholder": "Explique qué impide la validación.",
+        "detailsRequired": "Precise el motivo para que el estudiante sepa qué corregir.",
+        "submit": "Rechazar la solicitud",
+        "pending": "Rechazando…",
+        "success": "La solicitud {reference} ha sido rechazada. El motivo se envió por correo."
+      },
+      "bulk": {
+        "selected": "{count, plural, one {# solicitud seleccionada} other {# solicitudes seleccionadas}}",
+        "selectAll": "Seleccionar todas las solicitudes de la página",
+        "clear": "Anular la selección",
+        "export": "Exportar la selección"
+      },
+      "empty": {
+        "toVerify": {
+          "title": "Ninguna solicitud por verificar",
+          "body": "La cola está vacía. Las nuevas solicitudes aparecen aquí en cuanto se envía un justificante."
+        },
+        "infoRequested": {
+          "title": "Ninguna información solicitada",
+          "body": "Las solicitudes a la espera de un justificante mejor aparecen aquí."
+        },
+        "awaitingReceipt": {
+          "title": "Ninguna solicitud a la espera de justificante",
+          "body": "Las solicitudes registradas sin justificante aparecen aquí, con sus recordatorios."
+        },
+        "approved": {
+          "title": "Ninguna solicitud aprobada",
+          "body": "Las solicitudes cuyo acceso activa aparecen aquí, con su factura."
+        },
+        "rejected": {
+          "title": "Ninguna solicitud rechazada",
+          "body": "Las solicitudes que rechaza aparecen aquí, con su motivo."
+        },
+        "expired": {
+          "title": "Ninguna solicitud caducada",
+          "body": "Las solicitudes sin justificante más allá del plazo aparecen aquí."
+        },
+        "all": {
+          "title": "Ninguna solicitud",
+          "body": "Las solicitudes de acceso de sus estudiantes aparecen aquí."
+        },
+        "search": {
+          "title": "Sin resultados",
+          "body": "Ninguna solicitud coincide con su búsqueda. Compruebe la ortografía o amplíe los filtros."
+        }
+      },
+      "table": {
+        "caption": "Lista de solicitudes de pago",
+        "columnsMenu": "Columnas",
+        "selectRow": "Seleccionar esta solicitud",
+        "previousPage": "Página anterior",
+        "nextPage": "Página siguiente",
+        "pageSummary": "{from}–{to} de {total}",
+        "loading": "Cargando las solicitudes",
+        "errorTitle": "Las solicitudes no han podido cargarse",
+        "errorDescription": "Recargue la página. Si el problema persiste, avise al desarrollador."
+      },
+      "filters": {
+        "title": "Filtros",
+        "course": "Formación",
+        "anyCourse": "Todas las formaciones",
+        "transferType": "Forma de pago",
+        "anyTransferType": "Todas las formas",
+        "amountMin": "Importe mínimo",
+        "amountMax": "Importe máximo",
+        "submittedFrom": "Enviada a partir del",
+        "submittedTo": "Enviada hasta el",
+        "flaggedOnly": "Solo con señales",
+        "apply": "Aplicar",
+        "reset": "Restablecer los filtros",
+        "active": "{count, plural, =0 {Ningún filtro} one {# filtro activo} other {# filtros activos}}"
+      }
+    },
+    "payments": {
+      "title": "Pagos",
+      "subtitle": "El registro de los pagos cobrados, las facturas y los ingresos.",
+      "searchPlaceholder": "Buscar por nombre, formación o número de factura",
+      "resultCount": "{count, plural, =0 {Ningún pago} one {# pago} other {# pagos}}",
+      "tabs": {
+        "ledger": "Registro",
+        "reports": "Ingresos"
+      },
+      "columns": {
+        "receivedAt": "Recibido el",
+        "student": "Estudiante",
+        "course": "Formación",
+        "amount": "Importe",
+        "method": "Medio",
+        "invoice": "Factura",
+        "confirmedBy": "Confirmado por",
+        "actions": "Acciones"
+      },
+      "methods": {
+        "bankTransfer": "Transferencia bancaria",
+        "cash": "Efectivo en el centro",
+        "other": "Otro"
+      },
+      "refundBadge": "Reembolso",
+      "actions": {
+        "downloadInvoice": "Descargar la factura",
+        "regenerateInvoice": "Regenerar la factura",
+        "editInvoice": "Modificar la factura",
+        "refund": "Registrar un reembolso",
+        "exportCsv": "Exportar en CSV",
+        "exportXlsx": "Exportar en XLSX"
+      },
+      "regenerated": "La factura {invoice} ha sido regenerada.",
+      "invoiceDialog": {
+        "title": "Datos de la factura",
+        "legalName": "Razón social",
+        "address": "Dirección",
+        "ice": "ICE",
+        "rc": "RC",
+        "if": "IF",
+        "footer": "Pie de página legal",
+        "success": "La factura ha sido actualizada."
+      },
+      "refundDialog": {
+        "title": "Registrar un reembolso",
+        "body": "Se creará un ajuste negativo y se revocará el acceso del estudiante a la formación.",
+        "amountLabel": "Importe reembolsado",
+        "reasonLabel": "Motivo del reembolso",
+        "reasonRequired": "Precise el motivo del reembolso.",
+        "confirmWord": "REMBOURSER",
+        "typeToConfirm": "Escriba {word} para confirmar.",
+        "submit": "Registrar el reembolso",
+        "success": "El reembolso ha sido registrado y el acceso revocado."
+      },
+      "filters": {
+        "period": "Periodo",
+        "course": "Formación",
+        "anyCourse": "Todas las formaciones",
+        "method": "Medio de pago",
+        "anyMethod": "Todos los medios",
+        "from": "Del",
+        "to": "Al",
+        "apply": "Aplicar",
+        "reset": "Restablecer los filtros"
+      },
+      "reports": {
+        "title": "Ingresos",
+        "byMonth": "Por mes",
+        "byCourse": "Por formación",
+        "byCategory": "Por categoría",
+        "byTransferType": "Por forma de pago",
+        "arpu": "Ingreso medio por estudiante",
+        "outstandingTitle": "Vencimientos próximos",
+        "outstandingDue": "Vencimiento el {date}",
+        "total": "Total",
+        "exportAccounting": "Exportación contable del mes"
+      },
+      "empty": {
+        "title": "Ningún pago",
+        "body": "Los pagos confirmados aparecen aquí, con su factura."
+      },
+      "table": {
+        "caption": "Registro de pagos",
+        "loading": "Cargando los pagos",
+        "errorTitle": "Los pagos no han podido cargarse",
+        "errorDescription": "Recargue la página. Si el problema persiste, avise al desarrollador.",
+        "pageSummary": "{from}–{to} de {total}"
+      }
+    },
+    "courses": {
+      "title": "Formaciones",
+      "subtitle": "Cree, organice y publique sus formaciones.",
+      "newCourse": "Nueva formación",
+      "searchPlaceholder": "Buscar una formación",
+      "resultCount": "{count, plural, =0 {Ninguna formación} one {# formación} other {# formaciones}}",
+      "columns": {
+        "cover": "Portada",
+        "title": "Título",
+        "category": "Categoría",
+        "instructor": "Formador",
+        "status": "Estado",
+        "price": "Precio",
+        "lessons": "Lecciones",
+        "duration": "Duración",
+        "enrollments": "Inscritos",
+        "rating": "Valoración",
+        "updatedAt": "Modificada el"
+      },
+      "status": {
+        "draft": "Borrador",
+        "review": "En revisión",
+        "published": "Publicada",
+        "scheduled": "Programada",
+        "archived": "Archivada"
+      },
+      "rowActions": {
+        "edit": "Modificar",
+        "preview": "Previsualizar como estudiante",
+        "duplicate": "Duplicar",
+        "publish": "Publicar",
+        "unpublish": "Despublicar",
+        "archive": "Archivar",
+        "delete": "Eliminar"
+      },
+      "toasts": {
+        "duplicated": "La formación ha sido duplicada. Está modificando la copia.",
+        "published": "La formación está publicada.",
+        "unpublished": "La formación está despublicada. Ya no aparece en el sitio.",
+        "archived": "La formación está archivada.",
+        "deleted": "La formación ha sido eliminada."
+      },
+      "deleteDialog": {
+        "title": "Eliminar esta formación",
+        "body": "La formación «{title}» se eliminará definitivamente, con sus módulos y sus lecciones.",
+        "blocked": "Esta formación tiene inscripciones: no puede eliminarse. Archívela en su lugar.",
+        "confirmWord": "SUPPRIMER",
+        "typeToConfirm": "Escriba {word} para confirmar.",
+        "submit": "Eliminar la formación"
+      },
+      "editor": {
+        "backToList": "Volver a las formaciones",
+        "preview": "Vista previa",
+        "saving": "Guardando…",
+        "saved": "Borrador guardado",
+        "saveError": "El borrador no ha podido guardarse. Compruebe su conexión.",
+        "tabs": {
+          "general": "General",
+          "description": "Descripción",
+          "curriculum": "Programa",
+          "quiz": "Cuestionarios",
+          "pricing": "Precios",
+          "translations": "Traducciones",
+          "students": "Estudiantes",
+          "stats": "Estadísticas",
+          "seo": "SEO y difusión",
+          "announcements": "Anuncios"
+        }
+      },
+      "checklist": {
+        "title": "Lista de publicación",
+        "progress": "{done} de {total} condiciones cumplidas",
+        "fr": "Traducción francesa completa",
+        "cover": "Imagen de portada añadida",
+        "price": "Precio definido",
+        "module": "Al menos un módulo publicado con una lección",
+        "quizExplanations": "Cada pregunta de cuestionario tiene una explicación",
+        "objectives": "Objetivos completados",
+        "ready": "Todo está listo: puede publicar.",
+        "blocked": "Complete la lista antes de publicar.",
+        "publish": "Publicar la formación",
+        "unpublish": "Despublicar"
+      },
+      "general": {
+        "title": "Título",
+        "subtitle": "Subtítulo",
+        "slug": "Dirección (slug)",
+        "slugHint": "Generada automáticamente a partir del título. Modificable.",
+        "slugTaken": "Esta dirección ya la utiliza otra formación.",
+        "category": "Categoría",
+        "level": "Nivel",
+        "deliveryMode": "Modalidad",
+        "contentLanguage": "Idioma del contenido",
+        "instructor": "Formador",
+        "cover": "Imagen de portada",
+        "coverHint": "Formato 16:9, 1280 px de ancho como mínimo.",
+        "uploadCover": "Subir una imagen",
+        "promoVideo": "Vídeo de presentación",
+        "tags": "Etiquetas",
+        "featured": "Destacada en la página de inicio",
+        "isNew": "Insignia «Nuevo»"
+      },
+      "description": {
+        "editorLabel": "Descripción detallada",
+        "wordCount": "{count, plural, one {# palabra} other {# palabras}}",
+        "livePreview": "Vista previa en directo",
+        "objectives": "Objetivos",
+        "objectivesAdd": "Añadir un objetivo",
+        "audience": "Público objetivo",
+        "audienceAdd": "Añadir un perfil",
+        "requirements": "Requisitos previos",
+        "requirementsAdd": "Añadir un requisito"
+      },
+      "curriculum": {
+        "addModule": "Añadir un módulo",
+        "addLesson": "Añadir una lección",
+        "addBulk": "Añadir varias lecciones",
+        "moduleTitle": "Título del módulo",
+        "lessonTitle": "Título de la lección",
+        "lessonType": "Tipo de lección",
+        "types": {
+          "video": "Vídeo",
+          "article": "Artículo",
+          "document": "Documento",
+          "quiz": "Cuestionario",
+          "assignment": "Tarea"
+        },
+        "duration": "Duración",
+        "freePreview": "Lección de acceso libre",
+        "mandatory": "Lección obligatoria",
+        "drip": "Desbloqueo progresivo",
+        "dripDays": "Desbloqueada {days, plural, one {# día} other {# días}} después de la inscripción",
+        "reorderHint": "Arrastre para reordenar, o use las flechas del teclado.",
+        "moveUp": "Subir",
+        "moveDown": "Bajar",
+        "editLesson": "Modificar la lección",
+        "deleteModule": "Eliminar el módulo",
+        "deleteModuleBody": "El módulo «{title}» y sus lecciones se eliminarán.",
+        "deleteLesson": "Eliminar la lección",
+        "lessonCount": "{count, plural, =0 {Ninguna lección} one {# lección} other {# lecciones}}"
+      },
+      "lessonDrawer": {
+        "title": "Lección",
+        "video": "Vídeo",
+        "videoUpload": "Subir un vídeo",
+        "videoStatus": "Estado en el alojamiento",
+        "transcript": "Transcripción",
+        "transcriptHint": "Pegue la transcripción, o recupérela del alojamiento de vídeo.",
+        "captions": "Subtítulos",
+        "chapters": "Capítulos",
+        "addChapter": "Añadir un capítulo",
+        "chapterAt": "Marca de tiempo",
+        "body": "Contenido de la lección",
+        "resources": "Recursos",
+        "addResource": "Añadir un recurso"
+      },
+      "quiz": {
+        "addQuestion": "Añadir una pregunta",
+        "question": "Pregunta",
+        "points": "Puntos",
+        "difficulty": "Dificultad",
+        "explanation": "Explicación",
+        "explanationHint": "Se muestra tras la respuesta. Obligatoria para publicar la formación.",
+        "hint": "Pista",
+        "importCsv": "Importar un CSV",
+        "downloadTemplate": "Descargar la plantilla",
+        "importPreview": "Revise las preguntas antes de importar.",
+        "importInvalid": "{count, plural, one {# fila no válida} other {# filas no válidas}}",
+        "test": "Probar el cuestionario",
+        "testHint": "El cuestionario se abre como lo vería un estudiante, sin registrar ningún intento."
+      },
+      "pricing": {
+        "price": "Precio",
+        "compareAt": "Precio tachado",
+        "compareAtHint": "Se muestra tachado junto al precio. Déjelo vacío para no mostrar nada.",
+        "free": "Formación gratuita",
+        "installments": "Pago a plazos",
+        "installmentsCount": "Número de plazos",
+        "accessDuration": "Duración del acceso (días)",
+        "accessDurationHint": "Déjelo vacío para un acceso de por vida.",
+        "maxSeats": "Plazas máximas",
+        "maxSeatsHint": "Déjelo vacío para no limitar.",
+        "coupons": "Códigos de descuento",
+        "modalPreview": "Vista previa del modal de solicitud",
+        "modalPreviewHint": "Exactamente lo que verá el estudiante, incluidos los datos bancarios y el aviso de 48 h."
+      },
+      "translations": {
+        "completeness": "{percent} % traducido",
+        "sourceColumn": "Francés (fuente)",
+        "targetColumn": "Árabe",
+        "copyFromFrench": "Copiar del francés",
+        "aiTranslate": "Traducir con IA",
+        "aiDraft": "Borrador de IA — requiere revisión humana antes de publicar"
+      },
+      "students": {
+        "columns": {
+          "name": "Estudiante",
+          "progress": "Progreso",
+          "quizScore": "Nota de los cuestionarios",
+          "lastActivity": "Última actividad"
+        },
+        "message": "Enviar un mensaje",
+        "extend": "Prolongar el acceso",
+        "revoke": "Revocar el acceso",
+        "extendDialog": {
+          "title": "Prolongar el acceso",
+          "daysLabel": "Días adicionales",
+          "submit": "Prolongar",
+          "success": "El acceso ha sido prolongado hasta el {date}."
+        },
+        "revokeDialog": {
+          "title": "Revocar el acceso",
+          "body": "El estudiante perderá el acceso a la formación. Precise el motivo.",
+          "reasonLabel": "Motivo",
+          "submit": "Revocar",
+          "success": "El acceso ha sido revocado."
+        },
+        "empty": "Ningún estudiante inscrito por el momento."
+      },
+      "stats": {
+        "enrollmentsOverTime": "Inscripciones en el tiempo",
+        "revenue": "Ingresos",
+        "completionFunnel": "Progreso por lección",
+        "completionFunnelHint": "Identifique la lección donde los estudiantes abandonan.",
+        "watchPercent": "Porcentaje medio visionado",
+        "questionDifficulty": "Dificultad de las preguntas",
+        "questionFlagged": "{percent} % de respuestas correctas — pregunta por recalibrar",
+        "averageRating": "Valoración media",
+        "topQuestions": "Preguntas frecuentes planteadas al asistente"
+      },
+      "seo": {
+        "title": "Título SEO",
+        "description": "Descripción SEO",
+        "ogImage": "Imagen para compartir",
+        "indexable": "Permitir la indexación por los motores de búsqueda"
+      },
+      "announcements": {
+        "title": "Anuncios a los inscritos",
+        "compose": "Redactar un anuncio",
+        "messageLabel": "Anuncio",
+        "sendEmailToo": "Enviar también por correo",
+        "publish": "Publicar el anuncio",
+        "success": "El anuncio ha sido publicado.",
+        "empty": "Ningún anuncio por el momento."
+      }
+    },
+    "cms": {
+      "title": "Contenido",
+      "subtitle": "El sitio público: inicio, páginas, FAQ, testimonios y blog.",
+      "sections": {
+        "homepage": "Página de inicio",
+        "pages": "Páginas",
+        "faq": "FAQ",
+        "testimonials": "Testimonios",
+        "blog": "Blog",
+        "categories": "Categorías",
+        "media": "Mediateca",
+        "announcements": "Anuncios"
+      },
+      "common": {
+        "create": "Crear",
+        "saved": "Cambios guardados.",
+        "deleted": "Elemento eliminado.",
+        "translationsTab": "Traducciones",
+        "localeCompleteness": "{percent} % traducido",
+        "visible": "Visible en el sitio",
+        "hidden": "Oculto"
+      },
+      "homepage": {
+        "hint": "Reordene las secciones y modifique sus textos. El diseño queda protegido.",
+        "sectionVisible": "Sección visible",
+        "moveUp": "Subir la sección",
+        "moveDown": "Bajar la sección",
+        "edit": "Modificar la sección",
+        "heroHeadline": "Título principal",
+        "heroSub": "Subtítulo",
+        "heroCta": "Texto del botón principal",
+        "heroSecondaryCta": "Texto del botón secundario",
+        "featuredCourses": "Formaciones destacadas",
+        "addCourse": "Añadir una formación",
+        "saved": "La página de inicio ha sido actualizada."
+      },
+      "pages": {
+        "newPage": "Nueva página",
+        "columns": {
+          "title": "Título",
+          "slug": "Dirección",
+          "status": "Estado",
+          "updatedAt": "Modificada el"
+        },
+        "edit": "Modificar la página",
+        "contentLabel": "Contenido (MDX)",
+        "perLocale": "Contenido por idioma",
+        "saved": "La página ha sido guardada."
+      },
+      "faq": {
+        "newQuestion": "Nueva pregunta",
+        "question": "Pregunta",
+        "answer": "Respuesta",
+        "category": "Categoría",
+        "order": "Orden",
+        "saved": "La FAQ ha sido actualizada.",
+        "deleteConfirm": "¿Eliminar esta pregunta?"
+      },
+      "testimonials": {
+        "new": "Nuevo testimonio",
+        "author": "Autor",
+        "role": "Cargo",
+        "quote": "Testimonio",
+        "featured": "Destacado en la página de inicio",
+        "saved": "El testimonio ha sido guardado.",
+        "deleteConfirm": "¿Eliminar este testimonio?"
+      },
+      "blog": {
+        "newPost": "Nuevo artículo",
+        "postTitle": "Título",
+        "cover": "Portada",
+        "excerpt": "Extracto",
+        "body": "Contenido",
+        "tags": "Etiquetas",
+        "publishAt": "Publicación programada el",
+        "statusDraft": "Borrador",
+        "statusScheduled": "Programado",
+        "statusPublished": "Publicado",
+        "saved": "El artículo ha sido guardado.",
+        "deleteConfirm": "¿Eliminar este artículo?"
+      },
+      "categories": {
+        "new": "Nueva categoría",
+        "name": "Nombre",
+        "icon": "Icono",
+        "color": "Color (token)",
+        "order": "Orden",
+        "active": "Activa",
+        "saved": "La categoría ha sido guardada.",
+        "deleteBlocked": "Esta categoría contiene formaciones: muévalas antes de eliminarla."
+      },
+      "media": {
+        "upload": "Subir un archivo",
+        "replace": "Reemplazar",
+        "delete": "Eliminar",
+        "usedBy": "{count, plural, one {Utilizado en # lugar} other {Utilizado en # lugares}}",
+        "unused": "Sin utilizar",
+        "deleteBlocked": "Este archivo se utiliza en el sitio: reemplácelo primero.",
+        "deleteConfirm": "¿Eliminar este archivo?",
+        "copyUrl": "Copiar la dirección",
+        "copied": "Dirección copiada"
+      }
+    },
+    "settings": {
+      "title": "Ajustes",
+      "subtitle": "La configuración del centro. Cada modificación queda registrada en el registro.",
+      "saved": "Ajustes guardados.",
+      "secretMasked": "Valor oculto",
+      "revealSecret": "Mostrar el valor",
+      "tabs": {
+        "identity": "Identidad",
+        "contact": "Contacto",
+        "bank": "Datos bancarios",
+        "payments": "Pagos",
+        "registrations": "Inscripciones",
+        "emails": "Correos",
+        "storage": "Almacenamiento",
+        "video": "Vídeo",
+        "localization": "Localización",
+        "certificates": "Certificados",
+        "gamification": "Gamificación",
+        "security": "Seguridad",
+        "features": "Funcionalidades",
+        "maintenance": "Mantenimiento"
+      },
+      "identity": {
+        "brandName": "Nombre de la marca",
+        "legalName": "Razón social",
+        "taglineFr": "Eslogan (francés)",
+        "taglineAr": "Eslogan (árabe)",
+        "logoLight": "Logotipo (fondo claro)",
+        "logoDark": "Logotipo (fondo oscuro)",
+        "favicon": "Favicon",
+        "ogImage": "Imagen para compartir por defecto"
+      },
+      "contact": {
+        "whatsappPrimary": "WhatsApp principal",
+        "whatsappSecondary": "WhatsApp secundario",
+        "testWaLink": "Probar el enlace wa.me",
+        "phone": "Teléfono",
+        "email": "Correo electrónico",
+        "address": "Dirección",
+        "mapCoordinates": "Coordenadas GPS",
+        "hours": "Horario de apertura",
+        "hoursHint": "Se muestran en la página de contacto y en el pie de página.",
+        "socials": "Redes sociales"
+      },
+      "bank": {
+        "intro": "Estos datos aparecen en el modal de solicitud de acceso. Verifique cada carácter.",
+        "holder": "Titular de la cuenta",
+        "bankName": "Banco",
+        "rib": "RIB",
+        "iban": "IBAN",
+        "swift": "SWIFT",
+        "instructionFr": "Texto de instrucciones (francés)",
+        "instructionAr": "Texto de instrucciones (árabe)",
+        "instructionHint": "Se muestra bajo los datos bancarios en el modal de solicitud.",
+        "modalPreview": "Vista previa del modal de solicitud",
+        "placeholderRibWarning": "El RIB registrado sigue siendo el valor de ejemplo. Reemplácelo por el RIB real del centro antes de aceptar solicitudes de pago."
+      },
+      "payments": {
+        "transferTypes": "Formas de pago disponibles",
+        "instantEnabled": "Transferencia instantánea",
+        "standardEnabled": "Transferencia estándar (48 h)",
+        "cashEnabled": "Efectivo en el centro",
+        "standardNotice": "Texto del aviso de transferencia estándar",
+        "requestExpiryDays": "Caducidad de las solicitudes (días)",
+        "requestExpiryHint": "Una solicitud sin justificante caduca tras este plazo.",
+        "installmentsEnabled": "Pago a plazos",
+        "invoiceFooter": "Pie de página legal de las facturas",
+        "ice": "ICE",
+        "rc": "RC",
+        "if": "IF",
+        "invoicePrefix": "Prefijo de los números de factura"
+      },
+      "registrations": {
+        "open": "Inscripciones abiertas",
+        "requireApproval": "Validación manual de las cuentas",
+        "requireApprovalHint": "Recomendado: su equipo verifica cada cuenta antes de activarla.",
+        "expectedDelay": "Plazo de validación anunciado",
+        "expectedDelayHint": "Se muestra a los estudiantes en espera. Ejemplo: «en menos de 24 h laborables».",
+        "disposableDomains": "Dominios de correo bloqueados",
+        "disposableDomainsHint": "Un dominio por línea."
+      },
+      "emails": {
+        "smtpHost": "Servidor SMTP",
+        "smtpPort": "Puerto",
+        "smtpUser": "Usuario",
+        "smtpPassword": "Contraseña",
+        "senderName": "Nombre del remitente",
+        "senderEmail": "Dirección del remitente",
+        "adminRecipients": "Destinatarios administradores",
+        "adminRecipientsHint": "Una dirección por línea. Reciben las alertas y las solicitudes por verificar.",
+        "sendTest": "Enviar un correo de prueba",
+        "testSent": "Correo de prueba enviado a {email}.",
+        "throttle": "Ritmo de envío (correos/minuto)"
+      },
+      "storage": {
+        "driver": "Almacenamiento",
+        "bucket": "Bucket",
+        "publicBaseUrl": "URL pública de base",
+        "test": "Probar el almacenamiento",
+        "testOk": "Almacenamiento operativo: el archivo de prueba completó la ida y vuelta.",
+        "testFailed": "La prueba de almacenamiento ha fallado: {error}"
+      },
+      "video": {
+        "provider": "Alojamiento de vídeo",
+        "signedTtl": "Duración de los enlaces firmados (minutos)",
+        "testPlayback": "Probar la reproducción"
+      },
+      "localization": {
+        "enabledLocales": "Idiomas activados",
+        "defaultLocale": "Idioma por defecto",
+        "timezone": "Zona horaria",
+        "currency": "Moneda"
+      },
+      "certificates": {
+        "serialPrefix": "Prefijo de los números de serie",
+        "signatureImage": "Imagen de la firma",
+        "sealImage": "Sello del centro",
+        "requireFinalQuiz": "El certificado exige aprobar el cuestionario final"
+      },
+      "gamification": {
+        "xp": "Puntos de experiencia por acción",
+        "leaderboard": "Clasificación activada"
+      },
+      "security": {
+        "sessionDuration": "Duración de la sesión (días)",
+        "require2fa": "2FA obligatorio para los administradores",
+        "maxLoginAttempts": "Intentos de conexión máximos",
+        "lockoutMinutes": "Duración del bloqueo (minutos)",
+        "adminIpAllowlist": "Direcciones IP autorizadas para la administración",
+        "adminIpAllowlistHint": "Una dirección o un rango por línea. Vacío: sin restricción."
+      },
+      "features": {
+        "hint": "Desactive una funcionalidad para retirarla del sitio sin eliminar nada.",
+        "blog": "Blog",
+        "paths": "Itinerarios",
+        "liveSessions": "Sesiones en directo",
+        "flashcards": "Tarjetas de repaso",
+        "leaderboard": "Clasificación",
+        "referral": "Apadrinamiento",
+        "reviews": "Reseñas",
+        "ai": "Asistente de IA"
+      },
+      "maintenance": {
+        "mode": "Modo de mantenimiento",
+        "message": "Mensaje mostrado a los visitantes",
+        "bypassHint": "Los administradores conservan el acceso al sitio.",
+        "purgeCache": "Vaciar la caché",
+        "reindex": "Reindexar la búsqueda",
+        "exportDb": "Exportar la base de datos"
+      }
+    },
+    "audit": {
+      "title": "Registro",
+      "subtitle": "Todo lo que ha ocurrido, quién lo hizo y cuándo.",
+      "tabs": {
+        "audit": "Registro de auditoría",
+        "jobs": "Tareas",
+        "emails": "Correos",
+        "security": "Seguridad",
+        "cron": "Tareas programadas",
+        "diagnostics": "Diagnósticos"
+      },
+      "filters": {
+        "actor": "Actor",
+        "action": "Acción",
+        "entityType": "Tipo de entidad",
+        "entityId": "Identificador",
+        "from": "Del",
+        "to": "Al",
+        "apply": "Aplicar",
+        "reset": "Restablecer los filtros"
+      },
+      "entry": {
+        "system": "Sistema",
+        "by": "Por {actor}",
+        "expand": "Ver el detalle",
+        "collapse": "Ocultar el detalle",
+        "before": "Antes",
+        "after": "Después",
+        "empty": "Ningún evento coincide con estos filtros."
+      },
+      "jobs": {
+        "title": "Cola de tareas",
+        "queued": "En espera",
+        "running": "En curso",
+        "failed": "Fallida",
+        "completed": "Terminada",
+        "retry": "Relanzar",
+        "retried": "La tarea ha vuelto a la cola.",
+        "payload": "Carga útil",
+        "attempts": "{count, plural, one {# intento} other {# intentos}}",
+        "nextRun": "Próxima ejecución",
+        "empty": "Ninguna tarea en la cola."
+      },
+      "emailLog": {
+        "title": "Registro de correos",
+        "sent": "Enviado",
+        "failed": "Fallido",
+        "pending": "En espera",
+        "resend": "Reenviar",
+        "resent": "El correo ha vuelto a la cola de envío.",
+        "errorDetail": "Detalle del error",
+        "recipient": "Destinatario",
+        "template": "Plantilla",
+        "empty": "Ningún correo registrado."
+      },
+      "security": {
+        "failedLogins": "Conexiones fallidas",
+        "rateLimited": "Límites de frecuencia alcanzados",
+        "ip": "Dirección IP",
+        "when": "Cuándo",
+        "empty": "Ningún evento de seguridad reciente."
+      },
+      "cron": {
+        "title": "Historial de tareas programadas",
+        "job": "Tarea",
+        "lastRun": "Última ejecución",
+        "duration": "Duración",
+        "result": "Resultado",
+        "stale": "Con retraso",
+        "empty": "Ninguna ejecución registrada."
+      },
+      "diagnostics": {
+        "title": "Diagnósticos",
+        "hint": "El estado de cada dependencia del sitio, verificado en directo.",
+        "run": "Relanzar las verificaciones",
+        "running": "Verificando…",
+        "db": "Base de datos",
+        "smtp": "Servidor de correo",
+        "storage": "Almacenamiento",
+        "video": "Alojamiento de vídeo",
+        "ai": "Proveedor de IA",
+        "cronFreshness": "Frescura de las tareas programadas",
+        "ok": "Operativo",
+        "error": "Con error",
+        "lastError": "Último error: {message}",
+        "lastChecked": "Verificado el {date}"
+      }
     }
   },
   "errors": {
@@ -1934,6 +2918,187 @@
       "faq": "Preguntas frecuentes sobre las formaciones del centro",
       "certificate": "Verificación de un certificado emitido por el centro",
       "legal": "Información legal del Centre de formation immersive"
+    }
+  },
+  "enrollment": {
+    "modal": {
+      "trigger": "Solicitar el acceso",
+      "title": "Solicitar el acceso",
+      "stepLabel": "Paso {current} de {total}",
+      "steps": {
+        "price": "Precio y condiciones",
+        "receipt": "Justificante de transferencia",
+        "confirmation": "Confirmación"
+      },
+      "price": {
+        "label": "Precio de la formación",
+        "compareAt": "En lugar de {price}",
+        "totalLabel": "Importe a transferir",
+        "includedTitle": "Qué incluye",
+        "modules": "{count, plural, one {# módulo} other {# módulos}}",
+        "videoDuration": "{duration} de vídeo",
+        "resources": "Recursos descargables",
+        "certificate": "Certificado de fin de formación"
+      },
+      "coupon": {
+        "label": "Código de descuento",
+        "placeholder": "Introduzca su código",
+        "apply": "Aplicar",
+        "applied": "Código {code} aplicado: −{amount}",
+        "remove": "Quitar el código",
+        "removed": "El código de descuento ha sido retirado."
+      },
+      "transferType": {
+        "legend": "Forma de pago",
+        "instantTitle": "Transferencia instantánea",
+        "instantTag": "recomendada",
+        "instantDescription": "Su acceso se activa el mismo día, en cuanto se verifica el justificante.",
+        "standardTitle": "Transferencia estándar (48 h)",
+        "standardDescription": "⚠️ Su acceso solo se activará cuando los fondos se reciban efectivamente, lo que puede tardar hasta 48 horas laborables.",
+        "cashTitle": "Pago en efectivo en el centro",
+        "cashDescription": "Preséntese en recepción; su acceso se activará tras el cobro."
+      },
+      "standardNotice": "Le recomendamos una transferencia instantánea: su acceso se activa entonces el mismo día. Con una transferencia estándar, el acceso a la formación solo se activará cuando los fondos lleguen efectivamente a nuestra cuenta, lo que puede tardar hasta 48 horas laborables.",
+      "bank": {
+        "title": "Datos bancarios",
+        "holder": "Beneficiario",
+        "bankName": "Banco",
+        "rib": "RIB",
+        "iban": "IBAN",
+        "swift": "SWIFT",
+        "copyRib": "Copiar el RIB",
+        "copyIban": "Copiar el IBAN",
+        "copyHolder": "Copiar el nombre del beneficiario",
+        "copied": "Copiado"
+      },
+      "reference": {
+        "label": "Referencia de su solicitud",
+        "instruction": "Indique obligatoriamente la referencia {reference} en el concepto de su transferencia. Sin esta referencia, la verificación puede tardar más.",
+        "copy": "Copiar la referencia"
+      },
+      "upload": {
+        "title": "Su justificante de transferencia",
+        "dropzone": "Arrastre su justificante aquí",
+        "browse": "Elegir un archivo",
+        "camera": "Hacer una foto",
+        "constraints": "JPG, PNG o PDF · 5 MB como máximo · Asegúrese de que el importe, la fecha y el beneficiario sean legibles.",
+        "uploading": "Enviando… {percent} %",
+        "preview": "Vista previa del justificante",
+        "zoom": "Ampliar",
+        "replace": "Reemplazar",
+        "remove": "Quitar",
+        "pdfFile": "Documento PDF"
+      },
+      "fields": {
+        "transferDate": "Fecha de la transferencia",
+        "transferDateHint": "La fecha en la que realizó la transferencia.",
+        "bankReference": "Referencia bancaria",
+        "bankReferenceHint": "El número de operación facilitado por su banco, si lo tiene.",
+        "message": "Mensaje a nuestro equipo",
+        "messagePlaceholder": "Una precisión útil para la verificación, si procede.",
+        "confirmTransfer": "Confirmo que la transferencia se ha realizado"
+      },
+      "actions": {
+        "continue": "Continuar",
+        "back": "Volver",
+        "submit": "Enviar el justificante",
+        "submitting": "Enviando…",
+        "close": "Cerrar"
+      },
+      "errors": {
+        "receiptRequired": "Añada su justificante de transferencia para enviar la solicitud.",
+        "confirmRequired": "Marque la casilla de confirmación de la transferencia para continuar.",
+        "transferDateRequired": "Indique la fecha en la que realizó la transferencia.",
+        "transferDateFuture": "La fecha de la transferencia no puede ser futura.",
+        "transferDateTooOld": "La fecha de la transferencia no puede ser anterior a 30 días.",
+        "fileTooLarge": "El archivo supera los 5 MB. Comprímalo, o fotografíe el justificante de nuevo.",
+        "fileWrongType": "Este formato de archivo no está aceptado. Formatos aceptados: JPG, PNG, WEBP o PDF.",
+        "uploadFailed": "El envío del archivo ha fallado. Compruebe su conexión y vuelva a intentarlo.",
+        "duplicateRequest": "Ya tiene una solicitud en curso para esta formación. Siga su avance desde «Mis solicitudes».",
+        "generic": "La solicitud no ha podido enviarse. Vuelva a intentarlo en unos instantes."
+      },
+      "success": {
+        "title": "Su solicitud está en curso de tratamiento",
+        "body": "Hemos recibido su justificante de transferencia. Nuestro equipo lo verifica y activará su acceso en cuanto se confirme el pago. Recibirá un correo en cuanto su formación esté disponible.",
+        "referenceLabel": "Referencia",
+        "amountLabel": "Importe",
+        "submittedAtLabel": "Enviada el",
+        "reviewDelay": "Verificación generalmente en menos de 24 horas laborables.",
+        "whatsapp": "Contactar por WhatsApp",
+        "viewRequests": "Ver mis solicitudes"
+      }
+    },
+    "transferTypes": {
+      "instant": "Instantánea",
+      "standard": "Estándar 48 h",
+      "cash": "Efectivo en el centro"
+    },
+    "status": {
+      "pageTitle": "Mis solicitudes",
+      "pageSubtitle": "Siga la verificación de sus justificantes y la activación de sus accesos.",
+      "empty": {
+        "title": "Ninguna solicitud por el momento",
+        "body": "Sus solicitudes de acceso aparecen aquí en cuanto envía un justificante de transferencia.",
+        "cta": "Explorar las formaciones"
+      },
+      "labels": {
+        "awaitingReceipt": "A la espera del justificante",
+        "underReview": "En verificación",
+        "infoRequested": "Información solicitada",
+        "approved": "Acceso activado",
+        "rejected": "Rechazada",
+        "expired": "Caducada",
+        "cancelled": "Anulada"
+      },
+      "explanations": {
+        "awaitingReceipt": "Su solicitud está registrada, pero aún no hemos recibido su justificante de transferencia. Envíelo para iniciar la verificación.",
+        "underReview": "Nuestro equipo verifica su justificante de transferencia. Recibirá un correo en cuanto se confirme el pago.",
+        "infoRequested": "Nuestro equipo necesita una aclaración o un justificante más legible. Consulte el mensaje siguiente y vuelva a enviar un justificante.",
+        "approved": "Su pago está confirmado y su acceso a la formación está activo.",
+        "rejected": "Su solicitud no ha podido validarse. Consulte el motivo siguiente, o escríbanos por WhatsApp.",
+        "expired": "Su solicitud ha caducado por falta de justificante. Puede enviar una nueva en cualquier momento.",
+        "cancelled": "Ha anulado esta solicitud. Puede enviar una nueva en cualquier momento."
+      },
+      "timeline": {
+        "label": "Avance de la solicitud",
+        "submitted": "Solicitud enviada",
+        "receiptReceived": "Justificante recibido",
+        "verification": "Verificación en curso",
+        "activated": "Acceso activado"
+      },
+      "card": {
+        "referenceLabel": "Referencia",
+        "copyReference": "Copiar la referencia",
+        "amountLabel": "Importe",
+        "transferTypeLabel": "Forma de pago",
+        "submittedLabel": "Enviada el",
+        "receiptAlt": "Justificante de transferencia enviado",
+        "adminMessageTitle": "Mensaje de nuestro equipo",
+        "rejectionReasonTitle": "Motivo del rechazo",
+        "expiresOn": "Caduca el {date}",
+        "invoiceLabel": "Factura"
+      },
+      "actions": {
+        "resendReceipt": "Reenviar un justificante",
+        "cancel": "Anular la solicitud",
+        "whatsapp": "Contactar por WhatsApp",
+        "downloadInvoice": "Descargar la factura",
+        "goToCourse": "Empezar la formación",
+        "newRequest": "Enviar una nueva solicitud"
+      },
+      "cancelDialog": {
+        "title": "Anular esta solicitud",
+        "body": "La solicitud {reference} será anulada. Podrá enviar una nueva en cualquier momento.",
+        "confirm": "Anular la solicitud",
+        "keep": "Conservar la solicitud",
+        "success": "Su solicitud ha sido anulada."
+      },
+      "reupload": {
+        "title": "Reenviar un justificante",
+        "hint": "JPG, PNG o PDF · 5 MB como máximo · Asegúrese de que el importe, la fecha y el beneficiario sean legibles.",
+        "submit": "Enviar el justificante",
+        "success": "Justificante enviado. Nuestro equipo retoma la verificación."
+      }
     }
   }
 }

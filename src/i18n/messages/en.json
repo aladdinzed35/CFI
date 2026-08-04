@@ -638,6 +638,65 @@
       "body3": "Was this not you? Change your password straight away, then message us on WhatsApp.",
       "cta": "Secure my account",
       "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+    },
+    "requestReceived": {
+      "subject": "Request received — verification in progress",
+      "preheader": "We have received your bank transfer receipt.",
+      "heading": "Your request is being processed",
+      "body1": "We have received your transfer receipt for the course “{courseTitle}”. Our team is checking it and will activate your access as soon as the payment is confirmed.",
+      "body2": "You will receive an email as soon as your course is available.",
+      "notice48h": "We recommend an instant transfer: your access is then activated the same day. With a standard transfer, access to the course is only activated once the funds have actually reached our account, which can take up to 48 working hours.",
+      "cta": "View my requests"
+    },
+    "adminNewPayment": {
+      "subject": "New payment to verify",
+      "preheader": "{studentName} sent a receipt for “{courseTitle}”.",
+      "heading": "New payment to verify",
+      "body1": "{studentName} sent a transfer receipt of {amount} for the course “{courseTitle}” (reference {reference}).",
+      "body2": "Check the receipt, then activate the access from the request queue.",
+      "cta": "Open the request"
+    },
+    "requestInfoNeeded": {
+      "subject": "Receipt needs completing",
+      "preheader": "Our team needs a clarification about your request.",
+      "heading": "Your receipt needs completing",
+      "body1": "Our team reviewed your request {reference} and needs a clarification before validating your payment.",
+      "adminMessageLabel": "Message from our team",
+      "body2": "Send a new receipt from your account: the verification will resume right away.",
+      "cta": "Send a new receipt"
+    },
+    "requestApproved": {
+      "subject": "Access activated — enjoy your course!",
+      "preheader": "Your payment is confirmed: the course awaits you.",
+      "heading": "Your access is activated",
+      "body1": "Your payment for the course “{courseTitle}” is confirmed. Your access is active as of now.",
+      "body2": "Your invoice is attached to this message. You will also find it in your account, under “My requests”.",
+      "cta": "Start the course"
+    },
+    "requestRejected": {
+      "subject": "Request rejected",
+      "preheader": "Your request could not be validated.",
+      "heading": "Your request could not be validated",
+      "body1": "After verification, we could not validate your request {reference} for the course “{courseTitle}”.",
+      "reasonLabel": "Reason",
+      "body2": "You can send a new request with a valid receipt, or write to us on WhatsApp to understand what is blocking it.",
+      "cta": "Send a new request"
+    },
+    "receiptReminder": {
+      "subject": "Reminder: your request is waiting for a receipt",
+      "preheader": "Your request {reference} is recorded; the receipt is missing.",
+      "heading": "Your request is waiting for a receipt",
+      "body1": "Your request {reference} for the course “{courseTitle}” is recorded, but we have not yet received your transfer receipt.",
+      "body2": "Send it before {expiresAt}, otherwise the request will expire automatically.",
+      "cta": "Send the receipt"
+    },
+    "requestExpired": {
+      "subject": "Request expired",
+      "preheader": "Your request {reference} expired for lack of a receipt.",
+      "heading": "Your request has expired",
+      "body1": "Your request {reference} for the course “{courseTitle}” has expired: we did not receive a transfer receipt within the expected delay.",
+      "body2": "Your seat is not lost: you can send a new request at any time.",
+      "cta": "Send a new request"
     }
   },
   "admin": {
@@ -653,7 +712,16 @@
       "dashboard": "Dashboard",
       "groupOperations": "Operations",
       "accountMenu": "Administrator menu",
-      "pendingWorkLabel": "Pending work"
+      "pendingWorkLabel": "Pending work",
+      "requests": "Requests",
+      "payments": "Payments",
+      "courses": "Courses",
+      "cms": "Content",
+      "settings": "Settings",
+      "audit": "Log",
+      "groupCatalog": "Catalogue",
+      "groupSystem": "System",
+      "pendingRequests": "{count, plural, =0 {No requests to verify} one {# request to verify} other {# requests to verify}}"
     },
     "accounts": {
       "title": "Accounts",
@@ -863,7 +931,24 @@
       "clearTitle": "The queue is empty",
       "clearBody": "No account is waiting for a decision. New signups arrive here as soon as the email address is confirmed.",
       "breakdownTitle": "Accounts by status",
-      "openQueue": "Open the “{queue}” queue"
+      "openQueue": "Open the “{queue}” queue",
+      "requestsToVerify": "{count, plural, =0 {No payments to verify} one {# payment to verify} other {# payments to verify}}",
+      "requestsCta": "Open the requests",
+      "requestsOldestWaiting": "The oldest has been waiting for {hours, plural, =0 {less than an hour} one {# hour} other {# hours}}.",
+      "requestsClear": "No request is awaiting verification.",
+      "revenueTitle": "Revenue collected",
+      "revenueHint": "Total confirmed payments over the period.",
+      "revenueEmpty": "No payments collected over the period.",
+      "periodLabel": "Period",
+      "periods": {
+        "d7": "7 days",
+        "d30": "30 days",
+        "d90": "90 days",
+        "m12": "12 months"
+      },
+      "vsPrevious": "{percent}% versus the previous period",
+      "paidEnrollments": "{count, plural, =0 {No paid enrollments} one {# paid enrollment} other {# paid enrollments}}",
+      "conversionRate": "Request conversion rate"
     },
     "detail": {
       "back": "Back to accounts",
@@ -928,6 +1013,905 @@
         "by": "By {actor}"
       },
       "tabsLabel": "Account sections"
+    },
+    "requests": {
+      "title": "Payment requests",
+      "subtitle": "Check each transfer receipt, then activate access or reply to the student.",
+      "searchPlaceholder": "Search by name, reference or course",
+      "resultCount": "{count, plural, =0 {No requests} one {# request} other {# requests}}",
+      "openReview": "Open request {reference}",
+      "receiptThumbAlt": "Receipt from {name}",
+      "whatsappMessage": "Hello {name}, this is CFI, regarding your request {reference}.",
+      "tabs": {
+        "toVerify": "To verify",
+        "infoRequested": "Information requested",
+        "awaitingReceipt": "Awaiting receipt",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "expired": "Expired",
+        "all": "All"
+      },
+      "columns": {
+        "student": "Student",
+        "course": "Course",
+        "amount": "Amount",
+        "transferType": "Method",
+        "declaredDate": "Transfer declared on",
+        "submittedAt": "Sent on",
+        "age": "Waiting",
+        "reference": "Reference",
+        "receipt": "Receipt",
+        "flags": "Flags",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "transferTypes": {
+        "instant": "Instant",
+        "standard": "Standard 48 h",
+        "cash": "Cash"
+      },
+      "status": {
+        "awaitingReceipt": "Awaiting receipt",
+        "underReview": "To verify",
+        "infoRequested": "Information requested",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "expired": "Expired",
+        "cancelled": "Cancelled"
+      },
+      "ageHours": "{hours, plural, =0 {less than an hour} one {# hour} other {# hours}}",
+      "ageDays": "{days, plural, one {# day} other {# days}}",
+      "flags": {
+        "duplicateReceipt": "Receipt already used",
+        "amountMismatch": "Amount differs from the price",
+        "accountNotValidated": "Account not validated",
+        "secondRequest": "Second request",
+        "viewOriginal": "View the original request"
+      },
+      "drawer": {
+        "title": "Payment verification",
+        "queuePosition": "Request {index} of {total}",
+        "close": "Close the panel",
+        "previous": "Previous request",
+        "next": "Next request",
+        "receiptTitle": "Receipt",
+        "noReceipt": "No receipt received for this request.",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "rotate": "Rotate 90°",
+        "brightness": "Brightness",
+        "contrast": "Contrast",
+        "resetView": "Reset the view",
+        "fullscreen": "Full screen",
+        "download": "Download the receipt",
+        "pdfPage": "Page {current} of {total}",
+        "pdfPrevious": "Previous page",
+        "pdfNext": "Next page",
+        "declaredAmount": "Declared amount",
+        "expectedAmount": "Expected amount",
+        "amountMatch": "The amount matches",
+        "amountMismatch": "The amount does not match",
+        "declaredDate": "Declared transfer date",
+        "bankReference": "Bank reference",
+        "noBankReference": "Not provided",
+        "studentMessage": "Student's message",
+        "noMessage": "No message",
+        "studentTitle": "Student",
+        "accountStatus": "Account status",
+        "activeEnrollments": "{count, plural, =0 {No active courses} one {# active course} other {# active courses}}",
+        "previousPayments": "{count, plural, =0 {No previous payments} one {# previous payment} other {# previous payments}}",
+        "hadRejectedRequest": "Has had a rejected request before",
+        "firstRequest": "First request",
+        "courseTitle": "Course",
+        "priceLabel": "Price",
+        "couponLabel": "Discount",
+        "dueLabel": "Amount due",
+        "internalNote": "Internal note",
+        "internalNotePlaceholder": "Visible to the administration only.",
+        "keyboardHint": "Keyboard shortcuts: A to approve, I to request information, R to reject, J and K to move through the queue."
+      },
+      "shortcuts": {
+        "title": "Keyboard shortcuts",
+        "help": "Show keyboard shortcuts",
+        "approve": "Approve the displayed request",
+        "requestInfo": "Request a more readable receipt",
+        "reject": "Open the rejection form",
+        "next": "Next request in the queue",
+        "previous": "Previous request in the queue",
+        "close": "Close the panel"
+      },
+      "approve": {
+        "action": "Approve and activate access",
+        "title": "Approve the request",
+        "body": "Access to the course will be activated immediately and the invoice generated.",
+        "customExpiry": "Custom access expiry",
+        "customExpiryHint": "Leave empty to apply the course's access duration.",
+        "partialPayment": "Partial payment (installments)",
+        "amountReceived": "Amount received",
+        "sendEmail": "Send the confirmation email to the student",
+        "silent": "Do not send an email",
+        "submit": "Activate access",
+        "pending": "Activating…",
+        "success": "Access activated · Invoice {invoice} generated · Email sent to {email}",
+        "successSilent": "Access activated · Invoice {invoice} generated · No email sent",
+        "undo": "Undo",
+        "undoCountdown": "{seconds, plural, one {Can be undone for # second} other {Can be undone for # seconds}}",
+        "undone": "The approval has been cancelled. The request remains to verify."
+      },
+      "info": {
+        "action": "Request a more readable receipt",
+        "title": "Request information",
+        "messageLabel": "Message sent to the student",
+        "messagePlaceholder": "Explain what is missing or what needs to be more readable.",
+        "messageRequired": "Specify what the student must correct or resend.",
+        "submit": "Send the information request",
+        "pending": "Sending…",
+        "success": "Message sent to {name}. The request moves to “Information requested”."
+      },
+      "reject": {
+        "action": "Reject",
+        "title": "Reject the request",
+        "body": "The chosen reason is sent to the student, with a link to write to us on WhatsApp.",
+        "reasonLabel": "Rejection reason",
+        "reasonPlaceholder": "Select a reason",
+        "reasons": {
+          "notReceived": "Transfer not received",
+          "unreadable": "Unreadable receipt",
+          "amountMismatch": "Incorrect amount",
+          "duplicate": "Receipt already used",
+          "other": "Other"
+        },
+        "detailsLabel": "Details sent to the student",
+        "detailsPlaceholder": "Explain what prevents the validation.",
+        "detailsRequired": "Detail the reason so the student knows what to correct.",
+        "submit": "Reject the request",
+        "pending": "Rejecting…",
+        "success": "Request {reference} has been rejected. The reason was sent by email."
+      },
+      "bulk": {
+        "selected": "{count, plural, one {# request selected} other {# requests selected}}",
+        "selectAll": "Select all requests on the page",
+        "clear": "Clear the selection",
+        "export": "Export the selection"
+      },
+      "empty": {
+        "toVerify": {
+          "title": "No requests to verify",
+          "body": "The queue is empty. New requests appear here as soon as a receipt is sent."
+        },
+        "infoRequested": {
+          "title": "No information requested",
+          "body": "Requests waiting for a better receipt appear here."
+        },
+        "awaitingReceipt": {
+          "title": "No requests awaiting a receipt",
+          "body": "Requests recorded without a receipt appear here, with their reminders."
+        },
+        "approved": {
+          "title": "No approved requests",
+          "body": "Requests whose access you activate appear here, with their invoice."
+        },
+        "rejected": {
+          "title": "No rejected requests",
+          "body": "Requests you reject appear here, with their reason."
+        },
+        "expired": {
+          "title": "No expired requests",
+          "body": "Requests left without a receipt beyond the deadline appear here."
+        },
+        "all": {
+          "title": "No requests",
+          "body": "Your students' access requests appear here."
+        },
+        "search": {
+          "title": "No results",
+          "body": "No request matches your search. Check the spelling or widen the filters."
+        }
+      },
+      "table": {
+        "caption": "Payment request list",
+        "columnsMenu": "Columns",
+        "selectRow": "Select this request",
+        "previousPage": "Previous page",
+        "nextPage": "Next page",
+        "pageSummary": "{from}–{to} of {total}",
+        "loading": "Loading the requests",
+        "errorTitle": "The requests could not be loaded",
+        "errorDescription": "Reload the page. If the problem persists, notify the developer."
+      },
+      "filters": {
+        "title": "Filters",
+        "course": "Course",
+        "anyCourse": "All courses",
+        "transferType": "Payment method",
+        "anyTransferType": "All methods",
+        "amountMin": "Minimum amount",
+        "amountMax": "Maximum amount",
+        "submittedFrom": "Sent from",
+        "submittedTo": "Sent until",
+        "flaggedOnly": "Flagged only",
+        "apply": "Apply",
+        "reset": "Reset the filters",
+        "active": "{count, plural, =0 {No filters} one {# active filter} other {# active filters}}"
+      }
+    },
+    "payments": {
+      "title": "Payments",
+      "subtitle": "The ledger of collected payments, invoices and revenue.",
+      "searchPlaceholder": "Search by name, course or invoice number",
+      "resultCount": "{count, plural, =0 {No payments} one {# payment} other {# payments}}",
+      "tabs": {
+        "ledger": "Ledger",
+        "reports": "Revenue"
+      },
+      "columns": {
+        "receivedAt": "Received on",
+        "student": "Student",
+        "course": "Course",
+        "amount": "Amount",
+        "method": "Method",
+        "invoice": "Invoice",
+        "confirmedBy": "Confirmed by",
+        "actions": "Actions"
+      },
+      "methods": {
+        "bankTransfer": "Bank transfer",
+        "cash": "Cash at the centre",
+        "other": "Other"
+      },
+      "refundBadge": "Refund",
+      "actions": {
+        "downloadInvoice": "Download the invoice",
+        "regenerateInvoice": "Regenerate the invoice",
+        "editInvoice": "Edit the invoice",
+        "refund": "Record a refund",
+        "exportCsv": "Export as CSV",
+        "exportXlsx": "Export as XLSX"
+      },
+      "regenerated": "Invoice {invoice} has been regenerated.",
+      "invoiceDialog": {
+        "title": "Invoice details",
+        "legalName": "Legal name",
+        "address": "Address",
+        "ice": "ICE",
+        "rc": "RC",
+        "if": "IF",
+        "footer": "Legal footer",
+        "success": "The invoice has been updated."
+      },
+      "refundDialog": {
+        "title": "Record a refund",
+        "body": "A negative adjustment will be created and the student's access to the course will be revoked.",
+        "amountLabel": "Refunded amount",
+        "reasonLabel": "Refund reason",
+        "reasonRequired": "Specify the reason for the refund.",
+        "confirmWord": "REMBOURSER",
+        "typeToConfirm": "Type {word} to confirm.",
+        "submit": "Record the refund",
+        "success": "The refund has been recorded and the access revoked."
+      },
+      "filters": {
+        "period": "Period",
+        "course": "Course",
+        "anyCourse": "All courses",
+        "method": "Payment method",
+        "anyMethod": "All methods",
+        "from": "From",
+        "to": "To",
+        "apply": "Apply",
+        "reset": "Reset the filters"
+      },
+      "reports": {
+        "title": "Revenue",
+        "byMonth": "By month",
+        "byCourse": "By course",
+        "byCategory": "By category",
+        "byTransferType": "By payment method",
+        "arpu": "Average revenue per student",
+        "outstandingTitle": "Upcoming installments",
+        "outstandingDue": "Due on {date}",
+        "total": "Total",
+        "exportAccounting": "Monthly accounting export"
+      },
+      "empty": {
+        "title": "No payments",
+        "body": "Confirmed payments appear here, with their invoice."
+      },
+      "table": {
+        "caption": "Payment ledger",
+        "loading": "Loading the payments",
+        "errorTitle": "The payments could not be loaded",
+        "errorDescription": "Reload the page. If the problem persists, notify the developer.",
+        "pageSummary": "{from}–{to} of {total}"
+      }
+    },
+    "courses": {
+      "title": "Courses",
+      "subtitle": "Create, organise and publish your courses.",
+      "newCourse": "New course",
+      "searchPlaceholder": "Search for a course",
+      "resultCount": "{count, plural, =0 {No courses} one {# course} other {# courses}}",
+      "columns": {
+        "cover": "Cover",
+        "title": "Title",
+        "category": "Category",
+        "instructor": "Instructor",
+        "status": "Status",
+        "price": "Price",
+        "lessons": "Lessons",
+        "duration": "Duration",
+        "enrollments": "Enrolled",
+        "rating": "Rating",
+        "updatedAt": "Updated on"
+      },
+      "status": {
+        "draft": "Draft",
+        "review": "In review",
+        "published": "Published",
+        "scheduled": "Scheduled",
+        "archived": "Archived"
+      },
+      "rowActions": {
+        "edit": "Edit",
+        "preview": "Preview as a student",
+        "duplicate": "Duplicate",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "archive": "Archive",
+        "delete": "Delete"
+      },
+      "toasts": {
+        "duplicated": "The course has been duplicated. You are now editing the copy.",
+        "published": "The course is published.",
+        "unpublished": "The course is unpublished. It no longer appears on the site.",
+        "archived": "The course is archived.",
+        "deleted": "The course has been deleted."
+      },
+      "deleteDialog": {
+        "title": "Delete this course",
+        "body": "The course “{title}” will be permanently deleted, with its modules and lessons.",
+        "blocked": "This course has enrollments: it cannot be deleted. Archive it instead.",
+        "confirmWord": "SUPPRIMER",
+        "typeToConfirm": "Type {word} to confirm.",
+        "submit": "Delete the course"
+      },
+      "editor": {
+        "backToList": "Back to the courses",
+        "preview": "Preview",
+        "saving": "Saving…",
+        "saved": "Draft saved",
+        "saveError": "The draft could not be saved. Check your connection.",
+        "tabs": {
+          "general": "General",
+          "description": "Description",
+          "curriculum": "Curriculum",
+          "quiz": "Quiz",
+          "pricing": "Pricing",
+          "translations": "Translations",
+          "students": "Students",
+          "stats": "Statistics",
+          "seo": "SEO and sharing",
+          "announcements": "Announcements"
+        }
+      },
+      "checklist": {
+        "title": "Publication checklist",
+        "progress": "{done} of {total} conditions met",
+        "fr": "French translation complete",
+        "cover": "Cover image added",
+        "price": "Price set",
+        "module": "At least one published module with a lesson",
+        "quizExplanations": "Every quiz question has an explanation",
+        "objectives": "Objectives filled in",
+        "ready": "Everything is ready: you can publish.",
+        "blocked": "Complete the checklist before publishing.",
+        "publish": "Publish the course",
+        "unpublish": "Unpublish"
+      },
+      "general": {
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "slug": "Address (slug)",
+        "slugHint": "Generated automatically from the title. Editable.",
+        "slugTaken": "This address is already used by another course.",
+        "category": "Category",
+        "level": "Level",
+        "deliveryMode": "Delivery mode",
+        "contentLanguage": "Content language",
+        "instructor": "Instructor",
+        "cover": "Cover image",
+        "coverHint": "16:9 format, at least 1280 px wide.",
+        "uploadCover": "Upload an image",
+        "promoVideo": "Promotional video",
+        "tags": "Tags",
+        "featured": "Featured on the homepage",
+        "isNew": "“New” badge"
+      },
+      "description": {
+        "editorLabel": "Detailed description",
+        "wordCount": "{count, plural, one {# word} other {# words}}",
+        "livePreview": "Live preview",
+        "objectives": "Objectives",
+        "objectivesAdd": "Add an objective",
+        "audience": "Target audience",
+        "audienceAdd": "Add a profile",
+        "requirements": "Prerequisites",
+        "requirementsAdd": "Add a prerequisite"
+      },
+      "curriculum": {
+        "addModule": "Add a module",
+        "addLesson": "Add a lesson",
+        "addBulk": "Add several lessons",
+        "moduleTitle": "Module title",
+        "lessonTitle": "Lesson title",
+        "lessonType": "Lesson type",
+        "types": {
+          "video": "Video",
+          "article": "Article",
+          "document": "Document",
+          "quiz": "Quiz",
+          "assignment": "Assignment"
+        },
+        "duration": "Duration",
+        "freePreview": "Free preview lesson",
+        "mandatory": "Mandatory lesson",
+        "drip": "Drip unlocking",
+        "dripDays": "Unlocked {days, plural, one {# day} other {# days}} after enrollment",
+        "reorderHint": "Drag to reorder, or use the keyboard arrows.",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "editLesson": "Edit the lesson",
+        "deleteModule": "Delete the module",
+        "deleteModuleBody": "The module “{title}” and its lessons will be deleted.",
+        "deleteLesson": "Delete the lesson",
+        "lessonCount": "{count, plural, =0 {No lessons} one {# lesson} other {# lessons}}"
+      },
+      "lessonDrawer": {
+        "title": "Lesson",
+        "video": "Video",
+        "videoUpload": "Upload a video",
+        "videoStatus": "Status at the host",
+        "transcript": "Transcript",
+        "transcriptHint": "Paste the transcript, or fetch it from the video host.",
+        "captions": "Captions",
+        "chapters": "Chapters",
+        "addChapter": "Add a chapter",
+        "chapterAt": "Timestamp",
+        "body": "Lesson content",
+        "resources": "Resources",
+        "addResource": "Add a resource"
+      },
+      "quiz": {
+        "addQuestion": "Add a question",
+        "question": "Question",
+        "points": "Points",
+        "difficulty": "Difficulty",
+        "explanation": "Explanation",
+        "explanationHint": "Shown after the answer. Required to publish the course.",
+        "hint": "Hint",
+        "importCsv": "Import a CSV",
+        "downloadTemplate": "Download the template",
+        "importPreview": "Check the questions before importing.",
+        "importInvalid": "{count, plural, one {# invalid row} other {# invalid rows}}",
+        "test": "Test the quiz",
+        "testHint": "The quiz opens as a student would see it, without recording an attempt."
+      },
+      "pricing": {
+        "price": "Price",
+        "compareAt": "Compare-at price",
+        "compareAtHint": "Shown struck through next to the price. Leave empty to show nothing.",
+        "free": "Free course",
+        "installments": "Installment payment",
+        "installmentsCount": "Number of installments",
+        "accessDuration": "Access duration (days)",
+        "accessDurationHint": "Leave empty for lifetime access.",
+        "maxSeats": "Maximum seats",
+        "maxSeatsHint": "Leave empty for no limit.",
+        "coupons": "Discount codes",
+        "modalPreview": "Request modal preview",
+        "modalPreviewHint": "Exactly what the student will see, including the bank details and the 48 h notice."
+      },
+      "translations": {
+        "completeness": "{percent}% translated",
+        "sourceColumn": "French (source)",
+        "targetColumn": "Arabic",
+        "copyFromFrench": "Copy from French",
+        "aiTranslate": "Translate with AI",
+        "aiDraft": "AI draft — human review required before publication"
+      },
+      "students": {
+        "columns": {
+          "name": "Student",
+          "progress": "Progress",
+          "quizScore": "Quiz score",
+          "lastActivity": "Last activity"
+        },
+        "message": "Send a message",
+        "extend": "Extend access",
+        "revoke": "Revoke access",
+        "extendDialog": {
+          "title": "Extend access",
+          "daysLabel": "Additional days",
+          "submit": "Extend",
+          "success": "Access has been extended until {date}."
+        },
+        "revokeDialog": {
+          "title": "Revoke access",
+          "body": "The student will lose access to the course. Specify the reason.",
+          "reasonLabel": "Reason",
+          "submit": "Revoke",
+          "success": "Access has been revoked."
+        },
+        "empty": "No students enrolled yet."
+      },
+      "stats": {
+        "enrollmentsOverTime": "Enrollments over time",
+        "revenue": "Revenue",
+        "completionFunnel": "Progress by lesson",
+        "completionFunnelHint": "Spot the lesson where students drop off.",
+        "watchPercent": "Average watch percentage",
+        "questionDifficulty": "Question difficulty",
+        "questionFlagged": "{percent}% correct answers — question needs recalibrating",
+        "averageRating": "Average rating",
+        "topQuestions": "Frequent questions asked to the assistant"
+      },
+      "seo": {
+        "title": "SEO title",
+        "description": "SEO description",
+        "ogImage": "Sharing image",
+        "indexable": "Allow indexing by search engines"
+      },
+      "announcements": {
+        "title": "Announcements to enrolled students",
+        "compose": "Write an announcement",
+        "messageLabel": "Announcement",
+        "sendEmailToo": "Also send by email",
+        "publish": "Publish the announcement",
+        "success": "The announcement has been published.",
+        "empty": "No announcements yet."
+      }
+    },
+    "cms": {
+      "title": "Content",
+      "subtitle": "The public site: homepage, pages, FAQ, testimonials and blog.",
+      "sections": {
+        "homepage": "Homepage",
+        "pages": "Pages",
+        "faq": "FAQ",
+        "testimonials": "Testimonials",
+        "blog": "Blog",
+        "categories": "Categories",
+        "media": "Media library",
+        "announcements": "Announcements"
+      },
+      "common": {
+        "create": "Create",
+        "saved": "Changes saved.",
+        "deleted": "Item deleted.",
+        "translationsTab": "Translations",
+        "localeCompleteness": "{percent}% translated",
+        "visible": "Visible on the site",
+        "hidden": "Hidden"
+      },
+      "homepage": {
+        "hint": "Reorder the sections and edit their texts. The layout stays protected.",
+        "sectionVisible": "Section visible",
+        "moveUp": "Move the section up",
+        "moveDown": "Move the section down",
+        "edit": "Edit the section",
+        "heroHeadline": "Hero headline",
+        "heroSub": "Subheadline",
+        "heroCta": "Primary button label",
+        "heroSecondaryCta": "Secondary button label",
+        "featuredCourses": "Featured courses",
+        "addCourse": "Add a course",
+        "saved": "The homepage has been updated."
+      },
+      "pages": {
+        "newPage": "New page",
+        "columns": {
+          "title": "Title",
+          "slug": "Address",
+          "status": "Status",
+          "updatedAt": "Updated on"
+        },
+        "edit": "Edit the page",
+        "contentLabel": "Content (MDX)",
+        "perLocale": "Content per language",
+        "saved": "The page has been saved."
+      },
+      "faq": {
+        "newQuestion": "New question",
+        "question": "Question",
+        "answer": "Answer",
+        "category": "Category",
+        "order": "Order",
+        "saved": "The FAQ has been updated.",
+        "deleteConfirm": "Delete this question?"
+      },
+      "testimonials": {
+        "new": "New testimonial",
+        "author": "Author",
+        "role": "Role",
+        "quote": "Testimonial",
+        "featured": "Featured on the homepage",
+        "saved": "The testimonial has been saved.",
+        "deleteConfirm": "Delete this testimonial?"
+      },
+      "blog": {
+        "newPost": "New post",
+        "postTitle": "Title",
+        "cover": "Cover",
+        "excerpt": "Excerpt",
+        "body": "Content",
+        "tags": "Tags",
+        "publishAt": "Publication scheduled on",
+        "statusDraft": "Draft",
+        "statusScheduled": "Scheduled",
+        "statusPublished": "Published",
+        "saved": "The post has been saved.",
+        "deleteConfirm": "Delete this post?"
+      },
+      "categories": {
+        "new": "New category",
+        "name": "Name",
+        "icon": "Icon",
+        "color": "Colour (token)",
+        "order": "Order",
+        "active": "Active",
+        "saved": "The category has been saved.",
+        "deleteBlocked": "This category contains courses: move them before deleting it."
+      },
+      "media": {
+        "upload": "Upload a file",
+        "replace": "Replace",
+        "delete": "Delete",
+        "usedBy": "{count, plural, one {Used in # place} other {Used in # places}}",
+        "unused": "Not used",
+        "deleteBlocked": "This file is used on the site: replace it first.",
+        "deleteConfirm": "Delete this file?",
+        "copyUrl": "Copy the address",
+        "copied": "Address copied"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "The centre's configuration. Every change is recorded in the log.",
+      "saved": "Settings saved.",
+      "secretMasked": "Hidden value",
+      "revealSecret": "Show the value",
+      "tabs": {
+        "identity": "Identity",
+        "contact": "Contact",
+        "bank": "Bank details",
+        "payments": "Payments",
+        "registrations": "Registrations",
+        "emails": "Emails",
+        "storage": "Storage",
+        "video": "Video",
+        "localization": "Localisation",
+        "certificates": "Certificates",
+        "gamification": "Gamification",
+        "security": "Security",
+        "features": "Features",
+        "maintenance": "Maintenance"
+      },
+      "identity": {
+        "brandName": "Brand name",
+        "legalName": "Legal name",
+        "taglineFr": "Tagline (French)",
+        "taglineAr": "Tagline (Arabic)",
+        "logoLight": "Logo (light background)",
+        "logoDark": "Logo (dark background)",
+        "favicon": "Favicon",
+        "ogImage": "Default sharing image"
+      },
+      "contact": {
+        "whatsappPrimary": "Primary WhatsApp",
+        "whatsappSecondary": "Secondary WhatsApp",
+        "testWaLink": "Test the wa.me link",
+        "phone": "Phone",
+        "email": "Email address",
+        "address": "Address",
+        "mapCoordinates": "GPS coordinates",
+        "hours": "Opening hours",
+        "hoursHint": "Shown on the contact page and in the footer.",
+        "socials": "Social networks"
+      },
+      "bank": {
+        "intro": "These details appear in the access request modal. Check every character.",
+        "holder": "Account holder",
+        "bankName": "Bank",
+        "rib": "RIB",
+        "iban": "IBAN",
+        "swift": "SWIFT",
+        "instructionFr": "Instruction text (French)",
+        "instructionAr": "Instruction text (Arabic)",
+        "instructionHint": "Shown under the bank details in the request modal.",
+        "modalPreview": "Request modal preview",
+        "placeholderRibWarning": "The recorded RIB is still the sample value. Replace it with the centre's real RIB before accepting payment requests."
+      },
+      "payments": {
+        "transferTypes": "Available payment methods",
+        "instantEnabled": "Instant transfer",
+        "standardEnabled": "Standard transfer (48 h)",
+        "cashEnabled": "Cash at the centre",
+        "standardNotice": "Standard-transfer notice text",
+        "requestExpiryDays": "Request expiry (days)",
+        "requestExpiryHint": "A request without a receipt expires after this delay.",
+        "installmentsEnabled": "Installment payment",
+        "invoiceFooter": "Invoice legal footer",
+        "ice": "ICE",
+        "rc": "RC",
+        "if": "IF",
+        "invoicePrefix": "Invoice number prefix"
+      },
+      "registrations": {
+        "open": "Registrations open",
+        "requireApproval": "Manual account validation",
+        "requireApprovalHint": "Recommended: every account is checked by your team before activation.",
+        "expectedDelay": "Announced validation delay",
+        "expectedDelayHint": "Shown to waiting students. Example: “within 24 working hours”.",
+        "disposableDomains": "Blocked email domains",
+        "disposableDomainsHint": "One domain per line."
+      },
+      "emails": {
+        "smtpHost": "SMTP server",
+        "smtpPort": "Port",
+        "smtpUser": "User",
+        "smtpPassword": "Password",
+        "senderName": "Sender name",
+        "senderEmail": "Sender address",
+        "adminRecipients": "Administrator recipients",
+        "adminRecipientsHint": "One address per line. They receive alerts and requests to verify.",
+        "sendTest": "Send a test email",
+        "testSent": "Test email sent to {email}.",
+        "throttle": "Sending rate (emails/minute)"
+      },
+      "storage": {
+        "driver": "Storage",
+        "bucket": "Bucket",
+        "publicBaseUrl": "Public base URL",
+        "test": "Test the storage",
+        "testOk": "Storage operational: the test file made the round trip.",
+        "testFailed": "The storage test failed: {error}"
+      },
+      "video": {
+        "provider": "Video host",
+        "signedTtl": "Signed link duration (minutes)",
+        "testPlayback": "Test playback"
+      },
+      "localization": {
+        "enabledLocales": "Enabled languages",
+        "defaultLocale": "Default language",
+        "timezone": "Timezone",
+        "currency": "Currency"
+      },
+      "certificates": {
+        "serialPrefix": "Serial number prefix",
+        "signatureImage": "Signature image",
+        "sealImage": "Centre seal",
+        "requireFinalQuiz": "The certificate requires passing the final quiz"
+      },
+      "gamification": {
+        "xp": "Experience points per action",
+        "leaderboard": "Leaderboard enabled"
+      },
+      "security": {
+        "sessionDuration": "Session duration (days)",
+        "require2fa": "2FA required for administrators",
+        "maxLoginAttempts": "Maximum login attempts",
+        "lockoutMinutes": "Lockout duration (minutes)",
+        "adminIpAllowlist": "Allowed IP addresses for the administration",
+        "adminIpAllowlistHint": "One address or range per line. Empty: no restriction."
+      },
+      "features": {
+        "hint": "Disable a feature to remove it from the site without deleting anything.",
+        "blog": "Blog",
+        "paths": "Paths",
+        "liveSessions": "Live sessions",
+        "flashcards": "Flashcards",
+        "leaderboard": "Leaderboard",
+        "referral": "Referral",
+        "reviews": "Reviews",
+        "ai": "AI assistant"
+      },
+      "maintenance": {
+        "mode": "Maintenance mode",
+        "message": "Message shown to visitors",
+        "bypassHint": "Administrators keep access to the site.",
+        "purgeCache": "Purge the cache",
+        "reindex": "Reindex the search",
+        "exportDb": "Export the database"
+      }
+    },
+    "audit": {
+      "title": "Log",
+      "subtitle": "Everything that happened, by whom, and when.",
+      "tabs": {
+        "audit": "Audit log",
+        "jobs": "Jobs",
+        "emails": "Emails",
+        "security": "Security",
+        "cron": "Cron",
+        "diagnostics": "Diagnostics"
+      },
+      "filters": {
+        "actor": "Actor",
+        "action": "Action",
+        "entityType": "Entity type",
+        "entityId": "Identifier",
+        "from": "From",
+        "to": "To",
+        "apply": "Apply",
+        "reset": "Reset the filters"
+      },
+      "entry": {
+        "system": "System",
+        "by": "By {actor}",
+        "expand": "Show the detail",
+        "collapse": "Hide the detail",
+        "before": "Before",
+        "after": "After",
+        "empty": "No event matches these filters."
+      },
+      "jobs": {
+        "title": "Job queue",
+        "queued": "Queued",
+        "running": "Running",
+        "failed": "Failed",
+        "completed": "Completed",
+        "retry": "Retry",
+        "retried": "The job has been requeued.",
+        "payload": "Payload",
+        "attempts": "{count, plural, one {# attempt} other {# attempts}}",
+        "nextRun": "Next run",
+        "empty": "No jobs in the queue."
+      },
+      "emailLog": {
+        "title": "Email log",
+        "sent": "Sent",
+        "failed": "Failed",
+        "pending": "Pending",
+        "resend": "Resend",
+        "resent": "The email has been requeued for sending.",
+        "errorDetail": "Error detail",
+        "recipient": "Recipient",
+        "template": "Template",
+        "empty": "No emails recorded."
+      },
+      "security": {
+        "failedLogins": "Failed logins",
+        "rateLimited": "Rate limits reached",
+        "ip": "IP address",
+        "when": "When",
+        "empty": "No recent security events."
+      },
+      "cron": {
+        "title": "Cron history",
+        "job": "Job",
+        "lastRun": "Last run",
+        "duration": "Duration",
+        "result": "Result",
+        "stale": "Late",
+        "empty": "No runs recorded."
+      },
+      "diagnostics": {
+        "title": "Diagnostics",
+        "hint": "The state of each of the site's dependencies, checked live.",
+        "run": "Run the checks again",
+        "running": "Checking…",
+        "db": "Database",
+        "smtp": "Email server",
+        "storage": "Storage",
+        "video": "Video host",
+        "ai": "AI provider",
+        "cronFreshness": "Cron freshness",
+        "ok": "Operational",
+        "error": "Failing",
+        "lastError": "Last error: {message}",
+        "lastChecked": "Checked on {date}"
+      }
     }
   },
   "errors": {
@@ -1934,6 +2918,187 @@
       "faq": "Frequently asked questions about the centre's courses",
       "certificate": "Verification of a certificate issued by the centre",
       "legal": "Legal information of the Centre de formation immersive"
+    }
+  },
+  "enrollment": {
+    "modal": {
+      "trigger": "Request access",
+      "title": "Request access",
+      "stepLabel": "Step {current} of {total}",
+      "steps": {
+        "price": "Price and terms",
+        "receipt": "Transfer receipt",
+        "confirmation": "Confirmation"
+      },
+      "price": {
+        "label": "Course fee",
+        "compareAt": "Instead of {price}",
+        "totalLabel": "Amount to transfer",
+        "includedTitle": "What is included",
+        "modules": "{count, plural, one {# module} other {# modules}}",
+        "videoDuration": "{duration} of video",
+        "resources": "Downloadable resources",
+        "certificate": "Certificate of completion"
+      },
+      "coupon": {
+        "label": "Discount code",
+        "placeholder": "Enter your code",
+        "apply": "Apply",
+        "applied": "Code {code} applied: −{amount}",
+        "remove": "Remove code",
+        "removed": "The discount code has been removed."
+      },
+      "transferType": {
+        "legend": "Payment method",
+        "instantTitle": "Instant transfer",
+        "instantTag": "recommended",
+        "instantDescription": "Your access is activated the same day, as soon as the receipt is verified.",
+        "standardTitle": "Standard transfer (48 h)",
+        "standardDescription": "⚠️ Your access will only be activated once the funds are actually received, which can take up to 48 working hours.",
+        "cashTitle": "Cash payment at the centre",
+        "cashDescription": "Come to the front desk; your access will be activated once the payment is received."
+      },
+      "standardNotice": "We recommend an instant transfer: your access is then activated the same day. With a standard transfer, access to the course is only activated once the funds have actually reached our account, which can take up to 48 working hours.",
+      "bank": {
+        "title": "Bank details",
+        "holder": "Beneficiary",
+        "bankName": "Bank",
+        "rib": "RIB",
+        "iban": "IBAN",
+        "swift": "SWIFT",
+        "copyRib": "Copy the RIB",
+        "copyIban": "Copy the IBAN",
+        "copyHolder": "Copy the beneficiary name",
+        "copied": "Copied"
+      },
+      "reference": {
+        "label": "Your request reference",
+        "instruction": "You must include the reference {reference} in the transfer description. Without it, verification can take longer.",
+        "copy": "Copy the reference"
+      },
+      "upload": {
+        "title": "Your transfer receipt",
+        "dropzone": "Drag your receipt here",
+        "browse": "Choose a file",
+        "camera": "Take a photo",
+        "constraints": "JPG, PNG or PDF · 5 MB maximum · Make sure the amount, date and beneficiary are readable.",
+        "uploading": "Uploading… {percent}%",
+        "preview": "Receipt preview",
+        "zoom": "Zoom in",
+        "replace": "Replace",
+        "remove": "Remove",
+        "pdfFile": "PDF document"
+      },
+      "fields": {
+        "transferDate": "Transfer date",
+        "transferDateHint": "The date you made the transfer.",
+        "bankReference": "Bank reference",
+        "bankReferenceHint": "The operation number provided by your bank, if you have it.",
+        "message": "Message to our team",
+        "messagePlaceholder": "Anything useful for verification, if needed.",
+        "confirmTransfer": "I confirm that the transfer has been made"
+      },
+      "actions": {
+        "continue": "Continue",
+        "back": "Back",
+        "submit": "Send the receipt",
+        "submitting": "Sending…",
+        "close": "Close"
+      },
+      "errors": {
+        "receiptRequired": "Add your transfer receipt to send the request.",
+        "confirmRequired": "Tick the transfer confirmation box to continue.",
+        "transferDateRequired": "Enter the date you made the transfer.",
+        "transferDateFuture": "The transfer date cannot be in the future.",
+        "transferDateTooOld": "The transfer date cannot be more than 30 days ago.",
+        "fileTooLarge": "The file exceeds 5 MB. Compress it, or photograph the receipt again.",
+        "fileWrongType": "This file format is not accepted. Accepted formats: JPG, PNG, WEBP or PDF.",
+        "uploadFailed": "The file upload failed. Check your connection, then try again.",
+        "duplicateRequest": "You already have a pending request for this course. Follow its progress from “My requests”.",
+        "generic": "The request could not be sent. Try again in a few moments."
+      },
+      "success": {
+        "title": "Your request is being processed",
+        "body": "We have received your transfer receipt. Our team is checking it and will activate your access as soon as the payment is confirmed. You will receive an email as soon as your course is available.",
+        "referenceLabel": "Reference",
+        "amountLabel": "Amount",
+        "submittedAtLabel": "Sent on",
+        "reviewDelay": "Verification usually takes less than 24 working hours.",
+        "whatsapp": "Contact us on WhatsApp",
+        "viewRequests": "View my requests"
+      }
+    },
+    "transferTypes": {
+      "instant": "Instant",
+      "standard": "Standard 48 h",
+      "cash": "Cash at the centre"
+    },
+    "status": {
+      "pageTitle": "My requests",
+      "pageSubtitle": "Follow the verification of your receipts and the activation of your access.",
+      "empty": {
+        "title": "No requests yet",
+        "body": "Your access requests appear here as soon as you send a transfer receipt.",
+        "cta": "Browse the courses"
+      },
+      "labels": {
+        "awaitingReceipt": "Awaiting receipt",
+        "underReview": "Being verified",
+        "infoRequested": "Information requested",
+        "approved": "Access activated",
+        "rejected": "Rejected",
+        "expired": "Expired",
+        "cancelled": "Cancelled"
+      },
+      "explanations": {
+        "awaitingReceipt": "Your request is recorded, but we have not yet received your transfer receipt. Send it to start the verification.",
+        "underReview": "Our team is checking your transfer receipt. You will receive an email as soon as the payment is confirmed.",
+        "infoRequested": "Our team needs a clarification or a more readable receipt. Read the message below, then send a new receipt.",
+        "approved": "Your payment is confirmed and your access to the course is active.",
+        "rejected": "Your request could not be validated. See the reason below, or write to us on WhatsApp.",
+        "expired": "Your request expired because no receipt was received. You can send a new one at any time.",
+        "cancelled": "You cancelled this request. You can send a new one at any time."
+      },
+      "timeline": {
+        "label": "Request progress",
+        "submitted": "Request sent",
+        "receiptReceived": "Receipt received",
+        "verification": "Verification in progress",
+        "activated": "Access activated"
+      },
+      "card": {
+        "referenceLabel": "Reference",
+        "copyReference": "Copy the reference",
+        "amountLabel": "Amount",
+        "transferTypeLabel": "Payment method",
+        "submittedLabel": "Sent on",
+        "receiptAlt": "Transfer receipt sent",
+        "adminMessageTitle": "Message from our team",
+        "rejectionReasonTitle": "Rejection reason",
+        "expiresOn": "Expires on {date}",
+        "invoiceLabel": "Invoice"
+      },
+      "actions": {
+        "resendReceipt": "Send a new receipt",
+        "cancel": "Cancel the request",
+        "whatsapp": "Contact us on WhatsApp",
+        "downloadInvoice": "Download the invoice",
+        "goToCourse": "Start the course",
+        "newRequest": "Send a new request"
+      },
+      "cancelDialog": {
+        "title": "Cancel this request",
+        "body": "Request {reference} will be cancelled. You can send a new one at any time.",
+        "confirm": "Cancel the request",
+        "keep": "Keep the request",
+        "success": "Your request has been cancelled."
+      },
+      "reupload": {
+        "title": "Send a new receipt",
+        "hint": "JPG, PNG or PDF · 5 MB maximum · Make sure the amount, date and beneficiary are readable.",
+        "submit": "Send the receipt",
+        "success": "Receipt sent. Our team is resuming the verification."
+      }
     }
   }
 }
