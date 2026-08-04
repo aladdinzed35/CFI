@@ -541,7 +541,14 @@
     "accountApproved": "Votre compte est validé",
     "accountSuspended": "Votre compte a été suspendu",
     "accountReinstated": "Votre compte a été réactivé",
-    "passwordChanged": "Votre mot de passe a été modifié"
+    "passwordChanged": "Votre mot de passe a été modifié",
+    "requestReceived": "Demande envoyée — {reference}",
+    "requestAwaitingReview": "Justificatif à vérifier — {studentName}",
+    "requestInfoNeeded": "Information demandée sur votre demande {reference}",
+    "requestApproved": "Accès activé — {courseTitle}",
+    "requestRejected": "Demande refusée — {reference}",
+    "requestReceiptReminder": "Rappel : justificatif attendu pour {reference}",
+    "requestExpired": "Demande expirée — {reference}"
   },
   "emails": {
     "common": {
@@ -1389,6 +1396,21 @@
       "title": "Cette formation n'existe pas",
       "body": "Le lien est peut-être erroné, ou la formation a été retirée du catalogue. Parcourez les formations disponibles.",
       "action": "Voir toutes les formations"
+    },
+    "request": {
+      "couponInvalid": "Ce code de réduction n'est pas valide ou a expiré. Vérifiez le code, ou continuez sans réduction.",
+      "courseUnavailable": "Cette formation n'est plus ouverte aux inscriptions.",
+      "courseIsFree": "Cette formation est gratuite : inscrivez-vous directement, sans justificatif de virement.",
+      "courseNotFree": "Cette formation est payante : passez par la demande d’accès avec justificatif de virement.",
+      "courseFull": "Cette session est complète. Écrivez-nous sur WhatsApp pour être prévenu de la prochaine.",
+      "alreadyEnrolled": "Vous êtes déjà inscrit à cette formation. Retrouvez-la dans votre espace.",
+      "notFound": "Cette demande est introuvable. Elle a peut-être été annulée.",
+      "receiptNotExpected": "Cette demande n’attend pas de justificatif pour le moment.",
+      "transferDateOutOfRange": "La date du virement doit être comprise entre la création de votre demande et aujourd’hui.",
+      "notApprovable": "Cette demande ne peut pas être validée depuis son statut actuel. Actualisez la page.",
+      "notRejectable": "Cette demande ne peut pas être refusée depuis son statut actuel. Actualisez la page.",
+      "notInfoRequestable": "Impossible de demander une information sur cette demande depuis son statut actuel.",
+      "studentNotFound": "Ce compte étudiant est introuvable."
     }
   },
   "pages": {

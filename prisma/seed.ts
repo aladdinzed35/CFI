@@ -31,6 +31,7 @@ import { AccountStatus, Locale, type Prisma, PrismaClient, Role } from '@prisma/
 import { parsePhone } from '../src/lib/phone';
 
 import { seedCatalog } from './seed/catalog';
+import { seedRequests } from './seed/requests';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Environment
@@ -2131,15 +2132,9 @@ export function seedEditorialContent(): GroupResult {
   return deferred('Blog, annonces, sessions live', 'M2/M8');
 }
 
-/**
- * Demandes d'inscription dans tous leurs états, paiements, factures et
- * justificatifs de test (§23). Jalon **M3 — Demandes d'inscription et
- * paiements** : la machine à états, la génération des références et le pipeline
- * de reçus y sont définis, et une demande sans cours n'a pas de sens.
- */
-export function seedEnrollmentRequests(): GroupResult {
-  return deferred("Demandes d'inscription, paiements, factures", 'M3');
-}
+// Les demandes d'inscription (§9.2) — états, paiements, factures PDF et
+// justificatifs de test — vivent dans `prisma/seed/requests.ts` et s'écrivent
+// avec les autres groupes ci-dessus, après le catalogue dont elles dépendent.
 
 /**
  * Inscriptions actives, progression des leçons, notes et signets (§23).
@@ -2437,11 +2432,11 @@ async function main(): Promise<void> {
     await runGroup(seedTestimonials);
     await runGroup(seedLegalPages);
     await runGroup(seedCatalog);
+    await runGroup(seedRequests);
 
     log.title('Groupes reportés à un jalon ultérieur');
     const laterMilestones: readonly GroupResult[] = [
       seedEditorialContent(),
-      seedEnrollmentRequests(),
       seedLearningActivity(),
       seedCommunity(),
       seedAssessments(),

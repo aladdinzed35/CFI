@@ -36,6 +36,7 @@ import { Prisma } from '@prisma/client';
 import { db } from '@/server/db';
 import { backoffMs, isJobType, type JobHandler, type JobResult, type JobType } from './types';
 import { sendEmailHandler } from './handlers/send-email';
+import { generateInvoiceHandler } from './handlers/generate-invoice';
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Registry
@@ -44,6 +45,7 @@ import { sendEmailHandler } from './handlers/send-email';
 /** One handler per job type. Exhaustive: a new `JobType` will not compile without one. */
 const handlers: Record<JobType, JobHandler> = {
   SEND_EMAIL: sendEmailHandler,
+  GENERATE_INVOICE: generateInvoiceHandler,
 };
 
 /* ────────────────────────────────────────────────────────────────────────────

@@ -29,6 +29,8 @@
  * `EmailLog` idempotency key in `sendMail` (§18).
  */
 
+import { z } from 'zod';
+
 import type { SendMailPayload } from '@/server/mail/send';
 import { sendMailInputSchema } from '@/server/mail/send';
 
@@ -43,14 +45,30 @@ import { sendMailInputSchema } from '@/server/mail/send';
 export interface JobPayloads {
   /** Render and deliver one templated email (§18). */
   SEND_EMAIL: SendMailPayload;
+  /**
+   * Render and store the invoice PDF of one payment (§19.4). Enqueued by the
+   * §1666 approval transaction — the PDF is generated in a job, never in the
+   * request cycle. Idempotent: `generateInvoiceForPayment` skips a payment
+   * whose invoice already exists in storage.
+   */
+  GENERATE_INVOICE: GenerateInvoicePayload;
 }
+
+/** `Job.payload` of `GENERATE_INVOICE` — validated by {@link generateInvoicePayloadSchema}. */
+export interface GenerateInvoicePayload {
+  readonly paymentId: string;
+}
+
+export const generateInvoicePayloadSchema = z
+  .object({ paymentId: z.string().min(1).max(64) })
+  .strict();
 
 export type JobType = keyof JobPayloads;
 
 /** A job and its payload, welded together. */
 export type JobSpec = { [K in JobType]: { readonly type: K; readonly payload: JobPayloads[K] } }[JobType];
 
-export const JOB_TYPES = ['SEND_EMAIL'] as const satisfies readonly JobType[];
+export const JOB_TYPES = ['SEND_EMAIL', 'GENERATE_INVOICE'] as const satisfies readonly JobType[];
 
 export function isJobType(value: unknown): value is JobType {
   return typeof value === 'string' && (JOB_TYPES as readonly string[]).includes(value);
@@ -73,6 +91,7 @@ export interface PayloadValidator {
 /** One validator per job type. Exhaustive: a new job type will not compile without one. */
 export const jobPayloadValidators: Record<JobType, PayloadValidator> = {
   SEND_EMAIL: sendMailInputSchema,
+  GENERATE_INVOICE: generateInvoicePayloadSchema,
 };
 
 /** Throws a `ZodError` when `payload` does not match what `type` expects. */

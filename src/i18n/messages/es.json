@@ -541,7 +541,14 @@
     "accountApproved": "Su cuenta ha sido validada",
     "accountSuspended": "Su cuenta ha sido suspendida",
     "accountReinstated": "Su cuenta ha sido reactivada",
-    "passwordChanged": "Su contraseña ha sido modificada"
+    "passwordChanged": "Su contraseña ha sido modificada",
+    "requestReceived": "Solicitud enviada — {reference}",
+    "requestAwaitingReview": "Justificante por verificar — {studentName}",
+    "requestInfoNeeded": "Información solicitada sobre su solicitud {reference}",
+    "requestApproved": "Acceso activado — {courseTitle}",
+    "requestRejected": "Solicitud rechazada — {reference}",
+    "requestReceiptReminder": "Recordatorio: justificante pendiente para {reference}",
+    "requestExpired": "Solicitud caducada — {reference}"
   },
   "emails": {
     "common": {
@@ -1389,6 +1396,21 @@
       "title": "Esta formación no existe",
       "body": "Puede que el enlace sea erróneo o que la formación se haya retirado del catálogo. Explore las formaciones disponibles.",
       "action": "Ver todas las formaciones"
+    },
+    "request": {
+      "couponInvalid": "Este código de descuento no es válido o ha caducado. Verifique el código o continúe sin él.",
+      "courseUnavailable": "Esta formación ya no está abierta a inscripciones.",
+      "courseIsFree": "Esta formación es gratuita: inscríbase directamente, sin justificante de transferencia.",
+      "courseNotFree": "Esta formación es de pago: use la solicitud de acceso con justificante de transferencia.",
+      "courseFull": "Esta sesión está completa. Escríbanos por WhatsApp para avisarle de la próxima.",
+      "alreadyEnrolled": "Ya está inscrito en esta formación. La encontrará en su espacio.",
+      "notFound": "No se encuentra esta solicitud. Puede que haya sido cancelada.",
+      "receiptNotExpected": "Esta solicitud no espera un justificante por el momento.",
+      "transferDateOutOfRange": "La fecha de la transferencia debe estar entre la creación de su solicitud y hoy.",
+      "notApprovable": "Esta solicitud no puede validarse desde su estado actual. Actualice la página.",
+      "notRejectable": "Esta solicitud no puede rechazarse desde su estado actual. Actualice la página.",
+      "notInfoRequestable": "No se puede pedir información sobre esta solicitud desde su estado actual.",
+      "studentNotFound": "No se encuentra esta cuenta de estudiante."
     }
   },
   "pages": {

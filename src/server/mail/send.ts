@@ -60,6 +60,16 @@ import { accountApprovedTemplate, type AccountApprovedProps } from './templates/
 import { accountRejectedTemplate, type AccountRejectedProps } from './templates/account-rejected';
 import { passwordResetTemplate, type PasswordResetProps } from './templates/password-reset';
 import { passwordChangedTemplate, type PasswordChangedProps } from './templates/password-changed';
+import { requestReceivedTemplate, type RequestReceivedProps } from './templates/request-received';
+import { adminNewPaymentTemplate, type AdminNewPaymentProps } from './templates/admin-new-payment';
+import {
+  requestInfoNeededTemplate,
+  type RequestInfoNeededProps,
+} from './templates/request-info-needed';
+import { requestApprovedTemplate, type RequestApprovedProps } from './templates/request-approved';
+import { requestRejectedTemplate, type RequestRejectedProps } from './templates/request-rejected';
+import { receiptReminderTemplate, type ReceiptReminderProps } from './templates/receipt-reminder';
+import { requestExpiredTemplate, type RequestExpiredProps } from './templates/request-expired';
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Registry
@@ -82,6 +92,14 @@ export interface EmailTemplateProps {
   'account-rejected': AccountRejectedProps;
   'password-reset': PasswordResetProps;
   'password-changed': PasswordChangedProps;
+  // M3 — §18 rows 6–12, the enrollment-request flow (§9.2).
+  'request-received': RequestReceivedProps;
+  'admin-new-payment': AdminNewPaymentProps;
+  'request-info-needed': RequestInfoNeededProps;
+  'request-approved': RequestApprovedProps;
+  'request-rejected': RequestRejectedProps;
+  'receipt-reminder': ReceiptReminderProps;
+  'request-expired': RequestExpiredProps;
 }
 
 export type EmailTemplateId = keyof EmailTemplateProps;
@@ -94,6 +112,13 @@ export const EMAIL_TEMPLATE_IDS = [
   'account-rejected',
   'password-reset',
   'password-changed',
+  'request-received',
+  'admin-new-payment',
+  'request-info-needed',
+  'request-approved',
+  'request-rejected',
+  'receipt-reminder',
+  'request-expired',
 ] as const satisfies readonly EmailTemplateId[];
 
 export function isEmailTemplateId(value: unknown): value is EmailTemplateId {
@@ -170,6 +195,13 @@ const registry: Record<EmailTemplateId, CompiledTemplate> = {
   'account-rejected': compile('account-rejected', accountRejectedTemplate),
   'password-reset': compile('password-reset', passwordResetTemplate),
   'password-changed': compile('password-changed', passwordChangedTemplate),
+  'request-received': compile('request-received', requestReceivedTemplate),
+  'admin-new-payment': compile('admin-new-payment', adminNewPaymentTemplate),
+  'request-info-needed': compile('request-info-needed', requestInfoNeededTemplate),
+  'request-approved': compile('request-approved', requestApprovedTemplate),
+  'request-rejected': compile('request-rejected', requestRejectedTemplate),
+  'receipt-reminder': compile('receipt-reminder', receiptReminderTemplate),
+  'request-expired': compile('request-expired', requestExpiredTemplate),
 };
 
 /* ────────────────────────────────────────────────────────────────────────────

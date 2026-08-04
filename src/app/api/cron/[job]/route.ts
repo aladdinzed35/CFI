@@ -24,6 +24,7 @@ import { z } from 'zod';
 import { constantTimeEquals } from '@/lib/crypto';
 import { env } from '@/lib/env';
 import { drain, recordCronRun } from '@/server/jobs/runner';
+import { expireOverdueRequests, sendReceiptReminders } from '@/server/services/enrollment/expiry';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -57,6 +58,9 @@ type CronJobRunner = () => Promise<unknown>;
  */
 const CRON_JOBS: Partial<Record<CronJobName, CronJobRunner>> = {
   drain: () => drain(),
+  // M3 — the clock-driven side of §9.2 (§19.5 rows 2 and 3).
+  'expire-requests': () => expireOverdueRequests(),
+  reminders: () => sendReceiptReminders(),
 };
 
 /* ────────────────────────────────────────────────────────────────────────────

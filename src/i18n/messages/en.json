@@ -541,7 +541,14 @@
     "accountApproved": "Your account has been approved",
     "accountSuspended": "Your account has been suspended",
     "accountReinstated": "Your account has been reinstated",
-    "passwordChanged": "Your password has been changed"
+    "passwordChanged": "Your password has been changed",
+    "requestReceived": "Request sent — {reference}",
+    "requestAwaitingReview": "Receipt to review — {studentName}",
+    "requestInfoNeeded": "Information needed on your request {reference}",
+    "requestApproved": "Access activated — {courseTitle}",
+    "requestRejected": "Request declined — {reference}",
+    "requestReceiptReminder": "Reminder: receipt expected for {reference}",
+    "requestExpired": "Request expired — {reference}"
   },
   "emails": {
     "common": {
@@ -1389,6 +1396,21 @@
       "title": "This course does not exist",
       "body": "The link may be wrong, or the course has been removed from the catalogue. Browse the available courses.",
       "action": "See all courses"
+    },
+    "request": {
+      "couponInvalid": "This discount code is invalid or has expired. Check the code, or continue without it.",
+      "courseUnavailable": "This course is no longer open for enrolment.",
+      "courseIsFree": "This course is free: enrol directly, no transfer receipt needed.",
+      "courseNotFree": "This course is paid: use the access request with a transfer receipt.",
+      "courseFull": "This session is full. Write to us on WhatsApp to be told about the next one.",
+      "alreadyEnrolled": "You are already enrolled in this course. Find it in your space.",
+      "notFound": "This request cannot be found. It may have been cancelled.",
+      "receiptNotExpected": "This request is not expecting a receipt at the moment.",
+      "transferDateOutOfRange": "The transfer date must be between the request creation date and today.",
+      "notApprovable": "This request cannot be approved from its current status. Refresh the page.",
+      "notRejectable": "This request cannot be declined from its current status. Refresh the page.",
+      "notInfoRequestable": "Cannot request information on this request from its current status.",
+      "studentNotFound": "This student account cannot be found."
     }
   },
   "pages": {
