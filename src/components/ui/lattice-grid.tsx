@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 
 import { cn } from '@/lib/cn';
 import { Link } from '@/i18n/navigation';
@@ -229,7 +229,6 @@ export function LatticeGrid({
   const uid = useId();
   const { isRtl } = useDirection();
   const { reduced } = useReducedMotionSafe();
-  const [revealed, setRevealed] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
 
   const columns = Math.max(2, Math.min(16, Math.round(density)));
@@ -282,22 +281,15 @@ export function LatticeGrid({
     return built;
   }, [columns, isRtl, rowCount, seed, tiles, uid]);
 
-  useEffect(() => {
-    if (reduced) {
-      setRevealed(true);
-      return;
-    }
-    // One frame later, so the transition has a start value to animate from.
-    const frame = window.requestAnimationFrame(() => setRevealed(true));
-    return () => window.cancelAnimationFrame(frame);
-  }, [reduced]);
-
   const starId = `${uid}-star`;
   const crossId = `${uid}-cross`;
   const glowId = `${uid}-glow`;
 
   return (
     <div className={cn('relative isolate w-full', className)}>
+      <style href="cfi-lattice-motion" precedence="medium">
+        {'@keyframes cfi-lattice-in { from { opacity: 0 } to { opacity: 1 } }'}
+      </style>
       <svg
         viewBox={`0 0 ${columns * PITCH} ${rowCount * PITCH}`}
         className="pointer-events-none block h-auto w-full"
@@ -333,10 +325,20 @@ export function LatticeGrid({
           return (
             <g
               key={cell.key}
+              /*
+                CSS animation, NOT a hydration-flipped opacity. The previous
+                implementation server-rendered every tile at opacity 0 and let a
+                useEffect fade them in — which meant the hero's dominant visual
+                could not paint until React hydrated. On a 4×-throttled device
+                that pushed LCP from FCP 2.3 s to 4.9 s: the page was "loaded"
+                seconds before its centrepiece existed. A keyframe with `both`
+                fill starts at style-parse time, needs no JavaScript, and the
+                global reduced-motion rules collapse it to 0.01 ms — so every
+                motion preference is honoured without a client round-trip.
+              */
               style={{
-                opacity: revealed ? 1 : 0,
-                transition: reduced ? undefined : 'opacity 280ms var(--ease-out-strait)',
-                transitionDelay: reduced ? undefined : `${cell.delayMs}ms`,
+                animation: 'cfi-lattice-in 280ms var(--ease-out-strait) both',
+                animationDelay: `${cell.delayMs}ms`,
               }}
             >
               {paint.glow > 0 ? (

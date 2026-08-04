@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
+import { ChevronDown } from 'lucide-react';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Link } from '@/i18n/navigation';
 import type { HomeFaq } from '@/server/services/home';
 import type { Locale } from '@/i18n/routing';
@@ -45,16 +45,30 @@ export async function HomeFaqSection({
       <h2 className="mt-4 text-title text-balance">{t('title')}</h2>
       <p className="mt-4 max-w-2xl text-lead text-pretty text-ink-muted">{t('subtitle')}</p>
 
-      <Accordion type="single" collapsible className="mt-10">
+      {/*
+        Native <details>, not the Radix accordion — the same decision the /faq
+        page records at length. Two reasons, and on the homepage the second is
+        the one that pays: the answers work with zero JavaScript, and the Radix
+        island was one of only a handful of hydration costs left on a page whose
+        budget is Lighthouse ≥95 at 4× CPU throttle. The browser gives us
+        open/close, keyboard operation and `group-open` styling for free.
+      */}
+      <div className="mt-10 border-t border-hairline">
         {items.map((item) => (
-          <AccordionItem key={item.id} value={item.id}>
-            <AccordionTrigger>{item.question}</AccordionTrigger>
-            <AccordionContent>
-              <p className="text-pretty">{item.answer}</p>
-            </AccordionContent>
-          </AccordionItem>
+          <details key={item.id} className="group border-b border-hairline">
+            <summary className="cursor-pointer list-none rounded-sm [&::-webkit-details-marker]:hidden">
+              <h3 className="flex min-h-11 items-center justify-between gap-3 py-4 text-body font-medium text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] group-hover:text-strait motion-reduce:transition-none">
+                <span className="min-w-0 flex-1 text-balance">{item.question}</span>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="size-4 shrink-0 text-ink-muted transition-transform duration-200 ease-[var(--ease-out-strait)] group-open:rotate-180 motion-reduce:transition-none"
+                />
+              </h3>
+            </summary>
+            <p className="pb-5 text-body text-pretty text-ink-muted">{item.answer}</p>
+          </details>
         ))}
-      </Accordion>
+      </div>
 
       <Link
         href="/faq"
