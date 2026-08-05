@@ -44,6 +44,35 @@ import { isLocale } from '@/i18n/routing';
  * forget it.
  */
 
+/**
+ * Regenerate at most once a minute (§17.5's `PUBLIC_CACHE_SECONDS`).
+ *
+ * Static rendering bought the caching back and took freshness away with it:
+ * these pages were dynamic, so they always reflected the database, and the
+ * moment they became prerendered a renamed course kept its old title on the
+ * homepage until the next deploy. Verified, not assumed — the title was changed
+ * in the database and the homepage went on serving the previous one.
+ *
+ * `revalidatePath` in the admin actions handles the paths it knows about, but
+ * "the action that changed this remembered to name every page that shows it" is
+ * not a property anyone can keep true. A one-minute window is the floor under
+ * that: worst case the site is sixty seconds behind, with or without the
+ * targeted call.
+ *
+ * The trade is only in the cache header — `s-maxage=60, stale-while-revalidate`
+ * instead of a year — and the visitor still gets a prerendered document from
+ * the edge, which was the point.
+ *
+ * It has to be a literal. `export const revalidate = PUBLIC_CACHE_SECONDS`
+ * looks better and does not build: Next reads the segment config statically, so
+ * an imported constant is not something it can evaluate, and it fails the whole
+ * build with « can't recognize the exported `config` field » naming an
+ * arbitrary innocent route. `PUBLIC_CACHE_SECONDS` is the same 60 and exists
+ * because §17.5 promises an editor their save is live within a minute;
+ * `tests/unit/public-cache.test.ts` fails if the two ever disagree.
+ */
+export const revalidate = 60;
+
 type LocaleParams = { locale: string };
 
 export default async function PublicLayout({

@@ -105,8 +105,12 @@ export const COURSE_SORT_FIELDS = [
 ] as const;
 export type CourseSortField = (typeof COURSE_SORT_FIELDS)[number];
 
-/** How long an editor's save takes to reach the public catalogue (§17.5). */
-export const PUBLIC_CACHE_SECONDS = 60;
+/**
+ * How long an editor's save takes to reach the public catalogue (§17.5).
+ * Declared in `@/lib/cache-windows` so a unit test can read it without pulling
+ * Prisma and Auth.js into the test environment.
+ */
+export { PUBLIC_CACHE_SECONDS } from '@/lib/cache-windows';
 
 const courseIdSchema = z.string().min(1).max(64);
 

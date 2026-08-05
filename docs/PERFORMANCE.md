@@ -115,6 +115,22 @@ the first draft of `tests/e2e/header-account.spec.ts` set the cookie by hand, an
 the feature. It is also written **only when it changes**: a response carrying `Set-Cookie` is a
 hazard in front of a shared cache, so a returning visitor's request produces none.
 
+**Static rendering took freshness away, and it had to be given back.** These pages were dynamic,
+so they always reflected the database; the moment they prerendered, a course renamed in the
+database kept its old title on the homepage indefinitely. Verified by renaming one and watching
+the homepage go on serving the previous title. `app/[locale]/(public)/layout.tsx` now exports
+`revalidate = 60`, so the header is `s-maxage=60, stale-while-revalidate` — still a prerendered
+document from the edge, never more than a minute behind.
+
+That export **must be a literal**. `export const revalidate = PUBLIC_CACHE_SECONDS` reads better
+and does not build: Next evaluates segment config statically and fails the whole build with
+« can't recognize the exported `config` field », naming whichever route it reached first, which is
+a thoroughly misleading error for this mistake. `tests/unit/public-cache.test.ts` reads the literal
+back out of the source and fails if it drifts from the constant.
+
+The targeted `revalidatePath` calls in the admin actions still give an editor an instant update on
+the paths they name; the window is the floor under the ones nobody remembered to name.
+
 ### Result
 
 | Page | perf | FCP | LCP | main-thread |
