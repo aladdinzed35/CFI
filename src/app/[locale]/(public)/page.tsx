@@ -13,7 +13,6 @@ import { HomeMethod } from '@/components/public/home/method';
 import { HomePaths } from '@/components/public/home/paths';
 import { HomePricingBand } from '@/components/public/home/pricing-band';
 import { HomeProofs } from '@/components/public/home/proofs';
-import { getCurrentUser } from '@/server/auth';
 import { getHomeData } from '@/server/services/home';
 import { buildMetadata } from '@/lib/seo';
 import { isLocale, locales } from '@/i18n/routing';
@@ -74,9 +73,11 @@ export default async function HomePage({
 
   setRequestLocale(locale);
 
-  // The homepage is public: `getCurrentUser` returns null for a guest and must
-  // never be `requireUser`. It is read only to decide which CTA to show.
-  const [data, user] = await Promise.all([getHomeData(locale), getCurrentUser()]);
+  // No session read: the closing call to action ships both variants and CSS
+  // reveals one from `data-chrome`. Reading it here would make the homepage
+  // dynamic, uncacheable and ineligible for the back/forward cache — for one
+  // button label.
+  const data = await getHomeData(locale);
 
   return (
     <>
@@ -97,7 +98,6 @@ export default async function HomePage({
             ? null
             : `https://wa.me/${data.centre.whatsappNumber}`
         }
-        isSignedIn={user !== null}
       />
     </>
   );

@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { LocaleSwitcher } from '@/components/ui/locale-switcher';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { MobileNav, type PublicAccountLink, type PublicNavItem } from '@/components/public/mobile-nav';
+import { MobileNav, type PublicNavItem } from '@/components/public/mobile-nav';
 import { cn } from '@/lib/cn';
 import { Link, usePathname } from '@/i18n/navigation';
 
@@ -21,10 +21,20 @@ import { Link, usePathname } from '@/i18n/navigation';
  *
  * ## Why this is a client component
  * The scroll threshold, the locale menu, the theme toggle and the mobile sheet
- * are all interactive. What is *not* here is data: the brand strings and the
- * session-derived account link are resolved on the server by the public layout
- * and arrive as props, so no page pays for a database read on the client and the
- * header never renders a state the server did not already commit to.
+ * are all interactive. What is *not* here is data: the brand strings are
+ * resolved on the server by the public layout and arrive as props, so no page
+ * pays for a database read on the client.
+ *
+ * ## The account slot reads no session, on either side
+ * All three variants — the guest pair, the student link, the admin link — are
+ * in the markup, and CSS reveals one from the `data-chrome` attribute that
+ * `ThemeScript` writes before the first paint. Nothing is conditional at render
+ * time, which is precisely what lets every public page be prerendered: the
+ * layout above used to call `getCurrentUser()` for this one element and made
+ * the whole marketing site dynamic and uncacheable.
+ *
+ * Doing it with state and an effect instead would have been a flash of the
+ * wrong call to action, plus a layout shift when it corrected itself.
  *
  * ## Right-to-left
  * Every inset is logical (`ms-auto`, `ps-`, `pe-`), so the header mirrors
@@ -52,6 +62,17 @@ const NAV_ROUTES = [
 
 const SIGN_IN_HREF = '/connexion';
 const REGISTER_HREF = '/inscription';
+
+/**
+ * Where each signed-in variant points. Literal, because the session is no
+ * longer read to build them.
+ *
+ * `/espace` is right for every non-admin account regardless of status: it
+ * re-routes an unconfirmed e-mail or a pending approval to the screen that
+ * explains the wait (§9.1), so one link serves all of them.
+ */
+const STUDENT_HREF = '/espace';
+const ADMIN_HREF = '/admin';
 
 /** Scroll distance after which the header stops being transparent (§12.1). */
 const TRANSLUCENT_AFTER_PX = 24;
@@ -87,11 +108,6 @@ export interface SiteHeaderProps {
   readonly brandName: string;
   /** `SiteSetting['brand.fullName']` — the accessible name of the home link. */
   readonly brandFullName: string;
-  /**
-   * Where a signed-in visitor's own space is, already labelled. `null` for an
-   * anonymous visitor, who gets the two authentication calls to action instead.
-   */
-  readonly account: PublicAccountLink | null;
 }
 
 /** `true` when `href` is the current page or one of its descendants. */
@@ -102,7 +118,6 @@ function isActive(pathname: string, href: string): boolean {
 export function SiteHeader({
   brandName,
   brandFullName,
-  account,
 }: SiteHeaderProps): React.JSX.Element {
   const t = useTranslations();
   const pathname = usePathname();
@@ -187,22 +202,29 @@ export function SiteHeader({
             darkEnabledMessage={t('theme.dark')}
           />
 
-          {account === null ? (
-            <div className="hidden items-center gap-2 lg:flex">
+          {/* All three variants, one revealed by CSS from `data-chrome`. The
+              slot owns the responsive rule; the variants are `display: contents`
+              so switching never changes the box that rule applies to. */}
+          <div className="hidden items-center gap-2 lg:flex">
+            <span className="cfi-chrome-guest">
               <Button asChild variant="ghost" size="sm">
                 <Link href={SIGN_IN_HREF}>{t('nav.login')}</Link>
               </Button>
               <Button asChild variant="primary" size="sm">
                 <Link href={REGISTER_HREF}>{t('nav.register')}</Link>
               </Button>
-            </div>
-          ) : (
-            <div className="hidden items-center lg:flex">
+            </span>
+            <span className="cfi-chrome-student">
               <Button asChild variant="primary" size="sm">
-                <Link href={account.href}>{account.label}</Link>
+                <Link href={STUDENT_HREF}>{t('nav.dashboard')}</Link>
               </Button>
-            </div>
-          )}
+            </span>
+            <span className="cfi-chrome-admin">
+              <Button asChild variant="primary" size="sm">
+                <Link href={ADMIN_HREF}>{t('nav.admin')}</Link>
+              </Button>
+            </span>
+          </div>
 
           <MobileNav
             className="lg:hidden"
@@ -211,7 +233,10 @@ export function SiteHeader({
             closeLabel={t('a11y.closeMenu')}
             navLabel={t('a11y.mainNavigation')}
             title={brandName}
-            account={account}
+            studentLabel={t('nav.dashboard')}
+            studentHref={STUDENT_HREF}
+            adminLabel={t('nav.admin')}
+            adminHref={ADMIN_HREF}
             signInLabel={t('nav.login')}
             signInHref={SIGN_IN_HREF}
             registerLabel={t('nav.register')}

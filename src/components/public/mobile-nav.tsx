@@ -48,12 +48,6 @@ export interface PublicNavItem {
   readonly label: string;
 }
 
-/** The authenticated shortcut, or the pair of guest calls to action. */
-export interface PublicAccountLink {
-  readonly href: string;
-  readonly label: string;
-}
-
 export interface MobileNavProps {
   readonly items: readonly PublicNavItem[];
   /** Accessible name of the hamburger, e.g. « Ouvrir le menu ». */
@@ -64,8 +58,15 @@ export interface MobileNavProps {
   readonly navLabel: string;
   /** Title of the sheet — the brand name, never translated (§28.2). */
   readonly title: string;
-  /** Present when a session exists: replaces the two guest calls to action. */
-  readonly account: PublicAccountLink | null;
+  /**
+   * All three variants are rendered; CSS reveals one from the `data-chrome`
+   * attribute. Nothing here is conditional on the session, which is what keeps
+   * the public pages statically renderable.
+   */
+  readonly studentLabel: string;
+  readonly studentHref: string;
+  readonly adminLabel: string;
+  readonly adminHref: string;
   readonly signInLabel: string;
   readonly signInHref: string;
   readonly registerLabel: string;
@@ -85,7 +86,10 @@ export function MobileNav({
   closeLabel,
   navLabel,
   title,
-  account,
+  studentLabel,
+  studentHref,
+  adminLabel,
+  adminHref,
   signInLabel,
   signInHref,
   registerLabel,
@@ -164,47 +168,64 @@ export function MobileNav({
              the primary action flush against the bottom edge. */
           style={{ paddingBlockEnd: 'calc(1rem + env(safe-area-inset-bottom, 0px))' }}
         >
-          {account === null ? (
-            <>
-              <DrawerClose asChild>
-                <Link
-                  href={signInHref}
-                  className={cn(
-                    'inline-flex h-12 w-full items-center justify-center rounded-md px-5 text-body font-medium',
-                    'text-ink-muted transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
-                    'hover:bg-raised hover:text-ink',
-                  )}
-                >
-                  {signInLabel}
-                </Link>
-              </DrawerClose>
-              <DrawerClose asChild>
-                <Link
-                  href={registerHref}
-                  className={cn(
-                    'inline-flex h-12 w-full items-center justify-center rounded-md bg-strait px-5 text-body font-medium text-on-accent shadow-e1',
-                    'transition-[background-color,translate] duration-[120ms] ease-[var(--ease-out-strait)]',
-                    'hover:bg-strait/90 active:translate-y-px',
-                  )}
-                >
-                  {registerLabel}
-                </Link>
-              </DrawerClose>
-            </>
-          ) : (
+          {/* Same three variants as the desktop slot, revealed by the same
+              `data-chrome` rules. See `src/styles/globals.css`. */}
+          <span className="cfi-chrome-guest">
             <DrawerClose asChild>
               <Link
-                href={account.href}
+                href={signInHref}
+                className={cn(
+                  'inline-flex h-12 w-full items-center justify-center rounded-md px-5 text-body font-medium',
+                  'text-ink-muted transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
+                  'hover:bg-raised hover:text-ink',
+                )}
+              >
+                {signInLabel}
+              </Link>
+            </DrawerClose>
+            <DrawerClose asChild>
+              <Link
+                href={registerHref}
                 className={cn(
                   'inline-flex h-12 w-full items-center justify-center rounded-md bg-strait px-5 text-body font-medium text-on-accent shadow-e1',
                   'transition-[background-color,translate] duration-[120ms] ease-[var(--ease-out-strait)]',
                   'hover:bg-strait/90 active:translate-y-px',
                 )}
               >
-                {account.label}
+                {registerLabel}
               </Link>
             </DrawerClose>
-          )}
+          </span>
+
+          <span className="cfi-chrome-student">
+            <DrawerClose asChild>
+              <Link
+                href={studentHref}
+                className={cn(
+                  'inline-flex h-12 w-full items-center justify-center rounded-md bg-strait px-5 text-body font-medium text-on-accent shadow-e1',
+                  'transition-[background-color,translate] duration-[120ms] ease-[var(--ease-out-strait)]',
+                  'hover:bg-strait/90 active:translate-y-px',
+                )}
+              >
+                {studentLabel}
+              </Link>
+            </DrawerClose>
+          </span>
+
+          <span className="cfi-chrome-admin">
+            <DrawerClose asChild>
+              <Link
+                href={adminHref}
+                className={cn(
+                  'inline-flex h-12 w-full items-center justify-center rounded-md bg-strait px-5 text-body font-medium text-on-accent shadow-e1',
+                  'transition-[background-color,translate] duration-[120ms] ease-[var(--ease-out-strait)]',
+                  'hover:bg-strait/90 active:translate-y-px',
+                )}
+              >
+                {adminLabel}
+              </Link>
+            </DrawerClose>
+          </span>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

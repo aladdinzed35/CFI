@@ -103,11 +103,12 @@ export default async function middleware(request: NextRequest): Promise<NextResp
   if (segments === null) return localeResponse;
   const { locale, pathname } = segments;
 
-  const decision = evaluate(pathname, await readSession(request));
+  const session = await readSession(request);
+  const decision = evaluate(pathname, session);
 
   switch (decision.kind) {
     case 'allow':
-      return localeResponse;
+      return withChromeHint(localeResponse, session);
 
     case 'redirect': {
       const target = request.nextUrl.clone();
@@ -116,17 +117,78 @@ export default async function middleware(request: NextRequest): Promise<NextResp
       if (decision.withReturnTo) {
         target.searchParams.set(RETURN_TO_PARAM, `${pathname}${request.nextUrl.search}`);
       }
-      return carryCookies(NextResponse.redirect(target), localeResponse);
+      return withChromeHint(carryCookies(NextResponse.redirect(target), localeResponse), session);
     }
 
     case 'notFound': {
       const target = request.nextUrl.clone();
       target.pathname = withLocale(locale, `/${CLOAKED_SEGMENT}`);
       target.search = '';
-      return carryCookies(NextResponse.rewrite(target), localeResponse);
+      return withChromeHint(carryCookies(NextResponse.rewrite(target), localeResponse), session);
     }
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Chrome hint                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/** Which account link the public header shows. Not a permission. */
+const CHROME_COOKIE = 'cfi.chrome';
+
+/**
+ * Publish which of the three header variants to reveal, as a cookie the
+ * pre-paint bootstrap script can read.
+ *
+ * ## Why this exists
+ * `(public)/layout.tsx` used to call `getCurrentUser()` for one header link.
+ * Reading cookies on the server makes the whole route dynamic, so every public
+ * page was rendered per request and served `Cache-Control: no-store` — which is
+ * also the reason both of Lighthouse's back/forward-cache blockers fired. The
+ * marketing site could not be cached at an edge because of a link.
+ *
+ * Middleware already decrypts the token for the route policy, so the answer is
+ * free here. The page stays static and identical for everyone; the browser
+ * picks a variant from this cookie before the first paint.
+ *
+ * ## SECURITY — this is a display hint, never an authorisation
+ * Deliberately **not** `httpOnly`: the bootstrap script has to read it. It
+ * therefore carries no secret and no identifier — one of three fixed words,
+ * derived from a token the browser already holds. Forging it reveals nothing
+ * and grants nothing: `route-policy` still refuses the navigation and the page
+ * guards still refuse the render, so the worst outcome is a link that bounces
+ * its own author back to the login page.
+ *
+ * It is refreshed on every matched request rather than written at sign-in, so a
+ * sign-out, a role change or a stale value corrects itself on the next
+ * navigation instead of persisting until someone clears their cookies.
+ */
+function withChromeHint(response: NextResponse, session: PolicySession | null): NextResponse {
+  const value = session === null ? 'guest' : ADMIN_ROLES.has(session.role) ? 'admin' : 'student';
+
+  if (response.cookies.get(CHROME_COOKIE)?.value === value) return response;
+
+  response.cookies.set(CHROME_COOKIE, value, {
+    httpOnly: false,
+    sameSite: 'lax',
+    path: '/',
+    secure: isProduction(),
+    // Outlives a browsing session so a returning visitor's header is right on
+    // the very first paint. The session cookie remains the only thing that
+    // decides whether they are actually signed in.
+    maxAge: 60 * 60 * 24 * 30,
+  });
+  return response;
+}
+
+/**
+ * Mirrors `isAdmin()` in `server/auth/permissions.ts`, which cannot be imported
+ * here: it reaches the Prisma client, which has no business in the middleware
+ * bundle — the same reason `sessionCookieName()` is repeated above. If the role
+ * ladder changes, change it here in the same commit; the failure mode is
+ * cosmetic (an administrator offered the student link, which still works).
+ */
+const ADMIN_ROLES: ReadonlySet<string> = new Set(['ADMIN', 'SUPER_ADMIN']);
 
 /* -------------------------------------------------------------------------- */
 /* Session                                                                     */

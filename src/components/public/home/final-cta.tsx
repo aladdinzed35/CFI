@@ -23,13 +23,11 @@ import type { Locale } from '@/i18n/routing';
 export interface HomeFinalCtaProps {
   locale: Locale;
   whatsappUrl: string | null;
-  isSignedIn: boolean;
 }
 
 export async function HomeFinalCta({
   locale,
   whatsappUrl,
-  isSignedIn,
 }: HomeFinalCtaProps): Promise<React.JSX.Element> {
   const t = await getTranslations({ locale, namespace: 'home.finalCta' });
   const tNav = await getTranslations({ locale, namespace: 'publicNav' });
@@ -41,11 +39,19 @@ export async function HomeFinalCta({
         <p className="max-w-xl text-lead text-pretty text-ink-muted">{t('body')}</p>
 
         <div className="mt-2 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-          <Button asChild size="lg" iconEnd={<ArrowRight className="size-4 rtl:-scale-x-100" />}>
-            <Link href={isSignedIn ? AUTH_ROUTES.home : ROUTES.register}>
-              {isSignedIn ? tNav('dashboard') : t('primary')}
-            </Link>
-          </Button>
+          {/* Both variants ship; CSS reveals one from `data-chrome`, written
+              before the first paint. Reading the session here would make the
+              homepage dynamic — see `src/styles/globals.css`. */}
+          <span className="cfi-chrome-guest">
+            <Button asChild size="lg" iconEnd={<ArrowRight className="size-4 rtl:-scale-x-100" />}>
+              <Link href={ROUTES.register}>{t('primary')}</Link>
+            </Button>
+          </span>
+          <span className="cfi-chrome-account">
+            <Button asChild size="lg" iconEnd={<ArrowRight className="size-4 rtl:-scale-x-100" />}>
+              <Link href={AUTH_ROUTES.home}>{tNav('dashboard')}</Link>
+            </Button>
+          </span>
 
           {whatsappUrl === null ? null : (
             <Button asChild variant="secondary" size="lg">

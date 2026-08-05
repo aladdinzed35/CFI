@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { SiteFooter } from '@/components/public/site-footer';
 import { SiteHeader } from '@/components/public/site-header';
 import { WhatsAppFab } from '@/components/ui/whatsapp-fab';
-import { getCurrentUser, isAdmin, AUTH_ROUTES } from '@/server/auth';
+
 import { getPublicChrome } from '@/server/services/public-chrome';
 import { isLocale } from '@/i18n/routing';
 
@@ -16,12 +16,21 @@ import { isLocale } from '@/i18n/routing';
  * four-column footer, and the floating WhatsApp button. A public page below this
  * layout writes its own `<h1>` and nothing else about the chrome.
  *
- * ## Anonymous first
- * Every read here tolerates "no session". `getCurrentUser()` returns `null` for
- * a guest — it never redirects — because these pages exist precisely for people
- * who have no account yet. The only thing a session changes is the pair of
- * calls to action in the header, which collapses into a single link to the
- * visitor's own space.
+ * ## This layout reads no session, and that is the point
+ * It used to call `getCurrentUser()` to decide one header link. Reading cookies
+ * on the server opts the entire route out of static generation, so every public
+ * page — the homepage, the catalogue, the legal pages — was rendered per
+ * request and served `Cache-Control: no-store`, which is also what blocked the
+ * back/forward cache. Eight routes in the whole build were prerendered.
+ *
+ * The header now ships all three account variants and reveals one from a
+ * `data-chrome` attribute written before the first paint (`ThemeScript`, fed by
+ * a display-only cookie from the middleware). Nothing here is per-visitor, so
+ * these pages prerender and can be served from an edge.
+ *
+ * Anything genuinely per-visitor still reads the session in its own page — the
+ * course page's call to action, for instance, which legitimately depends on
+ * whether you are already enrolled.
  *
  * ## Where the data comes from
  * One call, `getPublicChrome(locale)`, resolves the brand strings, the contact
@@ -49,32 +58,13 @@ export default async function PublicLayout({
 
   setRequestLocale(locale);
 
-  const [chrome, user, t] = await Promise.all([
-    getPublicChrome(locale),
-    getCurrentUser(),
-    getTranslations({ locale }),
-  ]);
-
-  // A signed-in visitor gets one link instead of two calls to action. An
-  // administrator is sent to the administration panel, everybody else to the
-  // student space — which itself routes accounts that are still waiting for
-  // their e-mail confirmation or for approval to the right screen (§9.1).
-  const account =
-    user === null
-      ? null
-      : isAdmin(user.role)
-        ? { href: '/admin', label: t('nav.admin') }
-        : { href: AUTH_ROUTES.home, label: t('nav.dashboard') };
+  const [chrome, t] = await Promise.all([getPublicChrome(locale), getTranslations({ locale })]);
 
   const whatsappMessage = t('whatsapp.prefillGeneric');
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <SiteHeader
-        brandName={chrome.brandName}
-        brandFullName={chrome.brandFullName}
-        account={account}
-      />
+      <SiteHeader brandName={chrome.brandName} brandFullName={chrome.brandFullName} />
 
       <main id="contenu" className="flex-1">
         {children}

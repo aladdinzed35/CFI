@@ -468,6 +468,53 @@
     -webkit-backdrop-filter: blur(14px) saturate(140%);
   }
 
+  /* ──────────────────────────────────────────────────────────────────────────
+     The public header's account slot.
+
+     All three variants ship in the HTML and CSS reveals one, keyed off the
+     `data-chrome` attribute the bootstrap script writes before the first paint.
+     That is what lets the public pages be statically rendered: the server no
+     longer reads the session to decide this, so the pages stop being dynamic
+     and stop being served `no-store`.
+
+     `display: contents` rather than `block`, so the revealed variant does not
+     introduce a box — the buttons stay direct flex children of the slot that
+     owns the responsive `hidden lg:flex`, and the responsive behaviour is
+     untouched by the switching.
+
+     Default, with no attribute (first visit, JS disabled, cookies blocked): the
+     guest calls to action. Anonymous is the honest fallback on a marketing
+     page, and the account link would be a lie for the visitor who cannot be
+     identified.
+     ────────────────────────────────────────────────────────────────────────── */
+  .cfi-chrome-guest {
+    display: contents;
+  }
+
+  .cfi-chrome-student,
+  .cfi-chrome-admin,
+  .cfi-chrome-account {
+    display: none;
+  }
+
+  [data-chrome='student'] .cfi-chrome-guest,
+  [data-chrome='admin'] .cfi-chrome-guest {
+    display: none;
+  }
+
+  [data-chrome='student'] .cfi-chrome-student,
+  [data-chrome='admin'] .cfi-chrome-admin {
+    display: contents;
+  }
+
+  /* « Signed in, either role » — for places that offer one link to your own
+     space without caring which panel it opens, like the homepage's closing
+     call to action. */
+  [data-chrome='student'] .cfi-chrome-account,
+  [data-chrome='admin'] .cfi-chrome-account {
+    display: contents;
+  }
+
   /* Anything that must stay LTR inside Arabic text: RIB, IBAN, references,
      phone numbers, emails, code, timers (§10.3). */
   .force-ltr {
