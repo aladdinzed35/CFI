@@ -3081,7 +3081,14 @@
         "submitted": "أُرسل الطلب",
         "receiptReceived": "تم استلام إشعار التحويل",
         "verification": "التحقق جارٍ",
-        "activated": "الولوج مفعّل"
+        "activated": "الولوج مفعّل",
+        "state": {
+          "done": "منتهية",
+          "current": "جارية",
+          "pending": "قادمة",
+          "warning": "تتطلب انتباهًا",
+          "error": "متوقفة"
+        }
       },
       "card": {
         "referenceLabel": "المرجع",

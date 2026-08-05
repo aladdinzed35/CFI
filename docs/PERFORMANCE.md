@@ -81,46 +81,56 @@ and does not fail the build — it throws `MISSING_MESSAGE` in the browser, on t
 needed it. `npm run messages:check` walks the import graph from every `'use client'` entry point
 and checks each against the provider that wraps it.
 
+### The public pages were not statically rendered
+
+The project described itself as shipping 142 static pages. It shipped **8**:
+
+```
+node -e "console.log(Object.keys(require('./.next/prerender-manifest.json').routes).length)"
+```
+
+`(public)/layout.tsx` called `getCurrentUser()` to decide one header link, and the homepage called
+it again for one button label. Reading cookies on the server opts the whole route out of static
+generation, so every marketing page was rendered per request and served `Cache-Control: private,
+no-cache, no-store` — which is also, exactly, **both** of the back/forward-cache blockers
+Lighthouse reported.
+
+The header now ships all three account variants and CSS reveals one from a `data-chrome` attribute
+written before the first paint, fed by a display-only cookie the middleware publishes. Middleware
+already decrypts the token for the route policy, so the answer costs nothing there.
+
+Doing it with state and an effect would have been a flash of the wrong call to action plus a
+layout shift when it corrected itself. `display: contents` on the variants keeps the responsive
+`hidden lg:flex` rule applying to the same box either way, so nothing moves.
+
+```
+Cache-Control   private, no-cache, no-store  →  s-maxage=31536000
+prerendered     8 routes                     →  56
+bf-cache        2 blockers                   →  pass
+```
+
+**The hint cannot be forged into a permission.** The middleware re-derives it from the real
+session on every matched request, so a hand-set value is corrected before the document is parsed —
+the first draft of `tests/e2e/header-account.spec.ts` set the cookie by hand, and its failure was
+the feature. It is also written **only when it changes**: a response carrying `Set-Cookie` is a
+hazard in front of a shared cache, so a returning visitor's request produces none.
+
 ### Result
 
-| Page | perf | FCP | LCP | main-thread | bootup |
-| --- | --- | --- | --- | --- | --- |
-| `/fr` | 59–63 | 2.3 → **1.9 s** | 4.8 → 4.9 s | 5.7 → **4.3 s** | 1.9 → **1.7 s** |
-| `/fr/formations` | 70 | 2.3 → **1.9 s** | 5.1 → **4.6 s** | — | — |
-| `/fr/formations/[slug]` | **71** | 2.1 → **1.7 s** | 4.8 → **4.1 s** | — | — |
+| Page | perf | FCP | LCP | main-thread |
+| --- | --- | --- | --- | --- |
+| `/fr` | 63 → **66** (median of 3) | 2.3 → **1.7 s** | 4.8 → **4.3 s** | 5.7 → **4.3 s** |
+| `/fr/tarifs` | → **78** | → **1.6 s** | → **4.1 s** | → **2.6 s** |
+| `/fr/formations/[slug]` | 67 → **71** | 2.1 → **1.7 s** | 4.8 → **4.1 s** | — |
+
+`/fr` still varies between 56 and 69 across runs on this machine. Believe the median, and believe
+FCP and main-thread time over the composite.
 
 ---
 
 ## Still owed
 
-### 1. Public pages are not statically rendered — the largest structural lever
-
-The project describes itself as shipping 142 static pages. It does not. Only **8 routes** are
-prerendered:
-
-```
-node -e "console.log(Object.keys(require('./.next/prerender-manifest.json').routes))"
-```
-
-Everything else is server-rendered per request, which is why the homepage is served
-`Cache-Control: private, no-cache, no-store` and why **both** back/forward-cache blockers
-Lighthouse reports are the same one: `no-store`.
-
-**Root cause, precisely:** `src/app/[locale]/(public)/layout.tsx` calls `getCurrentUser()`. That
-reads cookies, which opts every page under `(public)` out of static generation. The only thing it
-affects is a single header element — a signed-in visitor gets one link to their space instead of
-the two anonymous calls to action.
-
-Measured cost of the dynamic render itself is small in the lab (TTFB ≈ 90 ms warm versus ≈ 16 ms
-for a prerendered route). The real cost is in production: a static page can be served from a CDN
-edge, a dynamic one cannot, and bfcache is worth more on mobile than any lab metric.
-
-**Why it is not done here:** the fix is to resolve that header slot on the client, and the two
-honest options both carry a visual risk — a flash of the wrong call to action, or a layout shift
-that would cost the current CLS of 0. Neither can be judged without looking at the page. Do this
-one with a browser open.
-
-### 2. Main-thread work, ~4.3 s under 4× throttle
+### 1. Main-thread work, ~4.3 s under 4× throttle
 
 The dominant remaining term. Contributors, measured:
 
@@ -129,7 +139,7 @@ The dominant remaining term. Contributors, measured:
   page's own server-rendered tree.
 - **Style & layout ≈ 1.8 s**, driven by DOM size.
 
-### 3. DOM size — 1 484 elements on `/fr` (Lighthouse flags > 1 400)
+### 2. DOM size — 1 484 elements on `/fr` (Lighthouse flags > 1 400)
 
 Attributed by section:
 
@@ -149,7 +159,7 @@ would generalise it, at the price of a design-system-wide change.
 Trimming *sections* is a product decision and out of scope. Trimming *elements per unit of
 content* is not.
 
-### 4. The hero entrance animation costs ~0.4 s of LCP
+### 3. The hero entrance animation costs ~0.4 s of LCP
 
 `src/components/public/home/hero.tsx` reveals the hero with
 `animation: cfi-hero-mask 620ms … both` and a per-step delay, starting from `opacity: 0` and

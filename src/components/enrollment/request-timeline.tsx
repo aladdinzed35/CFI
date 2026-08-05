@@ -116,5 +116,22 @@ export function RequestTimeline({
     },
   ];
 
-  return <Timeline nodes={nodes} label={t('label')} className={className} />;
+  return (
+    <Timeline
+      nodes={nodes}
+      label={t('label')}
+      className={className}
+      /* Without these the state of a step is carried by colour and an
+         aria-hidden glyph alone — `aria-current` marks only the node in
+         progress, so a screen-reader user could not tell a finished step from
+         one still to come (WCAG 1.4.1). */
+      stateLabels={{
+        done: t('state.done'),
+        current: t('state.current'),
+        pending: t('state.pending'),
+        warning: t('state.warning'),
+        error: t('state.error'),
+      }}
+    />
+  );
 }

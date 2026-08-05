@@ -3081,7 +3081,14 @@
         "submitted": "Request sent",
         "receiptReceived": "Receipt received",
         "verification": "Verification in progress",
-        "activated": "Access activated"
+        "activated": "Access activated",
+        "state": {
+          "done": "done",
+          "current": "in progress",
+          "pending": "upcoming",
+          "warning": "needs attention",
+          "error": "blocked"
+        }
       },
       "card": {
         "referenceLabel": "Reference",

@@ -3081,7 +3081,14 @@
         "submitted": "Solicitud enviada",
         "receiptReceived": "Justificante recibido",
         "verification": "Verificación en curso",
-        "activated": "Acceso activado"
+        "activated": "Acceso activado",
+        "state": {
+          "done": "completado",
+          "current": "en curso",
+          "pending": "pendiente",
+          "warning": "requiere atención",
+          "error": "bloqueado"
+        }
       },
       "card": {
         "referenceLabel": "Referencia",

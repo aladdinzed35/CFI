@@ -988,7 +988,22 @@ function History({ review }: { review: RequestReviewView }): React.JSX.Element |
     ...(event.message === null ? {} : { description: event.message }),
   }));
 
-  return <Timeline nodes={nodes} label={tRoot('enrollment.status.timeline.label')} />;
+  return (
+    <Timeline
+      nodes={nodes}
+      label={tRoot('enrollment.status.timeline.label')}
+      /* Same reason as the student's own card: the glyph is aria-hidden, so
+         without a state word the timeline reads as a flat list of events
+         (WCAG 1.4.1). */
+      stateLabels={{
+        done: tRoot('enrollment.status.timeline.state.done'),
+        current: tRoot('enrollment.status.timeline.state.current'),
+        pending: tRoot('enrollment.status.timeline.state.pending'),
+        warning: tRoot('enrollment.status.timeline.state.warning'),
+        error: tRoot('enrollment.status.timeline.state.error'),
+      }}
+    />
+  );
 }
 
 /** The four §2066 signals, repeated where the decision is taken. */

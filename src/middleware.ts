@@ -108,7 +108,7 @@ export default async function middleware(request: NextRequest): Promise<NextResp
 
   switch (decision.kind) {
     case 'allow':
-      return withChromeHint(localeResponse, session);
+      return withChromeHint(request, localeResponse, session);
 
     case 'redirect': {
       const target = request.nextUrl.clone();
@@ -117,14 +117,14 @@ export default async function middleware(request: NextRequest): Promise<NextResp
       if (decision.withReturnTo) {
         target.searchParams.set(RETURN_TO_PARAM, `${pathname}${request.nextUrl.search}`);
       }
-      return withChromeHint(carryCookies(NextResponse.redirect(target), localeResponse), session);
+      return withChromeHint(request, carryCookies(NextResponse.redirect(target), localeResponse), session);
     }
 
     case 'notFound': {
       const target = request.nextUrl.clone();
       target.pathname = withLocale(locale, `/${CLOAKED_SEGMENT}`);
       target.search = '';
-      return withChromeHint(carryCookies(NextResponse.rewrite(target), localeResponse), session);
+      return withChromeHint(request, carryCookies(NextResponse.rewrite(target), localeResponse), session);
     }
   }
 }
@@ -159,14 +159,32 @@ const CHROME_COOKIE = 'cfi.chrome';
  * guards still refuse the render, so the worst outcome is a link that bounces
  * its own author back to the login page.
  *
- * It is refreshed on every matched request rather than written at sign-in, so a
- * sign-out, a role change or a stale value corrects itself on the next
- * navigation instead of persisting until someone clears their cookies.
+ * It is re-derived on every matched request rather than written once at
+ * sign-in, so a sign-out, a role change or a hand-edited value corrects itself
+ * on the next navigation instead of persisting until someone clears their
+ * cookies.
+ *
+ * ## …but only WRITTEN when it changes
+ * The public pages are prerendered and answer `s-maxage=31536000`. A response
+ * that also carries `Set-Cookie` is a hazard in front of a shared cache: some
+ * CDNs decline to store it, others store it and hand one visitor's header hint
+ * to the next. Comparing against the REQUEST's cookie means the header appears
+ * only on the handful of navigations where the answer actually changed — sign
+ * in, sign out, a role change, a first visit — and every other response stays
+ * plainly cacheable.
+ *
+ * The first version of this compared against `response.cookies`, which is the
+ * set of cookies being *written* and is therefore always empty here. It looked
+ * correct and re-sent the cookie on every single request.
  */
-function withChromeHint(response: NextResponse, session: PolicySession | null): NextResponse {
+function withChromeHint(
+  request: NextRequest,
+  response: NextResponse,
+  session: PolicySession | null,
+): NextResponse {
   const value = session === null ? 'guest' : ADMIN_ROLES.has(session.role) ? 'admin' : 'student';
 
-  if (response.cookies.get(CHROME_COOKIE)?.value === value) return response;
+  if (request.cookies.get(CHROME_COOKIE)?.value === value) return response;
 
   response.cookies.set(CHROME_COOKIE, value, {
     httpOnly: false,
