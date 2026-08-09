@@ -59,10 +59,22 @@ browser at runtime, anything needing Redis or a second process.
 git clone https://github.com/aladdinzed35/CFI.git && cd CFI
 cp .env.example .env                       # then set DATABASE_URL and AUTH_SECRET
 npm install --ignore-scripts && npx prisma generate
+docker compose up -d                       # MySQL 8.4 on 3307 + Mailpit on 8025
 npm run db:migrate                         # creates the schema
 npm run db:seed                            # realistic French demo data
 npm run dev                                # http://localhost:3000 → redirects to /fr
 ```
+
+Two things worth knowing before the first run:
+
+- **MySQL listens on 3307, not 3306.** `docker-compose.yml` moves it deliberately, because a
+  developer machine running XAMPP already has 3306 taken and the resulting failure — connecting to
+  the *wrong* MySQL — is far more confusing than a refused connection. Point `DATABASE_URL` at
+  `localhost:3307`.
+- **Never run `npm run dev` over a `next build` output.** The two write incompatible manifests into
+  `.next/`, and the symptom is a 500 with `SyntaxError: Unexpected end of JSON input` on whichever
+  route compiles first — which looks like an application bug and is not one. `rm -rf .next` and
+  restart. (Going the other way, `build` then `start`, is fine.)
 
 Notes:
 
@@ -72,30 +84,35 @@ Notes:
 - `--ignore-scripts` then an explicit `prisma generate` — see
   [`docs/DECISIONS.md`](docs/DECISIONS.md#2026-07-25--bootstrap-with-npm-install---ignore-scripts-plus-an-explicit-prisma-generate).
   On a normal `npm ci` in CI or on the host, the `postinstall` hook runs `prisma generate` for you.
-- MySQL 8 is required locally. Docker one-liner:
-  `docker run -d --name cfi-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=cfi -p 3306:3306 mysql:8`
-- `AI_ENABLED=false` and `EMBEDDINGS_PROVIDER=local` in `.env.example`, so the whole app —
-  including seeding the assistant's knowledge base — works without a single API key.
+- `docker compose up -d` brings up MySQL 8.4 **and** Mailpit. Every e-mail the app sends in
+  development is captured at <http://localhost:8025> instead of being delivered — that is where you
+  read the verification links, the enrolment receipts and the approval notices.
+- `AI_PROVIDER=none` in `.env.example`, so the whole app — including seeding the assistant's
+  knowledge base — works without a single API key.
 - Brand font binaries are not in the repo (licensed). Their absence is harmless: every
   `@font-face` in `src/styles/globals.css` sits on top of a real fallback stack, so the app renders
   correctly with system faces until `public/fonts/` is filled.
 
 ## Seeded demo accounts
 
-The seed is idempotent (`upsert` by natural key) and prints this table when it finishes. Every
-seeded account shares the same password, `Cfi-demo-2026`, overridable with `SEED_PASSWORD`.
+The seed is idempotent (`upsert` by natural key). Passwords are **per role**, not shared — these
+are the literals in `prisma/seed.ts`, verified against the seeded database.
 
-| Email | Role | Account status | What it demonstrates |
-|---|---|---|---|
-| `admin@cfi.ma` | `SUPER_ADMIN` | `ACTIVE` | Full admin panel, settings, bank details, role management |
-| `direction@cfi.ma` | `ADMIN` | `ACTIVE` | Daily operations without super-admin powers |
-| `formateur1@cfi.ma` | `INSTRUCTOR` | `ACTIVE` | Authoring, grading, moderating own courses |
-| `formateur2@cfi.ma` | `INSTRUCTOR` | `ACTIVE` | A second instructor for the ownership checks |
-| `etudiant1@cfi.ma` | `STUDENT` | `ACTIVE` | Enrolled, mid-progress, notes and bookmarks |
-| `etudiant2@cfi.ma` | `STUDENT` | `ACTIVE` | 100 % complete, certificate issued |
-| `etudiant3@cfi.ma` | `STUDENT` | `PENDING_APPROVAL` | The waiting screen and the admin validation queue |
-| `etudiant4@cfi.ma` | `STUDENT` | `REJECTED` | Rejection copy and the re-apply path |
-| `etudiant5@cfi.ma` | `STUDENT` | `SUSPENDED` | Suspension handling in the middleware |
+| Email | Password | Role | Status | What it demonstrates |
+|---|---|---|---|---|
+| `admin@cfi.ma` | `Cfi!SuperAdmin2026` | `SUPER_ADMIN` | `ACTIVE` | Every admin panel, settings, bank details, roles |
+| `gestion@cfi.ma` | `Cfi!Gestion2026` | `ADMIN` | `ACTIVE` | Daily operations without super-admin powers |
+| `karim.tazi@cfi.ma` | `Cfi!Formateur2026` | `INSTRUCTOR` | `ACTIVE` | Authoring and moderating own courses |
+| `nadia.ouazzani@cfi.ma` | `Cfi!Formateur2026` | `INSTRUCTOR` | `ACTIVE` | A second instructor, for the ownership checks |
+| `imane.chraibi@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `ACTIVE` | Enrolled, mid-progress |
+| `mehdi.berrada@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `ACTIVE` | A second active student |
+| `yasmine.kadiri@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `PENDING_APPROVAL` | The waiting screen and the admin validation queue |
+| `bilal.moutaouakil@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `PENDING_EMAIL` | The unconfirmed-address path |
+| `soukaina.rhalmi@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `REJECTED` | Rejection copy and the re-apply path |
+| `hamza.lemseffer@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `SUSPENDED` | Suspension handling in the middleware |
+
+Seventeen accounts are seeded in total; the rest are additional `ACTIVE` students that give the
+catalogue realistic enrolment and review counts. `npm run db:studio` lists them all.
 
 > **Production:** log in as `admin@cfi.ma` once, change the password immediately, then fill the real
 > settings (bank details, WhatsApp, contact) from `/admin/reglages`. The seeded bank details are
@@ -109,7 +126,7 @@ seeded account shares the same password, `Cfi-demo-2026`, overridable with `SEED
 |---|---|---|
 | `dev` | `next dev` | Development server on `PORT` (3000 by default) |
 | `build` | `prisma generate && next build` | Production build. Migrations are **not** run here — see below |
-| `start` | `next start -p ${PORT:-3000}` | The single long-lived process Hostinger starts |
+| `start` | `next start` | The single long-lived process Hostinger starts. Needs `build` first |
 | `postinstall` | `prisma generate` | Keeps the client in sync after any install |
 | `db:migrate` | `prisma migrate dev` | Create and apply a migration in development |
 | `db:deploy` | `prisma migrate deploy` | Apply pending migrations — the deploy step on Hostinger |
@@ -120,8 +137,12 @@ seeded account shares the same password, `Cfi-demo-2026`, overridable with `SEED
 | `test` | `vitest run` | Unit and integration |
 | `test:watch` | `vitest` | Same, watching |
 | `test:e2e` | `playwright test` | End-to-end, every locale, mobile and desktop |
-| `i18n:check` | `tsx scripts/check-i18n.ts` | Asserts `fr`/`ar`/`en`/`es` have identical key sets |
+| `verify` | all of the below + `typecheck`, `lint`, `test` | **The whole gate in one command** |
+| `i18n:check` | `check-i18n.ts && check-i18n-usage.ts` | Identical key sets across `fr`/`ar`/`en`/`es`, and every key a component asks for exists |
 | `rtl:check` | `tsx scripts/check-rtl.ts` | Fails on `ml-` `mr-` `pl-` `pr-` `left-` `right-` `text-left` `text-right` |
+| `routes:check` | `tsx scripts/check-routes.ts` | Every declared route constant resolves against the App Router |
+| `boundary:check` | `tsx scripts/check-client-boundary.ts` | No `'use client'` bundle reaches Prisma, even transitively |
+| `messages:check` | `tsx scripts/check-client-messages.ts` | No client component can ask for a namespace its provider withholds |
 | `reindex` | `tsx scripts/reindex.ts` | Rebuild the assistant's knowledge base |
 
 `prisma migrate deploy` is deliberately **outside** `build`: Hostinger's build step may not be able
