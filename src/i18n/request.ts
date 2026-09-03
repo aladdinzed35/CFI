@@ -15,7 +15,7 @@ import { defaultLocale, isLocale, type Locale } from './routing';
  *    so a key that has not been translated yet renders in French instead of
  *    crashing the page.
  *
- * The centre is in Tanger: every server-rendered date and time is formatted in
+ * The centre is in Meknès: every server-rendered date and time is formatted in
  * `Africa/Casablanca`, whatever the timezone of the host.
  */
 const timeZone = 'Africa/Casablanca';

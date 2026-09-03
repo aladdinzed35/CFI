@@ -1,6 +1,6 @@
 # CFI — Centre de Formation Immersive
 
-The digital arm of a real training centre in Tanger, Morocco. Not a marketplace: a single
+The digital arm of a real training centre in Meknès, Morocco. Not a marketplace: a single
 institution's e-learning platform, where accounts are validated by hand, access is paid for by
 bank transfer and verified by a human, and the courses are the centre's own.
 
@@ -111,7 +111,7 @@ are the literals in `prisma/seed.ts`, verified against the seeded database.
 | `soukaina.rhalmi@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `REJECTED` | Rejection copy and the re-apply path |
 | `hamza.lemseffer@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `SUSPENDED` | Suspension handling in the middleware |
 
-Seventeen accounts are seeded in total; the rest are additional `ACTIVE` students that give the
+Sixteen accounts are seeded in total; the rest are additional `ACTIVE` students that give the
 catalogue realistic enrolment and review counts. `npm run db:studio` lists them all.
 
 > **Production:** log in as `admin@cfi.ma` once, change the password immediately, then fill the real

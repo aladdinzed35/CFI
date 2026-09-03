@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
  * both matter here:
  *
  *  · Cost. The embed pulls several hundred kilobytes of third-party script. On
- *    a mid-range Android over 4G in Tanger — the device §21 sets the budget
+ *    a mid-range Android over 4G in Meknès — the device §21 sets the budget
  *    against — that is the difference between passing and failing Lighthouse.
  *  · Consent. Loading it sets Google cookies. Doing that to someone who never
  *    asked to see a map is exactly the "no third-party script the visitor did

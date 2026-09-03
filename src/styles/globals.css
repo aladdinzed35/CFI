@@ -2,8 +2,11 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CFI — Design system « Le Détroit »
-   Tangier, where two seas meet. An instrument panel for learning:
-   dark, calm, exact, with light used as information.
+   An instrument panel for learning: dark, calm, exact, with light used as
+   information. The name is the palette's own, not a claim about geography —
+   the centre is in Meknès, inland on the Saïss plain. Every token below is
+   still named `strait`, and renaming them would touch several hundred class
+   usages for no visible gain.
 
    Rule: no raw hex in components. Everything reads from these tokens.
    Dark is the default theme; light is a first-class, fully tested theme.

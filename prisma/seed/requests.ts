@@ -542,7 +542,7 @@ export async function seedRequests(tx: Prisma.TransactionClient): Promise<Reques
         issuer: {
           brandName: 'CFI',
           fullName: 'Centre de Formation Immersive',
-          address: 'Tanger, Maroc — À COMPLÉTER',
+          address: 'Meknès, Maroc — À COMPLÉTER',
           email: 'contact@cfi.ma',
           phone: '+212600000000',
           legalLines: [],

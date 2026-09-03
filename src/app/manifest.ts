@@ -19,7 +19,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'CFI — Centre de Formation Immersive',
     short_name: 'CFI',
     description:
-      'Formations immersives du Centre de Formation Immersive de Tanger : cours vidéo, exercices et suivi de progression.',
+      'Formations immersives du Centre de Formation Immersive de Meknès : cours vidéo, exercices et suivi de progression.',
     start_url: '/fr',
     scope: '/',
     display: 'standalone',

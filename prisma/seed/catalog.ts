@@ -1,7 +1,7 @@
 /**
  * CFI — catalogue seed (spec §23, §7).
  *
- * Twelve formations a Tanger training centre could actually run tomorrow:
+ * Twelve formations a Meknès training centre could actually run tomorrow:
  * ten published, two still in preparation, spread over the six categories the
  * main seed creates. Every course carries its four locales (fr source, ar, en,
  * es), a real programme of modules and lessons, two or three preview lessons,
@@ -198,9 +198,9 @@ const COURSES: readonly SeedCourse[] = [
           'Savoir utiliser un ordinateur et naviguer sur Internet',
           'Un projet ou une activité réelle sur laquelle travailler',
         ],
-        seoTitle: 'Formation marketing digital à Tanger — les fondations',
+        seoTitle: 'Formation marketing digital à Meknès — les fondations',
         seoDescription:
-          'Formation marketing digital pour débutants à Tanger : offre, audience, réseaux sociaux, publicité en ligne et mesure des résultats. En centre et à distance.',
+          'Formation marketing digital pour débutants à Meknès : offre, audience, réseaux sociaux, publicité en ligne et mesure des résultats. En centre et à distance.',
       },
       ar: {
         title: 'التسويق الرقمي: الأسس',
@@ -223,9 +223,9 @@ const COURSES: readonly SeedCourse[] = [
           'إتقان استعمال الحاسوب والتصفح على الإنترنت',
           'مشروع أو نشاط حقيقي للاشتغال عليه',
         ],
-        seoTitle: 'تكوين في التسويق الرقمي بطنجة — الأسس',
+        seoTitle: 'تكوين في التسويق الرقمي بمكناس — الأسس',
         seoDescription:
-          'دورة تدريبية في التسويق الرقمي للمبتدئين بطنجة: العرض، الجمهور، الشبكات الاجتماعية، الإعلانات الرقمية وقياس النتائج. حضورياً وعن بعد.',
+          'دورة تدريبية في التسويق الرقمي للمبتدئين بمكناس: العرض، الجمهور، الشبكات الاجتماعية، الإعلانات الرقمية وقياس النتائج. حضورياً وعن بعد.',
       },
       en: {
         title: 'Digital marketing: the foundations',
@@ -248,9 +248,9 @@ const COURSES: readonly SeedCourse[] = [
           'Comfortable with a computer and browsing the web',
           'A real project or business to work on',
         ],
-        seoTitle: 'Digital marketing training in Tanger — the foundations',
+        seoTitle: 'Digital marketing training in Meknès — the foundations',
         seoDescription:
-          'Beginner digital marketing training in Tanger: offer, audience, social media, online advertising and measuring results. On site and online.',
+          'Beginner digital marketing training in Meknès: offer, audience, social media, online advertising and measuring results. On site and online.',
       },
       es: {
         title: 'Marketing digital: los fundamentos',
@@ -273,9 +273,9 @@ const COURSES: readonly SeedCourse[] = [
           'Saber usar un ordenador y navegar por Internet',
           'Un proyecto o una actividad real sobre la que trabajar',
         ],
-        seoTitle: 'Formación en marketing digital en Tánger — los fundamentos',
+        seoTitle: 'Formación en marketing digital en Meknès — los fundamentos',
         seoDescription:
-          'Formación de marketing digital para principiantes en Tánger: oferta, público, redes sociales, publicidad en línea y medición de resultados. Presencial y en línea.',
+          'Formación de marketing digital para principiantes en Meknès: oferta, público, redes sociales, publicidad en línea y medición de resultados. Presencial y en línea.',
       },
     },
     modules: [
@@ -333,10 +333,10 @@ const COURSES: readonly SeedCourse[] = [
           },
           {
             title: {
-              fr: 'Étude de cas : une boutique de Tanger en six mois',
-              ar: 'دراسة حالة: محل بطنجة في ستة أشهر',
-              en: 'Case study: a Tanger shop over six months',
-              es: 'Caso práctico: una tienda de Tánger en seis meses',
+              fr: 'Étude de cas : une boutique de Meknès en six mois',
+              ar: 'دراسة حالة: محل بمكناس في ستة أشهر',
+              en: 'Case study: a Meknès shop over six months',
+              es: 'Caso práctico: una tienda de Meknès en seis meses',
             },
             type: LessonType.VIDEO,
             minutes: 18,
@@ -522,10 +522,10 @@ const COURSES: readonly SeedCourse[] = [
             minutes: 14,
             isPreview: true,
             content: {
-              fr: "## Être trouvé quand on vous cherche à côté de chez vous\n\nLa majorité des recherches qui mènent à un achat sont locales : « coiffeur Tanger », « imprimerie près de moi », « cours d'anglais Malabata ». Trois choses pèsent, dans cet ordre :\n\n- **La fiche Google Business** : complète, avec les vraies horaires, des photos récentes et une catégorie exacte.\n- **Les avis** : leur nombre, leur fraîcheur, et le fait que vous répondiez — y compris aux avis négatifs, calmement.\n- **La cohérence de vos coordonnées** : le même nom, la même adresse et le même numéro partout où vous êtes cité.\n\nCe travail ne coûte rien d'autre que du temps, et il produit des demandes pendant des années. Faites-le avant d'ouvrir un compte publicitaire.",
-              ar: '## أن تُوجَدوا حين يبحث عنكم الناس بجواركم\n\nأغلب عمليات البحث المؤدية إلى شراء هي بحث محلي: «حلاق طنجة»، «مطبعة قربي»، «دروس الإنجليزية مالاباطا». ثلاثة عناصر تزن، بهذا الترتيب:\n\n- **بطاقة Google Business**: كاملة، بأوقات عمل حقيقية، وصور حديثة، وفئة دقيقة.\n- **الآراء**: عددها، وحداثتها، وكونكم تردّون عليها — بما فيها السلبية، بهدوء.\n- **انسجام معطياتكم**: نفس الاسم ونفس العنوان ونفس الرقم في كل مكان تُذكرون فيه.\n\nهذا العمل لا يكلّف سوى الوقت، وينتج طلبات لسنوات. أنجزوه قبل فتح حساب إعلاني.',
-              en: '## Being found when people search next door\n\nMost searches that lead to a purchase are local: "hairdresser Tanger", "printer near me", "English lessons Malabata". Three things weigh, in this order:\n\n- **The Google Business profile**: complete, with real opening hours, recent photos and an exact category.\n- **Reviews**: how many, how recent, and whether you reply — including calmly to negative ones.\n- **Consistent details**: the same name, address and phone number everywhere you are listed.\n\nThis work costs nothing but time and produces enquiries for years. Do it before opening an ad account.',
-              es: '## Que le encuentren cuando le buscan al lado de casa\n\nLa mayoría de las búsquedas que llevan a una compra son locales: «peluquería Tánger», «imprenta cerca de mí», «clases de inglés Malabata». Pesan tres cosas, en este orden:\n\n- **La ficha de Google Business**: completa, con horarios reales, fotos recientes y una categoría exacta.\n- **Las opiniones**: cuántas, cómo de recientes y si usted responde — también con calma a las negativas.\n- **La coherencia de sus datos**: el mismo nombre, la misma dirección y el mismo teléfono en todas partes.\n\nEste trabajo no cuesta más que tiempo y genera solicitudes durante años. Hágalo antes de abrir una cuenta publicitaria.',
+              fr: "## Être trouvé quand on vous cherche à côté de chez vous\n\nLa majorité des recherches qui mènent à un achat sont locales : « coiffeur Meknès », « imprimerie près de moi », « cours d'anglais Hamria ». Trois choses pèsent, dans cet ordre :\n\n- **La fiche Google Business** : complète, avec les vraies horaires, des photos récentes et une catégorie exacte.\n- **Les avis** : leur nombre, leur fraîcheur, et le fait que vous répondiez — y compris aux avis négatifs, calmement.\n- **La cohérence de vos coordonnées** : le même nom, la même adresse et le même numéro partout où vous êtes cité.\n\nCe travail ne coûte rien d'autre que du temps, et il produit des demandes pendant des années. Faites-le avant d'ouvrir un compte publicitaire.",
+              ar: '## أن تُوجَدوا حين يبحث عنكم الناس بجواركم\n\nأغلب عمليات البحث المؤدية إلى شراء هي بحث محلي: «حلاق مكناس»، «مطبعة قربي»، «دروس الإنجليزية مالاباطا». ثلاثة عناصر تزن، بهذا الترتيب:\n\n- **بطاقة Google Business**: كاملة، بأوقات عمل حقيقية، وصور حديثة، وفئة دقيقة.\n- **الآراء**: عددها، وحداثتها، وكونكم تردّون عليها — بما فيها السلبية، بهدوء.\n- **انسجام معطياتكم**: نفس الاسم ونفس العنوان ونفس الرقم في كل مكان تُذكرون فيه.\n\nهذا العمل لا يكلّف سوى الوقت، وينتج طلبات لسنوات. أنجزوه قبل فتح حساب إعلاني.',
+              en: '## Being found when people search next door\n\nMost searches that lead to a purchase are local: "hairdresser Meknès", "printer near me", "English lessons Hamria". Three things weigh, in this order:\n\n- **The Google Business profile**: complete, with real opening hours, recent photos and an exact category.\n- **Reviews**: how many, how recent, and whether you reply — including calmly to negative ones.\n- **Consistent details**: the same name, address and phone number everywhere you are listed.\n\nThis work costs nothing but time and produces enquiries for years. Do it before opening an ad account.',
+              es: '## Que le encuentren cuando le buscan al lado de casa\n\nLa mayoría de las búsquedas que llevan a una compra son locales: «peluquería Meknès», «imprenta cerca de mí», «clases de inglés Hamria». Pesan tres cosas, en este orden:\n\n- **La ficha de Google Business**: completa, con horarios reales, fotos recientes y una categoría exacta.\n- **Las opiniones**: cuántas, cómo de recientes y si usted responde — también con calma a las negativas.\n- **La coherencia de sus datos**: el mismo nombre, la misma dirección y el mismo teléfono en todas partes.\n\nEste trabajo no cuesta más que tiempo y genera solicitudes durante años. Hágalo antes de abrir una cuenta publicitaria.',
             },
           },
         ],
@@ -624,7 +624,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un compte Meta Business et un moyen de paiement en ligne',
           'Un budget publicitaire de test, même modeste',
         ],
-        seoTitle: 'Formation Meta Ads et Google Ads à Tanger',
+        seoTitle: 'Formation Meta Ads et Google Ads à Meknès',
         seoDescription:
           'Formation publicité en ligne : structurer un compte, suivre les conversions, tester des annonces et arbitrer un budget sur Meta Ads et Google Ads.',
       },
@@ -650,7 +650,7 @@ const COURSES: readonly SeedCourse[] = [
           'حساب Meta Business ووسيلة أداء إلكترونية',
           'ميزانية إعلانية للتجريب، ولو متواضعة',
         ],
-        seoTitle: 'تكوين في Meta Ads وGoogle Ads بطنجة',
+        seoTitle: 'تكوين في Meta Ads وGoogle Ads بمكناس',
         seoDescription:
           'دورة تدريبية في الإعلانات الرقمية: تنظيم الحساب، تتبع التحويلات، اختبار الإعلانات وتوزيع الميزانية على Meta Ads وGoogle Ads.',
       },
@@ -676,7 +676,7 @@ const COURSES: readonly SeedCourse[] = [
           'A Meta Business account and an online payment method',
           'A test advertising budget, however modest',
         ],
-        seoTitle: 'Meta Ads and Google Ads training in Tanger',
+        seoTitle: 'Meta Ads and Google Ads training in Meknès',
         seoDescription:
           'Online advertising training: account structure, conversion tracking, ad testing and budget arbitration on Meta Ads and Google Ads.',
       },
@@ -702,7 +702,7 @@ const COURSES: readonly SeedCourse[] = [
           'Una cuenta de Meta Business y un medio de pago en línea',
           'Un presupuesto publicitario de prueba, aunque sea modesto',
         ],
-        seoTitle: 'Formación en Meta Ads y Google Ads en Tánger',
+        seoTitle: 'Formación en Meta Ads y Google Ads en Meknès',
         seoDescription:
           'Formación en publicidad en línea: estructura de cuenta, seguimiento de conversiones, prueba de anuncios y reparto de presupuesto en Meta Ads y Google Ads.',
       },
@@ -871,9 +871,9 @@ const COURSES: readonly SeedCourse[] = [
           'Aucune connaissance en programmation n’est nécessaire',
           'Trois à cinq heures de travail personnel par semaine',
         ],
-        seoTitle: 'Formation développement web à Tanger — HTML, CSS, JavaScript',
+        seoTitle: 'Formation développement web à Meknès — HTML, CSS, JavaScript',
         seoDescription:
-          'Formation développement web pour débutants à Tanger : HTML, CSS, JavaScript, Git et mise en ligne. Groupe limité à 18, projet final évalué.',
+          'Formation développement web pour débutants à Meknès : HTML, CSS, JavaScript, Git et mise en ligne. Groupe limité à 18, projet final évalué.',
       },
       ar: {
         title: 'تطوير الويب: HTML وCSS وJavaScript',
@@ -897,9 +897,9 @@ const COURSES: readonly SeedCourse[] = [
           'لا حاجة إلى أي معرفة سابقة بالبرمجة',
           'من ثلاث إلى خمس ساعات عمل شخصي أسبوعياً',
         ],
-        seoTitle: 'تكوين في تطوير الويب بطنجة — HTML وCSS وJavaScript',
+        seoTitle: 'تكوين في تطوير الويب بمكناس — HTML وCSS وJavaScript',
         seoDescription:
-          'دورة تدريبية في تطوير الويب للمبتدئين بطنجة: HTML وCSS وJavaScript وGit والنشر. مجموعة محدودة في 18 مشاركاً ومشروع ختامي مقيَّم.',
+          'دورة تدريبية في تطوير الويب للمبتدئين بمكناس: HTML وCSS وJavaScript وGit والنشر. مجموعة محدودة في 18 مشاركاً ومشروع ختامي مقيَّم.',
       },
       en: {
         title: 'Web development: HTML, CSS and JavaScript',
@@ -923,9 +923,9 @@ const COURSES: readonly SeedCourse[] = [
           'No programming knowledge required',
           'Three to five hours of personal work a week',
         ],
-        seoTitle: 'Web development training in Tanger — HTML, CSS, JavaScript',
+        seoTitle: 'Web development training in Meknès — HTML, CSS, JavaScript',
         seoDescription:
-          'Beginner web development training in Tanger: HTML, CSS, JavaScript, Git and deployment. Groups capped at 18, assessed final project.',
+          'Beginner web development training in Meknès: HTML, CSS, JavaScript, Git and deployment. Groups capped at 18, assessed final project.',
       },
       es: {
         title: 'Desarrollo web: HTML, CSS y JavaScript',
@@ -949,9 +949,9 @@ const COURSES: readonly SeedCourse[] = [
           'No se necesita ningún conocimiento de programación',
           'De tres a cinco horas de trabajo personal por semana',
         ],
-        seoTitle: 'Formación en desarrollo web en Tánger — HTML, CSS, JavaScript',
+        seoTitle: 'Formación en desarrollo web en Meknès — HTML, CSS, JavaScript',
         seoDescription:
-          'Formación en desarrollo web para principiantes en Tánger: HTML, CSS, JavaScript, Git y publicación. Grupos de 18 y proyecto final evaluado.',
+          'Formación en desarrollo web para principiantes en Meknès: HTML, CSS, JavaScript, Git y publicación. Grupos de 18 y proyecto final evaluado.',
       },
     },
     modules: [
@@ -1296,7 +1296,7 @@ const COURSES: readonly SeedCourse[] = [
           'Git et la ligne de commande au quotidien',
           'Six à huit heures de travail personnel par semaine',
         ],
-        seoTitle: 'Formation React et Next.js à Tanger',
+        seoTitle: 'Formation React et Next.js à Meknès',
         seoDescription:
           'Formation avancée React et Next.js : composants, état, rendu serveur, base de données, authentification et déploiement en production.',
       },
@@ -1322,7 +1322,7 @@ const COURSES: readonly SeedCourse[] = [
           'استعمال Git وسطر الأوامر يومياً',
           'من ست إلى ثماني ساعات عمل شخصي أسبوعياً',
         ],
-        seoTitle: 'تكوين في React وNext.js بطنجة',
+        seoTitle: 'تكوين في React وNext.js بمكناس',
         seoDescription:
           'دورة تدريبية متقدمة في React وNext.js: المكوّنات، الحالة، العرض من الخادم، قاعدة البيانات، المصادقة والنشر في الإنتاج.',
       },
@@ -1348,7 +1348,7 @@ const COURSES: readonly SeedCourse[] = [
           'Git and the command line on a daily basis',
           'Six to eight hours of personal work a week',
         ],
-        seoTitle: 'React and Next.js training in Tanger',
+        seoTitle: 'React and Next.js training in Meknès',
         seoDescription:
           'Advanced React and Next.js training: components, state, server rendering, database, authentication and production deployment.',
       },
@@ -1374,7 +1374,7 @@ const COURSES: readonly SeedCourse[] = [
           'Git y la línea de comandos a diario',
           'De seis a ocho horas de trabajo personal por semana',
         ],
-        seoTitle: 'Formación en React y Next.js en Tánger',
+        seoTitle: 'Formación en React y Next.js en Meknès',
         seoDescription:
           'Formación avanzada en React y Next.js: componentes, estado, renderizado en servidor, base de datos, autenticación y despliegue en producción.',
       },
@@ -1476,7 +1476,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un compte Figma gratuit',
           'Une culture visuelle de base — pas de niveau requis en dessin',
         ],
-        seoTitle: 'Formation UI/UX design à Tanger — Figma et ergonomie',
+        seoTitle: 'Formation UI/UX design à Meknès — Figma et ergonomie',
         seoDescription:
           'Formation UI/UX : recherche utilisateur, parcours, maquettes Figma, systèmes de composants, accessibilité et tests d’utilisabilité.',
       },
@@ -1498,7 +1498,7 @@ const COURSES: readonly SeedCourse[] = [
           'رؤساء المشاريع المطالبون بالحسم في خيارات التصميم',
         ],
         requirements: ['حساب Figma مجاني', 'ثقافة بصرية أساسية — لا مستوى مطلوب في الرسم'],
-        seoTitle: 'تكوين في تصميم واجهات المستخدم بطنجة — Figma والإرغونوميا',
+        seoTitle: 'تكوين في تصميم واجهات المستخدم بمكناس — Figma والإرغونوميا',
         seoDescription:
           'دورة تدريبية في تجربة وواجهة المستخدم: البحث مع المستعملين، المسارات، نماذج Figma، أنظمة المكوّنات، قابلية الولوج والاختبارات.',
       },
@@ -1520,7 +1520,7 @@ const COURSES: readonly SeedCourse[] = [
           'Project managers who must arbitrate design decisions',
         ],
         requirements: ['A free Figma account', 'Basic visual culture — no drawing skill required'],
-        seoTitle: 'UI/UX design training in Tanger — Figma and usability',
+        seoTitle: 'UI/UX design training in Meknès — Figma and usability',
         seoDescription:
           'UI/UX training: user research, journeys, Figma mockups, component systems, accessibility and usability testing.',
       },
@@ -1542,7 +1542,7 @@ const COURSES: readonly SeedCourse[] = [
           'Jefes de proyecto que deben arbitrar decisiones de diseño',
         ],
         requirements: ['Una cuenta gratuita de Figma', 'Cultura visual básica — no se exige nivel de dibujo'],
-        seoTitle: 'Formación en diseño UI/UX en Tánger — Figma y usabilidad',
+        seoTitle: 'Formación en diseño UI/UX en Meknès — Figma y usabilidad',
         seoDescription:
           'Formación UI/UX: investigación con usuarios, recorridos, maquetas en Figma, sistemas de componentes, accesibilidad y pruebas de usabilidad.',
       },
@@ -1631,9 +1631,9 @@ const COURSES: readonly SeedCourse[] = [
           'Un téléphone récent avec de l’espace de stockage libre',
           'Aucune expérience du montage n’est nécessaire',
         ],
-        seoTitle: 'Formation montage vidéo formats courts à Tanger',
+        seoTitle: 'Formation montage vidéo formats courts à Meknès',
         seoDescription:
-          'Formation pratique au montage vidéo pour Reels et Shorts : tournage au téléphone, montage, sous-titres et export. En présentiel à Tanger.',
+          'Formation pratique au montage vidéo pour Reels et Shorts : tournage au téléphone, montage, sous-titres et export. En présentiel à Meknès.',
       },
       ar: {
         title: 'المونتاج: Reels وShorts والصيغ القصيرة',
@@ -1652,9 +1652,9 @@ const COURSES: readonly SeedCourse[] = [
           'صنّاع المحتوى المبتدئون',
         ],
         requirements: ['هاتف حديث بمساحة تخزين متاحة', 'لا حاجة إلى أي تجربة سابقة في المونتاج'],
-        seoTitle: 'تكوين في مونتاج الصيغ القصيرة بطنجة',
+        seoTitle: 'تكوين في مونتاج الصيغ القصيرة بمكناس',
         seoDescription:
-          'دورة تطبيقية في المونتاج لـReels وShorts: التصوير بالهاتف، التركيب، الترجمة المكتوبة والتصدير. حضورياً بطنجة.',
+          'دورة تطبيقية في المونتاج لـReels وShorts: التصوير بالهاتف، التركيب، الترجمة المكتوبة والتصدير. حضورياً بمكناس.',
       },
       en: {
         title: 'Video editing: Reels, Shorts and short formats',
@@ -1673,9 +1673,9 @@ const COURSES: readonly SeedCourse[] = [
           'Beginner content creators',
         ],
         requirements: ['A recent phone with free storage', 'No editing experience required'],
-        seoTitle: 'Short-form video editing training in Tanger',
+        seoTitle: 'Short-form video editing training in Meknès',
         seoDescription:
-          'Hands-on video editing training for Reels and Shorts: phone shooting, editing, subtitles and export. On site in Tanger.',
+          'Hands-on video editing training for Reels and Shorts: phone shooting, editing, subtitles and export. On site in Meknès.',
       },
       es: {
         title: 'Edición de vídeo: Reels, Shorts y formatos cortos',
@@ -1694,9 +1694,9 @@ const COURSES: readonly SeedCourse[] = [
           'Creadores de contenido principiantes',
         ],
         requirements: ['Un teléfono reciente con espacio libre', 'No se necesita experiencia en edición'],
-        seoTitle: 'Formación en edición de vídeo de formato corto en Tánger',
+        seoTitle: 'Formación en edición de vídeo de formato corto en Meknès',
         seoDescription:
-          'Formación práctica de edición de vídeo para Reels y Shorts: grabación con móvil, montaje, subtítulos y exportación. Presencial en Tánger.',
+          'Formación práctica de edición de vídeo para Reels y Shorts: grabación con móvil, montaje, subtítulos y exportación. Presencial en Meknès.',
       },
     },
     modules: [
@@ -1777,7 +1777,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un niveau B1 environ : comprendre et écrire des phrases complètes',
           'Apporter deux écrits professionnels récents',
         ],
-        seoTitle: 'Formation français professionnel à Tanger — écrits du travail',
+        seoTitle: 'Formation français professionnel à Meknès — écrits du travail',
         seoDescription:
           'Formation français professionnel : e-mails, comptes rendus, offres et relances. Travail sur vos propres écrits, en centre et à distance.',
       },
@@ -1799,7 +1799,7 @@ const COURSES: readonly SeedCourse[] = [
           'المستقلّون الذين يحرّرون عروضهم وتذكيراتهم',
         ],
         requirements: ['مستوى B1 تقريباً: فهم وكتابة جمل كاملة', 'إحضار كتابتين مهنيتين حديثتين'],
-        seoTitle: 'تكوين في الفرنسية المهنية بطنجة — كتابات العمل',
+        seoTitle: 'تكوين في الفرنسية المهنية بمكناس — كتابات العمل',
         seoDescription:
           'دورة تدريبية في الفرنسية المهنية: الرسائل والمحاضر والعروض والتذكيرات. اشتغال على كتاباتكم، حضورياً وعن بعد.',
       },
@@ -1824,7 +1824,7 @@ const COURSES: readonly SeedCourse[] = [
           'Roughly a B1 level: understanding and writing full sentences',
           'Bring two recent pieces of professional writing',
         ],
-        seoTitle: 'Professional French training in Tanger — workplace writing',
+        seoTitle: 'Professional French training in Meknès — workplace writing',
         seoDescription:
           'Professional French training: emails, minutes, proposals and follow-ups. Work on your own writing, on site and online.',
       },
@@ -1849,7 +1849,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un nivel B1 aproximado: comprender y escribir frases completas',
           'Traer dos escritos profesionales recientes',
         ],
-        seoTitle: 'Formación en francés profesional en Tánger — escritos de trabajo',
+        seoTitle: 'Formación en francés profesional en Meknès — escritos de trabajo',
         seoDescription:
           'Formación en francés profesional: correos, actas, ofertas y recordatorios. Trabajo sobre sus propios escritos, presencial y en línea.',
       },
@@ -1931,16 +1931,16 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: [
           'Salariés en contact avec des interlocuteurs étrangers',
-          'Personnel de la zone franche et de la logistique',
+          'Personnel de l’agroalimentaire, de l’export et du tourisme',
           'Débutants qui ont besoin de parler, pas de réviser',
         ],
         requirements: [
           'Notions scolaires d’anglais',
           'Assiduité : la progression à l’oral dépend de la régularité',
         ],
-        seoTitle: 'Formation anglais professionnel à Tanger',
+        seoTitle: 'Formation anglais professionnel à Meknès',
         seoDescription:
-          'Formation d’anglais professionnel centrée sur l’oral : présentation, téléphone, réunions et e-mails simples. En présentiel à Tanger.',
+          'Formation d’anglais professionnel centrée sur l’oral : présentation, téléphone, réunions et e-mails simples. En présentiel à Meknès.',
       },
       ar: {
         title: 'الإنجليزية المهنية: أخذ الكلمة',
@@ -1959,9 +1959,9 @@ const COURSES: readonly SeedCourse[] = [
           'المبتدئون الذين يحتاجون إلى الكلام لا إلى المراجعة',
         ],
         requirements: ['معارف مدرسية في الإنجليزية', 'المواظبة: التقدم الشفوي رهين بالانتظام'],
-        seoTitle: 'تكوين في الإنجليزية المهنية بطنجة',
+        seoTitle: 'تكوين في الإنجليزية المهنية بمكناس',
         seoDescription:
-          'دورة في الإنجليزية المهنية تركّز على الشفوي: التقديم، الهاتف، الاجتماعات والرسائل البسيطة. حضورياً بطنجة.',
+          'دورة في الإنجليزية المهنية تركّز على الشفوي: التقديم، الهاتف، الاجتماعات والرسائل البسيطة. حضورياً بمكناس.',
       },
       en: {
         title: 'Professional English: speaking up',
@@ -1980,9 +1980,9 @@ const COURSES: readonly SeedCourse[] = [
           'Beginners who need to speak, not to revise',
         ],
         requirements: ['School-level notions of English', 'Regular attendance: speaking progress depends on it'],
-        seoTitle: 'Professional English training in Tanger',
+        seoTitle: 'Professional English training in Meknès',
         seoDescription:
-          'Professional English training focused on speaking: introductions, phone calls, meetings and simple emails. On site in Tanger.',
+          'Professional English training focused on speaking: introductions, phone calls, meetings and simple emails. On site in Meknès.',
       },
       es: {
         title: 'Inglés profesional: tomar la palabra',
@@ -2001,9 +2001,9 @@ const COURSES: readonly SeedCourse[] = [
           'Principiantes que necesitan hablar, no repasar',
         ],
         requirements: ['Nociones escolares de inglés', 'Asiduidad: el progreso oral depende de la regularidad'],
-        seoTitle: 'Formación en inglés profesional en Tánger',
+        seoTitle: 'Formación en inglés profesional en Meknès',
         seoDescription:
-          'Formación de inglés profesional centrada en el habla: presentaciones, teléfono, reuniones y correos sencillos. Presencial en Tánger.',
+          'Formación de inglés profesional centrada en el habla: presentaciones, teléfono, reuniones y correos sencillos. Presencial en Meknès.',
       },
     },
     modules: [
@@ -2083,9 +2083,9 @@ const COURSES: readonly SeedCourse[] = [
           'Une idée de projet, même imparfaite',
           'Aucune connaissance juridique ou comptable préalable',
         ],
-        seoTitle: 'Formation création d’entreprise au Maroc — Tanger',
+        seoTitle: 'Formation création d’entreprise au Maroc — Meknès',
         seoDescription:
-          'Créer son entreprise au Maroc : business plan, statut juridique, immatriculation, CNSS, TVA et financement. Formation à Tanger, en centre et à distance.',
+          'Créer son entreprise au Maroc : business plan, statut juridique, immatriculation, CNSS, TVA et financement. Formation à Meknès, en centre et à distance.',
       },
       ar: {
         title: 'إحداث المقاولة بالمغرب',
@@ -2105,9 +2105,9 @@ const COURSES: readonly SeedCourse[] = [
           'الأجراء الذين يعدّون إعادة توجيه مهني',
         ],
         requirements: ['فكرة مشروع، ولو غير مكتملة', 'لا حاجة إلى معرفة قانونية أو محاسباتية سابقة'],
-        seoTitle: 'تكوين في إحداث المقاولة بالمغرب — طنجة',
+        seoTitle: 'تكوين في إحداث المقاولة بالمغرب — مكناس',
         seoDescription:
-          'إحداث مقاولة بالمغرب: خطة العمل، الشكل القانوني، التسجيل، الضمان الاجتماعي، الضريبة على القيمة المضافة والتمويل. تكوين بطنجة حضورياً وعن بعد.',
+          'إحداث مقاولة بالمغرب: خطة العمل، الشكل القانوني، التسجيل، الضمان الاجتماعي، الضريبة على القيمة المضافة والتمويل. تكوين بمكناس حضورياً وعن بعد.',
       },
       en: {
         title: 'Starting a business in Morocco',
@@ -2127,9 +2127,9 @@ const COURSES: readonly SeedCourse[] = [
           'Employees preparing a career change',
         ],
         requirements: ['A project idea, however rough', 'No prior legal or accounting knowledge'],
-        seoTitle: 'Business creation training in Morocco — Tanger',
+        seoTitle: 'Business creation training in Morocco — Meknès',
         seoDescription:
-          'Start a business in Morocco: business plan, legal form, registration, social security, VAT and funding. Training in Tanger, on site and online.',
+          'Start a business in Morocco: business plan, legal form, registration, social security, VAT and funding. Training in Meknès, on site and online.',
       },
       es: {
         title: 'Crear su empresa en Marruecos',
@@ -2149,9 +2149,9 @@ const COURSES: readonly SeedCourse[] = [
           'Empleados que preparan una reconversión',
         ],
         requirements: ['Una idea de proyecto, aunque sea imperfecta', 'Ningún conocimiento jurídico o contable previo'],
-        seoTitle: 'Formación para crear empresa en Marruecos — Tánger',
+        seoTitle: 'Formación para crear empresa en Marruecos — Meknès',
         seoDescription:
-          'Crear una empresa en Marruecos: plan de negocio, forma jurídica, registro, seguridad social, IVA y financiación. Formación en Tánger.',
+          'Crear una empresa en Marruecos: plan de negocio, forma jurídica, registro, seguridad social, IVA y financiación. Formación en Meknès.',
       },
     },
     modules: [
@@ -2174,7 +2174,7 @@ const COURSES: readonly SeedCourse[] = [
             minutes: 16,
             isPreview: true,
             content: {
-              fr: "## Trois questions décident presque toujours\n\n**1. Quel chiffre d'affaires visez-vous la première année ?** Le statut d'auto-entrepreneur est plafonné ; au-delà, la question ne se pose plus.\n\n**2. Êtes-vous seul ?** Une SARL AU se crée à une personne ; une SARL suppose des associés, donc des statuts qui prévoient la sortie de chacun — écrivez-les avant la première dispute, pas après.\n\n**3. Qui sont vos clients ?** Beaucoup de donneurs d'ordre, notamment dans la zone franche, ne travaillent qu'avec des sociétés et exigent une facture avec TVA.\n\nCe qu'il faut retenir : le statut n'est pas un engagement à vie. On commence souvent auto-entrepreneur pour tester le marché à faible coût, puis on bascule en société quand les clients ou le chiffre d'affaires l'imposent. Le mauvais choix n'est pas celui qu'on change ; c'est celui qu'on fait sans avoir posé ces trois questions.\n\n*Les seuils, taux et pièces demandées évoluent : les montants exacts sont vérifiés en séance avec le comptable intervenant.*",
+              fr: "## Trois questions décident presque toujours\n\n**1. Quel chiffre d'affaires visez-vous la première année ?** Le statut d'auto-entrepreneur est plafonné ; au-delà, la question ne se pose plus.\n\n**2. Êtes-vous seul ?** Une SARL AU se crée à une personne ; une SARL suppose des associés, donc des statuts qui prévoient la sortie de chacun — écrivez-les avant la première dispute, pas après.\n\n**3. Qui sont vos clients ?** Beaucoup de donneurs d'ordre, notamment dans la filière agroalimentaire, ne travaillent qu'avec des sociétés et exigent une facture avec TVA.\n\nCe qu'il faut retenir : le statut n'est pas un engagement à vie. On commence souvent auto-entrepreneur pour tester le marché à faible coût, puis on bascule en société quand les clients ou le chiffre d'affaires l'imposent. Le mauvais choix n'est pas celui qu'on change ; c'est celui qu'on fait sans avoir posé ces trois questions.\n\n*Les seuils, taux et pièces demandées évoluent : les montants exacts sont vérifiés en séance avec le comptable intervenant.*",
             },
           },
           { title: { fr: 'Statuts, dénomination, siège social' }, type: LessonType.VIDEO, minutes: 21 },
@@ -2242,9 +2242,9 @@ const COURSES: readonly SeedCourse[] = [
           'Gérer ou accompagner une activité réelle',
           'Un niveau d’arithmétique courant suffit',
         ],
-        seoTitle: 'Formation comptabilité TPE à Tanger',
+        seoTitle: 'Formation comptabilité TPE à Meknès',
         seoDescription:
-          'Formation comptabilité et gestion pour TPE : pièces, écritures, bilan, compte de résultat, trésorerie et échéances fiscales. Présentiel à Tanger.',
+          'Formation comptabilité et gestion pour TPE : pièces, écritures, bilan, compte de résultat, trésorerie et échéances fiscales. Présentiel à Meknès.',
       },
       ar: {
         title: 'المحاسبة وتدبير مقاولة صغيرة جداً',
@@ -2264,9 +2264,9 @@ const COURSES: readonly SeedCourse[] = [
           'المقاولون الذاتيون في مرحلة نمو',
         ],
         requirements: ['تسيير نشاط حقيقي أو مواكبته', 'مستوى حسابي عادي يكفي'],
-        seoTitle: 'تكوين في محاسبة المقاولات الصغيرة بطنجة',
+        seoTitle: 'تكوين في محاسبة المقاولات الصغيرة بمكناس',
         seoDescription:
-          'دورة في المحاسبة والتدبير للمقاولات الصغيرة جداً: الوثائق، التسجيلات، الميزانية، حساب النتيجة، الخزينة والاستحقاقات. حضورياً بطنجة.',
+          'دورة في المحاسبة والتدبير للمقاولات الصغيرة جداً: الوثائق، التسجيلات، الميزانية، حساب النتيجة، الخزينة والاستحقاقات. حضورياً بمكناس.',
       },
       en: {
         title: 'Accounting and management for a very small business',
@@ -2286,9 +2286,9 @@ const COURSES: readonly SeedCourse[] = [
           'Growing sole traders',
         ],
         requirements: ['Running or supporting a real business', 'Everyday arithmetic is enough'],
-        seoTitle: 'Small business accounting training in Tanger',
+        seoTitle: 'Small business accounting training in Meknès',
         seoDescription:
-          'Accounting and management training for very small businesses: records, entries, balance sheet, P&L, cash flow and tax deadlines. On site in Tanger.',
+          'Accounting and management training for very small businesses: records, entries, balance sheet, P&L, cash flow and tax deadlines. On site in Meknès.',
       },
       es: {
         title: 'Contabilidad y gestión de una microempresa',
@@ -2308,9 +2308,9 @@ const COURSES: readonly SeedCourse[] = [
           'Autónomos en crecimiento',
         ],
         requirements: ['Gestionar o acompañar una actividad real', 'Basta un nivel de aritmética corriente'],
-        seoTitle: 'Formación en contabilidad para microempresas en Tánger',
+        seoTitle: 'Formación en contabilidad para microempresas en Meknès',
         seoDescription:
-          'Formación en contabilidad y gestión para microempresas: documentos, asientos, balance, resultados, tesorería y vencimientos. Presencial en Tánger.',
+          'Formación en contabilidad y gestión para microempresas: documentos, asientos, balance, resultados, tesorería y vencimientos. Presencial en Meknès.',
       },
     },
     modules: [
@@ -2400,9 +2400,9 @@ const COURSES: readonly SeedCourse[] = [
           'Savoir utiliser un ordinateur : fichiers, dossiers, clavier',
           'Excel installé, ou un compte gratuit en ligne',
         ],
-        seoTitle: 'Formation Excel à Tanger — de zéro à l’analyse',
+        seoTitle: 'Formation Excel à Meknès — de zéro à l’analyse',
         seoDescription:
-          'Formation Excel donnée en arabe à Tanger : tableaux, formules, RECHERCHEX, graphiques et tableaux croisés dynamiques. Supports en français et en arabe.',
+          'Formation Excel donnée en arabe à Meknès : tableaux, formules, RECHERCHEX, graphiques et tableaux croisés dynamiques. Supports en français et en arabe.',
       },
       ar: {
         title: 'إكسل: من الصفر إلى التحليل',
@@ -2422,9 +2422,9 @@ const COURSES: readonly SeedCourse[] = [
           'كل من لا يزال ينقل الأرقام يدوياً',
         ],
         requirements: ['إتقان استعمال الحاسوب: الملفات والمجلدات ولوحة المفاتيح', 'إكسل مثبَّت، أو حساب مجاني على الإنترنت'],
-        seoTitle: 'تكوين في إكسل بطنجة — من الصفر إلى التحليل',
+        seoTitle: 'تكوين في إكسل بمكناس — من الصفر إلى التحليل',
         seoDescription:
-          'دورة تدريبية في إكسل بالعربية بطنجة: الجداول، الصيغ، RECHERCHEX، الرسوم البيانية والجداول المحورية. حوامل بالفرنسية والعربية.',
+          'دورة تدريبية في إكسل بالعربية بمكناس: الجداول، الصيغ، RECHERCHEX، الرسوم البيانية والجداول المحورية. حوامل بالفرنسية والعربية.',
       },
       en: {
         title: 'Excel: from zero to analysis',
@@ -2444,9 +2444,9 @@ const COURSES: readonly SeedCourse[] = [
           'Anyone still retyping numbers by hand',
         ],
         requirements: ['Comfortable with a computer: files, folders, keyboard', 'Excel installed, or a free online account'],
-        seoTitle: 'Excel training in Tanger — from zero to analysis',
+        seoTitle: 'Excel training in Meknès — from zero to analysis',
         seoDescription:
-          'Excel training taught in Arabic in Tanger: tables, formulas, XLOOKUP, charts and pivot tables. Materials in French and Arabic.',
+          'Excel training taught in Arabic in Meknès: tables, formulas, XLOOKUP, charts and pivot tables. Materials in French and Arabic.',
       },
       es: {
         title: 'Excel: de cero al análisis',
@@ -2466,9 +2466,9 @@ const COURSES: readonly SeedCourse[] = [
           'Cualquiera que siga copiando cifras a mano',
         ],
         requirements: ['Saber usar un ordenador: archivos, carpetas, teclado', 'Excel instalado o una cuenta gratuita en línea'],
-        seoTitle: 'Formación de Excel en Tánger — de cero al análisis',
+        seoTitle: 'Formación de Excel en Meknès — de cero al análisis',
         seoDescription:
-          'Formación de Excel impartida en árabe en Tánger: tablas, fórmulas, BUSCARX, gráficos y tablas dinámicas. Materiales en francés y árabe.',
+          'Formación de Excel impartida en árabe en Meknès: tablas, fórmulas, BUSCARX, gráficos y tablas dinámicas. Materiales en francés y árabe.',
       },
     },
     modules: [
@@ -2512,10 +2512,10 @@ const COURSES: readonly SeedCourse[] = [
             minutes: 12,
             isPreview: true,
             content: {
-              fr: "## Cinq règles qui évitent 90 % des problèmes\n\n1. **Une information par colonne.** « Ahmed Alami — Tanger » dans une seule cellule ne se triera jamais par ville.\n2. **Une seule ligne d'en-tête**, en haut, sans cellule fusionnée. Les cellules fusionnées cassent le tri, les filtres et les tableaux croisés.\n3. **Pas de ligne vide au milieu.** Excel croit que le tableau s'arrête là.\n4. **Les dates comme dates, les nombres comme nombres.** Si `12/03/2026` est aligné à gauche, c'est du texte : aucun calcul ne fonctionnera dessus.\n5. **Jamais d'unité dans la cellule.** Écrivez `1200`, pas `1200 DH` — l'unité va dans le titre de la colonne ou dans le format d'affichage.\n\nUn tableau qui respecte ces cinq règles se trie, se filtre, s'analyse et se recopie. Un tableau qui les ignore devra être ressaisi le jour où quelqu'un en aura vraiment besoin.",
-              ar: '## خمس قواعد تتجنّب 90 % من المشاكل\n\n1. **معلومة واحدة في كل عمود.** «أحمد العلمي — طنجة» في خلية واحدة لن يُرتَّب أبداً حسب المدينة.\n2. **سطر ترويسة واحد**، في الأعلى، بدون خلايا مدمجة. الخلايا المدمجة تكسر الترتيب والتصفية والجداول المحورية.\n3. **لا سطر فارغ في الوسط.** إكسل يعتبر أن الجدول ينتهي هناك.\n4. **التواريخ كتواريخ، والأرقام كأرقام.** إذا كان `12/03/2026` محاذياً إلى اليسار فهو نصّ: ولن يشتغل عليه أي حساب.\n5. **لا وحدة داخل الخلية.** اكتبوا `1200` لا `1200 درهم` — الوحدة توضع في عنوان العمود أو في صيغة العرض.\n\nجدول يحترم هذه القواعد الخمس يُرتَّب ويُصفَّى ويُحلَّل ويُنسَخ. وجدول يتجاهلها سيُعاد إدخاله يوم يحتاجه أحد فعلاً.',
-              en: '## Five rules that avoid 90 % of problems\n\n1. **One piece of information per column.** "Ahmed Alami — Tanger" in a single cell will never sort by city.\n2. **A single header row**, at the top, with no merged cells. Merged cells break sorting, filters and pivot tables.\n3. **No empty row in the middle.** Excel thinks the table stops there.\n4. **Dates as dates, numbers as numbers.** If `12/03/2026` is left-aligned, it is text: no calculation will work on it.\n5. **Never a unit inside the cell.** Write `1200`, not `1200 DH` — the unit belongs in the column title or the display format.\n\nA table that follows these five rules sorts, filters, analyses and copies. A table that ignores them will have to be retyped the day someone actually needs it.',
-              es: '## Cinco reglas que evitan el 90 % de los problemas\n\n1. **Una información por columna.** «Ahmed Alami — Tánger» en una sola celda nunca se ordenará por ciudad.\n2. **Una única fila de encabezado**, arriba, sin celdas combinadas. Las celdas combinadas rompen el orden, los filtros y las tablas dinámicas.\n3. **Ninguna fila vacía en medio.** Excel cree que la tabla termina ahí.\n4. **Las fechas como fechas, los números como números.** Si `12/03/2026` está alineado a la izquierda, es texto: ningún cálculo funcionará.\n5. **Nunca una unidad dentro de la celda.** Escriba `1200`, no `1200 DH` — la unidad va en el título de la columna o en el formato.\n\nUna tabla que respeta estas cinco reglas se ordena, se filtra, se analiza y se copia. Una que las ignora habrá que reescribirla el día en que alguien la necesite de verdad.',
+              fr: "## Cinq règles qui évitent 90 % des problèmes\n\n1. **Une information par colonne.** « Ahmed Alami — Meknès » dans une seule cellule ne se triera jamais par ville.\n2. **Une seule ligne d'en-tête**, en haut, sans cellule fusionnée. Les cellules fusionnées cassent le tri, les filtres et les tableaux croisés.\n3. **Pas de ligne vide au milieu.** Excel croit que le tableau s'arrête là.\n4. **Les dates comme dates, les nombres comme nombres.** Si `12/03/2026` est aligné à gauche, c'est du texte : aucun calcul ne fonctionnera dessus.\n5. **Jamais d'unité dans la cellule.** Écrivez `1200`, pas `1200 DH` — l'unité va dans le titre de la colonne ou dans le format d'affichage.\n\nUn tableau qui respecte ces cinq règles se trie, se filtre, s'analyse et se recopie. Un tableau qui les ignore devra être ressaisi le jour où quelqu'un en aura vraiment besoin.",
+              ar: '## خمس قواعد تتجنّب 90 % من المشاكل\n\n1. **معلومة واحدة في كل عمود.** «أحمد العلمي — مكناس» في خلية واحدة لن يُرتَّب أبداً حسب المدينة.\n2. **سطر ترويسة واحد**، في الأعلى، بدون خلايا مدمجة. الخلايا المدمجة تكسر الترتيب والتصفية والجداول المحورية.\n3. **لا سطر فارغ في الوسط.** إكسل يعتبر أن الجدول ينتهي هناك.\n4. **التواريخ كتواريخ، والأرقام كأرقام.** إذا كان `12/03/2026` محاذياً إلى اليسار فهو نصّ: ولن يشتغل عليه أي حساب.\n5. **لا وحدة داخل الخلية.** اكتبوا `1200` لا `1200 درهم` — الوحدة توضع في عنوان العمود أو في صيغة العرض.\n\nجدول يحترم هذه القواعد الخمس يُرتَّب ويُصفَّى ويُحلَّل ويُنسَخ. وجدول يتجاهلها سيُعاد إدخاله يوم يحتاجه أحد فعلاً.',
+              en: '## Five rules that avoid 90 % of problems\n\n1. **One piece of information per column.** "Ahmed Alami — Meknès" in a single cell will never sort by city.\n2. **A single header row**, at the top, with no merged cells. Merged cells break sorting, filters and pivot tables.\n3. **No empty row in the middle.** Excel thinks the table stops there.\n4. **Dates as dates, numbers as numbers.** If `12/03/2026` is left-aligned, it is text: no calculation will work on it.\n5. **Never a unit inside the cell.** Write `1200`, not `1200 DH` — the unit belongs in the column title or the display format.\n\nA table that follows these five rules sorts, filters, analyses and copies. A table that ignores them will have to be retyped the day someone actually needs it.',
+              es: '## Cinco reglas que evitan el 90 % de los problemas\n\n1. **Una información por columna.** «Ahmed Alami — Meknès» en una sola celda nunca se ordenará por ciudad.\n2. **Una única fila de encabezado**, arriba, sin celdas combinadas. Las celdas combinadas rompen el orden, los filtros y las tablas dinámicas.\n3. **Ninguna fila vacía en medio.** Excel cree que la tabla termina ahí.\n4. **Las fechas como fechas, los números como números.** Si `12/03/2026` está alineado a la izquierda, es texto: ningún cálculo funcionará.\n5. **Nunca una unidad dentro de la celda.** Escriba `1200`, no `1200 DH` — la unidad va en el título de la columna o en el formato.\n\nUna tabla que respeta estas cinco reglas se ordena, se filtra, se analiza y se copia. Una que las ignora habrá que reescribirla el día en que alguien la necesite de verdad.',
             },
           },
           {
@@ -2764,7 +2764,7 @@ const COURSES: readonly SeedCourse[] = [
           'Un ordinateur et une connexion correcte',
           'Aucune compétence technique particulière',
         ],
-        seoTitle: 'Formation IA générative au quotidien — Tanger',
+        seoTitle: 'Formation IA générative au quotidien — Meknès',
         seoDescription:
           'Formation à l’usage professionnel de l’IA générative : consignes précises, vérification des réponses, traduction, tableaux et confidentialité des données.',
       },
@@ -2782,7 +2782,7 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: ['موظفو المكاتب بمختلف المصالح', 'الأساتذة والمكوّنون', 'المستقلّون الذين ينتجون كتابات كثيرة'],
         requirements: ['حاسوب واتصال جيد', 'لا حاجة إلى أي كفاءة تقنية خاصة'],
-        seoTitle: 'تكوين في الذكاء الاصطناعي التوليدي — طنجة',
+        seoTitle: 'تكوين في الذكاء الاصطناعي التوليدي — مكناس',
         seoDescription:
           'دورة تدريبية في الاستعمال المهني للذكاء الاصطناعي التوليدي: التعليمات الدقيقة، التحقق من الأجوبة، الترجمة، الجداول وسرية المعطيات.',
       },
@@ -2800,7 +2800,7 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: ['Office staff, across all departments', 'Teachers and trainers', 'Freelancers who produce a lot of writing'],
         requirements: ['A computer and a decent connection', 'No particular technical skill'],
-        seoTitle: 'Generative AI at work training — Tanger',
+        seoTitle: 'Generative AI at work training — Meknès',
         seoDescription:
           'Training on professional use of generative AI: precise instructions, checking answers, translation, tables and data confidentiality.',
       },
@@ -2818,7 +2818,7 @@ const COURSES: readonly SeedCourse[] = [
         ],
         audience: ['Personal de oficina, de todos los servicios', 'Docentes y formadores', 'Autónomos que producen muchos textos'],
         requirements: ['Un ordenador y una conexión decente', 'Ninguna competencia técnica particular'],
-        seoTitle: 'Formación en IA generativa en el trabajo — Tánger',
+        seoTitle: 'Formación en IA generativa en el trabajo — Meknès',
         seoDescription:
           'Formación sobre el uso profesional de la IA generativa: instrucciones precisas, verificación de respuestas, traducción, tablas y confidencialidad.',
       },

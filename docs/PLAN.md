@@ -6,7 +6,7 @@
 
 ## 1. Understanding of the brief
 
-CFI is an existing physical training centre in Tanger. It teaches in person today. This project is
+CFI is an existing physical training centre in Meknès. It teaches in person today. This project is
 its digital arm — and the important word in the brief is *arm*, not *platform*. We are not building
 a marketplace; we are building the online extension of one institution that already has students,
 instructors, classrooms and a reputation.
@@ -88,7 +88,7 @@ player, the admin panel, i18n.
 
 ## 3. The design token system — « Le Détroit »
 
-The identity is grounded in the centre's own world: Tanger, at the meeting point of two continents,
+The identity is grounded in the centre's own world: Meknès, at the meeting point of two continents,
 where the Atlantic meets the Mediterranean, and in Moroccan geometric craft — zellige tessellation,
 Kufic construction — reinterpreted as a precise technical system. Immersive training is a controlled
 environment where you practise for real, so the interface reads as **an instrument panel for

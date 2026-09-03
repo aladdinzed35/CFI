@@ -33,7 +33,7 @@ places is what lets a non-technical administrator change the bank details safely
 | `contact.whatsappSecondary` | — | optional, for a second agent |
 | `contact.phone` | ⚠️ | |
 | `contact.email` | contact@cfi.ma | ⚠️ |
-| `contact.address` | ⚠️ Tanger, Maroc | Shown on contact page + Google Maps embed |
+| `contact.address` | ⚠️ Meknès, Maroc | Shown on contact page + Google Maps embed |
 | `contact.hours` | Lun–Sam · 09h00–19h00 | |
 | `bank.holder` | ⚠️ | Beneficiary name shown in the transfer modal |
 | `bank.name` | ⚠️ | |

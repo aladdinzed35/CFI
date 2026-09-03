@@ -83,7 +83,7 @@
     "email": "Email address",
     "whatsapp": "WhatsApp",
     "legalNotices": "Legal notices",
-    "legalLine": "Centre de formation immersive · Tanger, Morocco · Prices in dirhams, taxes included."
+    "legalLine": "Centre de formation immersive · Meknès, Morocco · Prices in dirhams, taxes included."
   },
   "theme": {
     "toggle": "Switch theme",
@@ -102,12 +102,12 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Immersive training centre · Tanger",
+      "eyebrow": "Immersive training centre · Meknès",
       "headline": "Immersive training, taught by working professionals",
-      "subheadline": "Complete courses you follow remotely, real-world practice, and human support at the centre in Tanger. You move at your own pace, and never on your own.",
+      "subheadline": "Complete courses you follow remotely, real-world practice, and human support at the centre in Meknès. You move at your own pace, and never on your own.",
       "ctaPrimary": "Create an account",
       "ctaSecondary": "Browse the courses",
-      "trustLine": "Training centre in Tanger · On-site and remote support",
+      "trustLine": "Training centre in Meknès · On-site and remote support",
       "latticeLabel": "Animated preview of the course catalogue",
       "proofLabel": "In numbers",
       "scrollHint": "Scroll to explore"
@@ -141,7 +141,7 @@
       },
       "tile4": {
         "title": "On site and remote",
-        "body": "Videos and resources are available online at any hour; workshops and live sessions take place at the centre, in Tanger."
+        "body": "Videos and resources are available online at any hour; workshops and live sessions take place at the centre, in Meknès."
       }
     },
     "featured": {
@@ -247,7 +247,7 @@
       "seeAll": "See all instructors"
     },
     "center": {
-      "title": "The centre, in Tanger",
+      "title": "The centre, in Meknès",
       "sectionLabel": "The centre",
       "subtitle": "A real place, with equipped rooms and a team you can meet.",
       "body": "Workshops, live sessions and exams take place on site. You can also come and work in our rooms during opening hours.",
@@ -316,7 +316,7 @@
         "phone": "06 12 34 56 78",
         "password": "At least 10 characters",
         "passwordConfirm": "Enter the password again",
-        "city": "Tanger"
+        "city": "Meknès"
       },
       "hints": {
         "phone": "We use it to reach you on WhatsApp about your account.",
@@ -565,7 +565,7 @@
       "body2": "Confirm your email address so that our team can check your details. This link stays valid for 24 hours.",
       "body3": "If you did not register with us, ignore this message: no account will be activated.",
       "cta": "Confirm my email address",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "accountPending": {
       "subject": "Your account is being reviewed",
@@ -575,7 +575,7 @@
       "body2": "Our team is checking your details and approves every account manually, usually within 24 business hours. You will receive an email as soon as your account is activated.",
       "body3": "Need to speed things up? Message us on WhatsApp.",
       "cta": "Message us on WhatsApp",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "adminNewAccount": {
       "subject": "New account to review",
@@ -597,7 +597,7 @@
       "step2": "Choose the course that matches your goal.",
       "step3": "Send your transfer receipt: your access is activated as soon as it is verified.",
       "cta": "Log in",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "accountRejected": {
       "subject": "Your registration could not be approved",
@@ -607,7 +607,7 @@
       "body2": "Reason: {reason}",
       "body3": "You can correct the details concerned and register again. Our team remains available on WhatsApp.",
       "cta": "Message us on WhatsApp",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "passwordReset": {
       "subject": "Password reset",
@@ -617,7 +617,7 @@
       "body2": "Choose a new password using the link below. It stays valid for one hour and can only be used once.",
       "body3": "If you did not make this request, ignore this message: your current password remains valid.",
       "cta": "Choose a new password",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "passwordChanged": {
       "subject": "Your password has been changed",
@@ -627,7 +627,7 @@
       "body2": "For security, all your open sessions have been closed. Log in again with your new password.",
       "body3": "If you did not make this change, message us on WhatsApp straight away: we will secure your account.",
       "cta": "Log in",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "newLogin": {
       "subject": "New login detected",
@@ -637,7 +637,7 @@
       "body2": "Device: {device} · IP address: {ip} · City: {city} · On {date} at {time}",
       "body3": "Was this not you? Change your password straight away, then message us on WhatsApp.",
       "cta": "Secure my account",
-      "footer": "Sent by the Centre de formation immersive, in Tanger. A question? Message us on WhatsApp."
+      "footer": "Sent by the Centre de formation immersive, in Meknès. A question? Message us on WhatsApp."
     },
     "requestReceived": {
       "subject": "Request received — verification in progress",
@@ -897,7 +897,7 @@
         "role": "Role",
         "locale": "Language",
         "city": "City",
-        "cityPlaceholder": "Tangier",
+        "cityPlaceholder": "Meknès",
         "registeredFrom": "Registered from",
         "registeredTo": "Registered until",
         "emailStatus": "Email address",
@@ -2410,7 +2410,7 @@
       "journeyTitle": "How a course unfolds",
       "journeyLead": "From the first lesson to the certificate, here is what awaits you week after week.",
       "facilitiesTitle": "The centre and its facilities",
-      "facilitiesLead": "Equipped rooms in Tanger, open to learners during opening hours.",
+      "facilitiesLead": "Equipped rooms in Meknès, open to learners during opening hours.",
       "teamTitle": "The teaching team",
       "accreditationsTitle": "Accreditations and partnerships",
       "accreditationsEmpty": "Our accreditations will be published here as soon as they are granted.",
@@ -2438,7 +2438,7 @@
         },
         "hybrid": {
           "title": "Online to learn, at the centre to practise",
-          "body": "Videos, resources and quizzes stay available at any hour, from a phone as much as from a computer. Workshops and live sessions are held in our rooms, in Tanger.",
+          "body": "Videos, resources and quizzes stay available at any hour, from a phone as much as from a computer. Workshops and live sessions are held in our rooms, in Meknès.",
           "proof": "Rooms open to learners during opening hours."
         }
       },
@@ -2509,7 +2509,7 @@
     },
     "about": {
       "title": "About the centre",
-      "lead": "A training centre in Tanger, born from a simple observation: you do not learn a trade by watching videos alone.",
+      "lead": "A training centre in Meknès, born from a simple observation: you do not learn a trade by watching videos alone.",
       "storyTitle": "Our story",
       "missionTitle": "Our mission",
       "valuesTitle": "What matters to us",
@@ -2524,7 +2524,7 @@
       "story": {
         "p1": "The centre grew out of an observation we kept making: motivated people, dozens of hours of videos watched, and always the same inability to show an employer a finished piece of work.",
         "p2": "So we built the opposite of a video library: a small number of courses, each anchored in real deliverables, corrected by the person who designed the module.",
-        "p3": "The centre is in Tanger and it is open. You can come in, sit down, ask a question out loud and leave with an answer. That is precisely what separates us from a platform."
+        "p3": "The centre is in Meknès and it is open. You can come in, sit down, ask a question out loud and leave with an answer. That is precisely what separates us from a platform."
       },
       "missionBody": "To bring every enrolled person to a piece of work they can show and defend. Everything else — the videos, the quizzes, the dashboards — exists only to serve that goal.",
       "values": {
@@ -2610,7 +2610,7 @@
         "resources": "Downloadable resources: templates, summary sheets, data sets and corrected exercises.",
         "certificate": "The completion certificate, with a code anyone can verify on this site.",
         "coaching": "Supervision by an instructor and written correction of your deliverables.",
-        "live": "Live sessions and workshops at the centre, in Tanger.",
+        "live": "Live sessions and workshops at the centre, in Meknès.",
         "updates": "Content updates during your access period, at no extra cost."
       }
     },
@@ -2845,11 +2845,11 @@
   "seo": {
     "siteName": "Centre de formation immersive",
     "titleTemplate": "{title} · CFI",
-    "defaultTitle": "CFI — immersive training centre in Tanger",
-    "defaultDescription": "Immersive professional training in Tanger: online content, real working situations, human support and a certificate. Enrolment by bank transfer or cash at the centre.",
+    "defaultTitle": "CFI — immersive training centre in Meknès",
+    "defaultDescription": "Immersive professional training in Meknès: online content, real working situations, human support and a certificate. Enrolment by bank transfer or cash at the centre.",
     "home": {
-      "title": "Immersive professional training in Tanger",
-      "description": "Learn a trade through real working situations, with an instructor who marks your work and a centre open in Tanger. Clear prices, certificate at the end."
+      "title": "Immersive professional training in Meknès",
+      "description": "Learn a trade through real working situations, with an instructor who marks your work and a centre open in Meknès. Clear prices, certificate at the end."
     },
     "catalog": {
       "title": "All our courses",
@@ -2858,7 +2858,7 @@
     "course": {
       "title": "{title}",
       "description": "{summary}",
-      "descriptionFallback": "The {title} course at the Centre de formation immersive in Tanger: detailed programme, instructor, resources, certificate and all-inclusive price."
+      "descriptionFallback": "The {title} course at the Centre de formation immersive in Meknès: detailed programme, instructor, resources, certificate and all-inclusive price."
     },
     "paths": {
       "title": "Learning paths",
@@ -2870,7 +2870,7 @@
     },
     "method": {
       "title": "Our immersive method",
-      "description": "Real working situations, projects marked one by one, continuous human support, a centre in Tanger and online content: this is how we teach."
+      "description": "Real working situations, projects marked one by one, continuous human support, a centre in Meknès and online content: this is how we teach."
     },
     "pricing": {
       "title": "Course prices",
@@ -2878,11 +2878,11 @@
     },
     "contact": {
       "title": "Contact us",
-      "description": "Write to us on WhatsApp or through the form. Address, opening hours and phone number of the Centre de formation immersive in Tanger."
+      "description": "Write to us on WhatsApp or through the form. Address, opening hours and phone number of the Centre de formation immersive in Meknès."
     },
     "about": {
       "title": "About the centre",
-      "description": "The story of the Centre de formation immersive, its team, its premises in Tanger and what matters to us in professional training."
+      "description": "The story of the Centre de formation immersive, its team, its premises in Meknès and what matters to us in professional training."
     },
     "instructors": {
       "title": "Our instructors",
@@ -2895,7 +2895,7 @@
     "blogPost": {
       "title": "{title}",
       "description": "{summary}",
-      "descriptionFallback": "An article from the Centre de formation immersive in Tanger: {title}."
+      "descriptionFallback": "An article from the Centre de formation immersive in Meknès: {title}."
     },
     "faq": {
       "title": "Frequently asked questions",
@@ -2914,15 +2914,15 @@
       "description": "This page does not exist or has been moved. Go back to the homepage or browse the course catalogue."
     },
     "ogAlt": {
-      "default": "Centre de formation immersive — Tanger",
-      "home": "Homepage of the Centre de formation immersive, in Tanger",
+      "default": "Centre de formation immersive — Meknès",
+      "home": "Homepage of the Centre de formation immersive, in Meknès",
       "catalog": "Course catalogue of the Centre de formation immersive",
       "course": "The {title} course at the Centre de formation immersive",
       "path": "The {title} path at the Centre de formation immersive",
       "method": "The centre's immersive method: real situations and human support",
       "pricing": "Course prices at the Centre de formation immersive",
-      "contact": "Contact details and address of the centre, in Tanger",
-      "about": "The Centre de formation immersive and its team, in Tanger",
+      "contact": "Contact details and address of the centre, in Meknès",
+      "about": "The Centre de formation immersive and its team, in Meknès",
       "instructors": "The instructors of the Centre de formation immersive",
       "blog": "The blog of the Centre de formation immersive",
       "blogPost": "Article: {title}",

@@ -12,7 +12,7 @@ Format for every entry: **Context** (what forced a choice) · **Decision** (what
 ## 2026-07-25 — Four locales instead of the spec's two, with French kept as the source language
 
 **Context.** The specification defines two locales, `fr` and `ar`, and a `Locale` enum with two
-values. The owner requires four: French, Arabic, English and Spanish. Tanger's audience is not only
+values. The owner requires four: French, Arabic, English and Spanish. Meknès's audience is not only
 Moroccan — the city sits on a Spanish-facing strait, and the centre wants to be legible to
 English-speaking prospects.
 
@@ -424,7 +424,7 @@ replies, 100 % precision and accuracy."*
 Two things had to be reconciled. The first is commercial and operational: two API keys, a
 per-call cost on every question and every re-index, a monthly bill that scales with
 success, and two external services whose outage becomes CFI's outage — for a single
-training centre in Tanger whose corpus is a few thousand chunks. The second is the harder
+training centre in Meknès whose corpus is a few thousand chunks. The second is the harder
 one: **100 % accuracy is not a property any generative model has**, and a plan that
 depends on one behaving is not a plan. The requirement *behind* it — never be confidently
 wrong about a price, a RIB or a transfer delay — is entirely achievable, but only if

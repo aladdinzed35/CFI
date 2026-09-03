@@ -80,7 +80,7 @@ export default async function AuthLayout({
           <p className="mt-4 text-body text-pretty text-ink-muted">{home('hero.subheadline')}</p>
         </div>
 
-        <p className="text-xs text-ink-muted">{shell('brandFull')} · Tanger</p>
+        <p className="text-xs text-ink-muted">{shell('brandFull')} · Meknès</p>
       </aside>
 
       {/* ── Form column ───────────────────────────────────────────────────── */}

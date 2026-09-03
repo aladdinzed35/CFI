@@ -225,7 +225,7 @@ const SHOWCASE_COPY = {
       'La même échelle fluide en latin et en arabe. La colonne arabe porte lang="ar" : elle hérite de la police arabe et de --leading-ar.',
     latinColumn: 'Latin',
     arabicColumn: 'العربية',
-    latinSample: 'Le détroit relie deux mers.',
+    latinSample: 'Meknès veille sur la plaine du Saïss.',
     arabicSample: 'المضيق يصل بين بحرين.',
     leadingTitle: 'Différence d’interlignage',
     leadingNote:
@@ -291,7 +291,7 @@ const SHOWCASE_COPY = {
     city: 'Ville',
     cityPlaceholder: 'Choisir une ville',
     cityError: 'Choisissez une ville pour continuer.',
-    cityTanger: 'Tanger',
+    cityMeknes: 'Meknès',
     cityCasablanca: 'Casablanca',
     cityRabat: 'Rabat',
     cityMarrakech: 'Marrakech',
@@ -591,9 +591,9 @@ const SHOWCASE_COPY = {
       'Le même balisage, la même feuille de style : seule la direction change. Les marges, les icônes et l’alignement suivent, car rien n’est écrit en gauche/droite.',
     forceRtl: 'Forcer l’aperçu en arabe',
     paragraphFr:
-      'Le détroit de Gibraltar sépare deux continents de quatorze kilomètres. Le centre forme, à Tanger, celles et ceux qui travaillent des deux côtés.',
+      'Bab Mansour ouvre sur la plus vaste place de Meknès, cité impériale posée sur la plaine du Saïss. Le centre y forme celles et ceux qui font tourner la région.',
     paragraphAr:
-      'يفصل مضيق جبل طارق بين قارتين على مسافة أربعة عشر كيلومترًا. يكوّن المركز في طنجة من يعملون على ضفتيه.',
+      'ينفتح باب المنصور على أوسع ساحة في مكناس، المدينة الإمبراطورية القائمة على سهل سايس. وفيها يكوّن المركز من يُشغّلون الجهة.',
     controlsTitle: 'Une rangée de contrôles',
     controlsNote:
       'Icône directionnelle retournée, coche jamais retournée, filet logique, chiffres isolés en LTR.',
@@ -1426,7 +1426,7 @@ function ButtonsSection({ title, actionLabel }: { title: string; actionLabel: st
    ═══════════════════════════════════════════════════════════════════════════ */
 
 const CITY_OPTIONS: readonly { readonly value: string; readonly label: string }[] = [
-  { value: 'tanger', label: SHOWCASE_COPY.inputs.cityTanger },
+  { value: 'meknes', label: SHOWCASE_COPY.inputs.cityMeknes },
   { value: 'casablanca', label: SHOWCASE_COPY.inputs.cityCasablanca },
   { value: 'rabat', label: SHOWCASE_COPY.inputs.cityRabat },
   { value: 'marrakech', label: SHOWCASE_COPY.inputs.cityMarrakech },
@@ -1516,7 +1516,7 @@ function FieldColumn({
         error={error === undefined ? undefined : SHOWCASE_COPY.inputs.cityError}
       >
         {(field) => (
-          <Select dir={dir} disabled={disabled} defaultValue={error === undefined ? 'tanger' : undefined}>
+          <Select dir={dir} disabled={disabled} defaultValue={error === undefined ? 'meknes' : undefined}>
             <SelectTrigger
               id={field.id}
               aria-describedby={field['aria-describedby']}
@@ -1740,7 +1740,7 @@ function InputsSection({
                 aria-describedby={field['aria-describedby']}
                 required={field.required}
                 autoComplete="new-password"
-                defaultValue="detroit-2026"
+                defaultValue="saiss-2026"
                 showPasswordLabel={SHOWCASE_COPY.inputs.showPassword}
                 hidePasswordLabel={SHOWCASE_COPY.inputs.hidePassword}
                 strengthLabels={SHOWCASE_COPY.inputs.strengthLabels}
