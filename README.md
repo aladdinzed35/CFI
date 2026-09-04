@@ -93,32 +93,7 @@ Notes:
   `@font-face` in `src/styles/globals.css` sits on top of a real fallback stack, so the app renders
   correctly with system faces until `public/fonts/` is filled.
 
-## Seeded demo accounts
 
-The seed is idempotent (`upsert` by natural key). Passwords are **per role**, not shared — these
-are the literals in `prisma/seed.ts`, verified against the seeded database.
-
-| Email | Password | Role | Status | What it demonstrates |
-|---|---|---|---|---|
-| `admin@cfi.ma` | `Cfi!SuperAdmin2026` | `SUPER_ADMIN` | `ACTIVE` | Every admin panel, settings, bank details, roles |
-| `gestion@cfi.ma` | `Cfi!Gestion2026` | `ADMIN` | `ACTIVE` | Daily operations without super-admin powers |
-| `karim.tazi@cfi.ma` | `Cfi!Formateur2026` | `INSTRUCTOR` | `ACTIVE` | Authoring and moderating own courses |
-| `nadia.ouazzani@cfi.ma` | `Cfi!Formateur2026` | `INSTRUCTOR` | `ACTIVE` | A second instructor, for the ownership checks |
-| `imane.chraibi@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `ACTIVE` | Enrolled, mid-progress |
-| `mehdi.berrada@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `ACTIVE` | A second active student |
-| `yasmine.kadiri@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `PENDING_APPROVAL` | The waiting screen and the admin validation queue |
-| `bilal.moutaouakil@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `PENDING_EMAIL` | The unconfirmed-address path |
-| `soukaina.rhalmi@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `REJECTED` | Rejection copy and the re-apply path |
-| `hamza.lemseffer@gmail.com` | `Cfi!Etudiant2026` | `STUDENT` | `SUSPENDED` | Suspension handling in the middleware |
-
-Sixteen accounts are seeded in total; the rest are additional `ACTIVE` students that give the
-catalogue realistic enrolment and review counts. `npm run db:studio` lists them all.
-
-> **Production:** log in as `admin@cfi.ma` once, change the password immediately, then fill the real
-> settings (bank details, WhatsApp, contact) from `/admin/reglages`. The seeded bank details are
-> deliberately marked `À REMPLACER` so they cannot be mistaken for real ones.
-
----
 
 ## Scripts
 
@@ -151,55 +126,7 @@ to reach the database. It runs as a separate deploy step. Rationale and the alte
 
 ---
 
-## Project structure
-
-```
-CFI/
-├─ .github/workflows/ci.yml        lint · typecheck · i18n parity · unit · integration · build · e2e · axe
-├─ .env.example                    every variable, with comments; secrets empty
-├─ next.config.ts                  security headers, image config, next-intl plugin
-├─ eslint.config.mjs               flat config, RTL + raw-colour rules
-├─ postcss.config.mjs              @tailwindcss/postcss
-├─ prisma/
-│  ├─ schema.prisma                provider = mysql · enum Locale { fr ar en es }
-│  ├─ migrations/
-│  └─ seed.ts
-├─ public/
-│  ├─ fonts/                       self-hosted, subset (Latin + Arabic) — see fonts/README.md
-│  ├─ brand/                       logo variants, favicon set, OG fallback, seed covers
-│  └─ sw.js                        built artifact, gitignored
-├─ src/
-│  ├─ app/
-│  │  ├─ [locale]/
-│  │  │  ├─ (public)/              guest site: home, formations, parcours, blog, contact, legal, certificat
-│  │  │  ├─ (auth)/                inscription, connexion, mot-de-passe, verification, compte-en-attente
-│  │  │  ├─ (student)/espace/      dashboard, mes-formations, apprendre/…, demandes, notes, agenda, profil
-│  │  │  ├─ (admin)/admin/         comptes, demandes, paiements, formations, ia, reglages, journal
-│  │  │  └─ layout.tsx             locale + dir + fonts + providers
-│  │  ├─ api/                      auth · ai/chat (SSE) · files (private proxy) · video/token · cron · health
-│  │  ├─ sitemap.ts robots.ts manifest.ts opengraph-image.tsx global-error.tsx
-│  ├─ components/
-│  │  ├─ ui/                       design-system primitives — every state, both themes, both directions
-│  │  ├─ marketing/                hero, lattice, pricing, testimonials
-│  │  ├─ learn/                    player, transcript, notes, quiz
-│  │  ├─ admin/                    data table, receipt viewer, curriculum builder
-│  │  └─ ai/                       assistant dock, message list, citations
-│  ├─ server/
-│  │  ├─ auth/                     config, guards, permissions (`can()`), session management
-│  │  ├─ actions/                  server actions, grouped by domain
-│  │  ├─ services/                 business logic, pure and unit-testable, the only Prisma caller
-│  │  ├─ storage/ video/ mail/ jobs/
-│  │  └─ db.ts                     Prisma singleton
-│  ├─ lib/                         money · phone · slug · crypto · rate-limit · cn · validation/ · env.ts
-│  ├─ i18n/
-│  │  ├─ routing.ts request.ts     locales = ['fr','ar','en','es'] · rtlLocales = ['ar']
-│  │  └─ messages/{fr,ar,en,es}.json
-│  └─ styles/globals.css           the design tokens — never redefined elsewhere
-├─ tests/                          unit/ · integration/ · e2e/
-└─ docs/
-   ├─ PLAN.md DECISIONS.md CONFIG.md ARCHITECTURE.md
-   ├─ DEPLOYMENT.md GUIDE-ADMIN.md (français) GUIDE-ETUDIANT.md (français)
-   └─ AI-ASSISTANT.md SECURITY.md CONTENT.md
+SISTANT.md SECURITY.md CONTENT.md
 ```
 
 **The layering rule:** UI components never import Prisma and never call a service directly.
