@@ -175,10 +175,16 @@ the build prerenders a site with content in it rather than a shell that fills in
 
 ## After the first successful deploy
 
-1. **Seed, only if this is a fresh install.** `npm run db:seed` writes demo accounts and a demo
-   catalogue. Do not run it on an installation that already has real students.
-2. **Sign in as the administrator and change the password immediately.** The seeded credentials are
-   printed by the seed and listed in the README; they are demonstration passwords.
+1. **Think before seeding.** `npm run db:seed` writes demo accounts and a demo catalogue. It is for
+   a fresh install you intend to demonstrate — never one that already has real students.
+
+   > **The seed passwords are public.** They are literals in `prisma/seed.ts`, in a public
+   > repository. A seeded production site has a `SUPER_ADMIN` whose password anyone can read. If you
+   > seed production, change every password in the same session, or do not seed it at all and create
+   > the administrator by hand.
+
+2. **Sign in as the administrator and change the password immediately** — see the warning above.
+   The seed prints its own credential table when it finishes.
 3. **Fill the real settings** at `/admin/reglages`: bank details, WhatsApp, contact address, hours.
    The seeded bank details read `À REMPLACER` precisely so they cannot be mistaken for real ones.
 4. **Check health**: `GET /api/health` returns
