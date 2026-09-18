@@ -176,7 +176,7 @@ export function ResendPanel({ initialEmail }: ResendPanelProps): React.JSX.Eleme
   const knowsAddress = email !== '';
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
+    <form method="post" onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
       {sent ? <Alert variant="success" title={t('auth.verifyEmail.resent')} /> : null}
       {error === null ? null : (
         <Alert variant="error" title={t('errors.serverError.title')}>

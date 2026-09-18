@@ -262,7 +262,7 @@ export function ContactForm({
       </p>
 
       {sentTo === null ? (
-        <form noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
+        <form method="post" noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
           {visibleFormError === null ? null : (
             <Alert variant="error" title={tRoot('errors.serverError.title')}>
               {visibleFormError}

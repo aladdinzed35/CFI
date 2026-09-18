@@ -20,6 +20,8 @@ const config = [
       'playwright-report/**',
       'test-results/**',
       'src/generated/**',
+      // Local layout-audit harness; never committed.
+      '.audit/**',
     ],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
@@ -80,6 +82,38 @@ const config = [
     files: ['scripts/**/*.ts', 'prisma/**/*.ts', 'tests/**/*.ts', 'tests/**/*.tsx'],
     rules: {
       'no-console': 'off',
+    },
+  },
+  {
+    // A form must say how it submits.
+    //
+    // Every client form here handles `onSubmit` and calls a Server Action from
+    // JavaScript. Before hydration there is no handler, and a form with no
+    // `method` falls back to the HTML default — GET — serialising every field
+    // into the URL. Found by accident on the login page:
+    //   /fr/connexion?email=admin%40cfi.ma&password=Cfi%21SuperAdmin2026
+    // On a slow phone a real person tapping « Se connecter » early does the
+    // same, and the password lands in browser history, the host's access logs
+    // and the Referer of the next request. Same for the reset and register
+    // forms, the admin bank details, and the certificate code whose own page
+    // promises it never reaches a URL.
+    //
+    // `method="post"` makes a premature submit a POST to the page, which
+    // simply renders it again. A form with `action={serverAction}` is already
+    // a POST (React forbids setting `method` on it), so either attribute
+    // satisfies the rule — and a deliberate GET, like a search box, just says
+    // `method="get"`.
+    files: ['src/**/*.tsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "JSXOpeningElement[name.name='form']:not(:has(JSXAttribute[name.name=/^(method|action)$/]))",
+          message:
+            'Give every <form> a `method` (or a Server Action `action`). Without one, a submit before hydration is a native GET that puts every field — passwords included — in the URL.',
+        },
+      ],
     },
   },
 ];

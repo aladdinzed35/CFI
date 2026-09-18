@@ -237,7 +237,7 @@ export function RegisterForm({ locale }: RegisterFormProps): React.JSX.Element {
   });
 
   return (
-    <form noValidate onSubmit={onValid} className="flex flex-col gap-5">
+    <form method="post" noValidate onSubmit={onValid} className="flex flex-col gap-5">
       {formError === null ? null : (
         <Alert variant="error" title={t('errors.serverError.title')}>
           {formError}

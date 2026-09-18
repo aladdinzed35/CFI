@@ -154,7 +154,7 @@ export function VerifyCertificateForm({
         {announcement}
       </p>
 
-      <form noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
+      <form method="post" noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
         <FormField
           label={t('codeLabel')}
           description={t('codeHint')}

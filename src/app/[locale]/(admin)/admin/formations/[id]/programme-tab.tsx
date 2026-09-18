@@ -278,7 +278,7 @@ function ModuleForm({
   };
 
   return (
-    <form
+    <form method="post"
       className="flex flex-col gap-4"
       onSubmit={(event) => {
         event.preventDefault();
@@ -370,7 +370,7 @@ function AddModuleForm({ courseId }: { courseId: string }): React.JSX.Element {
   };
 
   return (
-    <form
+    <form method="post"
       className="flex flex-wrap items-end gap-3 rounded-md border border-dashed border-hairline p-3"
       onSubmit={(event) => {
         event.preventDefault();
@@ -602,7 +602,7 @@ function LessonForm({
   };
 
   return (
-    <form
+    <form method="post"
       className="flex flex-col gap-4"
       onSubmit={(event) => {
         event.preventDefault();
@@ -729,7 +729,7 @@ function AddLessonForm({ moduleId }: { moduleId: string }): React.JSX.Element {
   };
 
   return (
-    <form
+    <form method="post"
       className="flex flex-wrap items-end gap-3"
       onSubmit={(event) => {
         event.preventDefault();

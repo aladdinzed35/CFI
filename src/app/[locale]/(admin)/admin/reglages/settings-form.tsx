@@ -170,7 +170,7 @@ function SettingsGroupForm({ group }: { group: SettingGroupView }): React.JSX.El
             <Alert variant="warning" title={group.placeholderWarning} />
           )}
 
-          <form onSubmit={submit} className="flex flex-col gap-5">
+          <form method="post" onSubmit={submit} className="flex flex-col gap-5">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {group.fields.map((field) => {
                 const errorKey = fieldErrors[field.key];

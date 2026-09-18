@@ -175,7 +175,7 @@ export function InfosTab({ course, categories }: InfosTabProps): React.JSX.Eleme
   );
 
   return (
-    <form
+    <form method="post"
       className="flex flex-col gap-8"
       onSubmit={(event) => {
         event.preventDefault();

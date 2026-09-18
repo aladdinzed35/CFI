@@ -242,7 +242,7 @@ export function ReceiptForm({
   }
 
   return (
-    <form
+    <form method="post"
       id={formId}
       noValidate
       onSubmit={(event) => {

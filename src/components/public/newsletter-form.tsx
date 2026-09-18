@@ -138,7 +138,7 @@ export function NewsletterForm(): React.JSX.Element {
           <span className="text-pretty">{t('footer.newsletter.success')}</span>
         </p>
       ) : (
-        <form noValidate onSubmit={onSubmit} className="flex flex-col gap-3">
+        <form method="post" noValidate onSubmit={onSubmit} className="flex flex-col gap-3">
           {formError === null ? null : (
             <p role="alert" className="text-sm text-danger text-pretty">
               {formError}

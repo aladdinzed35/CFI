@@ -184,7 +184,7 @@ export function ResetForm({ token }: ResetFormProps): React.JSX.Element {
 
   /* ── Form ────────────────────────────────────────────────────────────── */
   return (
-    <form noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
+    <form method="post" noValidate onSubmit={onSubmit} className="flex flex-col gap-5">
       {formError === null ? null : (
         <Alert variant="error" title={t('errors.serverError.title')}>
           {formError}
