@@ -22,11 +22,12 @@
  */
 
 import { constants as fsConstants } from 'node:fs';
-import { access, readFile } from 'node:fs/promises';
+import { access, mkdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { NextResponse } from 'next/server';
 import { constantTimeEquals } from '@/lib/crypto';
 import { env } from '@/lib/env';
+import { diagnoseDeployment } from '@/server/diagnostics/deployment';
 import { countQueuedJobs, pingDatabase } from '@/server/jobs/queue';
 import { readLastCronRunAt } from '@/server/jobs/runner';
 // Only the transport is needed here — importing the mail barrel would pull the
@@ -61,6 +62,14 @@ const STORAGE_TIMEOUT_MS = 3_000;
 export async function GET(request: Request): Promise<NextResponse> {
   const url = new URL(request.url);
   const wantsSmtp = url.searchParams.get('smtp') === '1' && isTrustedCaller(url);
+
+  // The operator's view: why, not just whether. Same gate as the SMTP probe.
+  if (url.searchParams.get('diagnose') === '1' && isTrustedCaller(url)) {
+    return NextResponse.json(await diagnoseDeployment(readCommit()), {
+      status: 200,
+      headers: NO_STORE,
+    });
+  }
 
   const [db, storage, smtp, lastCronAt] = await Promise.all([
     pingDatabase(),
@@ -104,6 +113,12 @@ async function checkStorage(): Promise<boolean> {
     const path = env.LOCAL_STORAGE_PATH;
     if (path === undefined || path.length === 0) return false;
     try {
+      // Create it first. The local driver makes this directory on the first
+      // upload, so on a fresh deployment it does not exist yet — and the old
+      // probe, a bare `access(W_OK)`, reported `storage: fail` for a store
+      // that was perfectly usable. It was the first thing the production
+      // health check said, and it was wrong. `recursive` is idempotent.
+      await mkdir(path, { recursive: true });
       await access(path, fsConstants.W_OK);
       return true;
     } catch {
@@ -174,8 +189,15 @@ async function readVersion(): Promise<string> {
  * when nothing published it.
  */
 function readCommit(): string | null {
+  // CFI_BUILD_COMMIT is stamped by next.config.ts from the checkout the build
+  // ran in, so a Hostinger Git deployment reports its commit with no deploy
+  // script at all. The others still win when a pipeline publishes one.
   const raw =
-    process.env.GIT_COMMIT ?? process.env.SOURCE_COMMIT ?? process.env.GITHUB_SHA ?? null;
+    process.env.GIT_COMMIT ??
+    process.env.SOURCE_COMMIT ??
+    process.env.GITHUB_SHA ??
+    process.env.CFI_BUILD_COMMIT ??
+    null;
   if (raw === null) return null;
   const trimmed = raw.trim();
   return trimmed.length === 0 ? null : trimmed.slice(0, 12);

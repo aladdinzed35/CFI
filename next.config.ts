@@ -1,3 +1,5 @@
+import { execSync } from 'node:child_process';
+
 import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from 'next';
 
@@ -27,8 +29,33 @@ if (process.env.BUNNY_STREAM_CDN_HOSTNAME) {
   remotePatterns.push({ protocol: 'https', hostname: process.env.BUNNY_STREAM_CDN_HOSTNAME });
 }
 
+/**
+ * Which build is running.
+ *
+ * The first production deployment answered `commit: null`, and the next
+ * question after "why is it failing" is always "is my fix live yet" — which
+ * nothing answered. The commit comes from the checkout the build ran in, so a
+ * Hostinger Git deployment reports it with no deploy script at all; `null`
+ * when there is no `.git` to read, never a fake sha.
+ */
+function buildCommit(): string {
+  try {
+    return execSync('git rev-parse --short=12 HEAD', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return '';
+  }
+}
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+
+  // Server-only in practice: read by `/api/health` and nothing else.
+  env: {
+    CFI_BUILT_AT: new Date().toISOString(),
+    CFI_BUILD_COMMIT: buildCommit(),
+  },
   poweredByHeader: false,
   compress: true,
 
