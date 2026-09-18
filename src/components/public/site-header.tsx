@@ -153,7 +153,7 @@ export function SiteHeader({
         scrolled ? 'surface-blur hairline-b' : 'border-b border-transparent bg-transparent',
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-3 px-4 sm:px-6 lg:h-20">
         <Link
           href="/"
           aria-label={brandFullName}

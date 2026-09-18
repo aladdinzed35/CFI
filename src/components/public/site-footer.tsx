@@ -113,7 +113,7 @@ export async function SiteFooter({
 
   return (
     <footer className="texture-bathymetric hairline-t mt-20 bg-surface print:mt-8">
-      <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
         {/* ── Newsletter row ────────────────────────────────────────────── */}
         <section className="hairline-b grid gap-6 pb-10 md:grid-cols-2 md:items-start md:gap-12">
           <h2 className="font-display text-title text-balance text-ink">

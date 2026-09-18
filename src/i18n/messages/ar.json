@@ -110,7 +110,16 @@
       "trustLine": "مركز تكوين بمكناس · مواكبة حضورية وعن بُعد",
       "latticeLabel": "عرض متحرّك لدورات الكتالوج التدريبية",
       "proofLabel": "بالأرقام",
-      "scrollHint": "مرّروا الصفحة للاكتشاف"
+      "scrollHint": "مرّروا الصفحة للاكتشاف",
+      "visual": {
+        "courseEyebrow": "قيد التقدّم",
+        "courseFallback": "دورتك التدريبية",
+        "progress": "التقدّم",
+        "mentorTitle": "ردّ عليك مدرّبك",
+        "mentorBody": "عمل جيد! نراجع الخطوة 3 معًا غدًا؟",
+        "certificateTitle": "تم إصدار الشهادة",
+        "certificateBody": "قابلة للتحقق عبر الإنترنت"
+      }
     },
     "proof": {
       "learners": "متدرّبونا",

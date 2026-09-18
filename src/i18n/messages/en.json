@@ -110,7 +110,16 @@
       "trustLine": "Training centre in Meknès · On-site and remote support",
       "latticeLabel": "Animated preview of the course catalogue",
       "proofLabel": "In numbers",
-      "scrollHint": "Scroll to explore"
+      "scrollHint": "Scroll to explore",
+      "visual": {
+        "courseEyebrow": "In progress",
+        "courseFallback": "Your course",
+        "progress": "Progress",
+        "mentorTitle": "Your trainer replied",
+        "mentorBody": "Nice work! Shall we go over step 3 together tomorrow?",
+        "certificateTitle": "Certificate issued",
+        "certificateBody": "Verifiable online"
+      }
     },
     "proof": {
       "learners": "Our learners",

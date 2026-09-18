@@ -110,7 +110,16 @@
       "trustLine": "Centro de formación en Meknès · Acompañamiento presencial y a distancia",
       "latticeLabel": "Vista animada de las formaciones del catálogo",
       "proofLabel": "En cifras",
-      "scrollHint": "Desplácese para descubrir"
+      "scrollHint": "Desplácese para descubrir",
+      "visual": {
+        "courseEyebrow": "En curso",
+        "courseFallback": "Su formación",
+        "progress": "Progreso",
+        "mentorTitle": "Su formador ha respondido",
+        "mentorBody": "¡Buen trabajo! ¿Repasamos juntos el paso 3 mañana?",
+        "certificateTitle": "Certificado emitido",
+        "certificateBody": "Verificable en línea"
+      }
     },
     "proof": {
       "learners": "Nuestros alumnos",

@@ -88,6 +88,17 @@
   --raw-signal-danger: #ff6076;
   --raw-signal-warn: #ffb454;
   --raw-signal-success: #4fd48a;
+  /* Illustration palette — the hero's Bab Mansour (components/public/home/
+     hero-visual.tsx). Separate from the UI accents on purpose: the light
+     theme darkens brass to #835319 so a PRICE in brass passes 4.5:1, and the
+     same token as the sun in the gate turned it muddy brown. Art is judged by
+     eye, not by text contrast, so it gets its own values per theme. */
+  --raw-art-sky-top: #07243a;
+  --raw-art-sky-horizon: #1c8f7f;
+  --raw-art-sun: #f0b860;
+  --raw-art-silhouette: #051726;
+  --raw-art-tile: #e7b463;
+  --raw-art-tile-accent: #2fe3be;
 
   /* Derived: ink that sits *on* a filled accent surface. Verified ≥4.5:1. */
   --raw-on-accent: #04231d;
@@ -151,6 +162,12 @@
   --raw-signal-danger: #b42638;
   --raw-signal-warn: #825414;
   --raw-signal-success: #196c44;
+  --raw-art-sky-top: #135a73;
+  --raw-art-sky-horizon: #7ad3c1;
+  --raw-art-sun: #f4b24e;
+  --raw-art-silhouette: #0c3c52;
+  --raw-art-tile: #b8802f;
+  --raw-art-tile-accent: #0f7a6c;
 
   --raw-on-accent: #ffffff;
   --raw-on-brass: #ffffff;
@@ -188,6 +205,12 @@
     --raw-signal-danger: #b42638;
     --raw-signal-warn: #825414;
     --raw-signal-success: #196c44;
+    --raw-art-sky-top: #135a73;
+    --raw-art-sky-horizon: #7ad3c1;
+    --raw-art-sun: #f4b24e;
+    --raw-art-silhouette: #0c3c52;
+    --raw-art-tile: #b8802f;
+    --raw-art-tile-accent: #0f7a6c;
     --raw-on-accent: #ffffff;
     --raw-on-brass: #ffffff;
     --raw-on-danger: #ffffff;
@@ -246,7 +269,7 @@
   --radius-pill: 999px;
 
   /* Fluid type scale, 360px → 1440px. Body never drops below 14px. */
-  --text-hero: clamp(2.5rem, 6vw, 5.5rem);
+  --text-hero: clamp(2.25rem, 1.3rem + 3.8vw, 4.5rem);
   --text-hero--line-height: 1.02;
   --text-display: clamp(2rem, 4.2vw, 3.5rem);
   --text-display--line-height: 1.08;
