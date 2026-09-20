@@ -185,7 +185,12 @@ export function VerifyCertificateForm({
           )}
         </FormField>
 
-        <Button type="submit" size="lg" loading={pending} className="self-start">
+        <Button
+          type="submit"
+          size="lg"
+          loading={pending}
+          className="w-full sm:w-auto sm:self-start"
+        >
           {t('submit')}
         </Button>
       </form>

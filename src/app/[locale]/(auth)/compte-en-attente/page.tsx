@@ -67,18 +67,23 @@ export default async function PendingApprovalPage({
   const t = await getTranslations('auth.pending');
   const tRejected = await getTranslations('auth.rejected');
   const tSuspended = await getTranslations('auth.suspended');
+  const tAccountStatus = await getTranslations('admin.accounts.status');
   const brand = await resolveBrandContext();
 
   // This screen serves three statuses (see ROUTES.rejected / ROUTES.suspended),
   // so the header must follow the status. A fixed « votre compte est en cours de
   // validation » above a red refusal notice contradicts itself, and the person
   // reading it has just been told two different things about their account.
+  //
+  // The pill under it names the status in two or three words. Repeating the
+  // heading's full sentence in a pill right below the heading said everything
+  // twice and wrapped the pill onto two lines at 360 px.
   const heading =
     user.status === 'REJECTED'
-      ? { title: tRejected('title'), tone: 'danger' as const }
+      ? { title: tRejected('title'), status: t('statusRejected'), tone: 'danger' as const }
       : user.status === 'SUSPENDED'
-        ? { title: tSuspended('title'), tone: 'danger' as const }
-        : { title: t('title'), tone: 'warn' as const };
+        ? { title: tSuspended('title'), status: tAccountStatus('suspended'), tone: 'danger' as const }
+        : { title: t('title'), status: t('statusPending'), tone: 'warn' as const };
 
   return (
     <div className="flex flex-col gap-6">
@@ -99,7 +104,7 @@ export default async function PendingApprovalPage({
         <StatusPill
           domain="account"
           status={user.status}
-          label={heading.title}
+          label={heading.status}
           srPrefix={t('statusLabel')}
           className="self-start"
         />

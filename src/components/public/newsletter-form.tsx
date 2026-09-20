@@ -145,7 +145,11 @@ export function NewsletterForm(): React.JSX.Element {
             </p>
           )}
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          {/* Top-aligned, with the button dropped by the label's height
+              (one `text-sm` line + the field's 6 px gap ≈ 28 px): aligned to
+              the END, a validation message under the field pulled the button
+              down beside the message instead of beside the input. */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
             <FormField
               label={t('auth.fields.email')}
               error={emailError}
@@ -172,7 +176,7 @@ export function NewsletterForm(): React.JSX.Element {
               )}
             </FormField>
 
-            <Button type="submit" size="md" loading={isSubmitting} className="sm:shrink-0">
+            <Button type="submit" size="md" loading={isSubmitting} className="sm:mt-7 sm:shrink-0">
               {t('footer.newsletter.submit')}
             </Button>
           </div>

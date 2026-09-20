@@ -205,7 +205,7 @@ export function CatalogSearch({ filters, className }: CatalogSearchProps): React
           containerClassName="min-w-0 flex-1"
           // The field carries its own clear control; the WebKit one would sit
           // underneath it and is not a 44 px target.
-          className="[&::-webkit-search-cancel-button]:hidden"
+          className="shadow-e1 [&::-webkit-search-cancel-button]:hidden"
           iconStart={<Search className="size-4" aria-hidden="true" />}
           iconEnd={
             // Always occupies the gutter, so the text does not jump sideways the
@@ -225,7 +225,8 @@ export function CatalogSearch({ filters, className }: CatalogSearchProps): React
           }
         />
 
-        <Button type="submit" variant="secondary" className="shrink-0">
+        {/* The page's primary action, in the header band: solid, not secondary. */}
+        <Button type="submit" className="shrink-0">
           {t('searchSubmit')}
         </Button>
       </div>

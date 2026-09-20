@@ -210,7 +210,9 @@ export function LoginForm({ returnTo }: LoginFormProps): React.JSX.Element {
 
       <Link
         href="/mot-de-passe-oublie"
-        className="self-start rounded-sm text-sm font-medium text-strait underline underline-offset-4 hover:text-ink"
+        // 44 px tall to the finger, with the extra height taken back out of the
+        // gap so the link does not drift away from the button above it.
+        className="-my-2.5 inline-flex min-h-11 items-center self-start rounded-sm text-sm font-medium text-strait underline underline-offset-4 hover:text-ink"
       >
         {t('auth.login.forgotPassword')}
       </Link>

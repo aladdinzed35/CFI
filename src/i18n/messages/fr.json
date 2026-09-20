@@ -1578,6 +1578,12 @@
         "publish": "Publier l’annonce",
         "success": "L’annonce a été publiée.",
         "empty": "Aucune annonce pour le moment."
+      },
+      "empty": {
+        "title": "Aucune formation pour le moment",
+        "body": "Créez votre première formation : elle reste en brouillon jusqu’à ce que vous la publiiez.",
+        "tabTitle": "Aucune formation dans cet onglet",
+        "tabBody": "Changez d’onglet ou ajustez les filtres pour retrouver les autres formations."
       }
     },
     "cms": {
@@ -1681,6 +1687,28 @@
         "deleteConfirm": "Supprimer ce fichier ?",
         "copyUrl": "Copier l’adresse",
         "copied": "Adresse copiée"
+      },
+      "empty": {
+        "pages": {
+          "title": "Aucune page légale",
+          "body": "Les pages CGU, confidentialité et cookies apparaîtront ici une fois créées."
+        },
+        "faq": {
+          "title": "Aucune question",
+          "body": "Ajoutez une première question : elle s’affichera aussitôt sur la page FAQ publique."
+        },
+        "testimonials": {
+          "title": "Aucun témoignage",
+          "body": "Ajoutez un témoignage d’étudiant : il paraîtra sur la page d’accueil une fois approuvé."
+        },
+        "blog": {
+          "title": "Aucun article",
+          "body": "Rédigez un premier article : il reste en brouillon jusqu’à sa publication."
+        },
+        "categories": {
+          "title": "Aucune catégorie",
+          "body": "Créez une première catégorie pour classer vos formations."
+        }
       }
     },
     "settings": {

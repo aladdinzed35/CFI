@@ -115,7 +115,7 @@ export function JournalTable(props: JournalTableProps): React.JSX.Element {
         enableSorting: true,
         enableHiding: false,
         cell: ({ row }) => (
-          <time dateTime={row.original.whenIso} className="text-sm text-ink-muted">
+          <time dateTime={row.original.whenIso} className="text-sm whitespace-nowrap text-ink-muted">
             {row.original.whenLabel}
           </time>
         ),
@@ -130,14 +130,18 @@ export function JournalTable(props: JournalTableProps): React.JSX.Element {
         id: 'action',
         header: t('filters.action'),
         enableSorting: false,
-        cell: ({ row }) => <EventCell entry={row.original} />,
+        cell: ({ row }) => (
+          <span className="block min-w-64 max-w-md">
+            <EventCell entry={row.original} />
+          </span>
+        ),
       },
       {
         id: 'entityType',
         header: t('filters.entityType'),
         enableSorting: false,
         cell: ({ row }) => (
-          <Badge tone="neutral" variant="soft" size="sm">
+          <Badge tone="neutral" variant="soft" size="sm" className="w-max max-w-none">
             {row.original.entityType}
           </Badge>
         ),
@@ -281,7 +285,7 @@ function ActorCell({ entry }: { entry: AuditEntryView }): React.JSX.Element {
   return (
     <Link
       href={`/admin/comptes/${entry.actorId}`}
-      className="inline-flex min-h-11 items-center rounded-sm text-sm font-medium text-ink"
+      className="inline-flex min-h-11 items-center rounded-sm text-sm font-medium whitespace-nowrap text-ink"
     >
       {entry.actorName}
     </Link>

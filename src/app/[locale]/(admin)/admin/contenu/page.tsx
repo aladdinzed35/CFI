@@ -16,6 +16,7 @@ import {
   listTestimonials,
 } from '@/server/services/content-admin';
 
+import { AdminPage, AdminPageHeader } from '../admin-page';
 import { BlogTab } from './blog-tab';
 import { CategoriesTab } from './categories-tab';
 import { FaqTab } from './faq-tab';
@@ -99,13 +100,10 @@ export default async function ContentPage({
   const tab: CmsTabKey = query[PARAM.tab] ?? 'pages';
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="flex flex-col gap-1 pb-4">
-        <h1 className="font-display text-title text-ink">{t('title')}</h1>
-        <p className="max-w-prose text-sm text-ink-muted">{t('subtitle')}</p>
-      </header>
+    <AdminPage>
+      <AdminPageHeader title={t('title')} subtitle={t('subtitle')} />
 
-      <nav aria-label={t('title')} className="hairline-b mb-6 flex w-full items-stretch gap-1 overflow-x-auto">
+      <nav aria-label={t('title')} className="mb-6 -mx-1 flex items-stretch gap-1 overflow-x-auto px-1 shadow-[inset_0_-1px_0_var(--color-hairline)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {CMS_TABS.map((entry) => {
           const active = entry.key === tab;
           return (
@@ -114,7 +112,7 @@ export default async function ContentPage({
               href={{ pathname: '/admin/contenu', query: { [PARAM.tab]: entry.key } }}
               aria-current={active ? 'page' : undefined}
               className={[
-                'relative -mb-px inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-4 text-body',
+                'inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-3 text-body',
                 'border-b-2 transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
                 active
                   ? 'border-strait font-medium text-ink'
@@ -128,7 +126,7 @@ export default async function ContentPage({
       </nav>
 
       {await renderTab(tab, locale)}
-    </div>
+    </AdminPage>
   );
 }
 

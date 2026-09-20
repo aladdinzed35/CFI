@@ -119,27 +119,50 @@ const TILES: readonly { key: 'tile1' | 'tile2' | 'tile3' | 'tile4'; glyph: Glyph
 export async function HomeMethod(): Promise<React.JSX.Element> {
   const t = await getTranslations('home.method');
 
+  /*
+    A `surface` band, bordered top and bottom. It used to sit on the page
+    background straight under the hero, and the hero's bottom padding plus this
+    section's top padding read as one 190 px hole with nothing marking where
+    the hero ended. The band gives the page its first clear edge, and it starts
+    the rhythm the rest of the homepage follows: plain · band · plain · band.
+  */
   return (
-    <section aria-labelledby="home-method-title" className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-      <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">
-        {t('sectionLabel')}
-      </p>
-      <h2 id="home-method-title" className="mt-4 max-w-[20ch] text-display">
-        {t('title')}
-      </h2>
-      <p className="mt-5 max-w-[62ch] text-lead text-ink-muted">{t('subtitle')}</p>
+    <section
+      aria-labelledby="home-method-title"
+      data-home-band="surface"
+      className="border-y border-hairline bg-surface"
+    >
+      <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+        {/* Arabic is cursive: tracking pulls its letters apart, and the mono
+            face has no Arabic glyphs, so the eyebrow switches both off in RTL. */}
+        <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait rtl:font-arabic rtl:text-sm rtl:tracking-normal">
+          {t('sectionLabel')}
+        </p>
+        <h2 id="home-method-title" className="mt-4 max-w-[20ch] text-display text-balance">
+          {t('title')}
+        </h2>
+        <p className="mt-5 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('subtitle')}</p>
 
-      <ul role="list" className="mt-12 grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4">
-        {TILES.map((tile) => (
-          <li key={tile.key} className="flex flex-col gap-4 bg-surface p-6">
-            <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-strait-wash">
-              <MethodGlyph id={tile.glyph} />
-            </span>
-            <h3 className="text-heading font-medium text-ink">{t(`${tile.key}.title`)}</h3>
-            <p className="text-sm text-ink-muted">{t(`${tile.key}.body`)}</p>
-          </li>
-        ))}
-      </ul>
+        <ul
+          role="list"
+          className="mt-10 grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline sm:mt-12 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {TILES.map((tile) => (
+            /* Phone: the glyph sits beside the title, so four tiles take two
+               screens instead of four. From `sm` it stacks above it again. */
+            <li
+              key={tile.key}
+              className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4 gap-y-3 bg-abyss p-5 sm:flex sm:flex-col sm:items-start sm:gap-4 sm:p-6 lg:p-7"
+            >
+              <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-strait-wash">
+                <MethodGlyph id={tile.glyph} />
+              </span>
+              <h3 className="text-heading font-medium text-ink">{t(`${tile.key}.title`)}</h3>
+              <p className="col-span-2 text-sm text-ink-muted">{t(`${tile.key}.body`)}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

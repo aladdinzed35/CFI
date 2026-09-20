@@ -6,7 +6,7 @@ import { LayoutGrid, List, SlidersHorizontal, X } from 'lucide-react';
 import { useFilterSheetOpener } from '@/components/public/catalog/filter-sheet';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import type { CatalogFilters } from '@/server/services/catalog/filters';
 import { catalogHref, clearFilters, serializeFilters } from '@/server/services/catalog/filters';
 
@@ -34,6 +34,8 @@ export interface CatalogControlsProps {
     readonly resultCount: string;
     readonly sortLabel: string;
     readonly sortOptions: ReadonlyArray<{ readonly value: string; readonly label: string }>;
+    /** Names the grid/list toggle group (« Affichage »). Falls back to `viewGrid`. */
+    readonly viewLabel?: string;
     readonly viewGrid: string;
     readonly viewList: string;
     readonly openFilters: string;
@@ -68,18 +70,21 @@ export function CatalogControls({
   return (
     <div className={cn('flex flex-col gap-4', pending && 'opacity-70 transition-opacity')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-ink-muted" aria-live="polite">
+        <p className="text-sm font-medium text-ink" aria-live="polite">
           {labels.resultCount}
         </p>
 
-        <div className="flex items-center gap-2">
+        {/* One row on a phone, whatever the language: the sort field takes the
+            width that is left, so the grid/list toggle never drops to a line of
+            its own. */}
+        <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto">
           {/* Below lg the rail is hidden and the sheet takes over. */}
           {onOpenFilters === null ? null : (
             <Button
               type="button"
               variant="secondary"
               size="sm"
-              className="lg:hidden"
+              className="shrink-0 lg:hidden"
               onClick={onOpenFilters}
               iconStart={<SlidersHorizontal className="size-4" />}
             >
@@ -92,14 +97,14 @@ export function CatalogControls({
             </Button>
           )}
 
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-w-0 flex-1 items-center gap-2 text-sm sm:flex-none">
             <span className="sr-only">{labels.sortLabel}</span>
             <select
               value={filters.sort}
               onChange={(event) => {
                 go({ ...filters, sort: event.target.value as CatalogFilters['sort'], page: 1 });
               }}
-              className="h-11 rounded-md border border-hairline bg-surface px-3 text-sm text-ink"
+              className="h-11 w-full min-w-0 rounded-md border border-hairline bg-surface px-3 text-sm text-ink sm:w-auto"
             >
               {labels.sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -110,9 +115,9 @@ export function CatalogControls({
           </label>
 
           <div
-            className="flex items-center rounded-pill border border-hairline bg-surface p-1"
+            className="flex shrink-0 items-center rounded-pill border border-hairline bg-surface p-1"
             role="group"
-            aria-label={labels.viewGrid}
+            aria-label={labels.viewLabel ?? labels.viewGrid}
           >
             {(
               [
@@ -146,25 +151,25 @@ export function CatalogControls({
       {labels.activeChips.length === 0 ? null : (
         <ul className="flex flex-wrap items-center gap-2">
           {labels.activeChips.map((chip) => (
-            <li key={chip.key}>
-              <a
+            <li key={chip.key} className="max-w-full">
+              <Link
                 href={chip.href}
-                className="inline-flex h-9 items-center gap-1.5 rounded-pill border border-hairline bg-raised ps-3 pe-2 text-sm text-ink transition-colors hover:border-strait"
+                className="inline-flex h-10 max-w-full items-center gap-1.5 rounded-pill border border-hairline bg-raised ps-3.5 pe-2.5 text-sm text-ink transition-colors hover:border-strait"
               >
-                {chip.label}
+                <span className="min-w-0 truncate">{chip.label}</span>
                 <span className="sr-only">{chip.removeLabel}</span>
-                <X className="size-3.5 text-ink-muted" aria-hidden="true" />
-              </a>
+                <X className="size-3.5 shrink-0 text-ink-muted" aria-hidden="true" />
+              </Link>
             </li>
           ))}
 
           <li>
-            <a
+            <Link
               href={catalogHref(clearFilters(filters))}
-              className="inline-flex h-9 items-center px-2 text-sm text-strait underline-offset-4 hover:underline"
+              className="inline-flex h-10 items-center px-2 text-sm font-medium text-strait underline-offset-4 hover:underline"
             >
               {labels.clearAll}
-            </a>
+            </Link>
           </li>
         </ul>
       )}

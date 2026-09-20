@@ -38,8 +38,88 @@ import type { CatalogCourse } from '@/server/services/catalog/queries';
  */
 
 /** A 1×1 transparent GIF. `next/image` leaves `data:` URLs unoptimised. */
-const BLANK_COVER =
+export const BLANK_COVER =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+/*
+ * ## A course without a cover still gets a cover
+ * Most courses start life without a picture, and a grid of beige boxes reads
+ * as a page that failed to load. The transparent GIF above keeps the card's
+ * geometry; behind it, `.cfi-cover-fallback` paints the cover slot with the
+ * site's own vocabulary — a zellige field and Bab Mansour's arch — tinted per
+ * domain, from theme variables, so it follows light and dark like everything
+ * else. The shapes are CSS masks (alpha only, no colour in them); the colour
+ * is always a token.
+ *
+ * `--raw-*` rather than `--color-*`: the Tailwind aliases are inlined into
+ * utilities and do not exist as runtime variables.
+ */
+const svgUrl = (svg: string): string => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+
+const TILE_MASK = svgUrl(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'>" +
+    "<g fill='none' stroke='black' stroke-opacity='0.5' stroke-width='1'><rect x='15' y='15' width='10' height='10' rx='1'/>" +
+    "<rect x='15' y='15' width='10' height='10' rx='1' transform='rotate(45 20 20)'/></g>" +
+    "<g fill='black' fill-opacity='0.3'><rect x='-3' y='-3' width='6' height='6' transform='rotate(45 0 0)'/>" +
+    "<rect x='37' y='-3' width='6' height='6' transform='rotate(45 40 0)'/>" +
+    "<rect x='-3' y='37' width='6' height='6' transform='rotate(45 0 40)'/>" +
+    "<rect x='37' y='37' width='6' height='6' transform='rotate(45 40 40)'/></g></svg>",
+);
+
+const GATE_MASK = svgUrl(
+  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 130'>" +
+    // The frame, the arch cut out of it (even-odd), the sun and the keystone.
+    "<path fill='black' fill-opacity='0.4' fill-rule='evenodd' d='M10 8h100v122H10z M27.6 130V71.6A34 34 0 1 1 92.4 71.6V130z'/>" +
+    "<path fill='none' stroke='black' stroke-width='2.5' d='M27.6 130V71.6A34 34 0 1 1 92.4 71.6V130'/>" +
+    "<circle cx='60' cy='98' r='13' fill='black'/>" +
+    "<rect x='55' y='12' width='10' height='10' fill='black' transform='rotate(45 60 17)'/></svg>",
+);
+
+const coverFallbackCss = `
+.cfi-cover-fallback > :first-child {
+  background-image:
+    radial-gradient(110% 80% at 50% 115%, color-mix(in oklab, var(--cfi-cover-tint) 22%, transparent), transparent 70%),
+    linear-gradient(160deg, color-mix(in oklab, var(--cfi-cover-tint) 12%, var(--raw-bg-surface)), var(--raw-bg-raised));
+}
+.cfi-cover-fallback > :first-child::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--cfi-cover-tint);
+  opacity: 0.55;
+  -webkit-mask-image: ${GATE_MASK}, ${TILE_MASK};
+  mask-image: ${GATE_MASK}, ${TILE_MASK};
+  -webkit-mask-position: 50% 100%, 0 0;
+  mask-position: 50% 100%, 0 0;
+  -webkit-mask-size: auto 78%, 40px 40px;
+  mask-size: auto 78%, 40px 40px;
+  -webkit-mask-repeat: no-repeat, repeat;
+  mask-repeat: no-repeat, repeat;
+}
+.cfi-cover-tint-strait { --cfi-cover-tint: var(--raw-accent-strait); }
+.cfi-cover-tint-brass { --cfi-cover-tint: var(--raw-accent-brass); }
+`;
+
+/**
+ * The fallback cover's stylesheet. `ResultsGrid` renders it itself; any other
+ * list of course cards (the course page's « similar courses ») renders this
+ * once. React hoists and de-duplicates it by `href`.
+ */
+export function CoverFallbackStyle(): React.JSX.Element {
+  return (
+    <style href="cfi-cover-fallback" precedence="medium">
+      {coverFallbackCss}
+    </style>
+  );
+}
+
+/** One tint per domain, stable across pages: the same category, the same colour. */
+export function coverTintFor(slug: string | null): string {
+  if (slug === null) return 'cfi-cover-tint-strait';
+  let hash = 0;
+  for (const char of slug) hash = (hash * 31 + char.charCodeAt(0)) | 0;
+  return Math.abs(hash) % 2 === 0 ? 'cfi-cover-tint-strait' : 'cfi-cover-tint-brass';
+}
 
 /** Below this many remaining seats the card starts saying so. */
 const SEATS_WARNING_THRESHOLD = 5;
@@ -50,9 +130,14 @@ const SEATS_WARNING_THRESHOLD = 5;
  * pushing the page sideways at 360 px.
  */
 function gridClasses(view: CatalogView): string {
+  // Two columns from `md` and never three: beside the filter rail the results
+  // column is ~700–810 px wide on the site's `max-w-6xl` edge, and a third
+  // column would set the card titles in 250 px — two words a line. One column
+  // below `md`, because this project's `sm` is 480 px and two cards in 480 px
+  // are thumbnails.
   return cn(
     'grid w-full min-w-0 gap-4 sm:gap-5',
-    view === 'grille' ? 'sm:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1',
+    view === 'grille' ? 'md:grid-cols-2' : 'grid-cols-1',
   );
 }
 
@@ -78,14 +163,19 @@ export async function ResultsGrid({
 
   return (
     <ul className={gridClasses(view)}>
+      <CoverFallbackStyle />
       {courses.map((course, index) => {
         const levelLabel = t(`filters.level.${LEVEL_MESSAGE_KEY[course.level]}`);
         const deliveryLabel = t(`filters.delivery.${DELIVERY_MESSAGE_KEY[course.delivery]}`);
         const hasCover = course.coverUrl !== null;
 
         return (
-          <li key={course.id} className="min-w-0">
+          <li key={course.id} className="flex min-w-0">
             <CourseCard
+              className={cn(
+                'w-full',
+                hasCover ? undefined : ['cfi-cover-fallback', coverTintFor(course.categorySlug)],
+              )}
               variant={view === 'grille' ? 'grid' : 'list'}
               href={`/formations/${course.slug}`}
               title={course.title}
@@ -144,8 +234,8 @@ export async function ResultsGrid({
               })}
               sizes={
                 view === 'grille'
-                  ? '(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 22rem'
-                  : '(max-width: 639px) 100vw, 14rem'
+                  ? '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 26rem'
+                  : '(max-width: 479px) 100vw, 14rem'
               }
               priority={isFirstPage && index === 0}
             />

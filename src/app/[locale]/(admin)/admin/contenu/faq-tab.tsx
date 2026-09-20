@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, MessageCircleQuestion } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form-field';
@@ -26,6 +26,7 @@ import {
 import {
   DangerZone,
   EditorDrawer,
+  EmptyList,
   ListRow,
   LocalisedField,
   PublishSwitch,
@@ -171,21 +172,33 @@ export function FaqTab({ items, categories }: FaqTabProps): React.JSX.Element {
     [router, run],
   );
 
+  const create = (): void => {
+    setDraft({
+      id: null,
+      category: categories[0] ?? 'INSCRIPTION',
+      question: emptyLocalised(),
+      answer: emptyLocalised(),
+      published: true,
+    });
+  };
+
   return (
     <div>
-      <TabHeader
-        countLabel={tFaq('resultCount', { count: items.length })}
-        createLabel={t('faq.newQuestion')}
-        onCreate={() => {
-          setDraft({
-            id: null,
-            category: categories[0] ?? 'INSCRIPTION',
-            question: emptyLocalised(),
-            answer: emptyLocalised(),
-            published: true,
-          });
-        }}
-      />
+      {items.length === 0 ? (
+        <EmptyList
+          icon={<MessageCircleQuestion aria-hidden="true" />}
+          title={t('empty.faq.title')}
+          description={t('empty.faq.body')}
+          createLabel={t('faq.newQuestion')}
+          onCreate={create}
+        />
+      ) : (
+        <TabHeader
+          countLabel={tFaq('resultCount', { count: items.length })}
+          createLabel={t('faq.newQuestion')}
+          onCreate={create}
+        />
+      )}
 
       <div className="flex flex-col gap-6">
         {categories.map((category) => {

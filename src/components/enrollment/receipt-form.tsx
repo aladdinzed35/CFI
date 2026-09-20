@@ -11,6 +11,7 @@ import { FileDropzone, type FileDropzoneItem, type FileRejection } from '@/compo
 import { FormError, FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/cn';
 import { formatMoney } from '@/lib/money';
 import type { Locale } from '@/i18n/routing';
 import { submitEnrollmentReceipt } from '@/server/actions/enrollment';
@@ -62,6 +63,14 @@ export interface ReceiptFormProps {
   readonly onDirtyChange?: (dirty: boolean) => void;
   /** Extra controls rendered beside the submit button (« Retour »). */
   readonly secondaryAction?: React.ReactNode;
+  /**
+   * Pin the submit row to the bottom of the scrolling container. For the
+   * modal only, where the form is a phone screen and a half long and the one
+   * button that matters would otherwise sit below the fold. Left off inline in
+   * « Mes demandes »: there the scroller is the page, and a pinned row would
+   * slide under the fixed tab bar.
+   */
+  readonly stickyActions?: boolean;
   readonly className?: string;
 }
 
@@ -83,6 +92,7 @@ export function ReceiptForm({
   onSubmitted,
   onDirtyChange,
   secondaryAction,
+  stickyActions = false,
   className,
 }: ReceiptFormProps): React.JSX.Element {
   const t = useTranslations('enrollment.modal');
@@ -392,7 +402,15 @@ export function ReceiptForm({
 
         {formError === null ? null : <Alert variant="error" title={formError} />}
 
-        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <div
+          className={cn(
+            'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
+            // Bleeds to the edges of `ModalBody` (ps-5 pe-5, md:ps-6 md:pe-6)
+            // so the rule and the surface run the full width of the sheet.
+            stickyActions &&
+              'sticky bottom-0 z-10 -mx-5 border-t border-hairline bg-surface px-5 py-4 md:-mx-6 md:px-6',
+          )}
+        >
           {secondaryAction}
           <Button type="submit" size="lg" loading={submitting} disabled={preparing}>
             {submitting ? t('actions.submitting') : t('actions.submit')}

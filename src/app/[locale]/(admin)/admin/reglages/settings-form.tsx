@@ -53,7 +53,7 @@ export interface SettingsFormProps {
 
 export function SettingsForm({ groups, flags, featuresTitle }: SettingsFormProps): React.JSX.Element {
   return (
-    <div className="mt-8 flex flex-col gap-10">
+    <div className="mt-3 flex flex-col gap-8">
       {groups.map((group) => (
         <SettingsGroupForm key={group.id} group={group} />
       ))}

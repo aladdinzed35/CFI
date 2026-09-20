@@ -1578,6 +1578,12 @@
         "publish": "Publish the announcement",
         "success": "The announcement has been published.",
         "empty": "No announcements yet."
+      },
+      "empty": {
+        "title": "No course yet",
+        "body": "Create your first course: it stays a draft until you publish it.",
+        "tabTitle": "No course in this tab",
+        "tabBody": "Switch tab or adjust the filters to find the other courses."
       }
     },
     "cms": {
@@ -1681,6 +1687,28 @@
         "deleteConfirm": "Delete this file?",
         "copyUrl": "Copy the address",
         "copied": "Address copied"
+      },
+      "empty": {
+        "pages": {
+          "title": "No legal page",
+          "body": "The terms, privacy and cookie pages will appear here once created."
+        },
+        "faq": {
+          "title": "No question",
+          "body": "Add a first question: it appears on the public FAQ page straight away."
+        },
+        "testimonials": {
+          "title": "No testimonial",
+          "body": "Add a student testimonial: it appears on the homepage once approved."
+        },
+        "blog": {
+          "title": "No article",
+          "body": "Write a first article: it stays a draft until you publish it."
+        },
+        "categories": {
+          "title": "No category",
+          "body": "Create a first category to organise your courses."
+        }
       }
     },
     "settings": {

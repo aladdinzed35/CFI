@@ -91,6 +91,9 @@ export default async function RequestsPage({
 
       {requests.length === 0 ? (
         <EmptyState
+          // Framed, so an empty list reads as a designed state and not as a
+          // page that failed to load the rest of itself.
+          className="rounded-lg border border-dashed border-hairline bg-surface"
           illustration={<Receipt aria-hidden="true" />}
           title={t('empty.title')}
           description={t('empty.body')}

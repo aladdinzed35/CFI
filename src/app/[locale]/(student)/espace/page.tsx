@@ -78,6 +78,7 @@ export default async function DashboardPage({
   // thirty seconds ago is honoured here even though the cookie still looks fine.
   const user = await requirePageActiveUser(locale);
   const t = await getTranslations({ locale, namespace: 'student.dashboard' });
+  const tRequests = await getTranslations({ locale, namespace: 'enrollment.status' });
 
   const steps: readonly OnboardingStep[] = [
     {
@@ -96,6 +97,10 @@ export default async function DashboardPage({
       title: t('onboarding.course.title'),
       body: t('onboarding.course.body'),
       done: false,
+      // The catalogue exists (M2), so this step can finally be acted on — and
+      // for a brand-new account it is the only one that can: without it the
+      // dashboard is a checklist with nothing to press.
+      action: { href: '/formations', label: tRequests('empty.cta') },
     },
     {
       id: 'acces',

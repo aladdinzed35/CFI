@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { ChevronDown, ChevronUp, Quote, Star } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -29,6 +29,7 @@ import {
 import {
   DangerZone,
   EditorDrawer,
+  EmptyList,
   ListRow,
   LocalisedField,
   PublishSwitch,
@@ -189,24 +190,33 @@ export function TestimonialsTab({ items, courses }: TestimonialsTabProps): React
     [courses],
   );
 
+  const create = (): void => {
+    setDraft({
+      id: null,
+      authorName: '',
+      authorRole: '',
+      rating: DEFAULT_RATING,
+      quote: emptyLocalised(),
+      courseId: null,
+      featured: false,
+      // A quote nobody has approved yet must not reach the home page.
+      published: false,
+    });
+  };
+
   return (
     <div>
-      <TabHeader
-        createLabel={t('testimonials.new')}
-        onCreate={() => {
-          setDraft({
-            id: null,
-            authorName: '',
-            authorRole: '',
-            rating: DEFAULT_RATING,
-            quote: emptyLocalised(),
-            courseId: null,
-            featured: false,
-            // A quote nobody has approved yet must not reach the home page.
-            published: false,
-          });
-        }}
-      />
+      {items.length === 0 ? (
+        <EmptyList
+          icon={<Quote aria-hidden="true" />}
+          title={t('empty.testimonials.title')}
+          description={t('empty.testimonials.body')}
+          createLabel={t('testimonials.new')}
+          onCreate={create}
+        />
+      ) : (
+        <TabHeader createLabel={t('testimonials.new')} onCreate={create} />
+      )}
 
       <ul className="flex flex-col gap-2">
         {items.map((item, index) => {

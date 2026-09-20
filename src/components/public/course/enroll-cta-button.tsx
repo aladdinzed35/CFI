@@ -27,6 +27,8 @@ export interface EnrollCtaButtonProps {
   readonly data: EnrollmentModalData;
   readonly size?: 'md' | 'lg';
   readonly fullWidth?: boolean;
+  /** Extra classes for the button — the mobile bar lets a long label wrap. */
+  readonly className?: string;
 }
 
 export function EnrollCtaButton({
@@ -34,6 +36,7 @@ export function EnrollCtaButton({
   data,
   size = 'lg',
   fullWidth = true,
+  className,
 }: EnrollCtaButtonProps): React.JSX.Element {
   const [open, setOpen] = useState(false);
 
@@ -42,6 +45,7 @@ export function EnrollCtaButton({
       <Button
         size={size}
         fullWidth={fullWidth}
+        className={className}
         onClick={() => {
           setOpen(true);
         }}

@@ -173,13 +173,15 @@ export function Curriculum({
                           key={lesson.id}
                           className="flex min-h-11 flex-wrap items-center gap-x-3 gap-y-1 border-b border-hairline py-1.5 last:border-b-0"
                         >
-                          <span className="flex min-w-0 flex-1 items-center gap-2.5">
-                            <Icon className="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+                          <span className="flex min-w-0 flex-1 items-start gap-2.5 py-1">
+                            <Icon className="mt-0.5 size-4 shrink-0 text-ink-muted" aria-hidden="true" />
                             {/* The icon alone never carries the type (§21). */}
                             <span className="sr-only">
                               {t(`programme.lessonType.${LESSON_TYPE_MESSAGE[lesson.type]}`)}
                             </span>
-                            <span className="min-w-0 truncate text-sm text-ink">{lesson.title}</span>
+                            <span className="min-w-0 text-sm text-pretty break-words text-ink">
+                              {lesson.title}
+                            </span>
                           </span>
 
                           {previewIndex === undefined ? (

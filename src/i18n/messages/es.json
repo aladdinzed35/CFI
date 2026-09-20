@@ -1578,6 +1578,12 @@
         "publish": "Publicar el anuncio",
         "success": "El anuncio ha sido publicado.",
         "empty": "Ningún anuncio por el momento."
+      },
+      "empty": {
+        "title": "Ninguna formación por ahora",
+        "body": "Cree su primera formación: permanece como borrador hasta que la publique.",
+        "tabTitle": "Ninguna formación en esta pestaña",
+        "tabBody": "Cambie de pestaña o ajuste los filtros para ver las demás formaciones."
       }
     },
     "cms": {
@@ -1681,6 +1687,28 @@
         "deleteConfirm": "¿Eliminar este archivo?",
         "copyUrl": "Copiar la dirección",
         "copied": "Dirección copiada"
+      },
+      "empty": {
+        "pages": {
+          "title": "Ninguna página legal",
+          "body": "Las páginas de condiciones, privacidad y cookies aparecerán aquí una vez creadas."
+        },
+        "faq": {
+          "title": "Ninguna pregunta",
+          "body": "Añada una primera pregunta: aparecerá enseguida en la página de preguntas frecuentes."
+        },
+        "testimonials": {
+          "title": "Ningún testimonio",
+          "body": "Añada un testimonio de estudiante: aparecerá en la página de inicio una vez aprobado."
+        },
+        "blog": {
+          "title": "Ningún artículo",
+          "body": "Escriba un primer artículo: permanece como borrador hasta su publicación."
+        },
+        "categories": {
+          "title": "Ninguna categoría",
+          "body": "Cree una primera categoría para clasificar sus formaciones."
+        }
       }
     },
     "settings": {

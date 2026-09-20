@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowRight, Check, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, Compass, Lightbulb, ShieldCheck, Users } from 'lucide-react';
 
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,8 @@ import { getPublicChrome } from '@/server/services/public-chrome';
 import { buildMetadata } from '@/lib/seo';
 import { Link } from '@/i18n/navigation';
 import { isLocale, locales } from '@/i18n/routing';
+
+import { PageHero } from '../parcours/_components/page-hero';
 
 /**
  * `/[locale]/notre-methode` — the full argument (§12.5).
@@ -186,11 +188,13 @@ export default async function MethodPage({
   return (
     <>
       {/* ------------------------------------------------------------ header */}
-      <header className="mx-auto w-full max-w-6xl px-4 pb-4 pt-12 sm:px-6 sm:pb-8 sm:pt-20">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">{t('eyebrow')}</p>
-        <h1 className="mt-4 max-w-[18ch] text-hero text-balance">{t('title')}</h1>
-        <p className="mt-6 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('lead')}</p>
-      </header>
+      <PageHero
+        id="method-hero"
+        eyebrow={t('eyebrow')}
+        title={t('title')}
+        lead={t('lead')}
+        art={{ icon: Compass, accents: [Lightbulb, Users] }}
+      />
 
       {/* -------------------------------------------------------- principles */}
       <section
@@ -316,7 +320,9 @@ export default async function MethodPage({
           <ul role="list" className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FACILITIES.map((facility) => (
               <li key={facility} className="rounded-lg border border-hairline bg-abyss p-6">
-                <h3 className="text-body font-medium text-ink">{t(`facilities.${facility}.title`)}</h3>
+                <h3 className="text-body font-medium text-ink">
+                  {t(`facilities.${facility}.title`)}
+                </h3>
                 <p className="mt-3 text-sm text-pretty text-ink-muted">
                   {t(`facilities.${facility}.body`)}
                 </p>

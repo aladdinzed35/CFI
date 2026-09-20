@@ -20,6 +20,7 @@ import {
   type PaymentTotals,
 } from '@/server/services/enrollment/admin-queries';
 
+import { AdminPage, AdminPageHeader } from '../admin-page';
 import { PaymentsTable } from './payments-table';
 import {
   METHOD_FROM_PARAM,
@@ -136,11 +137,8 @@ export default async function PaymentsPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="flex flex-col gap-1 pb-4">
-        <h1 className="font-display text-title text-ink">{t('title')}</h1>
-        <p className="max-w-prose text-sm text-ink-muted">{t('subtitle')}</p>
-      </header>
+    <AdminPage>
+      <AdminPageHeader title={t('title')} subtitle={t('subtitle')} />
 
       <PaymentsTable
         rows={listing.rows.map((row) => toRowView(row, locale))}
@@ -156,7 +154,7 @@ export default async function PaymentsPage({
         courses={courses}
         currentParams={currentParams}
       />
-    </div>
+    </AdminPage>
   );
 }
 

@@ -80,10 +80,14 @@ export function BankBlock({ bank, compact = false, className }: BankBlockProps):
           >
             <dt className="text-xs text-ink-muted">{row.label}</dt>
             <dd className="flex min-w-0 items-center gap-1">
+              {/* Wraps, never truncates: an IBAN is 34 characters and does
+                  not fit a 360 px sheet beside its copy button, and an IBAN
+                  cut to « MA64 0117 8000 0012 3456 78… » is one a student
+                  cannot read back to their bank. It breaks at its own spaces. */}
               <span
                 dir="ltr"
                 data-numeric
-                className="force-ltr min-w-0 truncate text-sm text-ink"
+                className="force-ltr min-w-0 text-sm break-words text-ink"
                 title={row.value}
               >
                 {row.value}

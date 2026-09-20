@@ -169,7 +169,7 @@ function ModuleCard({
           {module.isPublished ? tCms('visible') : tCms('hidden')}
         </Badge>
 
-        <span className="flex items-center gap-0.5">
+        <span className="ms-auto flex items-center gap-0.5">
           <IconButton
             aria-label={`${t('curriculum.moveUp')} — ${title}`}
             icon={<ChevronUp aria-hidden="true" />}
@@ -493,7 +493,7 @@ function LessonRow({
           </Badge>
         )}
 
-        <span className="flex items-center gap-0.5">
+        <span className="ms-auto flex items-center gap-0.5">
           <IconButton
             aria-label={`${t('curriculum.moveUp')} — ${title}`}
             icon={<ChevronUp aria-hidden="true" />}

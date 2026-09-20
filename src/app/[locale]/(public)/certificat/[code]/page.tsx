@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Info } from 'lucide-react';
+import { Award, BadgeCheck, Info, QrCode } from 'lucide-react';
 
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,8 @@ import {
 } from '@/lib/certificate-code';
 import { consumePolicy } from '@/lib/rate-limit';
 import { isLocale } from '@/i18n/routing';
+
+import { PageHero } from '../../parcours/_components/page-hero';
 
 /**
  * `/[locale]/certificat/[code]` — the QR target (§12.5).
@@ -108,10 +110,7 @@ export default async function CertificateDeepLinkPage({
   // buckets and twenty checks — precisely the doubling this page exists to
   // avoid. Every IP-less caller shares one bucket rather than escaping the
   // limit: the failure mode of an unknown origin should be stricter, not laxer.
-  const limit = consumePolicy(
-    CERTIFICATE_VERIFY_POLICY,
-    clientIpFrom(headerList) ?? 'unknown',
-  );
+  const limit = consumePolicy(CERTIFICATE_VERIFY_POLICY, clientIpFrom(headerList) ?? 'unknown');
 
   // `decodeURIComponent` can throw on a malformed escape; a bad URL is just an
   // unknown code, not a crash.
@@ -149,43 +148,54 @@ export default async function CertificateDeepLinkPage({
     );
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-      <header className="flex flex-col gap-3 pb-8">
-        <h1 className="text-title text-balance">{t('title')}</h1>
-        <p className="text-lead text-pretty text-ink-muted">{t('scannedLead')}</p>
-        <p className="text-sm text-ink-muted">
-          {t('valid.referenceLabel')}{' '}
-          <span data-numeric dir="ltr" className="force-ltr font-mono tracking-[0.08em] text-ink">
+    <>
+      <PageHero
+        id="certificate-code-hero"
+        title={t('title')}
+        lead={t('scannedLead')}
+        art={{ icon: BadgeCheck, accents: [Award, QrCode] }}
+      >
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-muted">
+          {t('valid.referenceLabel')}
+          <span
+            data-numeric
+            dir="ltr"
+            className="force-ltr max-w-full break-all rounded-sm border border-hairline bg-abyss px-2 py-0.5 font-mono tracking-[0.08em] text-ink"
+          >
             {normalized === '' ? decoded.slice(0, 64) : normalized}
           </span>
         </p>
-      </header>
+      </PageHero>
 
-      {result === null ? (
-        <Alert variant="warning" title={t('throttled.title')}>
-          {tRoot('errors.rateLimited', {
-            minutes: Math.max(1, Math.ceil((limit.retryAfterSec || 600) / 60)),
-          })}
-        </Alert>
-      ) : (
-        <CertificateVerdict result={result} action={whatsappAction} headingLevel="h2" />
-      )}
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        <div className="max-w-3xl">
+          {result === null ? (
+            <Alert variant="warning" title={t('throttled.title')}>
+              {tRoot('errors.rateLimited', {
+                minutes: Math.max(1, Math.ceil((limit.retryAfterSec || 600) / 60)),
+              })}
+            </Alert>
+          ) : (
+            <CertificateVerdict result={result} action={whatsappAction} headingLevel="h2" />
+          )}
 
-      <p className="mt-6 flex items-start gap-3 text-sm text-pretty text-ink-muted">
-        <Info className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-        <span>{t('scope')}</span>
-      </p>
+          <p className="mt-6 flex items-start gap-3 text-sm text-pretty text-ink-muted">
+            <Info className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+            <span>{t('scope')}</span>
+          </p>
 
-      {/* The way back to the typed-code page, for an employer holding a second
+          {/* The way back to the typed-code page, for an employer holding a second
           document — or one whose scanner mangled this code. */}
-      <p className="mt-8 border-t border-hairline pt-6">
-        <Link
-          href="/certificat"
-          className="text-sm text-strait underline-offset-4 hover:underline"
-        >
-          {t('checkAnother')}
-        </Link>
-      </p>
-    </div>
+          <p className="mt-8 border-t border-hairline pt-6">
+            <Link
+              href="/certificat"
+              className="inline-flex min-h-11 items-center text-sm text-strait underline-offset-4 hover:underline"
+            >
+              {t('checkAnother')}
+            </Link>
+          </p>
+        </div>
+      </div>
+    </>
   );
 }

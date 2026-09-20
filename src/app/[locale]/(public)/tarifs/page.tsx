@@ -1,7 +1,17 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowRight, Banknote, Building2, Check, Info, ShieldOff, Split } from 'lucide-react';
+import {
+  ArrowRight,
+  BadgeCheck,
+  Banknote,
+  Building2,
+  Check,
+  Info,
+  ShieldOff,
+  Split,
+  Wallet,
+} from 'lucide-react';
 
 import {
   Accordion,
@@ -20,6 +30,8 @@ import { formatDuration } from '@/lib/dates';
 import { formatMoney, formatMoneyRange } from '@/lib/money';
 import { Link } from '@/i18n/navigation';
 import { isLocale, locales } from '@/i18n/routing';
+
+import { PageHero } from '../parcours/_components/page-hero';
 
 /**
  * `/[locale]/tarifs` — the price page (§12.5), the homepage band expanded.
@@ -125,31 +137,39 @@ export default async function PricingPage({
   return (
     <>
       {/* ------------------------------------------------------------ header */}
-      <header className="mx-auto w-full max-w-6xl px-4 pb-4 pt-12 sm:px-6 sm:pb-8 sm:pt-20">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">{t('eyebrow')}</p>
-        <h1 className="mt-4 max-w-[18ch] text-hero text-balance">{t('title')}</h1>
-        <p className="mt-6 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('lead')}</p>
-      </header>
+      <PageHero
+        id="pricing-hero"
+        eyebrow={t('eyebrow')}
+        title={t('title')}
+        lead={t('lead')}
+        art={{ icon: Wallet, accents: [Banknote, BadgeCheck] }}
+      />
 
       {table.length === 0 ? (
-        <section className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
+        // Production can open with an empty catalogue. The page still has a
+        // job — say when prices will exist and how to ask meanwhile — so it is
+        // a designed panel on the shared edge, not a blank under the header.
+        <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
           <EmptyState
+            illustration={<Wallet aria-hidden="true" />}
             title={t('empty.title')}
             description={t('empty.body')}
+            className="rounded-lg border border-hairline bg-surface"
             action={
               whatsappHref === null ? (
                 <Link
                   href="/formations"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-pill bg-strait px-5 text-sm font-medium text-on-accent"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
                 >
                   {tHome('cta')}
+                  <ArrowRight className="size-4 shrink-0 rtl:-scale-x-100" aria-hidden="true" />
                 </Link>
               ) : (
                 <a
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-pill bg-strait px-5 text-sm font-medium text-on-accent"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
                 >
                   {t('empty.action')}
                 </a>
@@ -217,7 +237,14 @@ export default async function PricingPage({
           )}
 
           {/* --------------------------------------------------------- table */}
-          <section aria-labelledby="pricing-table" className="border-y border-hairline bg-surface">
+          <section
+            aria-labelledby="pricing-table"
+            // Straight under the header band when there is no comparison to
+            // show: a second surface band there would merge into the first.
+            className={
+              cfiRange === null ? 'border-b border-hairline' : 'border-y border-hairline bg-surface'
+            }
+          >
             <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
               <h2 id="pricing-table" className="max-w-[20ch] text-display text-balance">
                 {t('tableTitle')}
@@ -229,11 +256,11 @@ export default async function PricingPage({
               {/* The table scrolls inside its own box rather than pushing the
                   page sideways: at 360 px four columns of real data cannot fit,
                   and truncating a price is not an option. */}
-              <div className="mt-10 overflow-x-auto rounded-lg border border-hairline">
+              <div className="mt-10 overflow-x-auto rounded-lg border border-hairline bg-surface">
                 <table className="w-full min-w-[36rem] border-collapse text-start text-sm">
                   <caption className="sr-only">{t('tableCaption')}</caption>
                   <thead>
-                    <tr className="border-b border-hairline bg-abyss">
+                    <tr className="border-b border-hairline bg-raised">
                       <th scope="col" className="px-4 py-3.5 text-start font-medium text-ink">
                         {t('columnCategory')}
                       </th>
@@ -261,7 +288,10 @@ export default async function PricingPage({
                             });
 
                       return (
-                        <tr key={row.categorySlug} className="border-b border-hairline last:border-b-0">
+                        <tr
+                          key={row.categorySlug}
+                          className="border-b border-hairline last:border-b-0"
+                        >
                           <th scope="row" className="px-4 py-4 text-start font-medium">
                             <Link
                               href={`/formations?categorie=${row.categorySlug}`}

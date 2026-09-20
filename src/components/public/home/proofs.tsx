@@ -8,6 +8,7 @@ import { Avatar } from '@/components/ui/avatar';
 import { IconButton } from '@/components/ui/icon-button';
 import { Rating } from '@/components/ui/rating';
 import { useReducedMotionSafe } from '@/hooks/use-reduced-motion-safe';
+import { cn } from '@/lib/cn';
 import type { HomeTestimonial } from '@/server/services/home';
 
 /**
@@ -37,6 +38,15 @@ import type { HomeTestimonial } from '@/server/services/home';
  * schema has nowhere to store those logos yet, and a strip of invented ones
  * would be the exact opposite of a proof.
  */
+
+/*
+  Plain sections that follow one another would stack their paddings into a
+  190 px hole. When the next section is also plain, this one keeps less below
+  it; when the previous one is plain, a hairline at the content edge replaces
+  the top padding. Same classes in instructors, centre and faq.
+*/
+const PLAIN_BAND =
+  '[&:has(+[data-home-band=plain])]:pb-12 sm:[&:has(+[data-home-band=plain])]:pb-16 [[data-home-band=plain]+&]:pt-0 [[data-home-band=plain]+&]:before:mb-12 [[data-home-band=plain]+&]:before:block [[data-home-band=plain]+&]:before:h-px [[data-home-band=plain]+&]:before:bg-hairline sm:[[data-home-band=plain]+&]:before:mb-16';
 
 export interface HomeProofsProps {
   testimonials: readonly HomeTestimonial[];
@@ -93,21 +103,24 @@ export function HomeProofs({ testimonials }: HomeProofsProps): React.JSX.Element
   return (
     <section
       aria-labelledby="home-proofs-title"
-      className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24"
+      data-home-band="plain"
+      className={cn('mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24', PLAIN_BAND)}
     >
-      <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">
+      <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
+        <div className="min-w-0">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait rtl:font-arabic rtl:text-sm rtl:tracking-normal">
             {t('sectionLabel')}
           </p>
-          <h2 id="home-proofs-title" className="mt-4 max-w-[20ch] text-display">
+          <h2 id="home-proofs-title" className="mt-4 max-w-[20ch] text-display text-balance">
             {t('title')}
           </h2>
-          <p className="mt-5 max-w-[62ch] text-lead text-ink-muted">{t('subtitle')}</p>
+          <p className="mt-5 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('subtitle')}</p>
         </div>
 
+        {/* Three cards fit the desktop row, and two arrows that can never
+            move anything are noise: they only show while the rail scrolls. */}
         {total > 1 ? (
-          <div className="flex items-center gap-2">
+          <div className={cn('flex items-center gap-2', total > 3 ? null : 'lg:hidden')}>
             <IconButton
               aria-label={t('previous')}
               variant="secondary"
@@ -139,7 +152,7 @@ export function HomeProofs({ testimonials }: HomeProofsProps): React.JSX.Element
           reach none of the others — axe's `scrollable-region-focusable`.
         */
         tabIndex={0}
-        className="-mx-4 mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-p-4 px-4 pb-2 sm:-mx-6 sm:scroll-p-6 sm:px-6 lg:mx-0 lg:scroll-p-0 lg:px-0"
+        className="-mx-4 mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-p-4 px-4 pb-3 sm:-mx-6 sm:mt-12 sm:scroll-p-6 sm:px-6 lg:mx-0 lg:scroll-p-0 lg:px-0"
       >
         {testimonials.map((testimonial, position) => (
           <li

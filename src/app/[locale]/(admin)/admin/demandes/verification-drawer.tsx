@@ -398,10 +398,14 @@ export function VerificationDrawer({
               )}
               <Link
                 href={`/admin/comptes/${review.studentId}`}
-                className="inline-flex min-h-11 items-center gap-1.5 rounded-md text-strait hover:underline"
+                className="inline-flex min-h-11 min-w-0 max-w-full items-center gap-1.5 rounded-md text-strait hover:underline"
               >
-                <ExternalLink className="size-4" aria-hidden="true" />
-                {review.studentEmail}
+                <ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+                {/* An address is one unbreakable word; on a 360 px phone a long
+                    one would push the header past the panel's edge. */}
+                <span dir="ltr" className="force-ltr min-w-0 wrap-anywhere">
+                  {review.studentEmail}
+                </span>
               </Link>
             </div>
           </DrawerHeader>
@@ -484,7 +488,10 @@ export function VerificationDrawer({
             </div>
           </DrawerBody>
 
-          <DrawerFooter className="flex-wrap items-center gap-2 sm:justify-between">
+          {/* On a phone the decisions stack full-width above the queue arrows —
+              stretched, not shrink-wrapped in the middle of the sheet — and
+              the shortcut legend is left to screens that have a keyboard. */}
+          <DrawerFooter className="gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex items-center gap-1">
               <button
                 type="button"
@@ -509,7 +516,7 @@ export function VerificationDrawer({
                 onClick={() => setShortcutsOpen((open) => !open)}
                 aria-expanded={shortcutsOpen}
                 aria-label={t('shortcuts.help')}
-                className="inline-flex size-11 items-center justify-center rounded-md text-ink-muted transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised hover:text-ink"
+                className="hidden size-11 items-center justify-center rounded-md text-ink-muted sm:inline-flex transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised hover:text-ink"
               >
                 <Keyboard className="size-4" aria-hidden="true" />
               </button>
@@ -774,7 +781,7 @@ function Field({
       <dt className="text-xs text-ink-muted">{label}</dt>
       <dd className="flex min-w-0 items-center gap-1">
         <span
-          className={cn('min-w-0 break-words text-sm text-ink', ltr ? 'force-ltr' : null)}
+          className={cn('min-w-0 wrap-anywhere text-sm text-ink', ltr ? 'force-ltr' : null)}
           dir={ltr ? 'ltr' : undefined}
         >
           {value ?? t('drawer.noBankReference')}

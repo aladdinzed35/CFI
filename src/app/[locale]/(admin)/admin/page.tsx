@@ -19,6 +19,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
 import { StatCard } from '@/components/ui/stat-card';
 
+import { AdminPage, AdminPageHeader } from './admin-page';
+
 /**
  * `/admin` — the dashboard (§17.1).
  *
@@ -110,6 +112,20 @@ export default async function AdminDashboardPage({
   const accountsTone = bandTone(band.accounts.pending, band.accounts.oldestHours);
   const requestsTone = bandTone(band.requests.toVerify, band.requests.oldestHours);
 
+  /**
+   * « depuis 1 381 heures » is a number nobody reads; past two days the wait is
+   * counted in days, the unit the SLA colours already think in.
+   */
+  const waitingFor = (
+    hours: number | null,
+    hoursKey: 'oldestWaiting' | 'requestsOldestWaiting',
+    daysKey: 'oldestWaitingDays' | 'requestsOldestWaitingDays',
+  ): string | null => {
+    if (hours === null) return null;
+    if (hours < SLA_DANGER_HOURS) return t(hoursKey, { hours });
+    return t(daysKey, { days: Math.floor(hours / 24) });
+  };
+
   const nothingWaiting =
     band.accounts.pending === 0 && band.requests.toVerify === 0 && band.expiring.count === 0;
 
@@ -148,39 +164,36 @@ export default async function AdminDashboardPage({
         });
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="flex flex-col gap-1">
-        <h1 className="font-display text-title text-ink">{t('title')}</h1>
-        <p className="text-sm text-ink-muted">{t('subtitle')}</p>
-      </header>
+    <AdminPage>
+      <AdminPageHeader title={t('title')} subtitle={t('subtitle')} />
 
       {/* ── The action band ─────────────────────────────────────────────── */}
-      <section aria-labelledby="bande-action" className="mt-6">
-        <h2 id="bande-action" className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
+      <section aria-labelledby="bande-action" className="mt-1">
+        <h2 id="bande-action" className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted rtl:font-arabic rtl:text-sm rtl:tracking-normal">
           {t('bandLabel')}
         </h2>
 
         {nothingWaiting ? (
-          <EmptyState
-            className="mt-3"
-            size="sm"
-            illustration={<Inbox aria-hidden="true" />}
-            title={t('clearTitle')}
-            description={band.requests.visible ? t('requestsClear') : t('clearBody')}
-          />
+          <div className="mt-3 rounded-lg border border-dashed border-hairline bg-surface">
+            <EmptyState
+              size="sm"
+              tone="strait"
+              illustration={<Inbox aria-hidden="true" />}
+              title={t('clearTitle')}
+              description={band.requests.visible ? t('requestsClear') : t('clearBody')}
+            />
+          </div>
         ) : (
-          <div className="mt-3 flex flex-col gap-3">
+          /* One card fills the row, two share it, three sit side by side on a
+             wide screen: `auto-fit` never leaves a lone card beside a hole. */
+          <div className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] gap-3">
             {band.accounts.visible && band.accounts.pending > 0 ? (
               <BandCard
                 tone={accountsTone}
                 icon={<ClipboardCheck className="size-8 shrink-0" aria-hidden="true" />}
                 count={band.accounts.pending}
-                headline={t('accountsToReview', { count: band.accounts.pending })}
-                detail={
-                  band.accounts.oldestHours === null
-                    ? null
-                    : t('oldestWaiting', { hours: band.accounts.oldestHours })
-                }
+                headline={t('accountsToReviewLabel', { count: band.accounts.pending })}
+                detail={waitingFor(band.accounts.oldestHours, 'oldestWaiting', 'oldestWaitingDays')}
                 href="/admin/comptes?onglet=a-valider"
                 cta={t('accountsCta')}
               />
@@ -191,12 +204,12 @@ export default async function AdminDashboardPage({
                 tone={requestsTone}
                 icon={<FileCheck className="size-8 shrink-0" aria-hidden="true" />}
                 count={band.requests.toVerify}
-                headline={t('requestsToVerify', { count: band.requests.toVerify })}
-                detail={
-                  band.requests.oldestHours === null
-                    ? null
-                    : t('requestsOldestWaiting', { hours: band.requests.oldestHours })
-                }
+                headline={t('requestsToVerifyLabel', { count: band.requests.toVerify })}
+                detail={waitingFor(
+                  band.requests.oldestHours,
+                  'requestsOldestWaiting',
+                  'requestsOldestWaitingDays',
+                )}
                 href="/admin/demandes?onglet=a-verifier"
                 cta={t('requestsCta')}
               />
@@ -258,8 +271,11 @@ export default async function AdminDashboardPage({
             </nav>
           </div>
 
+          {/* Three cards never split 2 + 1: between `sm` and `lg` the money
+              takes the whole first row and the two counts share the second. */}
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <StatCard
+              className="sm:col-span-2 lg:col-span-1"
               label={t('revenueTitle')}
               value={formatMoney(kpis.revenueCentimes, locale)}
               tone="brass"
@@ -287,7 +303,7 @@ export default async function AdminDashboardPage({
             />
 
             <StatCard
-              label={t('paidEnrollments', { count: kpis.paidEnrollments })}
+              label={t('paidEnrollmentsLabel', { count: kpis.paidEnrollments })}
               value={String(kpis.paidEnrollments)}
               icon={<Users aria-hidden="true" />}
             />
@@ -334,7 +350,7 @@ export default async function AdminDashboardPage({
           </ul>
         </section>
       ) : null}
-    </div>
+    </AdminPage>
   );
 }
 
@@ -359,29 +375,35 @@ function BandCard({
   href: string;
   cta: string;
 }): React.JSX.Element {
+  // A container query rather than a breakpoint: the same card is a full-width
+  // strip when it is alone in the band and a tile when it shares it, and only
+  // its own width knows which.
   return (
-    <Card className={cn('border', BAND_SURFACE[tone])} elevation={1} padding="none">
-      <CardContent className="flex flex-wrap items-center gap-x-6 gap-y-4 p-5">
-        <span className={BAND_NUMBER[tone]}>{icon}</span>
+    <Card className={cn('@container h-full border', BAND_SURFACE[tone])} elevation={1} padding="none">
+      <CardContent className="flex h-full flex-col gap-4 p-5 @lg:flex-row @lg:items-center @lg:gap-6">
+        <div className="flex min-w-0 flex-1 items-start gap-4">
+          <span className={cn('shrink-0 pt-0.5', BAND_NUMBER[tone])}>{icon}</span>
 
-        <div className="min-w-0 flex-1">
-          <p className="flex items-baseline gap-3">
-            <span
-              data-numeric
-              className={cn('force-ltr font-display text-title leading-none', BAND_NUMBER[tone])}
-              dir="ltr"
-            >
-              {count}
-            </span>
-            <span className="text-lead text-ink">{headline}</span>
-          </p>
-          {detail === null ? null : <p className="mt-1 text-sm text-ink-muted">{detail}</p>}
+          <div className="min-w-0 flex-1">
+            <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span
+                data-numeric
+                className={cn('force-ltr font-display text-title leading-none', BAND_NUMBER[tone])}
+                dir="ltr"
+              >
+                {count}
+              </span>
+              <span className="min-w-0 text-lead text-ink">{headline}</span>
+            </p>
+            {detail === null ? null : <p className="mt-1 text-sm text-ink-muted">{detail}</p>}
+          </div>
         </div>
 
         <Link
           href={href}
           className={cn(
-            'inline-flex min-h-11 items-center gap-2 rounded-pill bg-strait px-5 text-sm font-medium text-on-accent',
+            'mt-auto inline-flex min-h-11 items-center justify-center gap-2 self-stretch rounded-pill bg-strait px-5 text-sm font-medium text-on-accent',
+            '@sm:self-start @lg:mt-0 @lg:shrink-0 @lg:self-auto',
             'transition-[box-shadow,transform] duration-[120ms] ease-[var(--ease-out-strait)]',
             'shadow-e1 hover:shadow-e2 active:translate-y-px',
           )}

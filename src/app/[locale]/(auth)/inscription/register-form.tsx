@@ -25,7 +25,7 @@ import {
   registerFormSchema,
   type ProfessionalStatus,
 } from '@/lib/validation/auth';
-import { useRouter } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { localeLabels, locales, type Locale } from '@/i18n/routing';
 import { registerAction } from '@/server/actions/auth';
 
@@ -380,9 +380,10 @@ export function RegisterForm({ locale }: RegisterFormProps): React.JSX.Element {
         )}
       </FormField>
 
+      {/* No description: `hints.city` is the single word « Facultatif. », which
+          the optional badge beside the label already says. */}
       <FormField
         label={t('auth.fields.city')}
-        description={t('auth.register.hints.city')}
         error={message(errors.city?.message)}
         optionalHint={t('common.optional')}
       >
@@ -481,7 +482,34 @@ export function RegisterForm({ locale }: RegisterFormProps): React.JSX.Element {
               terms.onChange(checked === true);
             }}
             onBlur={terms.onBlur}
-            label={t('auth.fields.acceptTerms')}
+            label={
+              // Accepting a document nobody can open is not consent. Both links
+              // open in a new tab, so reading them never costs the half-filled
+              // form; a link inside a <label> does not toggle the box.
+              <>
+                {t('auth.register.terms.prefix')}{' '}
+                <Link
+                  href="/legal/cgu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-sm font-medium text-strait underline underline-offset-4 hover:text-ink"
+                >
+                  {t('auth.register.terms.termsLink')}
+                  <span className="sr-only"> ({t('a11y.newWindow')})</span>
+                </Link>{' '}
+                {t('auth.register.terms.connector')}{' '}
+                <Link
+                  href="/legal/confidentialite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-sm font-medium text-strait underline underline-offset-4 hover:text-ink"
+                >
+                  {t('auth.register.terms.privacyLink')}
+                  <span className="sr-only"> ({t('a11y.newWindow')})</span>
+                </Link>
+                {t('auth.register.terms.suffix')}
+              </>
+            }
             error={message(errors.acceptTerms?.message)}
           />
         )}

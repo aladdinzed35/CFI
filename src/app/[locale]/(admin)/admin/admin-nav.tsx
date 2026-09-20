@@ -150,15 +150,73 @@ const SIGN_OUT_FORM_ID = 'cfi-admin-sign-out';
  * labels stay left-aligned, and marked `data-numeric dir="ltr"` like every
  * other figure in the panel — an Arabic reader still sees `12`, not `21`.
  */
-function NavBadge({ count }: { count?: number }): React.JSX.Element | null {
+function NavBadge({ count, className }: { count?: number; className?: string }): React.JSX.Element | null {
   if (count === undefined || count <= 0) return null;
   return (
-    <Badge tone="warn" variant="solid" size="sm" className="ms-auto min-w-6 justify-center">
+    <Badge tone="warn" variant="solid" size="sm" className={cn('ms-auto min-w-6 justify-center', className)}>
       <span data-numeric dir="ltr" className="force-ltr">
         {count}
       </span>
     </Badge>
   );
+}
+
+/**
+ * The same count, pinned to the corner of the icon when the rail is only icons
+ * wide. A number on the glyph — the way a phone badges an app — rather than a
+ * bare dot: « 3 » says how much is waiting, a dot only that something is.
+ */
+function NavBubble({ count, className }: { count?: number; className?: string }): React.JSX.Element | null {
+  if (count === undefined || count <= 0) return null;
+  return (
+    <span
+      data-numeric
+      dir="ltr"
+      className={cn(
+        'force-ltr absolute -top-1.5 -end-2 inline-flex h-4 min-w-4 items-center justify-center rounded-pill bg-warn px-1',
+        'text-[0.625rem] leading-none font-semibold text-on-brass ring-2 ring-surface',
+        className,
+      )}
+    >
+      {count > 99 ? '99+' : count}
+    </span>
+  );
+}
+
+/**
+ * How the rail draws itself.
+ *
+ * Collapsed by the administrator: icons at every width. Otherwise icons from
+ * `md` to `lg` — a 240 px rail on a 768 px tablet leaves the queues less than
+ * two thirds of the screen — and the full rail from `lg` up. The preference
+ * only ever narrows the rail; it never widens it where there is no room.
+ */
+function railClasses(collapsed: boolean): {
+  readonly width: string;
+  readonly group: string;
+  readonly item: string;
+  readonly label: string;
+  readonly badge: string;
+  readonly bubble: string;
+} {
+  if (collapsed) {
+    return {
+      width: 'w-[4.5rem]',
+      group: 'hidden',
+      item: 'justify-center px-0',
+      label: 'sr-only',
+      badge: 'hidden',
+      bubble: '',
+    };
+  }
+  return {
+    width: 'w-[4.5rem] lg:w-60',
+    group: 'hidden lg:block',
+    item: 'justify-center px-0 lg:justify-start lg:px-3',
+    label: 'sr-only lg:not-sr-only',
+    badge: 'hidden lg:inline-flex',
+    bubble: 'lg:hidden',
+  };
 }
 
 function isActive(pathname: string, item: AdminNavItem): boolean {
@@ -202,6 +260,8 @@ export function AdminShell({
     setMenuOpen(false);
   }, []);
 
+  const rail = railClasses(collapsed);
+
   return (
     <div className="flex min-h-dvh flex-col bg-abyss">
       <header className="surface-blur hairline-b sticky top-0 z-30 bg-surface/85">
@@ -228,7 +288,7 @@ export function AdminShell({
                   {groups.map((group, index) => (
                     <div key={group.label ?? `group-${index}`} className="flex flex-col gap-1">
                       {group.label === null ? null : (
-                        <p className="px-3 pb-1 font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
+                        <p className="px-3 pb-1 font-mono text-xs uppercase tracking-[0.18em] text-ink-muted rtl:font-arabic rtl:text-sm rtl:tracking-normal">
                           {group.label}
                         </p>
                       )}
@@ -259,6 +319,17 @@ export function AdminShell({
                     </div>
                   ))}
                 </nav>
+
+                {/* The top bar drops the language and theme controls below `sm`
+                    to keep the pending-work counter visible; on a phone they
+                    live here instead, so they are never simply unreachable. */}
+                <div className="hairline-t mt-6 pt-5 sm:hidden">
+                  <ShellControls
+                    languageLabel={labels.language}
+                    switchToLightLabel={labels.switchToLight}
+                    switchToDarkLabel={labels.switchToDark}
+                  />
+                </div>
               </DrawerBody>
             </DrawerContent>
           </Drawer>
@@ -360,14 +431,19 @@ export function AdminShell({
           className={cn(
             'hairline-e sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col gap-6 overflow-y-auto bg-surface px-2 py-4 md:flex',
             'transition-[width] duration-[160ms] ease-[var(--ease-out-strait)] motion-reduce:transition-none',
-            collapsed ? 'w-[4.5rem]' : 'w-60',
+            rail.width,
           )}
         >
           <nav aria-label={labels.navLabel} className="flex flex-col gap-6">
             {groups.map((group, index) => (
               <div key={group.label ?? `group-${index}`} className="flex flex-col gap-1">
-                {group.label === null || collapsed ? null : (
-                  <p className="px-3 pb-1 font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
+                {group.label === null ? null : (
+                  <p
+                    className={cn(
+                      'px-3 pb-1 font-mono text-xs uppercase tracking-[0.18em] text-ink-muted rtl:font-arabic rtl:text-sm rtl:tracking-normal',
+                      rail.group,
+                    )}
+                  >
                     {group.label}
                   </p>
                 )}
@@ -379,28 +455,23 @@ export function AdminShell({
                       key={item.href}
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
-                      title={
-                        collapsed
-                          ? item.badge !== undefined && item.badge > 0
-                            ? `${item.label} (${item.badge})`
-                            : item.label
-                          : undefined
-                      }
+                      // The only name an icon-wide rail can show on hover.
+                      title={item.label}
                       className={cn(
                         'inline-flex min-h-11 items-center gap-3 rounded-md text-sm font-medium',
                         'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
-                        collapsed ? 'justify-center px-0' : 'px-3',
+                        rail.item,
                         active
                           ? 'bg-strait-wash text-ink'
                           : 'text-ink-muted hover:bg-raised hover:text-ink',
                       )}
                     >
-                      <Icon className="size-5 shrink-0" aria-hidden="true" />
-                      <span className={collapsed ? 'sr-only' : undefined}>{item.label}</span>
-                      {/* Collapsed to an icon rail there is no room for a
-                          number, and a bare dot would say "something" without
-                          saying what — so the count rides the title instead. */}
-                      {collapsed ? null : <NavBadge count={item.badge} />}
+                      <span className="relative inline-flex shrink-0">
+                        <Icon className="size-5" aria-hidden="true" />
+                        <NavBubble count={item.badge} className={rail.bubble} />
+                      </span>
+                      <span className={rail.label}>{item.label}</span>
+                      <NavBadge count={item.badge} className={rail.badge} />
                     </Link>
                   );
                 })}
@@ -408,12 +479,16 @@ export function AdminShell({
             ))}
           </nav>
 
-          <div className="mt-auto">
+          {/* Only where the rail can actually be wide: below `lg` it is icons
+              whatever the preference says, and a toggle that changes nothing
+              is a broken control. */}
+          <div className="mt-auto hidden lg:block">
             <button
               type="button"
               onClick={toggleCollapsed}
               aria-expanded={!collapsed}
               aria-label={collapsed ? labels.expand : labels.collapse}
+              title={collapsed ? labels.expand : labels.collapse}
               className={cn(
                 'inline-flex min-h-11 w-full items-center gap-3 rounded-md text-sm text-ink-muted',
                 'transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised hover:text-ink',

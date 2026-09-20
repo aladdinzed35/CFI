@@ -472,7 +472,10 @@ export function ReviewDrawer({
             ) : null}
           </DrawerBody>
 
-          <DrawerFooter className="flex-wrap items-center gap-2 sm:justify-between">
+          {/* On a phone the decisions stack full-width above the queue arrows —
+              stretched, not shrink-wrapped in the middle of the sheet — and
+              the shortcut legend is left to screens that have a keyboard. */}
+          <DrawerFooter className="gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex items-center gap-1">
               <button
                 type="button"
@@ -497,7 +500,7 @@ export function ReviewDrawer({
                 onClick={() => setShortcutsOpen((open) => !open)}
                 aria-expanded={shortcutsOpen}
                 aria-label={t('drawer.shortcutsHelp')}
-                className="inline-flex size-11 items-center justify-center rounded-md text-ink-muted transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised hover:text-ink"
+                className="hidden size-11 items-center justify-center rounded-md text-ink-muted sm:inline-flex transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised hover:text-ink"
               >
                 <Keyboard className="size-4" aria-hidden="true" />
               </button>
@@ -563,7 +566,7 @@ function Field({
       <dt className="text-xs text-ink-muted">{label}</dt>
       <dd className="flex min-w-0 items-center gap-1">
         <span
-          className={cn('min-w-0 break-words text-sm text-ink', ltr ? 'force-ltr' : null)}
+          className={cn('min-w-0 wrap-anywhere text-sm text-ink', ltr ? 'force-ltr' : null)}
           dir={ltr ? 'ltr' : undefined}
         >
           {value ?? tAccounts('drawer.notProvided')}
@@ -663,7 +666,7 @@ function Duplicates({ review }: { review: AccountReviewView }): React.JSX.Elemen
                       label={t(STATUS_LABEL_KEY[row.status])}
                     />
                   </span>
-                  <span className="force-ltr text-xs text-ink-muted" dir="ltr">
+                  <span className="force-ltr wrap-anywhere text-xs text-ink-muted" dir="ltr">
                     {row.email} · {row.phoneDisplay}
                   </span>
                   <span className="text-xs text-ink-muted">

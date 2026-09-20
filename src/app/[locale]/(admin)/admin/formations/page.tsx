@@ -15,6 +15,7 @@ import {
   type CourseStatusCounts,
 } from '@/server/services/course-admin';
 
+import { AdminPage, AdminPageHeader } from '../admin-page';
 import { CoursesTable } from './courses-table';
 import { NewCourseButton } from './new-course-button';
 import {
@@ -126,14 +127,8 @@ export default async function CoursesPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="flex flex-wrap items-start justify-between gap-4 pb-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="font-display text-title text-ink">{t('title')}</h1>
-          <p className="max-w-prose text-sm text-ink-muted">{t('subtitle')}</p>
-        </div>
-        <NewCourseButton />
-      </header>
+    <AdminPage>
+      <AdminPageHeader title={t('title')} subtitle={t('subtitle')} action={<NewCourseButton />} />
 
       <CoursesTable
         rows={listing.rows.map((row) => toRowView(row, locale))}
@@ -155,7 +150,7 @@ export default async function CoursesPage({
         categories={categories}
         currentParams={currentParams}
       />
-    </div>
+    </AdminPage>
   );
 }
 

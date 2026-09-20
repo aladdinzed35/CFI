@@ -44,6 +44,34 @@ function TikTokGlyph({ className }: { className?: string }): React.JSX.Element {
   );
 }
 
+/**
+ * The zellige eight-point star of the logo, as an ornament. `accent` adds the
+ * small brass star at its heart, as in the header's mark. Never mirrored: an
+ * eight-point star is its own mirror image.
+ */
+function StarOrnament({ className, accent = false }: { className?: string; accent?: boolean }): React.JSX.Element {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" className={className}>
+      <g stroke="currentColor" strokeWidth={accent ? 1.35 : 0.6} strokeLinejoin="round">
+        <rect x="4.4" y="4.4" width="15.2" height="15.2" rx="1" />
+        <rect x="4.4" y="4.4" width="15.2" height="15.2" rx="1" transform="rotate(45 12 12)" />
+        {accent ? null : (
+          <>
+            <rect x="7.6" y="7.6" width="8.8" height="8.8" rx="0.6" />
+            <rect x="7.6" y="7.6" width="8.8" height="8.8" rx="0.6" transform="rotate(45 12 12)" />
+          </>
+        )}
+      </g>
+      {accent ? (
+        <g className="fill-brass">
+          <rect x="9.6" y="9.6" width="4.8" height="4.8" rx="0.4" />
+          <rect x="9.6" y="9.6" width="4.8" height="4.8" rx="0.4" transform="rotate(45 12 12)" />
+        </g>
+      ) : null}
+    </svg>
+  );
+}
+
 /** Brand marks are never mirrored in RTL, and their names are never translated. */
 const SOCIAL_MARK: Record<SocialNetwork, { readonly name: string; readonly Glyph: (props: { className?: string }) => React.JSX.Element }> = {
   facebook: { name: 'Facebook', Glyph: ({ className }) => <Facebook aria-hidden="true" className={className} /> },
@@ -73,7 +101,11 @@ const USEFUL_ROUTES = [
 /* Pieces                                                                      */
 /* -------------------------------------------------------------------------- */
 
-const COLUMN_HEADING = 'font-display text-sm font-medium uppercase tracking-[0.14em] text-ink';
+/* Arabic has no capitals, and letter-spacing breaks its joined script: the
+   Arabic face, at normal tracking, in RTL. */
+const COLUMN_HEADING =
+  'font-display text-sm font-medium uppercase tracking-[0.14em] text-ink rtl:font-arabic rtl:tracking-normal';
+const DETAIL_LABEL = 'text-xs uppercase tracking-[0.12em] text-ink-muted rtl:tracking-normal';
 const FOOTER_LINK = cn(
   'inline-flex min-h-11 items-center rounded-sm text-sm text-ink-muted',
   'transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:text-strait',
@@ -113,21 +145,52 @@ export async function SiteFooter({
 
   return (
     <footer className="texture-bathymetric hairline-t mt-20 bg-surface print:mt-8">
-      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
-        {/* ── Newsletter row ────────────────────────────────────────────── */}
-        <section className="hairline-b grid gap-6 pb-10 md:grid-cols-2 md:items-start md:gap-12">
-          <h2 className="font-display text-title text-balance text-ink">
-            {t('footer.newsletter.title')}
-          </h2>
+      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12 lg:py-16">
+        {/* ── Newsletter band ───────────────────────────────────────────
+            A card of its own, so the one thing in the footer that asks for
+            something reads as an invitation rather than as a fifth column. */}
+        <section
+          aria-labelledby="footer-newsletter"
+          className={cn(
+            'relative isolate overflow-hidden rounded-lg border border-hairline bg-raised/60 p-5 sm:p-8 lg:p-10',
+            'grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:items-center md:gap-10',
+          )}
+        >
+          <StarOrnament className="pointer-events-none absolute -end-14 -top-16 -z-10 size-64 text-strait opacity-[0.07] sm:-end-10 sm:size-72" />
+          <div>
+            <span
+              aria-hidden="true"
+              className="mb-4 grid size-10 place-items-center rounded-md border border-strait/25 bg-strait-wash text-strait"
+            >
+              <Mail className="size-5" />
+            </span>
+            <h2 id="footer-newsletter" className="font-display text-title text-balance text-ink rtl:font-arabic">
+              {t('footer.newsletter.title')}
+            </h2>
+            <p className="mt-2 max-w-prose text-sm text-pretty text-ink-muted">
+              {t('footer.newsletter.hint')}
+            </p>
+          </div>
           <NewsletterForm />
         </section>
 
         {/* ── Four columns ──────────────────────────────────────────────── */}
-        <div className="grid gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        {/* Two columns from the smallest phone: the two link lists sit side by
+            side, which halves the scroll through them, while the two text-heavy
+            columns — about and contact — keep the full width until `sm`. */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 pt-12 sm:gap-x-10 lg:grid-cols-4 lg:gap-8">
           {/* 1 — About, address, hours */}
-          <section>
+          <section className="col-span-2 sm:col-span-1">
             <h2 className={COLUMN_HEADING}>{t('footer.about')}</h2>
-            <p className="mt-4 text-sm font-medium text-ink">{brandFullName}</p>
+            <div className="mt-4 flex items-center gap-3">
+              <span
+                aria-hidden="true"
+                className="grid size-10 shrink-0 place-items-center rounded-md border border-strait/25 bg-strait-wash text-strait"
+              >
+                <StarOrnament className="size-6" accent />
+              </span>
+              <p className="min-w-0 text-sm font-medium text-ink">{brandFullName}</p>
+            </div>
             {tagline === null ? null : (
               <p className="mt-2 max-w-prose text-sm text-pretty text-ink-muted">{tagline}</p>
             )}
@@ -140,7 +203,7 @@ export async function SiteFooter({
                 {contact.address === null ? null : (
                   <div className="grid grid-cols-[auto_1fr] items-start gap-x-2.5">
                     <MapPin aria-hidden="true" className="row-span-2 mt-0.5 size-4 shrink-0 text-ink-muted" />
-                    <dt className="text-xs uppercase tracking-[0.12em] text-ink-muted">
+                    <dt className={DETAIL_LABEL}>
                       {t('footer.address')}
                     </dt>
                     <dd className="mt-1 text-sm text-pretty text-ink">{contact.address}</dd>
@@ -149,7 +212,7 @@ export async function SiteFooter({
                 {contact.hours === null ? null : (
                   <div className="grid grid-cols-[auto_1fr] items-start gap-x-2.5">
                     <Clock aria-hidden="true" className="row-span-2 mt-0.5 size-4 shrink-0 text-ink-muted" />
-                    <dt className="text-xs uppercase tracking-[0.12em] text-ink-muted">
+                    <dt className={DETAIL_LABEL}>
                       {t('footer.hours')}
                     </dt>
                     <dd className="mt-1 text-sm text-ink">{contact.hours}</dd>
@@ -200,7 +263,7 @@ export async function SiteFooter({
           </nav>
 
           {/* 4 — Contact */}
-          <section>
+          <section className="col-span-2 sm:col-span-1">
             <h2 className={COLUMN_HEADING}>{t('footer.contactUs')}</h2>
             <ul className="mt-2 flex flex-col">
               {contact.phoneE164 === null || contact.phoneDisplay === null ? null : (
@@ -241,7 +304,7 @@ export async function SiteFooter({
 
             {socials.length === 0 ? null : (
               <>
-                <h3 className="mt-6 text-xs uppercase tracking-[0.12em] text-ink-muted">
+                <h3 className={cn('mt-6', DETAIL_LABEL)}>
                   {t('footer.followUs')}
                 </h3>
                 <ul className="mt-2 flex flex-wrap items-center gap-1">
@@ -275,7 +338,12 @@ export async function SiteFooter({
         </div>
 
         {/* ── Legal line ────────────────────────────────────────────────── */}
-        <p className="hairline-t mt-10 pt-6 text-xs text-ink-muted">{t('footer.rights')}</p>
+        {/* `pe-20` on a phone: the floating WhatsApp button sits in that
+            corner, and a line that wrapped underneath it would be half hidden
+            once the page is scrolled to the end. */}
+        <p className="hairline-t mt-12 pt-6 pe-20 text-xs text-pretty text-ink-muted sm:pe-0">
+          {t('footer.rights')}
+        </p>
       </div>
     </footer>
   );

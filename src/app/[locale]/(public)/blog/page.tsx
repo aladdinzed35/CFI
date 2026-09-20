@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowRight, Newspaper } from 'lucide-react';
+import { ArrowRight, BookOpen, Newspaper, PenLine } from 'lucide-react';
 
 import { EmptyState } from '@/components/ui/empty-state';
 import { getBlogIndex, type BlogPostSummary } from '@/server/services/blog';
@@ -10,6 +10,8 @@ import { absoluteUrl, buildMetadata, jsonLdScript, type JsonLdNode } from '@/lib
 import { formatDate, toDateTimeAttribute } from '@/lib/dates';
 import { Link, redirect } from '@/i18n/navigation';
 import { isLocale, locales, type Locale } from '@/i18n/routing';
+
+import { PageHero } from '../parcours/_components/page-hero';
 
 /**
  * `/[locale]/blog` — the article index (§12.5).
@@ -120,109 +122,113 @@ export default async function BlogIndexPage({
       : jsonLdScript(blogJsonLd(locale, t('title'), t('lead'), index.posts));
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <header className="flex flex-col gap-3 pb-8">
-        <h1 className="text-title text-balance">{t('title')}</h1>
-        <p className="max-w-2xl text-lead text-pretty text-ink-muted">{t('lead')}</p>
-      </header>
+    <>
+      <PageHero
+        id="blog-hero"
+        title={t('title')}
+        lead={t('lead')}
+        art={{ icon: Newspaper, accents: [PenLine, BookOpen] }}
+      />
 
-      {index.totalPublished === 0 ? (
-        <EmptyState
-          illustration={<Newspaper aria-hidden="true" />}
-          title={t('empty.title')}
-          description={t('empty.body')}
-          className="rounded-lg border border-hairline bg-surface"
-          action={
-            <Link
-              href="/formations"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
-            >
-              {t('empty.action')}
-              <ArrowRight className="size-4 shrink-0 rtl:-scale-x-100" aria-hidden="true" />
-            </Link>
-          }
-        />
-      ) : (
-        <div className="flex flex-col gap-8">
-          {index.categories.length === 0 ? null : (
-            <nav aria-label={t('categoriesLabel')}>
-              <ul role="list" className="flex flex-wrap items-center gap-2">
-                <li>
-                  <CategoryLink
-                    href={blogHref(null, 1)}
-                    label={t('allCategories')}
-                    active={index.category === null}
-                  />
-                </li>
-                {index.categories.map((category) => (
-                  <li key={category.slug}>
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        {index.totalPublished === 0 ? (
+          <EmptyState
+            illustration={<Newspaper aria-hidden="true" />}
+            title={t('empty.title')}
+            description={t('empty.body')}
+            className="rounded-lg border border-hairline bg-surface"
+            action={
+              <Link
+                href="/formations"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
+              >
+                {t('empty.action')}
+                <ArrowRight className="size-4 shrink-0 rtl:-scale-x-100" aria-hidden="true" />
+              </Link>
+            }
+          />
+        ) : (
+          <div className="flex flex-col gap-8">
+            {index.categories.length === 0 ? null : (
+              <nav aria-label={t('categoriesLabel')}>
+                <ul role="list" className="flex flex-wrap items-center gap-2">
+                  <li>
                     <CategoryLink
-                      href={blogHref(category.slug, 1)}
-                      label={category.label}
-                      count={category.count}
-                      active={index.category?.slug === category.slug}
+                      href={blogHref(null, 1)}
+                      label={t('allCategories')}
+                      active={index.category === null}
                     />
                   </li>
-                ))}
-              </ul>
-            </nav>
-          )}
+                  {index.categories.map((category) => (
+                    <li key={category.slug}>
+                      <CategoryLink
+                        href={blogHref(category.slug, 1)}
+                        label={category.label}
+                        count={category.count}
+                        active={index.category?.slug === category.slug}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
 
-          <p className="text-sm text-ink-muted">{t('postCount', { count: index.total })}</p>
+            <p className="text-sm text-ink-muted">{t('postCount', { count: index.total })}</p>
 
-          <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {index.posts.map((post, position) => (
-              <li key={post.id} className="flex">
-                <PostCard
-                  post={post}
-                  coverAlt={t('coverAlt', { title: post.title })}
-                  dateLabel={t('publishedOn', { date: formatDate(post.publishedAt, locale) })}
-                  readingLabel={t('readingTime', { minutes: post.readMinutes })}
-                  authorLabel={
-                    post.authorName === null ? null : t('author', { name: post.authorName })
-                  }
-                  priority={position === 0}
-                />
-              </li>
-            ))}
-          </ul>
+            <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {index.posts.map((post, position) => (
+                <li key={post.id} className="flex">
+                  <PostCard
+                    post={post}
+                    coverAlt={t('coverAlt', { title: post.title })}
+                    dateLabel={t('publishedOn', { date: formatDate(post.publishedAt, locale) })}
+                    readingLabel={t('readingTime', { minutes: post.readMinutes })}
+                    authorLabel={
+                      post.authorName === null ? null : t('author', { name: post.authorName })
+                    }
+                    priority={position === 0}
+                  />
+                </li>
+              ))}
+            </ul>
 
-          {index.pageCount <= 1 ? null : (
-            <nav
-              aria-label={tCatalog('pagination.label')}
-              className="flex items-center justify-between gap-4 pt-2"
-            >
-              {index.page > 1 ? (
-                <Link
-                  href={blogHref(index.category?.slug ?? null, index.page - 1)}
-                  rel="prev"
-                  className="inline-flex min-h-11 items-center rounded-pill border border-hairline bg-surface px-5 text-sm text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised motion-reduce:transition-none"
-                >
-                  {tCatalog('pagination.previous')}
-                </Link>
-              ) : (
-                <span />
-              )}
+            {index.pageCount <= 1 ? null : (
+              <nav
+                aria-label={tCatalog('pagination.label')}
+                className="flex items-center justify-between gap-4 pt-2"
+              >
+                {index.page > 1 ? (
+                  <Link
+                    href={blogHref(index.category?.slug ?? null, index.page - 1)}
+                    rel="prev"
+                    className="inline-flex min-h-11 items-center rounded-pill border border-hairline bg-surface px-5 text-sm text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised motion-reduce:transition-none"
+                  >
+                    {tCatalog('pagination.previous')}
+                  </Link>
+                ) : (
+                  <span />
+                )}
 
-              <p className="text-sm text-ink-muted">
-                {tCatalog('pagination.summary', { page: index.page, total: index.pageCount })}
-              </p>
+                <p className="text-sm text-ink-muted">
+                  {tCatalog('pagination.summary', { page: index.page, total: index.pageCount })}
+                </p>
 
-              {index.page < index.pageCount ? (
-                <Link
-                  href={blogHref(index.category?.slug ?? null, index.page + 1)}
-                  rel="next"
-                  className="inline-flex min-h-11 items-center rounded-pill border border-hairline bg-surface px-5 text-sm text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised motion-reduce:transition-none"
-                >
-                  {tCatalog('pagination.next')}
-                </Link>
-              ) : (
-                <span />
-              )}
-            </nav>
-          )}
-        </div>
-      )}
+                {index.page < index.pageCount ? (
+                  <Link
+                    href={blogHref(index.category?.slug ?? null, index.page + 1)}
+                    rel="next"
+                    className="inline-flex min-h-11 items-center rounded-pill border border-hairline bg-surface px-5 text-sm text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-raised motion-reduce:transition-none"
+                  >
+                    {tCatalog('pagination.next')}
+                  </Link>
+                ) : (
+                  <span />
+                )}
+              </nav>
+            )}
+          </div>
+        )}
+      </div>
 
       {structuredData === null ? null : (
         <script
@@ -231,7 +237,7 @@ export default async function BlogIndexPage({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
       )}
-    </div>
+    </>
   );
 }
 
@@ -379,9 +385,7 @@ function blogJsonLd(
       dateModified: toDateTimeAttribute(post.updatedAt),
       inLanguage: post.resolvedLocale,
       ...(post.excerpt === null ? {} : { description: post.excerpt }),
-      ...(post.authorName === null
-        ? {}
-        : { author: { '@type': 'Person', name: post.authorName } }),
+      ...(post.authorName === null ? {} : { author: { '@type': 'Person', name: post.authorName } }),
     })),
   };
 }

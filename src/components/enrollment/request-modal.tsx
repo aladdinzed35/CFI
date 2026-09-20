@@ -366,7 +366,9 @@ export function RequestModal({ open, onOpenChange, data }: RequestModalProps): R
         ) : null}
 
         {!confirmDiscard && step === 2 && request !== null ? (
-          <ModalBody className="pb-5">
+          // No bottom padding: the form's submit row is pinned to the bottom of
+          // this scroller and brings its own.
+          <ModalBody className="pb-0">
             {request.discountCentimes > 0 && couponCode.trim() !== '' ? (
               <p className="mb-4 rounded-sm bg-brass-wash px-3 py-2 text-sm text-brass">
                 {t('coupon.applied', {
@@ -384,6 +386,7 @@ export function RequestModal({ open, onOpenChange, data }: RequestModalProps): R
               constraints={constraints}
               bank={bank}
               onDirtyChange={setDirty}
+              stickyActions
               onSubmitted={() => {
                 setSubmittedAt(new Date());
                 setDirty(false);

@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, FolderTree } from 'lucide-react';
 
 import { cn } from '@/lib/cn';
 import { slugify } from '@/lib/slug';
@@ -23,6 +23,7 @@ import {
 import {
   DangerZone,
   EditorDrawer,
+  EmptyList,
   ListRow,
   LocalisedField,
   PublishSwitch,
@@ -208,12 +209,24 @@ export function CategoriesTab({
 
   return (
     <div>
-      <TabHeader
-        createLabel={t('categories.new')}
-        onCreate={() => {
-          setDraft(newDraft());
-        }}
-      />
+      {items.length === 0 ? (
+        <EmptyList
+          icon={<FolderTree aria-hidden="true" />}
+          title={t('empty.categories.title')}
+          description={t('empty.categories.body')}
+          createLabel={t('categories.new')}
+          onCreate={() => {
+            setDraft(newDraft());
+          }}
+        />
+      ) : (
+        <TabHeader
+          createLabel={t('categories.new')}
+          onCreate={() => {
+            setDraft(newDraft());
+          }}
+        />
+      )}
 
       <ul className="flex flex-col gap-2">
         {items.map((item, index) => (

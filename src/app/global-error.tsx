@@ -25,25 +25,48 @@ export default function GlobalError({
 }): React.JSX.Element {
   return (
     <html lang="fr-MA" dir="ltr" data-theme="dark">
-      <body className="min-h-dvh bg-abyss text-ink">
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-start px-4 py-24 sm:px-6 sm:py-32">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-danger">
+      <body className="texture-bathymetric flex min-h-dvh flex-col bg-abyss text-ink">
+        {/* The brand, without the header component: this page must not import
+            anything that could be what failed. Same shared edge as the site. */}
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-2.5 px-4 sm:px-6 lg:h-20">
+          <span
+            aria-hidden="true"
+            className="grid size-10 shrink-0 place-items-center rounded-md border border-strait/25 bg-strait-wash text-strait"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="size-6">
+              <g stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round">
+                <rect x="4.4" y="4.4" width="15.2" height="15.2" rx="1" />
+                <rect x="4.4" y="4.4" width="15.2" height="15.2" rx="1" transform="rotate(45 12 12)" />
+              </g>
+              <g className="fill-brass">
+                <rect x="9.6" y="9.6" width="4.8" height="4.8" rx="0.4" />
+                <rect x="9.6" y="9.6" width="4.8" height="4.8" rx="0.4" transform="rotate(45 12 12)" />
+              </g>
+            </svg>
+          </span>
+          <span className="font-display text-heading leading-none tracking-tight">CFI</span>
+        </div>
+
+        <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-start justify-center px-4 py-16 sm:px-6 sm:py-24">
+          <p className="inline-flex h-8 items-center rounded-pill border border-hairline bg-surface px-3 font-mono text-xs uppercase tracking-[0.22em] text-danger">
             Erreur technique
           </p>
 
-          <h1 className="mt-4 text-title">Le service est momentanément indisponible</h1>
+          <h1 className="mt-5 max-w-[22ch] font-display text-display text-balance">
+            Le service est momentanément indisponible
+          </h1>
 
-          <p className="mt-4 max-w-prose text-body text-ink-muted">
+          <p className="mt-4 max-w-prose text-lead text-pretty text-ink-muted">
             Une erreur inattendue a interrompu le chargement de la page. Vos données ne sont pas
             affectées. Réessayez maintenant&nbsp;; si le problème persiste, revenez dans quelques
             minutes.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
             <button
               type="button"
               onClick={reset}
-              className="inline-flex h-12 items-center rounded-pill bg-strait px-6 text-sm font-medium text-on-accent shadow-e2 transition-[box-shadow,transform] duration-[120ms] hover:shadow-e3 active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-pill bg-strait px-6 text-sm font-medium text-on-accent shadow-e2 transition-[box-shadow,transform] duration-[120ms] hover:shadow-e3 active:translate-y-px"
             >
               Réessayer
             </button>
@@ -57,7 +80,7 @@ export default function GlobalError({
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/fr"
-              className="inline-flex h-12 items-center rounded-pill border border-hairline bg-surface px-6 text-sm font-medium text-ink transition-colors duration-[120ms] hover:bg-raised"
+              className="inline-flex h-12 items-center justify-center rounded-pill border border-hairline bg-surface px-6 text-sm font-medium text-ink transition-colors duration-[120ms] hover:bg-raised"
             >
               Retour à l&apos;accueil
             </a>
@@ -71,7 +94,7 @@ export default function GlobalError({
               </span>
             </p>
           )}
-        </div>
+        </main>
       </body>
     </html>
   );

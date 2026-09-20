@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, FileText } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import { deleteContentItemAction, savePageAction } from '@/server/actions/admin-
 import {
   DangerZone,
   EditorDrawer,
+  EmptyList,
   ListRow,
   LocalisedField,
   PublishSwitch,
@@ -176,12 +177,24 @@ export function PagesTab({ items }: { readonly items: readonly PageItem[] }): Re
 
   return (
     <div>
-      <TabHeader
-        createLabel={t('pages.newPage')}
-        onCreate={() => {
-          setDraft(newDraft());
-        }}
-      />
+      {items.length === 0 ? (
+        <EmptyList
+          icon={<FileText aria-hidden="true" />}
+          title={t('empty.pages.title')}
+          description={t('empty.pages.body')}
+          createLabel={t('pages.newPage')}
+          onCreate={() => {
+            setDraft(newDraft());
+          }}
+        />
+      ) : (
+        <TabHeader
+          createLabel={t('pages.newPage')}
+          onCreate={() => {
+            setDraft(newDraft());
+          }}
+        />
+      )}
 
       <ul className="flex flex-col gap-2">
         {items.map((item) => (

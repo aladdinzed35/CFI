@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, GraduationCap, MessageCircle, Users } from 'lucide-react';
 
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +11,8 @@ import { getHomeData } from '@/server/services/home';
 import { buildMetadata } from '@/lib/seo';
 import { Link } from '@/i18n/navigation';
 import { isLocale, locales } from '@/i18n/routing';
+
+import { PageHero } from '../parcours/_components/page-hero';
 
 /**
  * `/[locale]/formateurs` — the teaching team (§12.2 #8, given its own page).
@@ -88,106 +90,113 @@ export default async function InstructorsPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
-      <header>
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">{t('eyebrow')}</p>
-        <h1 className="mt-4 max-w-[18ch] text-hero text-balance">{t('title')}</h1>
-        <p className="mt-6 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('lead')}</p>
-      </header>
+    <>
+      <PageHero
+        id="instructors-hero"
+        eyebrow={t('eyebrow')}
+        title={t('title')}
+        lead={t('lead')}
+        art={{ icon: Users, accents: [GraduationCap, MessageCircle] }}
+      />
 
-      {instructors.length === 0 ? (
-        <div className="mt-16">
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        {instructors.length === 0 ? (
           <EmptyState
+            illustration={<Users aria-hidden="true" />}
             title={t('empty.title')}
             description={t('empty.body')}
+            className="rounded-lg border border-hairline bg-surface"
             action={
               <Link
                 href="/formations"
-                className="inline-flex min-h-11 items-center gap-2 rounded-pill bg-strait px-5 text-sm font-medium text-on-accent"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
               >
                 {t('empty.action')}
                 <ArrowRight className="size-4 shrink-0 rtl:-scale-x-100" aria-hidden="true" />
               </Link>
             }
           />
-        </div>
-      ) : (
-        <ul role="list" className="mt-12 grid gap-6 lg:grid-cols-2">
-          {instructors.map((instructor) => {
-            const specialty = specialtyById.get(instructor.id) ?? null;
+        ) : (
+          <ul role="list" className="grid gap-6 lg:grid-cols-2">
+            {instructors.map((instructor) => {
+              const specialty = specialtyById.get(instructor.id) ?? null;
 
-            return (
-              <li
-                key={instructor.id}
-                className="flex flex-col rounded-lg border border-hairline bg-surface p-6 sm:p-8"
-              >
-                <div className="flex items-start gap-4">
-                  <Avatar
-                    name={instructor.fullName}
-                    src={instructor.avatarUrl}
-                    size="xl"
-                    ring
-                    className="shrink-0"
-                  />
-                  <div className="min-w-0">
-                    <h2 className="text-heading font-medium text-ink text-balance">
-                      {instructor.fullName}
-                    </h2>
-                    {instructor.headline === null ? null : (
-                      <p className="mt-1.5 text-sm text-pretty text-ink-muted">
-                        {instructor.headline}
-                      </p>
+              return (
+                <li
+                  key={instructor.id}
+                  className="flex flex-col rounded-lg border border-hairline bg-surface p-6 sm:p-8"
+                >
+                  <div className="flex items-start gap-4">
+                    <Avatar
+                      name={instructor.fullName}
+                      src={instructor.avatarUrl}
+                      size="xl"
+                      ring
+                      className="shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <h2 className="text-heading font-medium text-ink text-balance">
+                        {instructor.fullName}
+                      </h2>
+                      {instructor.headline === null ? null : (
+                        <p className="mt-1.5 text-sm text-pretty text-ink-muted">
+                          {instructor.headline}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-2">
+                    {specialty === null ? null : (
+                      <Badge tone="strait" variant="soft">
+                        <span className="sr-only">{`${t('specialtyLabel')} : `}</span>
+                        {specialty}
+                      </Badge>
                     )}
-                  </div>
-                </div>
-
-                <div className="mt-5 flex flex-wrap items-center gap-2">
-                  {specialty === null ? null : (
-                    <Badge tone="strait" variant="soft">
-                      <span className="sr-only">{`${t('specialtyLabel')} : `}</span>
-                      {specialty}
+                    <Badge tone="neutral" variant="outline">
+                      {t('courseCount', { count: instructor.courseCount })}
                     </Badge>
-                  )}
-                  <Badge tone="neutral" variant="outline">
-                    {t('courseCount', { count: instructor.courseCount })}
-                  </Badge>
-                  <Badge tone="neutral" variant="outline">
-                    {t('studentCount', { count: instructor.studentCount })}
-                  </Badge>
-                </div>
-
-                {instructor.bio === null ? null : (
-                  <p className="mt-5 text-body text-pretty text-ink-muted">{instructor.bio}</p>
-                )}
-
-                {instructor.courses.length === 0 ? null : (
-                  <div className="mt-auto pt-6">
-                    <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
-                      {t('coursesTitle')}
-                    </h3>
-                    <ul role="list" className="mt-3 flex flex-col">
-                      {instructor.courses.map((course) => (
-                        <li key={course.slug} className="border-b border-hairline last:border-b-0">
-                          <Link
-                            href={`/formations/${course.slug}`}
-                            className="flex min-h-11 items-center justify-between gap-3 py-2.5 text-sm text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:text-strait motion-reduce:transition-none"
-                          >
-                            <span className="min-w-0 text-pretty">{course.title}</span>
-                            <ArrowRight
-                              className="size-4 shrink-0 text-ink-muted rtl:-scale-x-100"
-                              aria-hidden="true"
-                            />
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    <Badge tone="neutral" variant="outline">
+                      {t('studentCount', { count: instructor.studentCount })}
+                    </Badge>
                   </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
+
+                  {instructor.bio === null ? null : (
+                    <p className="mt-5 text-body text-pretty text-ink-muted">{instructor.bio}</p>
+                  )}
+
+                  {instructor.courses.length === 0 ? null : (
+                    <div className="mt-auto pt-6">
+                      <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
+                        {t('coursesTitle')}
+                      </h3>
+                      <ul role="list" className="mt-3 flex flex-col">
+                        {instructor.courses.map((course) => (
+                          <li
+                            key={course.slug}
+                            className="border-b border-hairline last:border-b-0"
+                          >
+                            <Link
+                              href={`/formations/${course.slug}`}
+                              className="flex min-h-11 items-center justify-between gap-3 py-2.5 text-sm text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:text-strait motion-reduce:transition-none"
+                            >
+                              <span className="min-w-0 text-pretty">{course.title}</span>
+                              <ArrowRight
+                                className="size-4 shrink-0 text-ink-muted rtl:-scale-x-100"
+                                aria-hidden="true"
+                              />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </>
   );
 }

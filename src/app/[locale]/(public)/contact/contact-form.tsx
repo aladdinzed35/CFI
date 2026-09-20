@@ -429,7 +429,12 @@ export function ContactForm({
               they make, but the language the reply must come back in. */}
           <input type="hidden" defaultValue={locale} {...register('locale')} />
 
-          <Button type="submit" size="lg" loading={isSubmitting} className="self-start">
+          <Button
+            type="submit"
+            size="lg"
+            loading={isSubmitting}
+            className="w-full sm:w-auto sm:self-start"
+          >
             {t('submit')}
           </Button>
         </form>

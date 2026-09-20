@@ -2,7 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { ColumnDef, PaginationState, Row, RowSelectionState, SortingState } from '@tanstack/react-table';
+import type {
+  ColumnDef,
+  PaginationState,
+  Row,
+  RowSelectionState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table';
 import { Check, MessageCircle, Search, SlidersHorizontal, TriangleAlert, X } from 'lucide-react';
 
 import { cn } from '@/lib/cn';
@@ -132,6 +139,10 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
   const [selection, setSelection] = useState<RowSelectionState>({});
   const [bulkMode, setBulkMode] = useState<'approve' | 'reject' | null>(null);
   const [bulkPending, setBulkPending] = useState(false);
+  // Every queue is exactly one status — the tab already says « À valider » —
+  // so the status column only repeats it on every row. Hidden by default,
+  // still one click away in « Colonnes ».
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ status: false });
 
   // The URL is the source of truth; when it changes under us — a link, the back
   // button, a decision that moved a row out of the queue — the field follows.
@@ -256,6 +267,10 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
   const columns = useMemo<ColumnDef<AccountRowView>[]>(
     () => [
       {
+        // The person, and how to reach them in writing: name, role, and the
+        // address with its two signals (confirmed, disposable) on one cell.
+        // Nine columns do not fit the 976 px a 1280 px screen leaves beside
+        // the rail; a separate e-mail column was the widest of them.
         id: 'fullName',
         header: t('columns.name'),
         enableSorting: true,
@@ -265,37 +280,34 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
             type="button"
             onClick={() => navigate({ [PARAM.review]: row.original.id }, false)}
             aria-label={t('openReview', { name: row.original.fullName })}
-            className="flex min-h-11 w-full items-center gap-3 rounded-sm text-start"
+            className="flex min-h-11 w-full min-w-56 items-center gap-3 rounded-sm py-1 text-start"
           >
             <Avatar name={row.original.fullName} size="sm" />
             <span className="flex min-w-0 flex-col">
-              <span className="truncate font-medium text-ink">{row.original.fullName}</span>
-              {row.original.role === 'STUDENT' ? null : (
-                <span className="text-xs text-ink-muted">{t(ROLE_LABEL_KEY[row.original.role])}</span>
-              )}
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="truncate font-medium text-ink">{row.original.fullName}</span>
+                {row.original.role === 'STUDENT' ? null : (
+                  <span className="shrink-0 text-xs text-ink-muted">
+                    {t(ROLE_LABEL_KEY[row.original.role])}
+                  </span>
+                )}
+              </span>
+              <span className="flex min-w-0 items-center gap-1.5">
+                <span className="force-ltr truncate text-sm text-ink-muted" dir="ltr">
+                  {row.original.email}
+                </span>
+                {row.original.emailVerified ? (
+                  <Check className="size-4 shrink-0 text-success" aria-hidden="true" />
+                ) : null}
+                {row.original.emailDisposable ? (
+                  <TriangleAlert className="size-4 shrink-0 text-warn" aria-hidden="true" />
+                ) : null}
+                <span className="sr-only">
+                  {row.original.emailVerified ? t('emailVerified') : t('emailUnverified')}
+                </span>
+              </span>
             </span>
           </button>
-        ),
-      },
-      {
-        id: 'email',
-        header: t('columns.email'),
-        enableSorting: false,
-        cell: ({ row }) => (
-          <span className="flex min-w-0 items-center gap-1.5">
-            <span className="force-ltr truncate text-sm text-ink-muted" dir="ltr">
-              {row.original.email}
-            </span>
-            {row.original.emailVerified ? (
-              <Check className="size-4 shrink-0 text-success" aria-hidden="true" />
-            ) : null}
-            {row.original.emailDisposable ? (
-              <TriangleAlert className="size-4 shrink-0 text-warn" aria-hidden="true" />
-            ) : null}
-            <span className="sr-only">
-              {row.original.emailVerified ? t('emailVerified') : t('emailUnverified')}
-            </span>
-          </span>
         ),
       },
       {
@@ -303,7 +315,7 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
         header: t('columns.phone'),
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 whitespace-nowrap">
             <span className="force-ltr text-sm text-ink-muted" dir="ltr">
               {row.original.phoneDisplay}
             </span>
@@ -325,7 +337,7 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
           <time
             dateTime={row.original.registeredAtIso}
             title={row.original.registeredAtAbsolute}
-            className="text-sm text-ink-muted"
+            className="text-sm whitespace-nowrap text-ink-muted"
           >
             {row.original.registeredAtRelative}
           </time>
@@ -336,7 +348,7 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
         header: t('columns.lastLogin'),
         enableSorting: true,
         cell: ({ row }) => (
-          <span className="text-sm text-ink-muted">
+          <span className="text-sm whitespace-nowrap text-ink-muted">
             {row.original.lastLoginRelative ?? t('never')}
           </span>
         ),
@@ -350,6 +362,7 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
             domain="account"
             status={row.original.status}
             label={t(STATUS_LABEL_KEY[row.original.status])}
+            className="w-max max-w-none"
           />
         ),
       },
@@ -361,7 +374,7 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
         cell: ({ row }) => (
           <Link
             href={`/admin/comptes/${row.original.id}`}
-            className="inline-flex min-h-11 items-center rounded-md px-2 text-sm text-strait hover:underline"
+            className="inline-flex min-h-11 items-center rounded-md px-2 text-sm whitespace-nowrap text-strait hover:underline"
           >
             {t('drawer.openDetail')}
           </Link>
@@ -493,6 +506,8 @@ export function AccountsTable(props: AccountsTableProps): React.JSX.Element {
         onSortingChange={onSortingChange}
         rowSelection={selection}
         onRowSelectionChange={setSelection}
+        columnVisibility={columnVisibility}
+        onColumnVisibilityChange={setColumnVisibility}
         renderCard={renderCard}
         bulkActions={(ids) => (
           <>
@@ -593,7 +608,7 @@ function QueueTabs({
   const t = useTranslations('admin.accounts');
 
   return (
-    <nav aria-label={t('title')} className="hairline-b -mx-1 flex items-stretch gap-1 overflow-x-auto px-1">
+    <nav aria-label={t('title')} className="-mx-1 flex items-stretch gap-1 overflow-x-auto px-1 shadow-[inset_0_-1px_0_var(--color-hairline)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {QUEUES.map((entry) => {
         const active = entry.key === queue;
         return (
@@ -606,7 +621,7 @@ function QueueTabs({
             })}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'relative -mb-px inline-flex min-h-11 shrink-0 items-center gap-2 border-b-2 px-3 text-sm font-medium whitespace-nowrap',
+              'inline-flex min-h-11 shrink-0 items-center gap-2 border-b-2 px-3 text-sm font-medium whitespace-nowrap',
               'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
               active
                 ? 'border-strait text-ink'

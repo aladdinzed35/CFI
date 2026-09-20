@@ -13,6 +13,7 @@ import {
 } from '@/server/services/course-admin';
 
 import { AdminBackLink } from '../../admin-nav';
+import { AdminPage } from '../../admin-page';
 import { CourseEditor } from './course-editor';
 import type { CourseEditorView } from '../course-view';
 
@@ -59,11 +60,11 @@ export default async function CourseEditorPage({
   const categories: readonly CategoryOption[] = categoriesResult.ok ? categoriesResult.data : [];
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
+    <AdminPage width="record">
       <AdminBackLink href="/admin/formations" label={t('editor.backToList')} />
 
       <CourseEditor course={toEditorView(courseResult.data, locale)} categories={categories} />
-    </div>
+    </AdminPage>
   );
 }
 

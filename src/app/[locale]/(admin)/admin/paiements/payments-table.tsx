@@ -122,7 +122,7 @@ export function PaymentsTable(props: PaymentsTableProps): React.JSX.Element {
         enableSorting: true,
         enableHiding: false,
         cell: ({ row }) => (
-          <time dateTime={row.original.receivedAtIso} className="text-sm text-ink-muted">
+          <time dateTime={row.original.receivedAtIso} className="text-sm whitespace-nowrap text-ink-muted">
             {row.original.receivedAtLabel}
           </time>
         ),
@@ -134,7 +134,7 @@ export function PaymentsTable(props: PaymentsTableProps): React.JSX.Element {
         cell: ({ row }) => (
           <Link
             href={`/admin/comptes/${row.original.studentId}`}
-            className="flex min-h-11 min-w-0 flex-col justify-center rounded-sm text-start"
+            className="flex min-h-11 min-w-44 flex-col justify-center rounded-sm text-start"
           >
             <span className="truncate font-medium text-ink">{row.original.studentName}</span>
             <span className="force-ltr truncate text-xs text-ink-muted" dir="ltr">
@@ -148,7 +148,9 @@ export function PaymentsTable(props: PaymentsTableProps): React.JSX.Element {
         header: t('columns.course'),
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="line-clamp-2 text-sm text-ink-muted">{row.original.courseTitle}</span>
+          <span className="line-clamp-2 min-w-40 max-w-60 text-sm text-ink-muted">
+            {row.original.courseTitle}
+          </span>
         ),
       },
       {
@@ -156,7 +158,7 @@ export function PaymentsTable(props: PaymentsTableProps): React.JSX.Element {
         header: t('columns.amount'),
         enableSorting: true,
         cell: ({ row }) => (
-          <span data-numeric dir="ltr" className="force-ltr text-sm font-medium text-brass">
+          <span data-numeric dir="ltr" className="force-ltr text-sm font-medium whitespace-nowrap text-brass">
             {row.original.amountLabel}
           </span>
         ),
@@ -166,7 +168,7 @@ export function PaymentsTable(props: PaymentsTableProps): React.JSX.Element {
         header: t('columns.method'),
         enableSorting: false,
         cell: ({ row }) => (
-          <Badge tone="neutral" variant="soft" size="sm">
+          <Badge tone="neutral" variant="soft" size="sm" className="w-max max-w-none">
             {t(METHOD_LABEL_KEY[row.original.method])}
           </Badge>
         ),
@@ -192,7 +194,7 @@ export function PaymentsTable(props: PaymentsTableProps): React.JSX.Element {
         cell: ({ row }) => (
           <Link
             href={`/admin/demandes?fiche=${row.original.requestId}`}
-            className="inline-flex min-h-11 items-center rounded-md px-2 font-mono text-xs text-strait hover:underline"
+            className="inline-flex min-h-11 items-center rounded-md px-2 font-mono text-xs whitespace-nowrap text-strait hover:underline"
           >
             <span data-numeric dir="ltr" className="force-ltr">
               {row.original.reference}
@@ -357,7 +359,7 @@ function InvoiceCell({ row }: { row: PaymentRowView }): React.JSX.Element {
       href={row.invoicePath}
       aria-label={t('actions.downloadInvoice')}
       title={t('actions.downloadInvoice')}
-      className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-1 text-strait hover:underline"
+      className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-1 whitespace-nowrap text-strait hover:underline"
     >
       <Download className="size-4 shrink-0" aria-hidden="true" />
       <span data-numeric dir="ltr" className="force-ltr font-mono text-xs">

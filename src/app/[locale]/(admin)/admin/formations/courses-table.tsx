@@ -136,7 +136,7 @@ export function CoursesTable(props: CoursesTableProps): React.JSX.Element {
         cell: ({ row }) => (
           <Link
             href={`/admin/formations/${row.original.id}`}
-            className="flex min-h-11 min-w-0 flex-col justify-center rounded-sm text-start"
+            className="flex min-h-11 max-w-80 min-w-52 flex-col justify-center rounded-sm text-start"
           >
             <span className="truncate font-medium text-ink">{row.original.title}</span>
             <span className="force-ltr truncate font-mono text-xs text-ink-muted" dir="ltr">
@@ -162,6 +162,7 @@ export function CoursesTable(props: CoursesTableProps): React.JSX.Element {
             domain="course"
             status={row.original.status}
             label={t(COURSE_STATUS_LABEL_KEY[row.original.status])}
+            className="w-max max-w-none"
           />
         ),
       },
@@ -202,7 +203,7 @@ export function CoursesTable(props: CoursesTableProps): React.JSX.Element {
         header: t('columns.updatedAt'),
         enableSorting: true,
         cell: ({ row }) => (
-          <time dateTime={row.original.updatedAtIso} className="text-sm text-ink-muted">
+          <time dateTime={row.original.updatedAtIso} className="text-sm whitespace-nowrap text-ink-muted">
             {row.original.updatedAtLabel}
           </time>
         ),
@@ -339,8 +340,19 @@ export function CoursesTable(props: CoursesTableProps): React.JSX.Element {
         nextPage: tQueue('table.nextPage'),
         pageSummary: tQueue('table.pageSummary', { from, to, total }),
         loading: tCommon('loading'),
-        emptyTitle: searching ? tCatalog('empty.title') : tCatalog('emptyCatalog.title'),
-        emptyDescription: searching ? tCatalog('empty.body') : tCatalog('emptyCatalog.body'),
+        // The public catalogue's « pas encore ouvert — laissez votre e-mail »
+        // speaks to a visitor; the author looking at an empty list needs to be
+        // told where the first course comes from.
+        emptyTitle: searching
+          ? tCatalog('empty.title')
+          : counts.toutes === 0
+            ? t('empty.title')
+            : t('empty.tabTitle'),
+        emptyDescription: searching
+          ? tCatalog('empty.body')
+          : counts.toutes === 0
+            ? t('empty.body')
+            : t('empty.tabBody'),
         errorTitle: tQueue('table.errorTitle'),
         errorDescription: tQueue('table.errorDescription'),
       }}
@@ -356,10 +368,12 @@ export function CoursesTable(props: CoursesTableProps): React.JSX.Element {
 function PriceCell({ row }: { row: CourseRowView }): React.JSX.Element {
   const t = useTranslations('admin.courses');
 
-  if (row.isFree) return <span className="text-sm text-ink-muted">{t('pricing.free')}</span>;
+  if (row.isFree) {
+    return <span className="text-sm whitespace-nowrap text-ink-muted">{t('pricing.free')}</span>;
+  }
 
   return (
-    <span data-numeric dir="ltr" className="force-ltr text-sm font-medium text-brass">
+    <span data-numeric dir="ltr" className="force-ltr text-sm font-medium whitespace-nowrap text-brass">
       {row.priceLabel}
     </span>
   );
@@ -465,19 +479,22 @@ function Toolbar({
 
   return (
     <div className="flex flex-col gap-3">
-      <nav aria-label={t('title')}>
-        <ul className="flex flex-wrap gap-1 border-b border-hairline">
+      {/* One row that scrolls on a phone, like every other tab strip in the
+          panel — wrapping put the active underline on a second line, detached
+          from the rule it is meant to sit on. */}
+      <nav aria-label={t('title')} className="min-w-0">
+        <ul className="-mx-1 flex items-stretch gap-1 overflow-x-auto px-1 shadow-[inset_0_-1px_0_var(--color-hairline)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map((entry) => {
             const active = entry.key === tab;
             return (
-              <li key={entry.key}>
+              <li key={entry.key} className="flex shrink-0">
                 <Link
                   href={buildHref({
                     [PARAM.tab]: entry.key === 'toutes' ? null : entry.key,
                   })}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'inline-flex min-h-11 items-center gap-2 border-b-2 px-3 text-sm',
+                    'inline-flex min-h-11 items-center gap-2 border-b-2 px-3 text-sm whitespace-nowrap',
                     'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
                     active
                       ? 'border-strait font-medium text-ink'

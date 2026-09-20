@@ -21,7 +21,11 @@ import { useReducedMotionSafe } from '@/hooks/use-reduced-motion-safe';
  *   `ContactMessage` with `source: WHATSAPP_CLICK` — the button never talks to
  *   the database itself;
  * - hides itself while a modal or bottom sheet is open, by observing the
- *   `data-overlay-open` attribute those components set on `<body>`.
+ *   `data-overlay-open` attribute those components set on `<body>`;
+ * - rises above a page's own fixed bottom bar: any element carrying
+ *   `data-cfi-bottom-bar` lifts it by that bar's height below `lg`, in CSS
+ *   alone (`body:has(...)`), so a client-side navigation to or from such a page
+ *   needs no listener.
  *
  * ## The one documented raw-hex exception
  * `#25D366` is WhatsApp's brand colour. Recolouring it to `--color-strait`
@@ -191,6 +195,11 @@ export function WhatsAppFab({
           transition={entrance.transition}
           className={cn(
             'safe-b fixed bottom-0 end-0 z-40 flex flex-col items-end gap-2 p-4 print:hidden',
+            // A page with its own fixed bottom bar (the course page's price and
+            // call to action, below `lg`) marks it `data-cfi-bottom-bar`; the
+            // button then rides above it instead of covering its end half.
+            'max-lg:[body:has([data-cfi-bottom-bar])_&]:bottom-19',
+            'transition-[bottom] duration-200 ease-[var(--ease-out-strait)]',
             className,
           )}
         >

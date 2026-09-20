@@ -11,6 +11,7 @@ import {
   type SettingGroupState,
 } from '@/server/services/settings-admin';
 
+import { AdminPage, AdminPageHeader } from '../admin-page';
 import { SettingsForm } from './settings-form';
 import type { FeatureFlagView, SettingGroupView } from './settings-view';
 
@@ -117,13 +118,10 @@ export default async function AdminSettingsPage({
   });
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="flex flex-col gap-1">
-        <h1 className="font-display text-title text-ink">{t('title')}</h1>
-        <p className="max-w-prose text-sm text-ink-muted">{t('subtitle')}</p>
-      </header>
+    <AdminPage width="form">
+      <AdminPageHeader title={t('title')} subtitle={t('subtitle')} />
 
       <SettingsForm groups={groups} flags={flags} featuresTitle={t('tabs.features')} />
-    </div>
+    </AdminPage>
   );
 }

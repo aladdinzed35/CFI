@@ -227,7 +227,9 @@ export function PreviewModal({
                   }}
                   iconStart={<ChevronLeft className="size-4 rtl:-scale-x-100" />}
                 >
-                  {t('programme.previewPrevious')}
+                  {/* Two full labels do not fit beside the counter on a phone;
+                      the arrow carries it there, the name stays announced. */}
+                  <span className="max-sm:sr-only">{t('programme.previewPrevious')}</span>
                 </Button>
 
                 <span data-numeric className="shrink-0 text-xs text-ink-muted">
@@ -246,7 +248,7 @@ export function PreviewModal({
                   }}
                   iconEnd={<ChevronRight className="size-4 rtl:-scale-x-100" />}
                 >
-                  {t('programme.previewNext')}
+                  <span className="max-sm:sr-only">{t('programme.previewNext')}</span>
                 </Button>
               </div>
             ) : null}

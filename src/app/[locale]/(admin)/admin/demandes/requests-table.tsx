@@ -3,7 +3,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import type { ColumnDef, PaginationState, Row, SortingState } from '@tanstack/react-table';
+import type {
+  ColumnDef,
+  PaginationState,
+  Row,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table';
 import { FileText, MessageCircle, Search, SlidersHorizontal } from 'lucide-react';
 
 import { cn } from '@/lib/cn';
@@ -114,6 +120,15 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
   const pathname = usePathname();
 
   const [searchValue, setSearchValue] = useState(search);
+  // Every tab but « Toutes » is a single status, so there the status column
+  // only repeats the tab on each of eleven columns' worth of row. Hidden by
+  // default in those tabs; whatever the administrator picks in « Colonnes »
+  // wins over the default.
+  const [visibilityOverrides, setVisibilityOverrides] = useState<VisibilityState>({});
+  const columnVisibility = useMemo<VisibilityState>(
+    () => ({ status: queue === 'toutes', ...visibilityOverrides }),
+    [queue, visibilityOverrides],
+  );
 
   // The URL is the source of truth; when it changes under us — a link, the back
   // button, a decision that moved a row out of the queue — the field follows.
@@ -173,10 +188,10 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
               type="button"
               onClick={() => openReview(row.original.id)}
               aria-label={t('openReview', { reference: row.original.reference })}
-              className="flex min-h-11 min-w-0 flex-col justify-center rounded-sm text-start"
+              className="flex min-h-11 min-w-36 flex-col justify-center rounded-sm text-start"
             >
               <span className="truncate font-medium text-ink">{row.original.studentName}</span>
-              <span className="force-ltr truncate text-xs text-ink-muted" dir="ltr">
+              <span className="force-ltr text-xs whitespace-nowrap text-ink-muted" dir="ltr">
                 {row.original.studentPhoneDisplay}
               </span>
             </button>
@@ -189,7 +204,9 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         header: t('columns.course'),
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="line-clamp-2 text-sm text-ink-muted">{row.original.courseTitle}</span>
+          <span className="line-clamp-2 min-w-40 max-w-60 text-sm text-ink-muted">
+            {row.original.courseTitle}
+          </span>
         ),
       },
       {
@@ -197,7 +214,7 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         header: t('columns.amount'),
         enableSorting: true,
         cell: ({ row }) => (
-          <span data-numeric dir="ltr" className="force-ltr text-sm font-medium text-brass">
+          <span data-numeric dir="ltr" className="force-ltr text-sm font-medium whitespace-nowrap text-brass">
             {row.original.amountLabel}
           </span>
         ),
@@ -207,7 +224,7 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         header: t('columns.transferType'),
         enableSorting: false,
         cell: ({ row }) => (
-          <Badge tone="neutral" variant="soft" size="sm">
+          <Badge tone="neutral" variant="soft" size="sm" className="w-max max-w-none">
             {t(TRANSFER_TYPE_LABEL_KEY[row.original.transferType])}
           </Badge>
         ),
@@ -217,7 +234,9 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         header: t('columns.declaredDate'),
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="text-sm text-ink-muted">{row.original.transferDateLabel ?? '—'}</span>
+          <span className="text-sm whitespace-nowrap text-ink-muted">
+            {row.original.transferDateLabel ?? '—'}
+          </span>
         ),
       },
       {
@@ -228,7 +247,7 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
           <time
             dateTime={row.original.submittedAtIso}
             title={row.original.submittedAtAbsolute}
-            className="text-sm text-ink-muted"
+            className="text-sm whitespace-nowrap text-ink-muted"
           >
             {row.original.submittedAtRelative}
           </time>
@@ -245,7 +264,7 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         header: t('columns.reference'),
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 whitespace-nowrap">
             <span data-numeric dir="ltr" className="force-ltr font-mono text-xs text-ink">
               {row.original.reference}
             </span>
@@ -268,7 +287,11 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         id: 'flags',
         header: t('columns.flags'),
         enableSorting: false,
-        cell: ({ row }) => <Flags flags={row.original.flags} />,
+        cell: ({ row }) => (
+          <span className="block min-w-32">
+            <Flags flags={row.original.flags} />
+          </span>
+        ),
       },
       {
         id: 'status',
@@ -279,6 +302,7 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
             domain="request"
             status={row.original.status}
             label={t(STATUS_LABEL_KEY[row.original.status])}
+            className="w-max max-w-none"
           />
         ),
       },
@@ -392,6 +416,8 @@ export function RequestsTable(props: RequestsTableProps): React.JSX.Element {
         pageCount={pageCount}
         sorting={sorting}
         onSortingChange={onSortingChange}
+        columnVisibility={columnVisibility}
+        onColumnVisibilityChange={setVisibilityOverrides}
         renderCard={renderCard}
         toolbar={
           <Toolbar
@@ -562,7 +588,7 @@ function QueueTabs({
   return (
     <nav
       aria-label={t('title')}
-      className="hairline-b -mx-1 flex items-stretch gap-1 overflow-x-auto px-1"
+      className="-mx-1 flex items-stretch gap-1 overflow-x-auto px-1 shadow-[inset_0_-1px_0_var(--color-hairline)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {QUEUES.map((entry) => {
         const active = entry.key === queue;
@@ -578,7 +604,7 @@ function QueueTabs({
             })}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'relative -mb-px inline-flex min-h-11 shrink-0 items-center gap-2 border-b-2 px-3 text-sm font-medium whitespace-nowrap',
+              'inline-flex min-h-11 shrink-0 items-center gap-2 border-b-2 px-3 text-sm font-medium whitespace-nowrap',
               'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
               active ? 'border-strait text-ink' : 'border-transparent text-ink-muted hover:text-ink',
             )}

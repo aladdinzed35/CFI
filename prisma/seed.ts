@@ -21,6 +21,7 @@
  *   npx tsx prisma/seed.ts --help
  */
 
+import { randomBytes } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import process from 'node:process';
@@ -64,12 +65,14 @@ function loadEnvFiles(): void {
 interface CliOptions {
   readonly reset: boolean;
   readonly help: boolean;
+  readonly productionDemo: boolean;
 }
 
 function parseArgs(argv: readonly string[]): CliOptions {
   return {
     reset: argv.includes('--reset'),
     help: argv.includes('--help') || argv.includes('-h'),
+    productionDemo: argv.includes('--production-demo'),
   };
 }
 
@@ -79,9 +82,13 @@ CFI — seed (spec §23)
   npx tsx prisma/seed.ts [options]
 
 Options
-  --reset      Empty every table in foreign-key-safe order before seeding.
-               Refuses to run when NODE_ENV=production.
-  --help, -h   Show this message.
+  --reset            Empty every table in foreign-key-safe order before seeding.
+                     Refuses to run when NODE_ENV=production.
+  --production-demo  Required when NODE_ENV=production. Seeds the demo
+                     catalogue ONCE: demo accounts get random passwords printed
+                     at the end, and every later run is skipped entirely, so it
+                     is safe to leave in the build command.
+  --help, -h         Show this message.
 
 Reads DATABASE_URL from the environment, or from .env / .env.local.
 `.trim();
@@ -2342,10 +2349,10 @@ function printSummary(results: readonly GroupResult[]): void {
  * passwords are printed because they are meant to be known, and that is exactly
  * why this seed must never touch a production database.
  */
-function printCredentials(): void {
+function printCredentials(passwords: ReadonlyMap<string, string>, production: boolean): void {
   const rows = ALL_SEED_USERS.map((user) => ({
     email: user.email,
-    password: user.password,
+    password: passwords.get(user.email) ?? user.password,
     role: user.role,
     status: user.status,
   }));
@@ -2367,12 +2374,38 @@ function printCredentials(): void {
       `  ${pad(row.email, emailWidth)}  ${pad(row.password, passwordWidth)}  ${pad(row.role, roleWidth)}  ${pad(row.status, statusWidth)}`,
     );
   }
-  console.log('\n  Mots de passe de démonstration — à ne jamais réutiliser hors développement.');
+  if (production) {
+    console.log(
+      `
+  Mots de passe générés pour CETTE exécution et affichés une seule fois : notez-les
+  maintenant. Les exécutions suivantes s’arrêtent à l’entrée et n’y touchent plus.
+  Contenu de démonstration : formations, formateurs et témoignages sont fictifs —
+  à remplacer avant une ouverture publique réelle.`,
+    );
+  } else {
+    console.log(`
+  Mots de passe de démonstration — à ne jamais réutiliser hors développement.`);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // main
 // ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Written at the end of a successful production-demo run, and checked at the
+ * start of every later one.
+ *
+ * The seed upserts by natural key, so a second run REWRITES every seeded
+ * course, page and testimonial. In development that is the point. In the
+ * Hostinger build command it would mean every redeploy silently reverting the
+ * owner's edits to the demo content. So production seeds once: a completed run
+ * leaves this marker and every run after it stops at the door. A run that
+ * failed half-way leaves no marker, so the next one finishes the job — the
+ * upserts make that safe. The settings screen reads only the keys it knows,
+ * so the marker never appears there.
+ */
+const DEMO_SEEDED_MARKER = 'system.demoSeededAt';
 
 /** One interactive transaction per group; generous timeouts for a cold MySQL. */
 const TRANSACTION_OPTIONS = { maxWait: 10_000, timeout: 60_000 } as const;
@@ -2393,10 +2426,36 @@ async function main(): Promise<void> {
     );
   }
 
+  // The passwords in this file are literals in a public repository. Seeding
+  // production with them creates a SUPER_ADMIN anyone can sign in as — which
+  // is why the doc comment on printCredentials has always said this seed
+  // "must never touch a production database", and why, until now, nothing
+  // actually stopped it: only `--reset` refused.
+  const production = process.env.NODE_ENV === 'production';
+  if (production && !options.productionDemo) {
+    throw new Error(
+      'Refus : NODE_ENV=production. Les mots de passe de ce seed sont publics (dépôt GitHub). ' +
+        'Pour peupler un environnement de test avec le catalogue de démonstration, relancez avec ' +
+        '--production-demo : les comptes de démonstration reçoivent alors des mots de passe aléatoires ' +
+        'affichés une seule fois, et toute exécution suivante est ignorée.',
+    );
+  }
+
   const prisma = new PrismaClient({ log: ['warn', 'error'] });
 
   try {
     log.title(`CFI — seed (§23) · NODE_ENV=${process.env.NODE_ENV ?? 'development'}`);
+
+    if (production) {
+      const marker = await prisma.siteSetting.findUnique({ where: { key: DEMO_SEEDED_MARKER } });
+      if (marker !== null) {
+        log.step(
+          `Base déjà peuplée (${String(marker.value)}) — seed ignoré. ` +
+            'Les contenus et les comptes existants ne sont pas touchés.',
+        );
+        return;
+      }
+    }
 
     if (options.reset) {
       await resetDatabase(prisma);
@@ -2405,9 +2464,18 @@ async function main(): Promise<void> {
     // Argon2 runs before any transaction opens: 16 hashes at 19 MiB each take
     // longer than a transaction should ever be held open.
     log.title('Empreintes de mots de passe (argon2id)');
+    // Development: the published literals, rewritten every run so the table
+    // stays true. Production: a fresh random password per demo account on
+    // every run that gets this far — i.e. every run before the first one
+    // completes. That matters: a run that dies after writing the accounts but
+    // before printing this table would otherwise leave demo accounts, the
+    // administrator among them, whose passwords nobody ever saw.
     const hashes = new Map<string, string>();
+    const shown = new Map<string, string>();
     for (const user of ALL_SEED_USERS) {
-      hashes.set(user.email, await hashPassword(user.password));
+      const plain = production ? randomBytes(15).toString('base64url') : user.password;
+      hashes.set(user.email, await hashPassword(plain));
+      shown.set(user.email, plain);
     }
     log.step(`${hashes.size} empreintes calculées.`);
 
@@ -2446,7 +2514,15 @@ async function main(): Promise<void> {
     for (const result of laterMilestones) log.done(result);
 
     printSummary([...results, ...laterMilestones]);
-    printCredentials();
+    if (production) {
+      await prisma.siteSetting.upsert({
+        where: { key: DEMO_SEEDED_MARKER },
+        create: { key: DEMO_SEEDED_MARKER, value: new Date().toISOString(), group: 'system' },
+        update: { value: new Date().toISOString() },
+      });
+    }
+
+    printCredentials(shown, production);
 
     log.title('Seed terminé.');
   } finally {

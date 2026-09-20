@@ -333,7 +333,7 @@ export async function FilterRail({
   return (
     <aside
       aria-label={t('filters.title')}
-      className={cn('hidden w-64 shrink-0 lg:block xl:w-72', className)}
+      className={cn('hidden w-full min-w-0 lg:block', className)}
     >
       <div className="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto pe-2">
         <div className="mb-4 flex items-baseline justify-between gap-3">

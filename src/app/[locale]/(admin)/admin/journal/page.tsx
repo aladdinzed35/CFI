@@ -17,6 +17,7 @@ import {
   type AuditFilterOptions,
 } from '@/server/services/audit-queries';
 
+import { AdminPage, AdminPageHeader } from '../admin-page';
 import { JournalTable } from './journal-table';
 import { PARAM, type AuditEntryView, type JournalFilterState } from './journal-view';
 
@@ -128,11 +129,8 @@ export default async function AdminJournalPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="flex flex-col gap-1 pb-4">
-        <h1 className="font-display text-title text-ink">{t('title')}</h1>
-        <p className="max-w-prose text-sm text-ink-muted">{t('subtitle')}</p>
-      </header>
+    <AdminPage>
+      <AdminPageHeader title={t('title')} subtitle={t('subtitle')} />
 
       <JournalTable
         rows={listResult.data.rows.map((row) => toEntryView(row, locale))}
@@ -146,7 +144,7 @@ export default async function AdminJournalPage({
         options={options}
         currentParams={currentParams}
       />
-    </div>
+    </AdminPage>
   );
 }
 

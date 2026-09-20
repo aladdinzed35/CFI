@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Newspaper } from 'lucide-react';
 
 import { slugify } from '@/lib/slug';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +18,7 @@ import { deleteContentItemAction, saveBlogPostAction } from '@/server/actions/ad
 import {
   DangerZone,
   EditorDrawer,
+  EmptyList,
   ListRow,
   LocalisedField,
   PublishSwitch,
@@ -204,12 +205,24 @@ export function BlogTab({ items }: { readonly items: readonly BlogItem[] }): Rea
 
   return (
     <div>
-      <TabHeader
-        createLabel={t('blog.newPost')}
-        onCreate={() => {
-          setDraft(newDraft());
-        }}
-      />
+      {items.length === 0 ? (
+        <EmptyList
+          icon={<Newspaper aria-hidden="true" />}
+          title={t('empty.blog.title')}
+          description={t('empty.blog.body')}
+          createLabel={t('blog.newPost')}
+          onCreate={() => {
+            setDraft(newDraft());
+          }}
+        />
+      ) : (
+        <TabHeader
+          createLabel={t('blog.newPost')}
+          onCreate={() => {
+            setDraft(newDraft());
+          }}
+        />
+      )}
 
       <ul className="flex flex-col gap-2">
         {items.map((item) => (

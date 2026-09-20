@@ -189,9 +189,15 @@ export function InfosTab({ course, categories }: InfosTabProps): React.JSX.Eleme
         </h2>
 
         <Tabs defaultValue="fr" variant="pill">
-          <TabsList>
+          {/* Four « Français 100 % » pills are ~560 px: a 2 × 2 grid on a
+              phone, the usual pill row from `sm` up. */}
+          <TabsList className="grid w-full grid-cols-2 rounded-lg sm:inline-flex sm:w-auto sm:max-w-full sm:rounded-pill">
             {localeSummaries.map((entry) => (
-              <TabsTrigger key={entry.locale} value={entry.locale}>
+              <TabsTrigger
+                key={entry.locale}
+                value={entry.locale}
+                className="min-h-11 rounded-md sm:min-h-9 sm:rounded-pill"
+              >
                 <span>{tLocale(entry.locale)}</span>
                 <span
                   data-numeric
@@ -407,7 +413,7 @@ export function InfosTab({ course, categories }: InfosTabProps): React.JSX.Eleme
           {t('editor.tabs.pricing')}
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <FormField
             label={t('pricing.price')}
             required

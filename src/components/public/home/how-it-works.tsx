@@ -40,17 +40,18 @@ export async function HomeHowItWorks(): Promise<React.JSX.Element> {
   return (
     <section
       aria-labelledby="home-how-title"
+      data-home-band="plain"
       className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24"
     >
-      <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">
+      <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait rtl:font-arabic rtl:text-sm rtl:tracking-normal">
         {t('sectionLabel')}
       </p>
-      <h2 id="home-how-title" className="mt-4 max-w-[18ch] text-display">
+      <h2 id="home-how-title" className="mt-4 max-w-[18ch] text-display text-balance">
         {t('title')}
       </h2>
-      <p className="mt-5 max-w-[62ch] text-lead text-ink-muted">{t('subtitle')}</p>
+      <p className="mt-5 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('subtitle')}</p>
 
-      <ol role="list" className="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <ol role="list" className="mt-10 grid gap-x-6 gap-y-10 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map(({ key, Icon }, index) => (
           <li key={key} className="flex flex-col border-t border-hairline pt-6">
             <div className="flex items-center justify-between gap-4">

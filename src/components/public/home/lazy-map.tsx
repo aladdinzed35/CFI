@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, Navigation } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/cn';
 
 /**
  * A Google Maps embed that does not exist until the visitor asks for it.
@@ -30,6 +31,8 @@ export interface LazyMapProps {
   notice: string;
   frameTitle: string;
   directionsLabel: string;
+  /** Extra classes for the map frame — e.g. a squarer aspect beside a text column. */
+  frameClassName?: string;
 }
 
 export function LazyMap({
@@ -38,13 +41,19 @@ export function LazyMap({
   notice,
   frameTitle,
   directionsLabel,
+  frameClassName,
 }: LazyMapProps): React.JSX.Element {
   const [loaded, setLoaded] = useState(false);
   const query = encodeURIComponent(address);
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md border border-hairline bg-raised">
+      <div
+        className={cn(
+          'relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-hairline bg-raised',
+          frameClassName,
+        )}
+      >
         {loaded ? (
           <iframe
             title={frameTitle}
@@ -55,17 +64,28 @@ export function LazyMap({
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+            {/* A street-grid hint drawn in hairline, so the reserved box reads
+                as « a map goes here » rather than as an empty panel. Two
+                gradients over a theme token: no request, retints with the
+                theme, and fades out toward the edges. */}
             <span
               aria-hidden="true"
-              className="grid size-12 place-items-center rounded-md border border-hairline bg-surface text-strait"
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(var(--color-hairline)_1px,transparent_1px),linear-gradient(90deg,var(--color-hairline)_1px,transparent_1px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
+            />
+            <span
+              aria-hidden="true"
+              className="relative grid size-12 place-items-center rounded-pill border border-hairline bg-surface text-strait shadow-e2"
             >
               <MapPin className="size-6" />
             </span>
-            <p className="max-w-sm text-xs text-pretty text-ink-muted">{notice}</p>
+            <p className="relative max-w-sm rounded-sm bg-raised/80 px-2 text-xs text-pretty text-ink-muted">
+              {notice}
+            </p>
             <Button
               type="button"
               variant="secondary"
               size="sm"
+              className="relative"
               onClick={() => {
                 setLoaded(true);
               }}
@@ -80,8 +100,10 @@ export function LazyMap({
         href={`https://www.google.com/maps/search/?api=1&query=${query}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="self-start text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+        className="inline-flex min-h-11 items-center gap-2 self-start text-sm font-medium text-strait underline-offset-4 hover:underline"
       >
+        {/* A compass needle, not a « forward » arrow: it is not mirrored. */}
+        <Navigation className="size-4 shrink-0" aria-hidden="true" />
         {directionsLabel}
       </a>
     </div>

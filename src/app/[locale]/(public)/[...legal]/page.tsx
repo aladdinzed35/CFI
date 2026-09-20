@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ArrowUp, FileText } from 'lucide-react';
+import { ArrowUp, CalendarClock, FileText, Scale, ShieldCheck } from 'lucide-react';
 
 import { Markdown } from '@/components/public/course/markdown';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,8 @@ import { getEditorialPage, getSitemapIndex } from '@/server/services/public-page
 import { buildMetadata, jsonLdScript, webPageJsonLd } from '@/lib/seo';
 import { formatDate, toDateTimeAttribute } from '@/lib/dates';
 import { dirFor, isLocale, locales } from '@/i18n/routing';
+
+import { PageHero } from '../parcours/_components/page-hero';
 
 /**
  * `/[locale]/legal/[slug]` — the editable legal documents (§12.5, §20, §27).
@@ -269,102 +271,130 @@ export default async function LegalPage({
     }),
   );
 
+  const hasToc = headings.length >= MIN_SECTIONS_FOR_TOC;
+
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-      <header id="haut-de-page" className="flex flex-col gap-3 scroll-mt-24">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">
-          {t('sectionLabel')}
-        </p>
-        <h1 className="text-title text-balance">{page.title}</h1>
-        {lead === null ? null : (
-          <p className="text-lead text-pretty text-ink-muted">{lead}</p>
-        )}
-        <p className="text-sm text-ink-muted">
-          <time dateTime={toDateTimeAttribute(page.updatedAt)}>
-            {t('lastUpdated', { date: formatDate(page.updatedAt, locale) })}
-          </time>
-        </p>
-      </header>
-
-      {/* Saying which language the text is actually in is not decoration: it
-          tells the reader why the document does not match the interface, and it
-          carries the `lang` an assistive technology needs to pronounce it. */}
-      {!servedInFrench ? null : (
-        <p
-          className="mt-6 rounded-md border border-hairline bg-raised px-4 py-3 text-sm text-pretty text-ink-muted"
-          lang={locale}
+    <>
+      <div id="haut-de-page" className="scroll-mt-24">
+        <PageHero
+          id="legal-hero"
+          eyebrow={t('sectionLabel')}
+          title={page.title}
+          lead={lead}
+          contentLang={servedInFrench ? page.resolvedLocale : undefined}
+          contentDir={servedInFrench ? dirFor(page.resolvedLocale) : undefined}
+          art={{ icon: Scale, accents: [FileText, ShieldCheck] }}
         >
-          {t('frenchFallback')}
-        </p>
-      )}
+          <p className="inline-flex items-center gap-2 text-sm text-ink-muted">
+            <CalendarClock className="size-4 shrink-0 text-strait" aria-hidden="true" />
+            <time dateTime={toDateTimeAttribute(page.updatedAt)}>
+              {t('lastUpdated', { date: formatDate(page.updatedAt, locale) })}
+            </time>
+          </p>
+        </PageHero>
+      </div>
 
-      {headings.length < MIN_SECTIONS_FOR_TOC ? null : (
-        <nav
-          aria-labelledby="legal-toc"
-          className="mt-8 rounded-md border border-hairline bg-surface p-5"
-          lang={page.resolvedLocale}
-          dir={dirFor(page.resolvedLocale)}
+      {/* On the site's shared edge like every other page. A long document
+          gets its table of contents as a sticky column beside it on a
+          desktop, and the reading column itself stays at a book's measure. */}
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        <div
+          className={
+            hasToc
+              ? 'grid gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-14'
+              : undefined
+          }
         >
-          <h2 id="legal-toc" className="text-sm font-medium text-ink">
-            {t('tocTitle')}
-          </h2>
-          <ol className="mt-3 flex list-decimal flex-col gap-2 ps-5 text-sm marker:text-ink-muted">
-            {headings.map((section) => (
-              <li key={section.id} className="ps-1">
-                <a
-                  href={`#${section.id}`}
-                  className="text-ink-muted underline-offset-4 hover:text-ink hover:underline"
-                >
-                  {section.heading}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      )}
-
-      <article
-        className="mt-10 flex flex-col gap-10"
-        lang={page.resolvedLocale}
-        dir={dirFor(page.resolvedLocale)}
-      >
-        {sections.map((section) => (
-          <section key={section.id} id={section.id} className="flex scroll-mt-24 flex-col gap-4">
-            {section.heading === null ? null : (
-              <h2 className="font-display text-heading font-medium text-balance text-ink">
-                {section.heading}
+          {!hasToc ? null : (
+            <nav
+              aria-labelledby="legal-toc"
+              className="rounded-lg border border-hairline bg-surface p-5 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto"
+              lang={page.resolvedLocale}
+              dir={dirFor(page.resolvedLocale)}
+            >
+              <h2
+                id="legal-toc"
+                className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted"
+              >
+                {t('tocTitle')}
               </h2>
+              <ol className="mt-3 flex list-decimal flex-col gap-1 ps-5 text-sm marker:text-ink-muted">
+                {headings.map((section) => (
+                  <li key={section.id} className="ps-1">
+                    <a
+                      href={`#${section.id}`}
+                      className="inline-flex min-h-8 items-center text-pretty text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+                    >
+                      {section.heading}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
+          <div className="min-w-0 max-w-3xl">
+            {/* Saying which language the text is actually in is not decoration: it
+                tells the reader why the document does not match the interface, and it
+                carries the `lang` an assistive technology needs to pronounce it. */}
+            {!servedInFrench ? null : (
+              <p
+                className="mb-10 rounded-md border border-hairline bg-raised px-4 py-3 text-sm text-pretty text-ink-muted"
+                lang={locale}
+              >
+                {t('frenchFallback')}
+              </p>
             )}
-            <Markdown source={section.body} headingLevel="h3" />
-          </section>
-        ))}
-      </article>
 
-      <div className="mt-12 flex flex-col gap-6 border-t border-hairline pt-8">
-        <a
-          href="#haut-de-page"
-          className="inline-flex items-center gap-2 self-start text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
-        >
-          <ArrowUp aria-hidden="true" className="size-4" />
-          {t('backToTop')}
-        </a>
+            <article
+              className="flex flex-col gap-10"
+              lang={page.resolvedLocale}
+              dir={dirFor(page.resolvedLocale)}
+            >
+              {sections.map((section) => (
+                <section
+                  key={section.id}
+                  id={section.id}
+                  className="flex scroll-mt-24 flex-col gap-4"
+                >
+                  {section.heading === null ? null : (
+                    <h2 className="font-display text-heading font-medium text-balance text-ink">
+                      {section.heading}
+                    </h2>
+                  )}
+                  <Markdown source={section.body} headingLevel="h3" />
+                </section>
+              ))}
+            </article>
 
-        {whatsappHref === null ? null : (
-          <div className="flex flex-col gap-3">
-            <p className="text-body text-pretty text-ink-muted">{t('contactPrompt')}</p>
-            <Button asChild variant="secondary" className="self-start">
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                {t('contactCta')}
+            <div className="mt-12 flex flex-col gap-6 border-t border-hairline pt-8">
+              <a
+                href="#haut-de-page"
+                className="inline-flex min-h-11 items-center gap-2 self-start text-sm text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+              >
+                <ArrowUp aria-hidden="true" className="size-4" />
+                {t('backToTop')}
               </a>
-            </Button>
+
+              {whatsappHref === null ? null : (
+                <div className="flex flex-col gap-4 rounded-lg border border-hairline bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-body text-pretty text-ink-muted">{t('contactPrompt')}</p>
+                  <Button asChild variant="secondary" className="shrink-0 self-start sm:self-auto">
+                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                      {t('contactCta')}
+                    </a>
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
       {structuredData === null ? null : (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} />
       )}
-    </div>
+    </>
   );
 }
 

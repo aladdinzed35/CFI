@@ -2,7 +2,7 @@
 
 import { useCallback, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 
 import { cn } from '@/lib/cn';
 import { dirFor, localeLabels, type Locale } from '@/i18n/routing';
@@ -18,6 +18,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
+import { EmptyState } from '@/components/ui/empty-state';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -476,6 +477,42 @@ export function TabHeader({
           {createLabel}
         </Button>
       </div>
+    </div>
+  );
+}
+
+/**
+ * What a tab shows when its table has no row yet — a fresh install, or a
+ * production database seeded with nothing. It replaces the header and the list
+ * rather than sitting under them, so the one way forward (« Créer … ») appears
+ * once, centred, instead of a lone button above a blank hole.
+ */
+export function EmptyList({
+  icon,
+  title,
+  description,
+  createLabel,
+  onCreate,
+}: {
+  readonly icon: ReactNode;
+  readonly title: string;
+  readonly description: string;
+  readonly createLabel: string;
+  readonly onCreate: () => void;
+}): React.JSX.Element {
+  return (
+    <div className="rounded-lg border border-dashed border-hairline bg-surface">
+      <EmptyState
+        tone="strait"
+        illustration={icon}
+        title={title}
+        description={description}
+        action={
+          <Button type="button" onClick={onCreate} iconStart={<Plus aria-hidden="true" />}>
+            {createLabel}
+          </Button>
+        }
+      />
     </div>
   );
 }

@@ -105,6 +105,12 @@ export function RequestCard({
     (request.status === 'REJECTED' ||
       request.status === 'EXPIRED' ||
       request.status === 'CANCELLED');
+  // An empty action row still costs the card a gap; it is not rendered at all.
+  const hasActions =
+    request.invoicePath !== null ||
+    canAskAgain ||
+    (request.status === 'UNDER_REVIEW' && whatsappUrl !== null) ||
+    canCancel;
 
   async function cancel(): Promise<void> {
     if (cancelling) return;
@@ -301,43 +307,47 @@ export function RequestCard({
         {notice === null ? null : <Alert variant="success" title={notice} />}
         {error === null ? null : <Alert variant="error" title={error} />}
 
-        <div className="flex flex-wrap gap-2">
-          {request.invoicePath === null ? null : (
-            <Button asChild variant="brass" size="md">
-              <a href={request.invoicePath}>
-                <ReceiptText className="size-5" aria-hidden="true" />
-                {t('actions.downloadInvoice')}
-              </a>
-            </Button>
-          )}
+        {/* Stacked and full width on phones, where a row of three unequal
+            buttons wrapped into a ragged 2 + 1; a row from sm up. */}
+        {hasActions ? (
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            {request.invoicePath === null ? null : (
+              <Button asChild variant="brass" size="md">
+                <a href={request.invoicePath}>
+                  <ReceiptText className="size-5" aria-hidden="true" />
+                  {t('actions.downloadInvoice')}
+                </a>
+              </Button>
+            )}
 
-          {canAskAgain && request.courseSlug !== null ? (
-            <Button asChild variant="secondary" size="md">
-              <Link href={`/formations/${request.courseSlug}`}>{t('actions.newRequest')}</Link>
-            </Button>
-          ) : null}
+            {canAskAgain && request.courseSlug !== null ? (
+              <Button asChild variant="secondary" size="md">
+                <Link href={`/formations/${request.courseSlug}`}>{t('actions.newRequest')}</Link>
+              </Button>
+            ) : null}
 
-          {request.status === 'UNDER_REVIEW' && whatsappUrl !== null ? (
-            <Button asChild variant="ghost" size="md">
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="size-5" aria-hidden="true" />
-                {t('actions.whatsapp')}
-              </a>
-            </Button>
-          ) : null}
+            {request.status === 'UNDER_REVIEW' && whatsappUrl !== null ? (
+              <Button asChild variant="ghost" size="md">
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="size-5" aria-hidden="true" />
+                  {t('actions.whatsapp')}
+                </a>
+              </Button>
+            ) : null}
 
-          {canCancel ? (
-            <Button
-              variant="ghost"
-              size="md"
-              onClick={() => {
-                setConfirmCancel(true);
-              }}
-            >
-              {t('actions.cancel')}
-            </Button>
-          ) : null}
-        </div>
+            {canCancel ? (
+              <Button
+                variant="ghost"
+                size="md"
+                onClick={() => {
+                  setConfirmCancel(true);
+                }}
+              >
+                {t('actions.cancel')}
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
       <Modal open={confirmCancel} onOpenChange={setConfirmCancel}>

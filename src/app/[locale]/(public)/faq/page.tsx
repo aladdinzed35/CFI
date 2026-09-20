@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { ChevronDown, MessageCircle } from 'lucide-react';
+import { ChevronDown, CircleHelp, MessageCircle, Search } from 'lucide-react';
 
 import { FaqBrowser } from '@/components/public/faq/faq-browser';
 import { buildMetadata, faqPageJsonLd, jsonLdScript } from '@/lib/seo';
@@ -13,7 +13,10 @@ import {
   type FaqGroup,
   type FaqGroupKey,
 } from '@/server/services/faq';
+import { Link } from '@/i18n/navigation';
 import { dirFor, isLocale, locales } from '@/i18n/routing';
+
+import { PageHero } from '../parcours/_components/page-hero';
 
 /**
  * `/[locale]/faq` — the grouped, searchable FAQ (§12.5).
@@ -99,8 +102,9 @@ export default async function FaqPage({
 
   setRequestLocale(locale);
 
-  const [t, tWhatsapp, groups, chrome] = await Promise.all([
+  const [t, tFooter, tWhatsapp, groups, chrome] = await Promise.all([
     getTranslations({ locale, namespace: 'pages.faq' }),
+    getTranslations({ locale, namespace: 'footer' }),
     getTranslations({ locale, namespace: 'whatsapp' }),
     getFaqGroups(locale),
     getPublicChrome(locale),
@@ -125,113 +129,155 @@ export default async function FaqPage({
     ),
   );
 
-  return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-      <header className="flex flex-col gap-3">
-        <h1 className="text-title text-balance">{t('title')}</h1>
-        <p className="max-w-2xl text-lead text-pretty text-ink-muted">{t('lead')}</p>
-      </header>
-
-      {total === 0 ? null : (
-        <div className="mt-10">
-          <FaqBrowser total={total} whatsappHref={whatsappHref}>
-            {/* Five rubrics on a phone are a long scroll; these are the shortcut.
-                Plain anchors, so they work before hydration like everything else. */}
-            <nav aria-label={t('allGroups')}>
-              <ul role="list" className="flex flex-wrap gap-2">
-                {groups.map((group) => (
-                  <li key={group.category} data-faq-nav={group.category}>
-                    <a
-                      href={`#${anchorFor(group.category)}`}
-                      className="inline-flex min-h-11 items-center rounded-pill border border-hairline bg-surface px-4 text-sm text-ink-muted transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:border-strait hover:text-ink motion-reduce:transition-none"
-                    >
-                      {t(labelKeyFor(group))}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            {groups.map((group) => {
-              const anchor = anchorFor(group.category);
-
-              return (
-                <section
-                  key={group.category}
-                  id={anchor}
-                  data-faq-group={group.category}
-                  aria-labelledby={`${anchor}-title`}
-                  className="scroll-mt-24"
-                >
-                  <h2 id={`${anchor}-title`} className="text-heading font-medium text-ink">
-                    {t(labelKeyFor(group))}
-                  </h2>
-
-                  <div className="mt-4 border-t border-hairline">
-                    {group.items.map((item) => {
-                      // An item we could only serve in French inside an Arabic
-                      // page is announced and typeset as French, not mislabelled.
-                      const served = item.resolvedLocale;
-
-                      return (
-                        <details
-                          key={item.id}
-                          data-faq-id={item.id}
-                          data-faq-category={group.category}
-                          lang={served === locale ? undefined : served}
-                          dir={served === locale ? undefined : dirFor(served)}
-                          className="group border-b border-hairline"
-                        >
-                          <summary className="cursor-pointer list-none rounded-sm [&::-webkit-details-marker]:hidden">
-                            <h3 className="flex min-h-11 items-center justify-between gap-3 py-4 text-body font-medium text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] group-hover:text-strait motion-reduce:transition-none">
-                              <span className="min-w-0 flex-1 text-balance">{item.question}</span>
-                              <ChevronDown
-                                aria-hidden="true"
-                                className="size-4 shrink-0 text-ink-muted transition-transform duration-200 ease-[var(--ease-out-strait)] group-open:rotate-180 motion-reduce:transition-none"
-                              />
-                            </h3>
-                          </summary>
-                          <p className="pb-5 text-body text-pretty text-ink-muted">{item.answer}</p>
-                        </details>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
-          </FaqBrowser>
+  const contactCard = (
+    // Whatever the list did not cover goes to a human, on the channel the
+    // centre actually watches (§12.5). On an empty FAQ it is the page's whole
+    // answer, so it never renders without an action: no WhatsApp number means
+    // the contact page instead.
+    <section
+      aria-labelledby="faq-contact"
+      className="flex flex-col gap-5 rounded-lg border border-strait/30 bg-strait-wash p-6 sm:p-8 md:flex-row md:items-center md:justify-between md:gap-8"
+    >
+      <div className="flex min-w-0 items-start gap-3">
+        <MessageCircle className="mt-1 size-6 shrink-0 text-strait" aria-hidden="true" />
+        <div className="flex min-w-0 flex-col gap-2">
+          <h2 id="faq-contact" className="text-heading text-balance">
+            {t('stillHaveQuestions')}
+          </h2>
+          <p className="max-w-[60ch] text-body text-pretty text-ink-muted">
+            {t('stillHaveQuestionsBody')}
+          </p>
         </div>
+      </div>
+
+      {whatsappHref === null ? (
+        <Link
+          href="/contact"
+          className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
+        >
+          {tFooter('contactUs')}
+        </Link>
+      ) : (
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
+        >
+          {t('whatsappCta')}
+        </a>
       )}
+    </section>
+  );
 
-      {/* Whatever the list did not cover goes to a human, on the channel the
-          centre actually watches (§12.5). */}
-      <section
-        aria-labelledby="faq-contact"
-        className="mt-14 flex flex-col gap-4 rounded-lg border border-strait/30 bg-strait-wash p-6 sm:p-8"
-      >
-        <div className="flex items-start gap-3">
-          <MessageCircle className="mt-1 size-6 shrink-0 text-strait" aria-hidden="true" />
-          <div className="flex flex-col gap-2">
-            <h2 id="faq-contact" className="text-heading text-balance">
-              {t('stillHaveQuestions')}
-            </h2>
-            <p className="max-w-2xl text-body text-pretty text-ink-muted">
-              {t('stillHaveQuestionsBody')}
-            </p>
-          </div>
-        </div>
+  return (
+    <>
+      <PageHero
+        id="faq-hero"
+        title={t('title')}
+        lead={t('lead')}
+        art={{ icon: CircleHelp, accents: [MessageCircle, Search] }}
+      />
 
-        {whatsappHref === null ? null : (
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-md bg-strait px-6 text-body font-medium text-on-accent shadow-e1 transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:bg-strait/90 motion-reduce:transition-none"
-          >
-            {t('whatsappCta')}
-          </a>
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        {total === 0 ? (
+          contactCard
+        ) : (
+          <>
+            <FaqBrowser
+              total={total}
+              whatsappHref={whatsappHref}
+              nav={
+                // Five rubrics on a phone are a long scroll; these are the
+                // shortcut — a wrapping row there, a sticky column beside the
+                // questions on a desktop. Plain anchors, so they work before
+                // hydration like everything else.
+                <nav aria-labelledby="faq-rubrics">
+                  <p
+                    id="faq-rubrics"
+                    className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-ink-muted"
+                  >
+                    {t('allGroups')}
+                  </p>
+                  <ul role="list" className="flex flex-wrap gap-2 lg:flex-col lg:flex-nowrap">
+                    {groups.map((group) => (
+                      <li key={group.category} data-faq-nav={group.category}>
+                        <a
+                          href={`#${anchorFor(group.category)}`}
+                          className="inline-flex min-h-11 items-center gap-2 rounded-pill border border-hairline bg-surface px-4 text-sm text-ink-muted transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:border-strait hover:text-ink motion-reduce:transition-none lg:flex lg:w-full lg:justify-between lg:rounded-md"
+                        >
+                          <span className="min-w-0">{t(labelKeyFor(group))}</span>
+                          <span
+                            className="force-ltr font-mono text-xs text-ink-muted"
+                            dir="ltr"
+                            data-numeric
+                          >
+                            {group.items.length}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              }
+            >
+              {groups.map((group) => {
+                const anchor = anchorFor(group.category);
+
+                return (
+                  <section
+                    key={group.category}
+                    id={anchor}
+                    data-faq-group={group.category}
+                    aria-labelledby={`${anchor}-title`}
+                    className="scroll-mt-24"
+                  >
+                    <h2 id={`${anchor}-title`} className="text-heading font-medium text-ink">
+                      {t(labelKeyFor(group))}
+                    </h2>
+
+                    <div className="mt-4 border-t border-hairline">
+                      {group.items.map((item) => {
+                        // An item we could only serve in French inside an Arabic
+                        // page is announced and typeset as French, not mislabelled.
+                        const served = item.resolvedLocale;
+
+                        return (
+                          <details
+                            key={item.id}
+                            data-faq-id={item.id}
+                            data-faq-category={group.category}
+                            lang={served === locale ? undefined : served}
+                            dir={served === locale ? undefined : dirFor(served)}
+                            className="group border-b border-hairline"
+                          >
+                            <summary className="cursor-pointer list-none rounded-sm [&::-webkit-details-marker]:hidden">
+                              <h3 className="flex min-h-11 items-center justify-between gap-3 py-4 text-body font-medium text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] group-hover:text-strait motion-reduce:transition-none">
+                                <span className="min-w-0 flex-1 text-balance">{item.question}</span>
+                                <ChevronDown
+                                  aria-hidden="true"
+                                  className="size-4 shrink-0 text-ink-muted transition-transform duration-200 ease-[var(--ease-out-strait)] group-open:rotate-180 motion-reduce:transition-none"
+                                />
+                              </h3>
+                            </summary>
+                            <p className="max-w-[68ch] pb-5 text-body text-pretty text-ink-muted">
+                              {item.answer}
+                            </p>
+                          </details>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })}
+            </FaqBrowser>
+
+            {/* Under the questions' column, not across the rubric column: the
+                offset is that column plus the gap, FaqBrowser's 15rem + 3.5rem. */}
+            <div className="mt-14 lg:ms-[18.5rem] lg:max-w-3xl">{contactCard}</div>
+          </>
         )}
-      </section>
+      </div>
 
       {structuredData === null ? null : (
         <script
@@ -241,6 +287,6 @@ export default async function FaqPage({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
       )}
-    </div>
+    </>
   );
 }

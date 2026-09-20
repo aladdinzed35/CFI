@@ -3,7 +3,7 @@
 import * as React from 'react';
 import useSWR from 'swr';
 import { useLocale, useTranslations } from 'next-intl';
-import { CheckCircle2, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -218,8 +218,13 @@ export function StatusPoll({
         <CardContent className="flex flex-col gap-3">
           {/* One polite live region for the whole poll: it announces a change of
               status, not every tick. */}
-          <p aria-live="polite" className="flex items-center gap-2 text-sm text-ink">
-            <CheckCircle2 aria-hidden="true" className="size-4 shrink-0 text-strait" />
+          {/* A live dot, not a check mark: nothing has been approved yet, and
+              a green tick beside « En attente » read as the opposite. */}
+          <p aria-live="polite" className="flex items-center gap-2.5 text-sm font-medium text-ink">
+            <span aria-hidden="true" className="relative flex size-2.5 shrink-0">
+              <span className="absolute inset-0 animate-ping rounded-pill bg-warn opacity-50" />
+              <span className="relative size-2.5 rounded-pill bg-warn" />
+            </span>
             {isValidating ? t('auth.pending.statusChecking') : t('auth.pending.statusPending')}
           </p>
 

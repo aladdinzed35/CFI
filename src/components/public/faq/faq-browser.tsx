@@ -57,17 +57,28 @@ export interface FaqBrowserProps {
   readonly total: number;
   /** `https://wa.me/…`, or `null` when the centre has no number configured. */
   readonly whatsappHref: string | null;
-  /** The server-rendered rubric nav and groups. */
+  /**
+   * The server-rendered rubric shortcuts. On a desktop they become a sticky
+   * column beside the questions; on a phone they sit above the field. They are
+   * inside the filtered root, so a rubric with no match left disappears.
+   */
+  readonly nav?: React.ReactNode;
+  /** The server-rendered groups. */
   readonly children: React.ReactNode;
 }
 
-export function FaqBrowser({ total, whatsappHref, children }: FaqBrowserProps): React.JSX.Element {
+export function FaqBrowser({
+  total,
+  whatsappHref,
+  nav,
+  children,
+}: FaqBrowserProps): React.JSX.Element {
   const t = useTranslations('pages.faq');
   const tCatalog = useTranslations('catalog');
 
   const fieldId = useId();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const listRef = useRef<HTMLDivElement | null>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   /** Folded `textContent` per item. Elements never change identity. */
   const haystacks = useRef(new Map<HTMLElement, string>());
 
@@ -89,7 +100,7 @@ export function FaqBrowser({ total, whatsappHref, children }: FaqBrowserProps): 
   }, []);
 
   useEffect(() => {
-    const root = listRef.current;
+    const root = rootRef.current;
     if (root === null) return;
 
     const term = fold(query);
@@ -126,75 +137,84 @@ export function FaqBrowser({ total, whatsappHref, children }: FaqBrowserProps): 
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Height is reserved so the arrival of the field costs no layout shift. */}
-      <div className="min-h-12">
-        {mounted ? (
-          <div role="search" aria-label={t('searchLabel')}>
-            <label htmlFor={fieldId} className="sr-only">
-              {t('searchLabel')}
-            </label>
-            <Input
-              ref={inputRef}
-              id={fieldId}
-              type="search"
-              inputMode="search"
-              autoComplete="off"
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-              }}
-              placeholder={t('searchPlaceholder')}
-              // The field carries its own clear control; the WebKit one would
-              // sit underneath it and is not a 44 px target.
-              className="[&::-webkit-search-cancel-button]:hidden"
-              iconStart={<Search className="size-4" aria-hidden="true" />}
-              iconEnd={
-                query === '' ? (
-                  // Holds the gutter open so the text never jumps sideways.
-                  <span aria-hidden="true" className="size-11" />
-                ) : (
-                  <IconButton
-                    aria-label={tCatalog('searchClear')}
-                    icon={<X aria-hidden="true" />}
-                    onClick={clear}
-                  />
-                )
-              }
-            />
-          </div>
+    <div
+      ref={rootRef}
+      className={
+        nav === undefined
+          ? 'flex flex-col gap-6'
+          : 'grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-14'
+      }
+    >
+      {nav === undefined ? null : <div className="min-w-0 lg:sticky lg:top-24">{nav}</div>}
+
+      <div className="flex min-w-0 max-w-3xl flex-col gap-6">
+        {/* Height is reserved so the arrival of the field costs no layout shift. */}
+        <div className="min-h-12">
+          {mounted ? (
+            <div role="search" aria-label={t('searchLabel')}>
+              <label htmlFor={fieldId} className="sr-only">
+                {t('searchLabel')}
+              </label>
+              <Input
+                ref={inputRef}
+                id={fieldId}
+                type="search"
+                inputMode="search"
+                autoComplete="off"
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                }}
+                placeholder={t('searchPlaceholder')}
+                // The field carries its own clear control; the WebKit one would
+                // sit underneath it and is not a 44 px target.
+                className="[&::-webkit-search-cancel-button]:hidden"
+                iconStart={<Search className="size-4" aria-hidden="true" />}
+                iconEnd={
+                  query === '' ? (
+                    // Holds the gutter open so the text never jumps sideways.
+                    <span aria-hidden="true" className="size-11" />
+                  ) : (
+                    <IconButton
+                      aria-label={tCatalog('searchClear')}
+                      icon={<X aria-hidden="true" />}
+                      onClick={clear}
+                    />
+                  )
+                }
+              />
+            </div>
+          ) : null}
+        </div>
+
+        {/* Correct before hydration (the real total), live after it. */}
+        <p role="status" aria-live="polite" className="text-sm text-ink-muted">
+          {t('resultCount', { count: visible })}
+        </p>
+
+        <div className="flex flex-col gap-10">{children}</div>
+
+        {visible === 0 ? (
+          <EmptyState
+            illustration={<Search aria-hidden="true" />}
+            title={t('empty.title')}
+            description={t('empty.body')}
+            action={
+              whatsappHref === null ? undefined : (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-hairline px-5 text-sm font-medium text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:border-strait hover:text-strait motion-reduce:transition-none"
+                >
+                  <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
+                  {t('empty.action')}
+                </a>
+              )
+            }
+          />
         ) : null}
       </div>
-
-      {/* Correct before hydration (the real total), live after it. */}
-      <p role="status" aria-live="polite" className="text-sm text-ink-muted">
-        {t('resultCount', { count: visible })}
-      </p>
-
-      <div ref={listRef} className="flex flex-col gap-10">
-        {children}
-      </div>
-
-      {visible === 0 ? (
-        <EmptyState
-          illustration={<Search aria-hidden="true" />}
-          title={t('empty.title')}
-          description={t('empty.body')}
-          action={
-            whatsappHref === null ? undefined : (
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-hairline px-5 text-sm font-medium text-ink transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:border-strait hover:text-strait motion-reduce:transition-none"
-              >
-                <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
-                {t('empty.action')}
-              </a>
-            )
-          }
-        />
-      ) : null}
     </div>
   );
 }

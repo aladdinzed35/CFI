@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server';
-import { ArrowRight, Award } from 'lucide-react';
+import { ArrowRight, Award, Route } from 'lucide-react';
 
 import { Link } from '@/i18n/navigation';
 import { PriceTag } from '@/components/ui/price-tag';
 import { EmptyState } from '@/components/ui/empty-state';
+import { cn } from '@/lib/cn';
 import { formatMoney } from '@/lib/money';
 import { formatDuration } from '@/lib/dates';
 import type { HomePath } from '@/server/services/home';
@@ -37,24 +38,32 @@ export interface HomePathsProps {
   paths: readonly HomePath[];
 }
 
+/** Only the columns the paths fill: one path never sits in a third of the row. */
+const GRID_COLUMNS: Record<number, string> = {
+  1: '',
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+};
+
 export async function HomePaths({ locale, paths }: HomePathsProps): Promise<React.JSX.Element> {
   const t = await getTranslations('home.paths');
 
   return (
     <section
       aria-labelledby="home-paths-title"
+      data-home-band="surface"
       className="border-y border-hairline bg-surface"
     >
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait">
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
+          <div className="min-w-0">
+            <p className="font-mono text-xs uppercase tracking-[0.22em] text-strait rtl:font-arabic rtl:text-sm rtl:tracking-normal">
               {t('sectionLabel')}
             </p>
-            <h2 id="home-paths-title" className="mt-4 max-w-[18ch] text-display">
+            <h2 id="home-paths-title" className="mt-4 max-w-[18ch] text-display text-balance">
               {t('title')}
             </h2>
-            <p className="mt-5 max-w-[62ch] text-lead text-ink-muted">{t('subtitle')}</p>
+            <p className="mt-5 max-w-[62ch] text-lead text-pretty text-ink-muted">{t('subtitle')}</p>
           </div>
 
           {paths.length === 0 ? null : (
@@ -69,14 +78,19 @@ export async function HomePaths({ locale, paths }: HomePathsProps): Promise<Reac
         </div>
 
         {paths.length === 0 ? (
-          <div className="mt-12">
+          /* A framed, explained state with a way forward — not a sentence
+             floating in the middle of a band. */
+          <div className="mt-10 rounded-lg border border-hairline bg-abyss sm:mt-12">
             <EmptyState
+              illustration={<Route aria-hidden="true" />}
+              tone="strait"
               title={t('empty.title')}
               description={t('empty.body')}
+              className="sm:py-16"
               action={
                 <Link
                   href="/formations"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-pill bg-strait px-5 text-sm font-medium text-on-accent"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-pill bg-strait px-6 text-body font-medium text-on-accent shadow-e2 transition-[box-shadow,transform] duration-[120ms] ease-[var(--ease-out-strait)] hover:shadow-e3 active:translate-y-px motion-reduce:transition-none"
                 >
                   {t('empty.action')}
                   <ArrowRight className="size-4 shrink-0 rtl:-scale-x-100" aria-hidden="true" />
@@ -85,93 +99,106 @@ export async function HomePaths({ locale, paths }: HomePathsProps): Promise<Reac
             />
           </div>
         ) : (
-          <ul role="list" className="mt-12 grid gap-6 lg:grid-cols-3">
+          <ul
+            role="list"
+            className={cn('mt-10 grid gap-6 sm:mt-12', GRID_COLUMNS[paths.length] ?? GRID_COLUMNS[3])}
+          >
             {paths.map((path) => {
               const bundle = path.priceCentimes ?? path.sumCentimes;
               const saving = path.sumCentimes - bundle;
 
               return (
-                <li
-                  key={path.id}
-                  className="flex flex-col rounded-lg border border-hairline bg-abyss p-6"
-                >
-                  <h3 className="text-heading font-medium text-ink">
-                    <Link
-                      href={`/parcours/${path.slug}`}
-                      className="transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:text-strait motion-reduce:transition-none"
+                /*
+                  A container, so the card lays itself out by its OWN width:
+                  a third of the desktop row reads top to bottom, while a
+                  full-width card (a tablet, or a catalogue with one path)
+                  puts the rail beside the text instead of stretching one
+                  narrow column across 700 px of empty card.
+                */
+                <li key={path.id} className="@container">
+                  <div className="flex h-full flex-col rounded-lg border border-hairline bg-abyss p-6 @2xl:grid @2xl:grid-cols-2 @2xl:content-start @2xl:gap-x-12 @2xl:p-8">
+                    <h3 className="text-heading font-medium text-balance text-ink">
+                      <Link
+                        href={`/parcours/${path.slug}`}
+                        className="transition-colors duration-[120ms] ease-[var(--ease-out-strait)] hover:text-strait motion-reduce:transition-none"
+                      >
+                        {path.title}
+                      </Link>
+                    </h3>
+
+                    <p className="mt-3 line-clamp-3 text-sm text-ink-muted">{path.description}</p>
+
+                    {/* The rail. Numbered nodes, a hairline between them, the
+                        certificate as the terminal node. Beside the text when
+                        the card is wide, under it when it is not. */}
+                    <ol
+                      role="list"
+                      className="mt-6 flex flex-col @2xl:col-start-2 @2xl:row-span-4 @2xl:row-start-1 @2xl:mt-0 @2xl:self-center @2xl:rounded-md @2xl:border @2xl:border-hairline @2xl:bg-surface @2xl:p-6"
                     >
-                      {path.title}
-                    </Link>
-                  </h3>
+                      {path.steps.map((step, index) => (
+                        <li key={step.slug} className="relative flex gap-3 pb-5">
+                          <span
+                            aria-hidden="true"
+                            className="absolute bottom-0 start-[0.6875rem] top-7 w-px bg-hairline"
+                          />
+                          <span
+                            aria-hidden="true"
+                            className="relative z-10 mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-pill border border-hairline bg-surface text-xs text-ink-muted"
+                            data-numeric
+                          >
+                            {index + 1}
+                          </span>
+                          <span className="min-w-0 text-sm text-ink">
+                            <span className="sr-only">{`${t('stepLabel', { number: index + 1 })} : `}</span>
+                            {step.title}
+                          </span>
+                        </li>
+                      ))}
 
-                  <p className="mt-3 line-clamp-3 text-sm text-ink-muted">{path.description}</p>
-
-                  {/* The rail. Numbered nodes, a hairline between them, the
-                      certificate as the terminal node. */}
-                  <ol role="list" className="mt-6 flex flex-col">
-                    {path.steps.map((step, index) => (
-                      <li key={step.slug} className="relative flex gap-3 pb-5">
-                        <span
-                          aria-hidden="true"
-                          className="absolute bottom-0 start-[0.6875rem] top-7 w-px bg-hairline"
-                        />
-                        <span
-                          aria-hidden="true"
-                          className="relative z-10 mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-pill border border-hairline bg-surface text-xs text-ink-muted"
-                          data-numeric
-                        >
-                          {index + 1}
+                      <li className="relative flex gap-3">
+                        <span className="relative z-10 mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-pill border border-brass bg-brass-wash">
+                          {/* A medal is symmetric: not mirrored. */}
+                          <Award className="size-3.5 text-brass" aria-hidden="true" />
                         </span>
-                        <span className="min-w-0 text-sm text-ink">
-                          <span className="sr-only">{`${t('stepLabel', { number: index + 1 })} : `}</span>
-                          {step.title}
+                        <span className="min-w-0 text-sm font-medium text-brass">
+                          {t('certificateStep')}
                         </span>
                       </li>
-                    ))}
+                    </ol>
 
-                    <li className="relative flex gap-3">
-                      <span className="relative z-10 mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-pill border border-brass bg-brass-wash">
-                        {/* A medal is symmetric: not mirrored. */}
-                        <Award className="size-3.5 text-brass" aria-hidden="true" />
-                      </span>
-                      <span className="min-w-0 text-sm font-medium text-brass">
-                        {t('certificateStep')}
-                      </span>
-                    </li>
-                  </ol>
-
-                  <dl className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-hairline pt-5 text-sm">
-                    <div className="flex items-baseline gap-2">
-                      <dt className="text-ink-muted">{t('courseCount', { count: path.steps.length })}</dt>
-                    </div>
-                    {path.durationMinutes > 0 ? (
+                    <dl className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-hairline pt-5 text-sm">
                       <div className="flex items-baseline gap-2">
-                        <dt className="text-ink-muted">{t('durationLabel')}</dt>
-                        <dd className="text-ink" data-numeric>
-                          <span className="force-ltr" dir="ltr">
-                            {formatDuration(path.durationMinutes, locale)}
-                          </span>
-                        </dd>
+                        <dt className="text-ink-muted">{t('courseCount', { count: path.steps.length })}</dt>
                       </div>
-                    ) : null}
-                  </dl>
+                      {path.durationMinutes > 0 ? (
+                        <div className="flex items-baseline gap-2">
+                          <dt className="text-ink-muted">{t('durationLabel')}</dt>
+                          <dd className="text-ink" data-numeric>
+                            <span className="force-ltr" dir="ltr">
+                              {formatDuration(path.durationMinutes, locale)}
+                            </span>
+                          </dd>
+                        </div>
+                      ) : null}
+                    </dl>
 
-                  <div className="mt-auto pt-6">
-                    <p className="text-xs uppercase tracking-wide text-ink-muted">
-                      {t('bundleLabel')}
-                    </p>
-                    <PriceTag
-                      className="mt-2"
-                      centimes={bundle}
-                      compareAtCentimes={path.sumCentimes}
-                      locale={locale}
-                      size="lg"
-                    />
-                    {saving > 0 ? (
-                      <p className="mt-2 text-sm font-medium text-brass">
-                        {t('savingLabel', { amount: formatMoney(saving, locale) })}
+                    <div className="mt-auto pt-6">
+                      <p className="text-xs uppercase tracking-wide text-ink-muted rtl:tracking-normal">
+                        {t('bundleLabel')}
                       </p>
-                    ) : null}
+                      <PriceTag
+                        className="mt-2"
+                        centimes={bundle}
+                        compareAtCentimes={path.sumCentimes}
+                        locale={locale}
+                        size="lg"
+                      />
+                      {saving > 0 ? (
+                        <p className="mt-2 text-sm font-medium text-brass">
+                          {t('savingLabel', { amount: formatMoney(saving, locale) })}
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
                 </li>
               );

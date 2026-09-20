@@ -24,13 +24,13 @@ import { Alert } from '@/components/ui/alert';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { EmptyState } from '@/components/ui/empty-state';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
 import { StatusPill } from '@/components/ui/status-pill';
 import { Textarea } from '@/components/ui/textarea';
 
 import { AdminBackLink } from '../../admin-nav';
+import { AdminPage } from '../../admin-page';
 import { REJECTION_REASONS, STATUS_LABEL_KEY } from '../account-view';
 
 /**
@@ -127,22 +127,31 @@ export default async function AccountDetailPage({
   const account = await getAccountDetail(id);
 
   if (account === null) {
+    // Drawn by hand rather than with `EmptyState`: that primitive titles itself
+    // with a paragraph, and this block *is* the page — it needs the one `h1`.
     return (
-      <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
-        <EmptyState
-          illustration={<Ban aria-hidden="true" />}
-          title={t('notFoundTitle')}
-          description={t('notFoundBody')}
-          action={
-            <Link
-              href="/admin/comptes"
-              className="inline-flex min-h-11 items-center rounded-pill bg-strait px-5 text-sm font-medium text-on-accent"
-            >
-              {t('back')}
-            </Link>
-          }
-        />
-      </div>
+      <AdminPage width="record">
+        <div className="flex flex-col items-center gap-4 rounded-lg border border-dashed border-hairline bg-surface px-6 py-14 text-center">
+          <span
+            aria-hidden="true"
+            className="grid size-16 shrink-0 place-items-center rounded-md border border-hairline bg-raised text-ink-muted [&_svg]:size-7"
+          >
+            <Ban />
+          </span>
+          <div className="flex max-w-prose flex-col gap-2">
+            <h1 className="font-display text-heading font-medium text-balance text-ink">
+              {t('notFoundTitle')}
+            </h1>
+            <p className="text-sm text-pretty text-ink-muted">{t('notFoundBody')}</p>
+          </div>
+          <Link
+            href="/admin/comptes"
+            className="inline-flex min-h-11 items-center rounded-pill bg-strait px-5 text-sm font-medium text-on-accent"
+          >
+            {t('back')}
+          </Link>
+        </div>
+      </AdminPage>
     );
   }
 
@@ -225,7 +234,7 @@ export default async function AccountDetailPage({
   /* ── Render ──────────────────────────────────────────────────────────── */
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
+    <AdminPage width="record">
       <AdminBackLink href="/admin/comptes" label={t('back')} />
 
       <header className="mt-3 flex flex-col gap-4">
@@ -233,7 +242,7 @@ export default async function AccountDetailPage({
           <Avatar name={account.fullName} size="lg" />
           <div className="min-w-0">
             <h1 className="font-display text-title text-ink">{account.fullName}</h1>
-            <p className="force-ltr text-sm text-ink-muted" dir="ltr">
+            <p className="force-ltr wrap-anywhere text-sm text-ink-muted" dir="ltr">
               {account.email}
             </p>
           </div>
@@ -276,7 +285,7 @@ export default async function AccountDetailPage({
 
       <nav
         aria-label={t('tabsLabel')}
-        className="hairline-b mt-6 -mx-1 flex items-stretch gap-1 overflow-x-auto px-1"
+        className="mt-6 -mx-1 flex items-stretch gap-1 overflow-x-auto px-1 shadow-[inset_0_-1px_0_var(--color-hairline)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {visibleTabs.map((entry) => {
           const active = entry.key === activeTab;
@@ -286,7 +295,7 @@ export default async function AccountDetailPage({
               href={{ pathname: detailPath, query: { onglet: entry.key } }}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative -mb-px inline-flex min-h-11 shrink-0 items-center border-b-2 px-3 text-sm font-medium whitespace-nowrap',
+                'inline-flex min-h-11 shrink-0 items-center border-b-2 px-3 text-sm font-medium whitespace-nowrap',
                 'transition-colors duration-[120ms] ease-[var(--ease-out-strait)]',
                 active ? 'border-strait text-ink' : 'border-transparent text-ink-muted hover:text-ink',
               )}
@@ -568,7 +577,7 @@ export default async function AccountDetailPage({
           </section>
         ) : null}
       </div>
-    </div>
+    </AdminPage>
   );
 }
 
@@ -589,7 +598,7 @@ function Field({
     <div className="min-w-0">
       <dt className="text-xs text-ink-muted">{label}</dt>
       <dd
-        className={cn('mt-0.5 break-words text-sm text-ink', ltr ? 'force-ltr' : null)}
+        className={cn('mt-0.5 wrap-anywhere text-sm text-ink', ltr ? 'force-ltr' : null)}
         dir={ltr ? 'ltr' : undefined}
       >
         {value ?? '—'}
