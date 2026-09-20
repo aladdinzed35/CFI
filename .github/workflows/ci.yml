@@ -104,7 +104,9 @@ jobs:
   # ---------------------------------------------------------------------------
   integration:
     name: Integration (MySQL 8)
-    if: github.event_name == 'pull_request'
+    # On pull requests AND on main: `main` is what gets promoted to production,
+    # so it cannot be the one branch these never run on.
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -158,7 +160,9 @@ jobs:
   # ---------------------------------------------------------------------------
   e2e:
     name: E2E (Playwright · fr + ar)
-    if: github.event_name == 'pull_request'
+    # On pull requests AND on main: `main` is what gets promoted to production,
+    # so it cannot be the one branch these never run on.
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -343,7 +347,17 @@ jobs:
   promote:
     name: Promote to production
     needs: [verify, integration, e2e, secret-scan]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # `always()` so a skipped dependency does not silently skip promotion — and
+    # then every dependency must have actually SUCCEEDED. A plain `needs` skips
+    # this job whenever one of them is skipped, which is how the first run of
+    # this pipeline went green without deploying anything.
+    if: >-
+      always() &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      needs.verify.result == 'success' &&
+      needs.integration.result == 'success' &&
+      needs.e2e.result == 'success' &&
+      needs.secret-scan.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
