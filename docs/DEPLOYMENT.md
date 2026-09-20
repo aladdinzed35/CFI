@@ -8,6 +8,95 @@ sets were established by running the validator with candidate environments until
 
 ---
 
+## From scratch, in order
+
+The whole deployment, start to finish. Steps 1–4 happen once, in hPanel; everything after is
+automatic on every push.
+
+1. **Database.** hPanel → Databases → MySQL → create a database and a user. Note the password.
+2. **Mailbox.** hPanel → Emails → create `contact@…`. Note its password.
+3. **Environment.** hPanel → Deployments → Settings → Environment Variables → *Import .env*, with
+   the set in [Environment variables](#environment-variables) below. The two secrets are
+   generated, the rest come from steps 1–2.
+4. **Build settings.** Same screen:
+
+   | Setting | Value |
+   |---|---|
+   | Branch | **`production`** — not `main`; see [Continuous deployment](#continuous-deployment) |
+   | Build command | `npm run db:deploy && npm run db:seed -- --production-demo && npm run build` |
+   | Node | 22.x |
+   | Auto-deploy | **on**, if hPanel offers it |
+
+   The build command migrates the schema, seeds the demo catalogue **once**, then builds. Both
+   extra steps are safe to leave there permanently: migrations are idempotent, and the seed
+   writes a completion marker and skips every later run — see
+   [Seeding production](#seeding-production).
+5. **Save and redeploy.** Watch the build log: the first run ends with the demo accounts' generated
+   passwords. Copy them — they are shown once.
+6. **Verify**, from any machine with the repository:
+
+   ```bash
+   node scripts/verify-deployment.mjs https://your-domain --key YOUR_CRON_SECRET
+   ```
+
+   It checks health, the database diagnosis, 22 routes, the brand assets, the security contract
+   and the rendering, and exits non-zero if anything is wrong.
+7. **Cron jobs** — see [Scheduled jobs](#scheduled-jobs). Without `drain`, no e-mail ever leaves.
+
+---
+
+## Continuous deployment
+
+`.github/workflows/ci.yml`, after the existing gate:
+
+```
+push to main ──► verify · integration · e2e · secret-scan
+                         │ all green
+                         ▼
+                 promote: fast-forward `production` to this commit
+                         │
+                         ▼   Hostinger deploys `production`
+                 verify-production: wait until this build is live,
+                                    then run verify-deployment.mjs against it
+```
+
+- **A red build cannot reach the live site.** Hostinger deploys `production`, and only a commit that
+  passed every job is ever pushed there. The push is a plain fast-forward: if `production` ever
+  holds a commit `main` does not, it refuses instead of overwriting.
+- **A deploy is not "done" until the live site says so.** `scripts/wait-for-deploy.mjs` polls until
+  the new build answers — by the commit stamped into it, or, when the host's build has no `.git`,
+  by its build time — so the checks never run against the previous build and report success for
+  the wrong thing.
+
+Repository settings (GitHub → Settings → Secrets and variables → Actions):
+
+| Name | Kind | Purpose |
+|---|---|---|
+| `CRON_SECRET` | secret | Optional. Adds the authenticated database diagnosis to every post-deploy check. |
+| `PRODUCTION_URL` | variable | The live URL. Defaults to the Hostinger preview domain. |
+| `AUTO_DEPLOY` | variable | Set to `true` once hPanel deploys `production` by itself. Until then a deploy that never lands is a warning, not a failure. |
+
+---
+
+## Giving someone deployment access — and what not to give
+
+**Never share the hPanel password.** It is the whole account: billing, domains, e-mail, every
+website. It cannot be scoped, and revoking it means changing the password everywhere you use it.
+
+What to give instead, from least to most access:
+
+| Access | Lets them | Revoke by |
+|---|---|---|
+| **Push to the GitHub repository** | Deploy — every green push to `main` ships, through the gate above | Removing them as a collaborator |
+| **An SSH key** (hPanel → Advanced → SSH Access, paste their *public* key) | Read logs, run a migration or a seed by hand | Deleting the key in hPanel |
+| **Your hPanel account** | Everything | — |
+
+With the pipeline in place, the first row is all a developer needs to deploy. SSH is for
+diagnosis, and hPanel stays yours: environment variables and the database password are the only
+things that genuinely require it.
+
+---
+
 ## Why the first build failed
 
 ```
@@ -35,14 +124,15 @@ The defaults Hostinger fills in for the Next.js preset are already correct:
 | Setting | Value | Note |
 |---|---|---|
 | Framework preset | Next.js | |
-| Branch | `main` | |
+| Branch | **`production`** | Only green commits reach it — see [Continuous deployment](#continuous-deployment) |
 | Node version | **22.x** | Must be 22 — `engines: >=22 <23` |
 | Root directory | `./` | |
 | Package manager | `npm` | |
 | Output directory | `.next` | |
-| Build command | `npm run build` | See *Migrations* below before the first deploy |
+| Build command | `npm run db:deploy && npm run db:seed -- --production-demo && npm run build` | Migrate, seed once, build |
 
-The only thing missing is the environment.
+The preset's defaults were right except the branch and the build command. What was missing on
+the first deployment was the environment.
 
 ---
 
@@ -170,6 +260,27 @@ deploy serves the empty page and the next one, within a minute, serves the real 
 
 The consequence for deployment is small but real: **run migrations before the build** (shape B), so
 the build prerenders a site with content in it rather than a shell that fills in a minute later.
+
+---
+
+## Seeding production
+
+`npm run db:seed` refuses to run with `NODE_ENV=production`. Its passwords are literals in this
+public repository, and a production site seeded with them would have a `SUPER_ADMIN` anyone can
+sign in as. Until this refusal existed, the only protection was a comment.
+
+`--production-demo` opts in, for a test deployment that should show real-looking content:
+
+- **Random passwords.** Every demo account gets a generated password, printed once at the end of
+  the run — in the Hostinger build log when it runs from the build command.
+- **Seeds once.** A completed run writes the marker `system.demoSeededAt`; every later run stops
+  at the door. Without it, the seed's upserts would silently revert your edits to the demo
+  content on every redeploy.
+- **Retries until it completes.** A run that dies half-way leaves no marker, so the next one
+  finishes the job — with fresh passwords, because a run that died before printing them left
+  accounts nobody knows the password to.
+- **The content is fictional.** Courses, instructors and testimonials are demo data. Replace them
+  before a real public opening.
 
 ---
 

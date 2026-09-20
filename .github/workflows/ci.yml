@@ -80,6 +80,19 @@ jobs:
       - name: RTL logical properties
         run: npm run rtl:check
 
+      # Three failures that tsc, ESLint and `next build` all miss: a link to a
+      # route that does not exist, a client bundle that reaches Prisma two
+      # imports down, and a client component asking for a message namespace
+      # its provider withholds. Each shipped once before its guard existed.
+      - name: Declared routes resolve
+        run: npm run routes:check
+
+      - name: No client bundle reaches server-only code
+        run: npm run boundary:check
+
+      - name: Client components can reach their messages
+        run: npm run messages:check
+
       - name: Unit tests
         run: npm test -- tests/unit
 
@@ -314,3 +327,76 @@ jobs:
           fi
 
           echo "No secret-shaped strings in the client bundle."
+
+  # ---------------------------------------------------------------------------
+  # Continuous deployment.
+  #
+  # Hostinger deploys the `production` branch, never `main`. Only a commit that
+  # passed every job above is fast-forwarded onto it, so a red build cannot
+  # reach the live site — and the push is a plain fast-forward: if `production`
+  # ever holds a commit `main` does not, this refuses rather than overwrites.
+  #
+  # Then the live site is asked, from outside, whether the deploy actually
+  # works. The first deployment of this app served a 200 homepage while its
+  # database was unreachable; "the build went green" proves nothing.
+  # ---------------------------------------------------------------------------
+  promote:
+    name: Promote to production
+    needs: [verify, integration, e2e, secret-scan]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    outputs:
+      promoted_at: ${{ steps.push.outputs.at }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fast-forward production to this commit
+        id: push
+        run: |
+          echo "at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+          git push origin "HEAD:refs/heads/production"
+
+  verify-production:
+    name: Verify the live deployment
+    needs: promote
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      # Overridable once a real domain is attached (Settings → Variables).
+      PRODUCTION_URL: ${{ vars.PRODUCTION_URL || 'https://lime-otter-714875.hostingersite.com' }}
+      # Optional. With it, the checks include the authenticated database
+      # diagnosis, and the wait can use the build time when no commit is stamped.
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Until the repository variable AUTO_DEPLOY is "true", Hostinger is not
+      # known to deploy `production` by itself: wait briefly and do not fail the
+      # run for a deploy nobody asked for. Once it is, a deploy that never lands
+      # IS a failure — Hostinger either did not deploy or its build broke.
+      - name: Wait for Hostinger to deploy this commit
+        id: wait
+        continue-on-error: ${{ vars.AUTO_DEPLOY != 'true' }}
+        run: >-
+          node scripts/wait-for-deploy.mjs "$PRODUCTION_URL" "$GITHUB_SHA"
+          --since "${{ needs.promote.outputs.promoted_at }}"
+          --timeout ${{ vars.AUTO_DEPLOY == 'true' && '1500' || '120' }}
+
+      - name: Verify the live site
+        if: steps.wait.outcome == 'success'
+        run: node scripts/verify-deployment.mjs "$PRODUCTION_URL" --commit "$GITHUB_SHA"
+
