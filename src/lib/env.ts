@@ -27,6 +27,9 @@
 
 import { z, type ZodIssue } from 'zod'
 
+// Shared with the middleware, which decrypts what Auth.js signs with these.
+import { DEV_AUTH_SECRET, SKIP_VALIDATION_AUTH_SECRET } from './auth-secret-fallback'
+
 /* ────────────────────────────────────────────────────────────────────────────
  * Métadonnées : section et provenance de chaque variable
  * ────────────────────────────────────────────────────────────────────────── */
@@ -590,7 +593,6 @@ function fail(title: string, issues: readonly ZodIssue[]): never {
  * Repli de développement + mode SKIP_ENV_VALIDATION
  * ────────────────────────────────────────────────────────────────────────── */
 
-const DEV_AUTH_SECRET = 'dev-insecure-auth-secret-do-not-use-in-production'
 const DEV_CRON_SECRET = 'dev-insecure-cron-secret-do-not-use-in-production'
 
 /** Valeurs de remplissage manifestement factices, utilisées seulement sous SKIP_ENV_VALIDATION. */
@@ -598,7 +600,7 @@ const BUILD_PLACEHOLDERS: Readonly<Record<string, string>> = {
   APP_URL: 'http://localhost:3000',
   NEXT_PUBLIC_APP_URL: 'http://localhost:3000',
   DATABASE_URL: 'mysql://build:build@localhost:3306/build',
-  AUTH_SECRET: 'skip-env-validation-placeholder-auth-secret-value',
+  AUTH_SECRET: SKIP_VALIDATION_AUTH_SECRET,
   SMTP_HOST: 'smtp.invalid',
   SMTP_USER: 'build@example.invalid',
   SMTP_PASSWORD: 'skip-env-validation-placeholder',

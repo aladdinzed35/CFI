@@ -3,6 +3,7 @@ import createMiddleware from 'next-intl/middleware';
 import { getToken } from 'next-auth/jwt';
 import { routing, isLocale, type Locale } from '@/i18n/routing';
 import { RETURN_TO_PARAM, evaluate, type PolicySession } from '@/server/auth/route-policy';
+import { authSecretFallback } from '@/lib/auth-secret-fallback';
 
 /**
  * Locale routing (§10.1) composed with the account-status gate (§9.1, §20).
@@ -73,14 +74,17 @@ function isProduction(): boolean {
  * video, AI) and stops the process when something is missing, which is the
  * right behaviour at boot and the wrong behaviour inside a request handler.
  *
- * The development fallback is the same literal `lib/env` substitutes, and it
- * has to be — a token encrypted with one secret cannot be read with another,
- * so a mismatch would log every developer out on every request.
+ * The fallback comes from `lib/auth-secret-fallback`, the module `lib/env`
+ * uses too — a token encrypted with one secret cannot be read with another.
+ * It used to be a literal here with a comment promising it matched, and it
+ * matched only in development: under SKIP_ENV_VALIDATION `lib/env` used its
+ * build placeholder, so every session was unreadable and every signed-in user
+ * looked anonymous. See that module for how it surfaced.
  */
 function authSecret(): string {
   const configured = process.env.AUTH_SECRET?.trim();
   if (configured !== undefined && configured.length > 0) return configured;
-  return 'dev-insecure-auth-secret-do-not-use-in-production';
+  return authSecretFallback();
 }
 
 /**
