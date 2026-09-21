@@ -206,6 +206,15 @@ jobs:
       - name: Apply the schema
         run: npx prisma db push --skip-generate --accept-data-loss
 
+      # The suite signs in as seeded accounts — the header's account slot, the
+      # admin console, the student space. Against an empty database every
+      # sign-in FAILS, and a failed sign-in spends login budget: after five,
+      # LOGIN_PER_IP locks the runner out and the rest of the suite fails for a
+      # reason that has nothing to do with the code. (A successful sign-in
+      # spends nothing, which is why 20 of them are fine locally.)
+      - name: Seed the demonstration data
+        run: npm run db:seed
+
       - name: Build
         run: npm run build
 
@@ -217,6 +226,18 @@ jobs:
       - name: End-to-end tests
         # `playwright.config.ts` starts `npm run start` itself and waits for it.
         run: npm run test:e2e -- --pass-with-no-tests
+
+      # Without this a failure here is invisible: the report, the screenshots
+      # and the videos of the failing run stay on a runner that is thrown away.
+      - name: Upload the Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
 
   # ---------------------------------------------------------------------------
   # §20 — "Add a CI check that greps the built client bundles for known secret
