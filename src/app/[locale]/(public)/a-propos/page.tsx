@@ -306,7 +306,7 @@ export default async function AboutPage({
                       <a
                         href={`tel:${chrome.contact.phoneE164}`}
                         dir="ltr"
-                        className="force-ltr text-ink underline-offset-4 hover:underline"
+                        className="force-ltr inline-flex min-h-6 items-center text-ink underline-offset-4 hover:underline"
                       >
                         {chrome.contact.phoneDisplay}
                       </a>
@@ -324,7 +324,7 @@ export default async function AboutPage({
                       <a
                         href={`mailto:${chrome.contact.email}`}
                         dir="ltr"
-                        className="force-ltr text-ink underline-offset-4 hover:underline"
+                        className="force-ltr inline-flex min-h-6 items-center text-ink underline-offset-4 hover:underline"
                       >
                         {chrome.contact.email}
                       </a>

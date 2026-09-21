@@ -36,6 +36,10 @@ export const Checkbox = React.forwardRef<
       aria-invalid={invalid ? true : undefined}
       className={cn(
         'relative grid size-5 shrink-0 place-items-center rounded-sm border border-hairline bg-surface text-on-accent',
+        // WCAG 2.2 AA (2.5.8) wants at least 24 x 24 px of target. The box is
+        // 20 px by design, so the TARGET is grown instead of the box: a
+        // transparent ::before pads it to 28 px without moving anything.
+        "before:absolute before:-inset-1 before:content-['']",
         'transition-[background-color,border-color] duration-[120ms] ease-[var(--ease-out-strait)]',
         // 20px painted, 44px touchable.
         "after:absolute after:inset-0 after:-m-3 after:content-['']",
