@@ -134,41 +134,47 @@ export async function HomeCentreSection({
           <p className="max-w-[62ch] text-body text-pretty text-ink-muted">{t('body')}</p>
 
           {/*
-            A grid rather than nested flex wrappers, and that is a correctness
-            constraint rather than a style choice: HTML allows exactly ONE <div>
-            between a <dl> and its <dt>/<dd>. Wrapping the text in a second div
-            to sit the icon beside it put <dt> two levels deep, which axe
-            reported as `dlitem` on every render of the homepage. Here the icon
-            spans both rows of the first column, so <dt> and <dd> stay direct
-            children of the single permitted wrapper and the layout is unchanged.
+            The icon lives INSIDE the <dt>, and that is a correctness
+            constraint rather than a style choice. A <dl> may contain only
+            <dt>/<dd>, or <div> wrappers holding only <dt>/<dd> — an icon
+            <span> beside them makes the list invalid, which axe reports as
+            `definition-list`. An earlier attempt moved the icon into the
+            wrapper as a grid cell; it was still a forbidden sibling. Inside
+            the <dt> it is legal, and the value is indented to match.
           */}
           <dl className="grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline">
             {centre.address === null ? null : (
-              <div className="grid grid-cols-[auto_1fr] items-start gap-x-4 bg-surface p-4 sm:p-5">
-                <span className="row-span-2 inline-flex size-10 items-center justify-center rounded-md bg-strait-wash text-strait">
-                  <MapPin className="size-5" aria-hidden="true" />
-                </span>
-                <dt className="text-sm font-medium text-ink">{t('addressLabel')}</dt>
-                <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{centre.address}</dd>
+              <div className="bg-surface p-4 sm:p-5">
+                <dt className="flex items-center gap-2.5 text-sm font-medium text-ink">
+                  <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-strait-wash text-strait">
+                    <MapPin className="size-4.5" aria-hidden="true" />
+                  </span>
+                  {t('addressLabel')}
+                </dt>
+                <dd className="mt-1.5 ps-[3rem] text-sm text-pretty text-ink-muted">{centre.address}</dd>
               </div>
             )}
 
             {centre.hours === null ? null : (
-              <div className="grid grid-cols-[auto_1fr] items-start gap-x-4 bg-surface p-4 sm:p-5">
-                <span className="row-span-2 inline-flex size-10 items-center justify-center rounded-md bg-strait-wash text-strait">
-                  <Clock className="size-5" aria-hidden="true" />
-                </span>
-                <dt className="text-sm font-medium text-ink">{t('hoursLabel')}</dt>
-                <dd className="mt-0.5 text-sm text-pretty text-ink-muted">{centre.hours}</dd>
+              <div className="bg-surface p-4 sm:p-5">
+                <dt className="flex items-center gap-2.5 text-sm font-medium text-ink">
+                  <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-strait-wash text-strait">
+                    <Clock className="size-4.5" aria-hidden="true" />
+                  </span>
+                  {t('hoursLabel')}
+                </dt>
+                <dd className="mt-1.5 ps-[3rem] text-sm text-pretty text-ink-muted">{centre.hours}</dd>
               </div>
             )}
 
             {centre.phoneDisplay === null || centre.phoneE164 === null ? null : (
-              <div className="grid grid-cols-[auto_1fr] items-start gap-x-4 bg-surface p-4 sm:p-5">
-                <span className="row-span-2 inline-flex size-10 items-center justify-center rounded-md bg-strait-wash text-strait">
-                  <Phone className="size-5" aria-hidden="true" />
-                </span>
-                <dt className="text-sm font-medium text-ink">{t('phoneLabel')}</dt>
+              <div className="bg-surface p-4 sm:p-5">
+                <dt className="flex items-center gap-2.5 text-sm font-medium text-ink">
+                  <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-strait-wash text-strait">
+                    <Phone className="size-4.5" aria-hidden="true" />
+                  </span>
+                  {t('phoneLabel')}
+                </dt>
                 <dd className="text-sm">
                   {/* A number is Latin script and stays LTR inside Arabic (§10.3).
                       44 px tall to tap, pulled back by its own margin so the

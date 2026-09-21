@@ -166,21 +166,23 @@ export async function HomePaths({ locale, paths }: HomePathsProps): Promise<Reac
                       </li>
                     </ol>
 
-                    <dl className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-hairline pt-5 text-sm">
-                      <div className="flex items-baseline gap-2">
-                        <dt className="text-ink-muted">{t('courseCount', { count: path.steps.length })}</dt>
-                      </div>
+                    {/* A list of facts, not a description list: « 3 formations »
+                        is a whole phrase with no term to define, and a <dt>
+                        without a <dd> makes the <dl> invalid — axe reports it
+                        as `definition-list` on every card. */}
+                    <ul className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-hairline pt-5 text-sm text-ink-muted">
+                      <li>{t('courseCount', { count: path.steps.length })}</li>
                       {path.durationMinutes > 0 ? (
-                        <div className="flex items-baseline gap-2">
-                          <dt className="text-ink-muted">{t('durationLabel')}</dt>
-                          <dd className="text-ink" data-numeric>
+                        <li className="flex items-baseline gap-2">
+                          {t('durationLabel')}
+                          <span className="text-ink" data-numeric>
                             <span className="force-ltr" dir="ltr">
                               {formatDuration(path.durationMinutes, locale)}
                             </span>
-                          </dd>
-                        </div>
+                          </span>
+                        </li>
                       ) : null}
-                    </dl>
+                    </ul>
 
                     <div className="mt-auto pt-6">
                       <p className="text-xs uppercase tracking-wide text-ink-muted rtl:tracking-normal">

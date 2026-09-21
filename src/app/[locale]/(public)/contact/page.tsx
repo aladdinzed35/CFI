@@ -260,17 +260,22 @@ function ContactFact({
   children: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <div className="flex min-w-0 items-start gap-3 rounded-lg border border-hairline bg-surface p-4">
-      <span
-        aria-hidden="true"
-        className="grid size-10 shrink-0 place-items-center rounded-md bg-strait-wash text-strait"
-      >
-        <Icon className="size-5" />
-      </span>
-      <div className="min-w-0">
-        <dt className="text-sm font-medium text-ink">{label}</dt>
-        <dd className="mt-0.5 text-sm">{children}</dd>
-      </div>
+    /* A <dl> may contain only <dt>/<dd>, or <div> wrappers holding only
+       <dt>/<dd>. The icon used to be a <span> beside a second <div> that held
+       the pair, which put <dt> two levels deep: axe reported `definition-list`
+       on the list and `dlitem` on all eight terms. Inside the <dt> the icon is
+       legal, and the value is indented to line up under the label. */
+    <div className="min-w-0 rounded-lg border border-hairline bg-surface p-4">
+      <dt className="flex items-center gap-2.5 text-sm font-medium text-ink">
+        <span
+          aria-hidden="true"
+          className="grid size-9 shrink-0 place-items-center rounded-md bg-strait-wash text-strait"
+        >
+          <Icon className="size-4.5" />
+        </span>
+        {label}
+      </dt>
+      <dd className="mt-1.5 min-w-0 ps-[2.875rem] text-sm">{children}</dd>
     </div>
   );
 }

@@ -29,7 +29,10 @@ test.describe('Forms submitted before hydration', () => {
     await page.goto(cfi.route('/connexion'));
     await page.locator('input[type="email"], input[name="email"]').first().fill('someone@example.com');
     await page.locator('input[type="password"]').first().fill(SECRET);
-    await page.locator('form button[type="submit"]').first().click();
+    // `force`: the auth pages carry a looping CSS illustration, so Playwright's
+    // stability check never settles on a phone. What is under test is what the
+    // BROWSER does with the submit, not whether the button holds still.
+    await page.locator('form button[type="submit"]').first().click({ force: true });
     await page.waitForLoadState('domcontentloaded');
 
     expect(page.url(), 'no field reached the query string').not.toContain('password');
@@ -42,7 +45,10 @@ test.describe('Forms submitted before hydration', () => {
     const password = page.locator('input[type="password"]');
     const count = await password.count();
     for (let index = 0; index < count; index += 1) await password.nth(index).fill(SECRET);
-    await page.locator('form button[type="submit"]').first().click();
+    // `force`: the auth pages carry a looping CSS illustration, so Playwright's
+    // stability check never settles on a phone. What is under test is what the
+    // BROWSER does with the submit, not whether the button holds still.
+    await page.locator('form button[type="submit"]').first().click({ force: true });
     await page.waitForLoadState('domcontentloaded');
 
     expect(page.url()).not.toContain('password');
@@ -54,7 +60,10 @@ test.describe('Forms submitted before hydration', () => {
     // a Referer or a server log line.
     await page.goto(cfi.route('/certificat'));
     await page.locator('input[name="code"]').fill('CFI-2026-SECRET1');
-    await page.locator('form button[type="submit"]').first().click();
+    // `force`: the auth pages carry a looping CSS illustration, so Playwright's
+    // stability check never settles on a phone. What is under test is what the
+    // BROWSER does with the submit, not whether the button holds still.
+    await page.locator('form button[type="submit"]').first().click({ force: true });
     await page.waitForLoadState('domcontentloaded');
 
     expect(page.url()).not.toContain('SECRET1');

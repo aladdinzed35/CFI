@@ -177,23 +177,21 @@ export default async function PathsPage({
                     single ? null : 'lg:border-s-0 lg:border-t lg:ps-0 lg:pt-6',
                   )}
                 >
-                  <dl className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-sm">
-                    <div className="flex items-baseline gap-2">
-                      <dt className="text-ink-muted">
-                        {t('courseCount', { count: path.courses.length })}
-                      </dt>
-                    </div>
+                  {/* Facts, not terms and definitions — see the note on the
+                      homepage's paths section. */}
+                  <ul className="flex flex-wrap items-baseline gap-x-6 gap-y-2 text-sm text-ink-muted">
+                    <li>{t('courseCount', { count: path.courses.length })}</li>
                     {path.totalDurationMinutes === 0 ? null : (
-                      <div className="flex items-baseline gap-2">
-                        <dt className="text-ink-muted">{t('totalDuration')}</dt>
-                        <dd className="text-ink" data-numeric>
+                      <li className="flex items-baseline gap-2">
+                        {t('totalDuration')}
+                        <span className="text-ink" data-numeric>
                           <span className="force-ltr" dir="ltr">
                             {formatDuration(path.totalDurationMinutes, locale)}
                           </span>
-                        </dd>
-                      </div>
+                        </span>
+                      </li>
                     )}
-                  </dl>
+                  </ul>
 
                   <div className="mt-auto pt-6">
                     <p className="text-xs uppercase tracking-wide text-ink-muted">
