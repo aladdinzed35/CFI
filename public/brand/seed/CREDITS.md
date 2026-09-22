@@ -16,7 +16,7 @@ needed. Attribution is not required by either licence; we give it anyway.
 | `seed/courses/ui-ux-concevoir-des-interfaces-utilisables.jpg` | [Kelly Sikkema](https://unsplash.com/@kellysikkema) | [Unsplash](https://unsplash.com/photos/a-person-drawing-a-picture-on-a-piece-of-paper-ks0Z4oeFiOk) |
 | `seed/courses/montage-video-formats-courts.jpg` | [Ron Lach](https://www.pexels.com/@ron-lach/) | [Pexels](https://www.pexels.com/photo/man-filming-himself-using-a-smartphone-8360497/) |
 | `seed/courses/comptabilite-et-gestion-d-une-tpe.jpg` | [Microsoft 365](https://unsplash.com/@microsoft365) | [Unsplash](https://unsplash.com/photos/a-person-sitting-at-a-table-with-a-laptop-oUbzU87d1Gc) |
-| `seed/courses/creer-son-entreprise-au-maroc.jpg` | [Aymane Hanni](https://www.pexels.com/@aymane-hanni-2148955127/) | [Pexels](https://www.pexels.com/photo/traditional-clothing-shop-with-elderly-man-in-morocco-30772402/) |
+| `seed/courses/creer-son-entreprise-au-maroc.jpg` | [Mikhail Nilov](https://www.pexels.com/@mikhail-nilov/) | [Pexels](https://www.pexels.com/photo/elegant-man-signing-documents-8730998/) |
 | `seed/courses/anglais-professionnel-prendre-la-parole.jpg` | [Cedric Fauntleroy](https://www.pexels.com/@cedric-fauntleroy/) | [Pexels](https://www.pexels.com/photo/a-woman-standing-in-front-of-her-colleagues-8154798/) |
 | `seed/courses/francais-professionnel-ecrire-au-travail.jpg` | [TheStandingDesk](https://unsplash.com/@thestandingdesk) | [Unsplash](https://unsplash.com/photos/person-in-black-and-white-long-sleeve-shirt-writing-on-white-paper-VlmpyIQ8GHw) |
 | `seed/courses/excel-de-zero-a-l-analyse.jpg` | [Lukas Blazek](https://unsplash.com/@goumbik) | [Unsplash](https://unsplash.com/photos/turned-on-black-and-grey-laptop-computer-mcSDtbWXUZU) |

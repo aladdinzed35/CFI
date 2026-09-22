@@ -125,10 +125,12 @@ export const COVERS: readonly CoverEntry[] = [
     position: 'centre',
   },
   {
-    // A tailor's kaftan shop in Morocco, photographed by a Casablanca photographer.
+    // Signing the papers that bring a company into existence — the act the
+    // course ends on. The owner asked for the deed rather than a Moroccan
+    // scene, so nothing here places it.
     slug: 'creer-son-entreprise-au-maroc',
     kind: 'course',
-    source: pexels('30772402', 'traditional-clothing-shop-with-elderly-man-in-morocco-30772402', 'Aymane Hanni', 'aymane-hanni-2148955127'),
+    source: pexels('8730998', 'elegant-man-signing-documents-8730998', 'Mikhail Nilov', 'mikhail-nilov'),
     position: 'centre',
   },
   {

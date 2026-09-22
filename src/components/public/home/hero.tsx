@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { ArrowRight } from 'lucide-react';
 
+import { cn } from '@/lib/cn';
 import { Link } from '@/i18n/navigation';
 import { HeroVisual } from '@/components/public/home/hero-visual';
 import type { HomeLatticeTile, HomeStat } from '@/server/services/home';
@@ -55,8 +56,19 @@ const heroKeyframes = `
   animation: cfi-hero-mask 620ms var(--ease-out-strait) both;
   animation-delay: calc(var(--cfi-hero-step, 0) * 90ms);
 }
+@keyframes cfi-hero-tick {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.cfi-hero-tick {
+  transform-origin: 0% 50%;
+  animation: cfi-hero-tick 720ms var(--ease-out-strait) both;
+  animation-delay: 420ms;
+}
+[dir='rtl'] .cfi-hero-tick { transform-origin: 100% 50%; }
 @media (prefers-reduced-motion: reduce) {
   .cfi-hero-reveal > * { animation: none; }
+  .cfi-hero-tick { animation: none; }
 }
 `;
 
@@ -152,31 +164,60 @@ export async function HomeHero({ locale, stats, tiles }: HomeHeroProps): Promise
 
         <div className="cfi-hero-reveal flex flex-col lg:self-start lg:[grid-area:proof]">
           {stats.length === 0 ? null : (
-            <dl
-              aria-label={t('proofLabel')}
-              className="grid grid-cols-3 gap-x-4 border-t border-hairline pt-8 sm:gap-x-6"
-              style={{ '--cfi-hero-step': 4 } as React.CSSProperties}
-            >
-              {stats.map((stat) => (
-                <div key={stat.id} className="flex flex-col gap-1">
-                  <dt className="order-2 text-sm text-ink-muted">{tProof(stat.id)}</dt>
-                  <dd
-                    className="order-1 font-display text-title font-medium text-ink"
-                    data-numeric
+            <div style={{ '--cfi-hero-step': 4 } as React.CSSProperties}>
+              {/* The rule that opens the block, with the mark that starts it.
+                  Two spans in a flex row rather than a gradient, so the mark
+                  sits at the START in both writing directions with nothing to
+                  mirror. It replaces the plain `border-t` that used to close
+                  the calls to action — same job, one intention more. */}
+              <div className="flex h-0.5 w-full items-center" aria-hidden="true">
+                <span className="cfi-hero-tick block h-0.5 w-12 rounded-pill bg-strait" />
+                <span className="block h-px flex-1 bg-hairline" />
+              </div>
+
+              <dl aria-label={t('proofLabel')} className="sm:flex sm:flex-row">
+                {stats.map((stat, index) => (
+                  <div
+                    key={stat.id}
+                    className={cn(
+                      // Phone: a ledger. Label at the start in reading size,
+                      // figure at the end, both on one baseline, a hairline
+                      // under each row — three columns at 360 px would mean
+                      // type nobody reads.
+                      'flex items-baseline justify-between gap-6 border-b border-hairline py-4',
+                      // From `sm` the rows stand up into columns and the same
+                      // hairline becomes the column rule.
+                      'sm:min-w-0 sm:flex-1 sm:flex-col sm:items-start sm:justify-start sm:gap-2.5 sm:border-b-0 sm:pb-1 sm:pt-7',
+                      index > 0 ? 'sm:border-s sm:border-hairline sm:ps-5' : null,
+                    )}
                   >
-                    <span className="force-ltr" dir="ltr">
-                      {stat.kind === 'percent'
-                        ? `${numberFormat.format(stat.value)} %`
-                        : numberFormat.format(stat.value)}
-                    </span>
-                  </dd>
-                </div>
-              ))}
-            </dl>
+                    <dt className="text-sm text-ink-muted sm:order-2 sm:font-mono sm:text-xs sm:uppercase sm:tracking-[0.14em] sm:rtl:font-arabic sm:rtl:normal-case sm:rtl:tracking-normal">
+                      {tProof(stat.id)}
+                    </dt>
+                    <dd
+                      className="font-display text-[clamp(2rem,1.1rem+2.2vw,3rem)] leading-none font-medium tracking-[-0.015em] text-ink sm:order-1"
+                      data-numeric
+                    >
+                      <span className="force-ltr" dir="ltr">
+                        {numberFormat.format(stat.value)}
+                        {stat.kind === 'percent' ? (
+                          <span className="ps-[0.14em] text-[0.45em] font-medium text-ink-muted">
+                            %
+                          </span>
+                        ) : null}
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           )}
 
+          {/* Subordinate by every measure: smaller, quieter, no width of its
+              own. `text-balance` splits it at the middot on a phone instead of
+              dropping « à distance » alone on a second line. */}
           <p
-            className="mt-8 text-sm text-ink-muted"
+            className="mt-7 text-xs leading-relaxed text-balance text-ink-muted"
             style={{ '--cfi-hero-step': 5 } as React.CSSProperties}
           >
             {t('trustLine')}
