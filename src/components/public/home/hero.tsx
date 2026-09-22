@@ -1,19 +1,9 @@
 import { getTranslations } from 'next-intl/server';
-import {
-  ArrowRight,
-  BadgeCheck,
-  BookOpen,
-  GraduationCap,
-  MapPin,
-  Presentation,
-  Shapes,
-  Users,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import { Link } from '@/i18n/navigation';
 import { HeroVisual } from '@/components/public/home/hero-visual';
-import type { HomeLatticeTile, HomeStat, HomeStatId } from '@/server/services/home';
+import type { HomeLatticeTile, HomeStat } from '@/server/services/home';
 import type { Locale } from '@/i18n/routing';
 
 /**
@@ -54,34 +44,7 @@ import type { Locale } from '@/i18n/routing';
  * list when the database holds enough rows to defend it (§12.2). A fresh
  * installation therefore shows « Formations » and « Domaines » and stops, rather
  * than a success rate computed from four enrolments.
- *
- * ## The proof strip
- * It used to be three bare numbers over a hairline — correct, and the least
- * designed thing on the page, directly under the most designed one. It is now
- * one panel, cut into cells by hairlines that carry the zellige star at their
- * midpoint (the same eight-point star as the logo and the gate), each figure
- * crowned by its icon. Brass marks achievement (§11.2 reserves it for money
- * and achievement): the success rate and the graduates. Everything else is
- * the brand teal.
- *
- * `dl` rules still hold — every cell is a `div` holding exactly one `dt` and
- * one `dd`, and the icon and the star live INSIDE the `dd` (an element loose
- * in a `dl` group is an axe definition-list violation, which is how the last
- * redesign of this block failed CI).
  */
-
-const STAT_ICONS: Readonly<Record<HomeStatId, { icon: LucideIcon; tone: 'strait' | 'brass' }>> = {
-  learners: { icon: Users, tone: 'strait' },
-  courses: { icon: BookOpen, tone: 'strait' },
-  successRate: { icon: BadgeCheck, tone: 'brass' },
-  graduates: { icon: GraduationCap, tone: 'brass' },
-  instructors: { icon: Presentation, tone: 'strait' },
-  categories: { icon: Shapes, tone: 'strait' },
-};
-
-/** The eight-point star, as a 16-point polygon in a 24 × 24 box. */
-const STAR_POINTS =
-  '12,1 14.2,6.7 19.8,4.2 17.3,9.8 23,12 17.3,14.2 19.8,19.8 14.2,17.3 12,23 9.8,17.3 4.2,19.8 6.7,14.2 1,12 6.7,9.8 4.2,4.2 9.8,6.7';
 
 const heroKeyframes = `
 @keyframes cfi-hero-mask {
@@ -187,79 +150,36 @@ export async function HomeHero({ locale, stats, tiles }: HomeHeroProps): Promise
           <HeroVisual courseTitle={courseTitle} />
         </div>
 
-        <div className="cfi-hero-reveal flex flex-col gap-4 lg:self-start lg:[grid-area:proof]">
+        <div className="cfi-hero-reveal flex flex-col lg:self-start lg:[grid-area:proof]">
           {stats.length === 0 ? null : (
             <dl
               aria-label={t('proofLabel')}
-              className="relative grid overflow-hidden rounded-lg border border-hairline bg-surface/70 shadow-e1 backdrop-blur-sm"
-              style={
-                {
-                  '--cfi-hero-step': 4,
-                  gridTemplateColumns: `repeat(${stats.length}, minmax(0, 1fr))`,
-                } as React.CSSProperties
-              }
+              className="grid grid-cols-3 gap-x-4 border-t border-hairline pt-8 sm:gap-x-6"
+              style={{ '--cfi-hero-step': 4 } as React.CSSProperties}
             >
-              {/* A line of light along the top edge, fading out at both ends. */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-strait/70 to-transparent"
-              />
-              {stats.map((stat, index) => {
-                const { icon: Icon, tone } = STAT_ICONS[stat.id];
-                return (
-                  <div
-                    key={stat.id}
-                    className={
-                      index === 0
-                        ? 'relative flex flex-col gap-2 px-3.5 py-5 sm:px-6 sm:py-6'
-                        : 'relative flex flex-col gap-2 border-s border-hairline px-3.5 py-5 sm:px-6 sm:py-6'
-                    }
+              {stats.map((stat) => (
+                <div key={stat.id} className="flex flex-col gap-1">
+                  <dt className="order-2 text-sm text-ink-muted">{tProof(stat.id)}</dt>
+                  <dd
+                    className="order-1 font-display text-title font-medium text-ink"
+                    data-numeric
                   >
-                    <dt className="order-2 text-xs text-ink-muted sm:text-sm">{tProof(stat.id)}</dt>
-                    <dd className="order-1 flex flex-col gap-3 sm:gap-4">
-                      {index === 0 ? null : (
-                        <svg
-                          aria-hidden="true"
-                          viewBox="0 0 24 24"
-                          className="absolute start-0 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 fill-brass rtl:translate-x-1/2"
-                        >
-                          <polygon points={STAR_POINTS} />
-                        </svg>
-                      )}
-                      <span
-                        aria-hidden="true"
-                        className={
-                          tone === 'brass'
-                            ? 'grid size-9 place-items-center rounded-md bg-brass-wash text-brass ring-1 ring-brass/25 sm:size-10'
-                            : 'grid size-9 place-items-center rounded-md bg-strait-wash text-strait ring-1 ring-strait/25 sm:size-10'
-                        }
-                      >
-                        <Icon className="size-[1.125rem] sm:size-5" />
-                      </span>
-                      <span
-                        className="font-display text-[clamp(1.875rem,1.45rem+1.6vw,2.75rem)] leading-none font-medium tracking-[-0.03em] text-ink"
-                        data-numeric
-                      >
-                        <span className="force-ltr" dir="ltr">
-                          {numberFormat.format(stat.value)}
-                          {stat.kind === 'percent' ? (
-                            <span className="ms-0.5 text-[0.6em] text-strait">%</span>
-                          ) : null}
-                        </span>
-                      </span>
-                    </dd>
-                  </div>
-                );
-              })}
+                    <span className="force-ltr" dir="ltr">
+                      {stat.kind === 'percent'
+                        ? `${numberFormat.format(stat.value)} %`
+                        : numberFormat.format(stat.value)}
+                    </span>
+                  </dd>
+                </div>
+              ))}
             </dl>
           )}
 
           <p
-            className="flex items-start gap-3 rounded-md border border-hairline/70 bg-surface/40 px-4 py-3 text-sm text-ink-muted"
+            className="mt-8 text-sm text-ink-muted"
             style={{ '--cfi-hero-step': 5 } as React.CSSProperties}
           >
-            <MapPin className="mt-0.5 size-4 shrink-0 text-strait" aria-hidden="true" />
-            <span>{t('trustLine')}</span>
+            {t('trustLine')}
           </p>
         </div>
       </div>
