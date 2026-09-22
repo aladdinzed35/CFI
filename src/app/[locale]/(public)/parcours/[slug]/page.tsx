@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
@@ -304,8 +305,22 @@ export default async function PathPage({
               phone — the steps are what the price buys. */}
           <aside
             aria-labelledby="path-offer"
-            className="rounded-lg border border-hairline bg-surface p-6 shadow-e2 sm:p-8 lg:sticky lg:top-24"
+            className="overflow-hidden rounded-lg border border-hairline bg-surface p-6 shadow-e2 sm:p-8 lg:sticky lg:top-24"
           >
+            {/* The parcours' cover crowns the offer, edge to edge. Decorative:
+                the page title already names it. */}
+            {path.coverUrl === null ? null : (
+              <div className="relative -mx-6 -mt-6 mb-6 aspect-[16/9] border-b border-hairline bg-abyss sm:-mx-8 sm:-mt-8 sm:mb-8">
+                <Image
+                  src={path.coverUrl}
+                  alt=""
+                  fill
+                  priority
+                  sizes="(max-width: 1023px) 100vw, 22rem"
+                  className="object-cover"
+                />
+              </div>
+            )}
             <h2
               id="path-offer"
               className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted"

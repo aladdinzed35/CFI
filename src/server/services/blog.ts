@@ -1,5 +1,5 @@
 import { db } from '@/server/db';
-import { publicMediaUrl } from '@/server/services/public-pages';
+import { publicMediaUrl } from '@/server/storage/public-url';
 import type { Locale } from '@/i18n/routing';
 
 /**

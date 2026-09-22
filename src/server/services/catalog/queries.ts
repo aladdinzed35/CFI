@@ -1,7 +1,7 @@
 import type { CourseLevel, DeliveryMode, Locale as DbLocale, Prisma } from '@prisma/client';
 
 import { db } from '@/server/db';
-import { env } from '@/lib/env';
+import { publicMediaUrl } from '@/server/storage/public-url';
 import { locales, type Locale } from '@/i18n/routing';
 
 import {
@@ -309,18 +309,6 @@ function buildOrderBy(filters: CatalogFilters): Prisma.CourseOrderByWithRelation
 /* Media                                                                       */
 /* -------------------------------------------------------------------------- */
 
-/**
- * `coverKey` is an object key in the bucket; the public base URL is optional in
- * `.env` (§3), so a deployment without a CDN yields `null` and the card falls
- * back to its own placeholder rather than to a broken image.
- */
-function coverUrl(key: string | null): string | null {
-  if (key === null || key.length === 0) return null;
-  const base = env.S3_PUBLIC_BASE_URL;
-  if (typeof base !== 'string' || base.length === 0) return null;
-  return `${base.replace(/\/+$/, '')}/${key.replace(/^\/+/, '')}`;
-}
-
 /* -------------------------------------------------------------------------- */
 /* Translation picking                                                         */
 /* -------------------------------------------------------------------------- */
@@ -493,7 +481,7 @@ export async function getCatalog(
       subtitle: translation?.subtitle ?? null,
       categorySlug: row.category?.slug ?? null,
       categoryName: categoryTranslation?.name ?? null,
-      coverUrl: coverUrl(row.coverKey),
+      coverUrl: publicMediaUrl(row.coverKey),
       level: LEVEL_FROM_DB[row.level],
       delivery: DELIVERY_FROM_DB[row.deliveryMode],
       language: localeFromDb(row.contentLocale),

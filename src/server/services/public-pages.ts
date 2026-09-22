@@ -1,4 +1,5 @@
 import { db } from '@/server/db';
+import { publicMediaUrl } from '@/server/storage/public-url';
 import type { Locale } from '@/i18n/routing';
 
 /**
@@ -74,23 +75,6 @@ function pickTranslation<T extends { readonly locale: Locale }>(
 
 function warn(scope: string, cause: unknown): void {
   console.warn(`[public-pages] ${scope} : lecture impossible, repli sur une liste vide.`, cause);
-}
-
-/**
- * Public URL of an object-storage key, or `null` when no public base is
- * configured. Keys are stored in the database; URLs are never stored, so that
- * moving the bucket is a configuration change and not a migration.
- */
-export function publicMediaUrl(key: string | null | undefined): string | null {
-  const objectKey = clean(key);
-  const base = clean(process.env.S3_PUBLIC_BASE_URL);
-  if (objectKey === null || base === null) return null;
-
-  try {
-    return new URL(objectKey.replace(/^\/+/, ''), base.endsWith('/') ? base : `${base}/`).toString();
-  } catch {
-    return null;
-  }
 }
 
 /* -------------------------------------------------------------------------- */

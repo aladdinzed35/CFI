@@ -1,9 +1,7 @@
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
-
 import { z } from 'zod';
 
 import { db } from '@/server/db';
+import { publicMediaUrl } from '@/server/storage/public-url';
 import { MAX_SLUG_LENGTH } from '@/lib/slug';
 import { locales, type Locale } from '@/i18n/routing';
 import { translationLocales } from './locales';
@@ -250,47 +248,6 @@ export const courseDetailQuerySchema = z
   .strict();
 
 export type CourseDetailQuery = z.output<typeof courseDetailQuerySchema>;
-
-/* -------------------------------------------------------------------------- */
-/* Media resolution                                                            */
-/* -------------------------------------------------------------------------- */
-
-/** Seed assets are committed under `public/brand/` (see `public/brand/README.md`). */
-const LOCAL_ASSET_PREFIX = 'seed/';
-const LOCAL_ASSET_ROOT = join(process.cwd(), 'public', 'brand');
-
-const localAssetCache = new Map<string, boolean>();
-
-function localAssetExists(relativeKey: string): boolean {
-  const cached = localAssetCache.get(relativeKey);
-  if (cached !== undefined) return cached;
-
-  const exists = existsSync(join(LOCAL_ASSET_ROOT, relativeKey));
-  localAssetCache.set(relativeKey, exists);
-  return exists;
-}
-
-/**
- * Turn a storage key into a URL, or `null`.
- *
- * `null` is a first-class answer: the owner's covers are blocking for launch,
- * not for development, and rendering an `<img>` at a 404 is worse than
- * rendering the designed placeholder the page already has.
- */
-export function resolveMediaUrl(key: string | null | undefined): string | null {
-  if (typeof key !== 'string') return null;
-
-  const clean = key.trim().replace(/^\/+/, '');
-  if (clean === '' || clean.includes('..')) return null;
-
-  if (clean.startsWith(LOCAL_ASSET_PREFIX)) {
-    return localAssetExists(clean) ? `/brand/${clean}` : null;
-  }
-
-  const base = process.env.S3_PUBLIC_BASE_URL;
-  if (base === undefined || base.trim() === '') return null;
-  return `${base.replace(/\/+$/, '')}/${clean}`;
-}
 
 /* -------------------------------------------------------------------------- */
 /* Small helpers                                                               */
@@ -693,7 +650,7 @@ export async function getCourseBySlug(input: CourseDetailQuery): Promise<CourseD
     similar.push({
       slug: row.slug,
       title: similarText.title,
-      coverUrl: resolveMediaUrl(row.coverKey),
+      coverUrl: publicMediaUrl(row.coverKey),
       priceCentimes: row.priceCentimes,
       comparePriceCentimes: row.comparePriceCentimes,
       durationMinutes: row.durationMinutes,
@@ -715,7 +672,7 @@ export async function getCourseBySlug(input: CourseDetailQuery): Promise<CourseD
           fullName: instructorRow.fullName,
           headline: nonEmpty(instructorRow.headline),
           bio: nonEmpty(instructorRow.bio),
-          avatarUrl: resolveMediaUrl(instructorRow.avatarKey),
+          avatarUrl: publicMediaUrl(instructorRow.avatarKey),
           courseCount: instructorStats?._count._all ?? 0,
           studentCount: instructorStats?._sum.enrollmentCount ?? 0,
         };
@@ -748,7 +705,7 @@ export async function getCourseBySlug(input: CourseDetailQuery): Promise<CourseD
     installmentsAllowed: course.installmentsAllowed,
     installmentCount: course.installmentCount,
 
-    coverUrl: resolveMediaUrl(course.coverKey),
+    coverUrl: publicMediaUrl(course.coverKey),
     durationMinutes: course.durationMinutes,
     lessonCount: course.lessonCount,
     certificateEnabled: course.certificateEnabled,
@@ -787,7 +744,7 @@ export async function getCourseBySlug(input: CourseDetailQuery): Promise<CourseD
         comment: nonEmpty(row.comment),
         adminReply: nonEmpty(row.adminReply),
         authorName: row.user.fullName,
-        avatarUrl: resolveMediaUrl(row.user.avatarKey),
+        avatarUrl: publicMediaUrl(row.user.avatarKey),
         createdAt: row.createdAt,
       })),
       distribution,

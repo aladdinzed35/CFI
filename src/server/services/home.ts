@@ -1,7 +1,7 @@
 import type { Prisma } from '@prisma/client';
 
 import { db } from '@/server/db';
-import { env } from '@/lib/env';
+import { publicMediaUrl } from '@/server/storage/public-url';
 import { formatPhoneDisplay, parsePhone } from '@/lib/phone';
 import type { Locale } from '@/i18n/routing';
 import { translationLocales } from './catalog/locales';
@@ -220,26 +220,6 @@ function asPositiveInteger(value: unknown): number | null {
   const raw = typeof value === 'string' ? Number.parseFloat(value.trim()) : value;
   if (typeof raw !== 'number' || !Number.isFinite(raw) || raw <= 0) return null;
   return Math.round(raw);
-}
-
-/**
- * A storage key becomes a URL only when a public base is configured. Returning
- * `null` otherwise is deliberate: a broken `<img>` is worse than a designed
- * fallback, and `next.config.ts` only whitelists the host of
- * `S3_PUBLIC_BASE_URL`, so any other origin would fail optimisation anyway.
- */
-function mediaUrl(key: string | null | undefined): string | null {
-  const trimmed = asString(key);
-  if (trimmed === null) return null;
-
-  const base = env.S3_PUBLIC_BASE_URL;
-  if (base === undefined || base === null || base === '') return null;
-
-  try {
-    return new URL(trimmed.replace(/^\/+/u, ''), base.endsWith('/') ? base : `${base}/`).toString();
-  } catch {
-    return null;
-  }
 }
 
 /** Active locale first, French second — French is the source language (§10.2). */
@@ -576,7 +556,7 @@ async function readHomeData(locale: Locale): Promise<HomeData> {
       id: row.id,
       authorName: row.authorName,
       authorRole: asString(row.authorRole),
-      avatarUrl: mediaUrl(row.avatarKey),
+      avatarUrl: publicMediaUrl(row.avatarKey),
       rating: Math.min(5, Math.max(1, row.rating)),
       quote,
     });
@@ -595,7 +575,7 @@ async function readHomeData(locale: Locale): Promise<HomeData> {
       id: row.id,
       fullName: row.fullName,
       headline: asString(row.headline),
-      avatarUrl: mediaUrl(row.avatarKey),
+      avatarUrl: publicMediaUrl(row.avatarKey),
       courseCount: row._count.authoredCourses,
       specialty,
     };
@@ -757,7 +737,7 @@ async function readFeatured(locale: Locale): Promise<HomeCourse[]> {
       priceCentimes: row.priceCentimes,
       comparePriceCentimes: row.comparePriceCentimes,
       isNew: row.isNew,
-      coverUrl: mediaUrl(row.coverKey) ?? mediaUrl(row.thumbnailKey),
+      coverUrl: publicMediaUrl(row.coverKey) ?? publicMediaUrl(row.thumbnailKey),
     });
   }
 
@@ -859,7 +839,7 @@ function readGallery(value: unknown): HomeImage[] {
   for (const entry of value) {
     if (typeof entry !== 'object' || entry === null) continue;
     const record = entry as Record<string, unknown>;
-    const url = mediaUrl(asString(record.key));
+    const url = publicMediaUrl(asString(record.key));
     const alt = asString(record.alt);
     if (url === null || alt === null) continue;
     images.push({ url, alt });

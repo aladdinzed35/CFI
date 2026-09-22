@@ -46,13 +46,13 @@ import type {
 } from '@prisma/client';
 
 import { db, transaction } from '@/server/db';
+import { publicMediaUrl } from '@/server/storage/public-url';
 import {
   COURSE_STATUS_VALUES,
   COURSE_LEVEL_VALUES,
   DELIVERY_MODE_VALUES,
   LESSON_TYPE_VALUES,
 } from '@/lib/course-enums';
-import { env } from '@/lib/env';
 import { ActionError } from '@/server/auth/guards';
 import { can, type PermissionUser } from '@/server/auth/permissions';
 import { buildDiff, recordAudit } from '@/server/services/audit';
@@ -153,18 +153,6 @@ export function parseDirhams(input: string): number | null {
 /* -------------------------------------------------------------------------- */
 /* Media                                                                       */
 /* -------------------------------------------------------------------------- */
-
-/**
- * `coverKey` is an object key in the bucket; the public base URL is optional in
- * `.env` (§3), so a deployment without a CDN yields `null` and the row falls
- * back to its initials rather than to a broken image.
- */
-function coverUrl(key: string | null): string | null {
-  if (key === null || key.length === 0) return null;
-  const base = env.S3_PUBLIC_BASE_URL;
-  if (typeof base !== 'string' || base.length === 0) return null;
-  return `${base.replace(/\/+$/u, '')}/${key.replace(/^\/+/u, '')}`;
-}
 
 /* -------------------------------------------------------------------------- */
 /* The list (§17.5 « List »)                                                   */
@@ -268,7 +256,7 @@ export async function listAdminCourses(
         categoryName: row.category?.translations[0]?.name ?? null,
         instructorName: row.instructor?.fullName ?? null,
         status: row.status,
-        coverUrl: coverUrl(row.coverKey),
+        coverUrl: publicMediaUrl(row.coverKey),
         priceCentimes: row.priceCentimes,
         comparePriceCentimes: row.comparePriceCentimes,
         lessonCount: row.lessonCount,
@@ -581,7 +569,7 @@ export async function getAdminCourse(
       contentLocale: row.contentLocale,
       categoryId: row.categoryId,
       coverKey: row.coverKey,
-      coverUrl: coverUrl(row.coverKey),
+      coverUrl: publicMediaUrl(row.coverKey),
       priceCentimes: row.priceCentimes,
       comparePriceCentimes: row.comparePriceCentimes,
       maxSeats: row.maxSeats,

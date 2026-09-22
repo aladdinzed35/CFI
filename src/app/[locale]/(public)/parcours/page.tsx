@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ArrowRight, Award, Layers, Route } from 'lucide-react';
@@ -125,6 +126,19 @@ export default async function PathsPage({
                 )}
               >
                 <div className="flex min-w-0 flex-col">
+                  {/* Decorative: the title below names the parcours, so the
+                      cover carries no alt text and no second link. */}
+                  {path.coverUrl === null ? null : (
+                    <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-md border border-hairline bg-abyss">
+                      <Image
+                        src={path.coverUrl}
+                        alt=""
+                        fill
+                        sizes="(max-width: 767px) 100vw, (max-width: 1023px) 60vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <h2 className="text-heading font-medium text-ink text-balance">
                     <Link
                       href={`/parcours/${path.slug}`}

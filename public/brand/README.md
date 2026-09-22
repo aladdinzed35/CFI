@@ -27,5 +27,8 @@ Drop the files here with exactly these names; the code already points at them.
   (`docs/DEPLOYMENT.md`), never into the repository tree — the Hostinger filesystem is
   not durable across redeploys.
 
-`seed/` holds the placeholder course covers used by `prisma/seed.ts`. Keep every seed
-image under 500 KB; they are committed and must never grow the repo.
+`seed/` holds the course and parcours cover photographs the seed points at. They are
+produced by `npm run covers` from `scripts/covers/manifest.ts` — one photograph chosen per
+course from Unsplash or Pexels (free licences), cropped to 1600 × 900 and kept under
+500 KB. Credits live in `seed/CREDITS.md`, written by the same command. Edit the manifest
+and re-run it; never edit the JPEGs by hand.

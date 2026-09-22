@@ -150,9 +150,17 @@ interface SeedCourse {
   readonly modules: readonly SeedModule[];
 }
 
-/** Covers live under `public/brand/seed/courses/` — see `public/brand/README.md`. */
+/**
+ * Covers live under `public/brand/seed/` — photographs chosen per course and
+ * produced by `npm run covers` (`scripts/covers/manifest.ts`), credited in
+ * `public/brand/seed/CREDITS.md`.
+ */
 function coverKeyFor(slug: string): string {
   return `seed/courses/${slug}.jpg`;
+}
+
+function pathCoverKeyFor(slug: string): string {
+  return `seed/paths/${slug}.jpg`;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -3301,6 +3309,15 @@ function required<T>(value: T | undefined, message: string): T {
  * catch here than on the live site, and every problem is reported at once so a
  * bad edit takes one round trip instead of ten.
  */
+/**
+ * Every cover key the seed writes. `tests/unit/course-covers.test.ts` checks a
+ * committed file stands behind each one — a key without a file renders the
+ * card's placeholder, which is safe but is exactly the gap this list closes.
+ */
+export function seedCoverKeys(): readonly string[] {
+  return [...COURSES.map((course) => coverKeyFor(course.slug)), ...PATHS.map((path) => pathCoverKeyFor(path.slug))];
+}
+
 export function assertCatalogIsSound(): void {
   const problems: string[] = [];
   const slugs = new Set<string>();
@@ -3640,7 +3657,7 @@ export async function seedCatalog(tx: Prisma.TransactionClient): Promise<Catalog
 
     const shared = {
       priceCentimes: path.priceCentimes,
-      coverKey: `seed/paths/${path.slug}.jpg`,
+      coverKey: pathCoverKeyFor(path.slug),
       status: CourseStatus.PUBLISHED,
       isFeatured: path.isFeatured,
     };
