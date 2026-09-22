@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { ArrowRight } from 'lucide-react';
 
-import { cn } from '@/lib/cn';
 import { Link } from '@/i18n/navigation';
 import { HeroVisual } from '@/components/public/home/hero-visual';
 import type { HomeLatticeTile, HomeStat } from '@/server/services/home';
@@ -69,6 +68,147 @@ const heroKeyframes = `
 @media (prefers-reduced-motion: reduce) {
   .cfi-hero-reveal > * { animation: none; }
   .cfi-hero-tick { animation: none; }
+}
+`;
+
+/* -------------------------------------------------------------------------- */
+/* The proof block's zellige                                                   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The figures are not set on a rule, they are set on a panel of the same
+ * tilework the gate beside them carries: a real khatam net, a brass thread
+ * strung across it with a knot over each figure, and the trust line tied
+ * inside the panel rather than dropped under it.
+ *
+ * ## Why the geometry is real
+ * `STAR` is a square unioned with the same square turned 45 degrees: eight tips
+ * at radius R and eight re-entrant vertices at R*(1-sqrt(1/2)), where the two
+ * squares' edges cross. Stars on a square lattice of side 2R touch tip to tip,
+ * and what they leave at each cell centre is a pointed cross whose every edge
+ * is already a star edge — so the tile carries four quarter-stars and the
+ * crosses draw themselves in the negative space.
+ *
+ * ## The masks are the design
+ * The net never comes near a numeral. Below 480 px it stands as a wall on the
+ * side of the column the text is not on (mirrored in Arabic). From 480 px it
+ * lies down into a frieze across the top — solid through the thread, gone
+ * before the figures — the way a gate carries its band of zellige above the
+ * opening and nothing over the threshold. Where a browser has no mask at all
+ * the net is removed rather than left behind the numbers, and high-contrast
+ * mode drops it and strengthens the thread instead.
+ *
+ * Brass stays hairline-weight throughout (§11.2 reserves it for money and
+ * achievement): a 1 px thread, 7 px nodes, a 1.15 px knot outline.
+ */
+
+const K = Math.SQRT1_2;
+const J = 1 - Math.SQRT1_2;
+
+const STAR: readonly (readonly [number, number])[] = [
+  [1, 0], [K, J], [K, K], [J, K], [0, 1], [-J, K], [-K, K], [-K, J],
+  [-1, 0], [-K, -J], [-K, -K], [-J, -K], [0, -1], [J, -K], [K, -K], [K, -J],
+];
+
+function star(cx: number, cy: number, r: number): string {
+  return `${STAR.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${(cx + x * r).toFixed(2)} ${(cy + y * r).toFixed(2)}`).join(' ')}Z`;
+}
+
+/** One cell of the net: four quarter-stars. The crosses are what is left. */
+const CELL = 44;
+const NET = [star(0, 0, CELL / 2), star(CELL, 0, CELL / 2), star(0, CELL, CELL / 2), star(CELL, CELL, CELL / 2)].join(' ');
+
+/** The knot on the thread, and the cross-node at its heart. */
+const KNOT = star(12, 12, 10.4);
+const KNOT_CORE = 'M12 7.9 L16.1 12 L12 16.1 L7.9 12 Z';
+
+const proofStyles = `
+.cfi-proof{--net:.38;--thread:.36;--bead:.85;--node:.55}
+:root[data-theme='light'] .cfi-proof{--net:.16;--thread:.42;--bead:.9;--node:.6}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme]) .cfi-proof{--net:.16;--thread:.42;--bead:.9;--node:.6}
+}
+:root[data-contrast='high'] .cfi-proof{--thread:.8;--bead:1;--node:.9}
+
+/* Below 480px: a wall of tile standing on the side the text is not on. */
+.cfi-proof-net{
+  opacity:var(--net);
+  -webkit-mask-image:radial-gradient(ellipse 88% 92% at 18% 50%,transparent 0%,transparent 44%,black 86%);
+  mask-image:radial-gradient(ellipse 88% 92% at 18% 50%,transparent 0%,transparent 44%,black 86%);
+}
+[dir='rtl'] .cfi-proof-net{
+  -webkit-mask-image:radial-gradient(ellipse 88% 92% at 82% 50%,transparent 0%,transparent 44%,black 86%);
+  mask-image:radial-gradient(ellipse 88% 92% at 82% 50%,transparent 0%,transparent 44%,black 86%);
+}
+:root[data-contrast='high'] .cfi-proof-net{display:none}
+@supports not ((-webkit-mask-image:linear-gradient(black,transparent)) or (mask-image:linear-gradient(black,transparent))){
+  .cfi-proof-net{display:none}
+}
+.cfi-proof-net-in{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 9%,black 90%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 9%,black 90%,transparent 100%);
+  animation:cfi-proof-fade 900ms var(--ease-out-strait) both;
+  animation-delay:60ms;
+}
+
+/* The leading line: down the start edge on a phone, the corner of an L above. */
+.cfi-proof::before{
+  content:'';position:absolute;inset-inline-start:20px;inset-block-start:0;inset-block-end:.45rem;width:1px;
+  background:var(--color-brass);opacity:var(--thread);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 74%,transparent 100%);
+  mask-image:linear-gradient(to bottom,black 0%,black 74%,transparent 100%);
+  transform-origin:50% 0;animation:cfi-proof-draw-y 820ms var(--ease-out-strait) both;animation-delay:140ms;
+}
+.cfi-proof::after{
+  content:'';position:absolute;inset-inline-start:17px;inset-block-start:-3px;width:7px;height:7px;
+  background:var(--color-brass);opacity:var(--node);transform:rotate(45deg);
+  animation:cfi-proof-node-in 480ms var(--ease-out-strait) both;animation-delay:120ms;
+}
+
+.cfi-proof-bead{
+  position:absolute;display:block;inset-inline-start:-33px;inset-block-start:50%;margin-block-start:-13px;width:26px;height:26px;
+  animation:cfi-proof-bead-in 560ms var(--ease-out-strait) both;animation-delay:calc(var(--i, 0) * 110ms + 230ms);
+}
+.cfi-proof-bead-i{opacity:var(--bead)}
+.cfi-proof-num{animation:cfi-proof-rise 620ms var(--ease-out-strait) both;animation-delay:calc(var(--i, 0) * 110ms + 190ms)}
+.cfi-proof-lab{animation:cfi-proof-rise 620ms var(--ease-out-strait) both;animation-delay:calc(var(--i, 0) * 110ms + 270ms)}
+.cfi-proof-capline{animation:cfi-proof-rise 620ms var(--ease-out-strait) both;animation-delay:640ms}
+
+@media (min-width:480px){
+  .cfi-proof-net,[dir='rtl'] .cfi-proof-net{
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 9%,black 21%,transparent 46%);
+    mask-image:linear-gradient(to bottom,transparent 0%,black 9%,black 21%,transparent 46%);
+  }
+  .cfi-proof-net-in{
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);
+  }
+  .cfi-proof::before{inset-inline-start:0;inset-block-start:12px}
+  .cfi-proof::after{inset-inline-start:-3px;inset-block-start:9px}
+  .cfi-proof-fig::before{
+    content:'';display:block;position:absolute;inset-block-start:12px;inset-inline:0;height:1px;
+    background:var(--color-brass);opacity:var(--thread);transform-origin:0 50%;
+    animation:cfi-proof-draw-x 720ms var(--ease-out-strait) both;animation-delay:calc(var(--i, 0) * 90ms + 180ms);
+  }
+  [dir='rtl'] .cfi-proof-fig::before{transform-origin:100% 50%}
+  .cfi-proof-fig:last-child::after{
+    content:'';display:block;position:absolute;inset-inline-end:-3px;inset-block-start:9px;width:7px;height:7px;
+    background:var(--color-brass);opacity:var(--node);transform:rotate(45deg);
+    animation:cfi-proof-node-in 480ms var(--ease-out-strait) both;animation-delay:calc(var(--i, 0) * 90ms + 520ms);
+  }
+  .cfi-proof-bead{inset-inline-start:50%;margin-inline-start:-13px;inset-block-start:-1px;margin-block-start:0}
+}
+
+@keyframes cfi-proof-draw-y{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes cfi-proof-draw-x{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes cfi-proof-rise{from{opacity:0;transform:translate3d(0,10px,0)}to{opacity:1;transform:none}}
+@keyframes cfi-proof-bead-in{from{opacity:0;transform:rotate(-45deg) scale(.4)}to{opacity:1;transform:none}}
+@keyframes cfi-proof-node-in{from{opacity:0;transform:rotate(45deg) scale(.3)}to{opacity:var(--node);transform:rotate(45deg) scale(1)}}
+@keyframes cfi-proof-fade{from{opacity:0}to{opacity:1}}
+
+@media (prefers-reduced-motion:reduce){
+  .cfi-proof-net-in,.cfi-proof::before,.cfi-proof::after,.cfi-proof-fig::before,
+  .cfi-proof-fig:last-child::after,.cfi-proof-bead,.cfi-proof-num,.cfi-proof-lab,.cfi-proof-capline{animation:none}
 }
 `;
 
@@ -162,48 +302,58 @@ export async function HomeHero({ locale, stats, tiles }: HomeHeroProps): Promise
           <HeroVisual courseTitle={courseTitle} />
         </div>
 
-        <div className="cfi-hero-reveal flex flex-col lg:self-start lg:[grid-area:proof]">
+        {/* The proof block has its own choreography — the net fades in, the
+            thread draws, the knots land, the figures rise — so it is not also
+            wrapped in the hero's reveal. */}
+        <div className="cfi-proof relative isolate flex flex-col lg:self-start lg:[grid-area:proof]">
+          <style href="cfi-home-proof" precedence="medium">
+            {proofStyles}
+          </style>
+
           {stats.length === 0 ? null : (
-            <div style={{ '--cfi-hero-step': 4 } as React.CSSProperties}>
-              {/* The rule that opens the block, with the mark that starts it.
-                  Two spans in a flex row rather than a gradient, so the mark
-                  sits at the START in both writing directions with nothing to
-                  mirror. It replaces the plain `border-t` that used to close
-                  the calls to action — same job, one intention more. */}
-              <div className="flex h-0.5 w-full items-center" aria-hidden="true">
-                <span className="cfi-hero-tick block h-0.5 w-12 rounded-pill bg-strait" />
-                <span className="block h-px flex-1 bg-hairline" />
+            <div className="relative">
+              {/* The tilework. Masked away from every band that is read, and
+                  kept inside this box so it cannot reach the buttons above. */}
+              <div
+                aria-hidden="true"
+                className="cfi-proof-net pointer-events-none absolute -top-2 -bottom-6 -start-3 -end-3 -z-10 text-strait"
+              >
+                <svg className="cfi-proof-net-in size-full" role="presentation" focusable="false">
+                  <defs>
+                    <pattern id="cfi-home-khatam" width={CELL} height={CELL} patternUnits="userSpaceOnUse">
+                      <path d={NET} fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinejoin="round" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#cfi-home-khatam)" />
+                </svg>
               </div>
 
-              <dl aria-label={t('proofLabel')} className="sm:flex sm:flex-row">
+              <dl aria-label={t('proofLabel')} className="flex flex-col sm:flex-row sm:items-start">
                 {stats.map((stat, index) => (
                   <div
                     key={stat.id}
-                    className={cn(
-                      // Phone: a ledger. Label at the start in reading size,
-                      // figure at the end, both on one baseline, a hairline
-                      // under each row — three columns at 360 px would mean
-                      // type nobody reads.
-                      'flex items-baseline justify-between gap-6 border-b border-hairline py-4',
-                      // From `sm` the rows stand up into columns and the same
-                      // hairline becomes the column rule.
-                      'sm:min-w-0 sm:flex-1 sm:flex-col sm:items-start sm:justify-start sm:gap-2.5 sm:border-b-0 sm:pb-1 sm:pt-7',
-                      index > 0 ? 'sm:border-s sm:border-hairline sm:ps-5' : null,
-                    )}
+                    className="cfi-proof-fig relative flex flex-col items-start py-5 pe-0 ps-10 sm:min-w-0 sm:flex-1 sm:items-center sm:py-0 sm:pe-2 sm:ps-2 sm:text-center"
+                    style={{ '--i': index } as React.CSSProperties}
                   >
-                    <dt className="text-sm text-ink-muted sm:order-2 sm:font-mono sm:text-xs sm:uppercase sm:tracking-[0.14em] sm:rtl:font-arabic sm:rtl:normal-case sm:rtl:tracking-normal">
+                    <dt className="cfi-proof-lab order-2 mt-2.5 font-mono text-[0.6875rem] tracking-[0.16em] text-ink-muted uppercase rtl:font-arabic rtl:text-xs rtl:normal-case rtl:tracking-normal sm:mt-3.5 lg:text-xs lg:tracking-[0.18em]">
                       {tProof(stat.id)}
                     </dt>
                     <dd
-                      className="font-display text-[clamp(2rem,1.1rem+2.2vw,3rem)] leading-none font-medium tracking-[-0.015em] text-ink sm:order-1"
+                      className="relative order-1 font-display text-[clamp(2.5rem,1.15rem+2.7vw,3.5rem)] leading-none font-medium tracking-[-0.02em] text-ink sm:pt-[3.25rem]"
                       data-numeric
                     >
-                      <span className="force-ltr" dir="ltr">
+                      {/* The knot: the net's own node, strung on the thread. */}
+                      <span aria-hidden="true" className="cfi-proof-bead">
+                        <svg viewBox="0 0 24 24" className="cfi-proof-bead-i size-full" role="presentation" focusable="false">
+                          <path d={KNOT} className="fill-none stroke-brass" strokeWidth="1.15" strokeLinejoin="round" />
+                          <path d={KNOT_CORE} className="fill-strait" />
+                        </svg>
+                      </span>
+
+                      <span className="cfi-proof-num force-ltr" dir="ltr">
                         {numberFormat.format(stat.value)}
                         {stat.kind === 'percent' ? (
-                          <span className="ps-[0.14em] text-[0.45em] font-medium text-ink-muted">
-                            %
-                          </span>
+                          <span className="ps-[0.1em] text-[0.44em] font-medium text-ink-muted">%</span>
                         ) : null}
                       </span>
                     </dd>
@@ -213,15 +363,11 @@ export async function HomeHero({ locale, stats, tiles }: HomeHeroProps): Promise
             </div>
           )}
 
-          {/* Subordinate by every measure: smaller, quieter, no width of its
-              own. `text-balance` splits it at the middot on a phone instead of
-              dropping « à distance » alone on a second line. */}
-          <p
-            className="mt-7 text-xs leading-relaxed text-balance text-ink-muted"
-            style={{ '--cfi-hero-step': 5 } as React.CSSProperties}
-          >
-            {t('trustLine')}
-          </p>
+          <div className="relative mt-7 pe-0 ps-10 sm:mt-10 sm:ps-5">
+            <p className="cfi-proof-capline max-w-[48ch] text-xs leading-relaxed text-balance text-ink-muted">
+              {t('trustLine')}
+            </p>
+          </div>
         </div>
       </div>
     </section>
