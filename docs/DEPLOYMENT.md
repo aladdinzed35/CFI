@@ -23,14 +23,17 @@ automatic on every push.
    | Setting | Value |
    |---|---|
    | Branch | **`production`** — not `main`; see [Continuous deployment](#continuous-deployment) |
-   | Build command | `npm run db:deploy && npm run db:seed -- --production-demo && npm run build` |
+   | Build command | **`npm run build`**, picked from the drop-down |
+   | Output directory | `.next` |
    | Node | 22.x |
    | Auto-deploy | **on**, if hPanel offers it |
 
-   The build command migrates the schema, seeds the demo catalogue **once**, then builds. Both
-   extra steps are safe to leave there permanently: migrations are idempotent, and the seed
-   writes a completion marker and skips every later run — see
-   [Seeding production](#seeding-production).
+   hPanel's build command is a drop-down of this repository's npm scripts, not a text field, so
+   the database steps are switched on by two environment variables instead (step 3):
+   `BUILD_MIGRATE=true` applies the migrations and `BUILD_SEED_DEMO=true` seeds the demo catalogue
+   **once**, both before `next build` — see [Migrations](#migrations). Both are safe to leave on
+   permanently: migrations are idempotent, and the seed writes a completion marker and skips every
+   later run — see [Seeding production](#seeding-production).
 5. **Save and redeploy.** Watch the build log: the first run ends with the demo accounts' generated
    passwords. Copy them — they are shown once.
 6. **Verify**, from any machine with the repository:
@@ -129,7 +132,7 @@ The defaults Hostinger fills in for the Next.js preset are already correct:
 | Root directory | `./` | |
 | Package manager | `npm` | |
 | Output directory | `.next` | |
-| Build command | `npm run db:deploy && npm run db:seed -- --production-demo && npm run build` | Migrate, seed once, build |
+| Build command | `npm run build` | A drop-down of npm scripts. It migrates and seeds when `BUILD_MIGRATE` / `BUILD_SEED_DEMO` are set |
 
 The preset's defaults were right except the branch and the build command. What was missing on
 the first deployment was the environment.
@@ -164,6 +167,10 @@ AI_PROVIDER=none
 AI_EMBEDDING_DTYPE=q8
 
 CRON_SECRET=<24 random bytes, hex — at least 24 characters>
+
+# Build-time database steps — see Migrations. Only the build reads them.
+BUILD_MIGRATE=true
+BUILD_SEED_DEMO=true
 ```
 
 Generate the two secrets:
@@ -223,27 +230,33 @@ from curated content and grounded retrieval without an API key. `AI_EMBEDDING_DT
 
 ## Migrations
 
-`npm run build` deliberately does **not** run them
-([DECISIONS.md](DECISIONS.md)) — §24.2 allows for a build step that cannot reach the database, so
-the migration is a separate act.
+`npm run build` runs `scripts/build.ts`. With no extra variables it is exactly
+`prisma generate && next build` — CI and every developer machine build that way. On the host,
+two variables add the database steps, **before** `next build`:
 
-The schema must exist before the app serves a request. Two supported shapes:
+| Variable | Effect |
+|---|---|
+| `BUILD_MIGRATE=true` | `prisma migrate deploy` — applies pending migrations, idempotent |
+| `BUILD_SEED_DEMO=true` | then the demo seed, once — see [Seeding production](#seeding-production) |
 
-**A — via SSH, after the deploy** (keeps the build pure):
+Why variables and not the build command: hPanel's build command is a drop-down of `package.json`
+scripts. `npm run db:deploy && npm run build` cannot be entered, and there is no post-deploy step.
+
+What happens when something goes wrong
+([DECISIONS.md](DECISIONS.md), 2026-09-22):
+
+| Failure | Build | Why |
+|---|---|---|
+| Database unreachable, wrong password, database missing | **continues**, with a banner in the log | The live site uses the same credentials and cannot reach it either, so stopping protects nothing; the finished deploy brings `/api/health?diagnose=1`, which names the cause |
+| A migration fails on a database that answered | **stops** | New code must never ship onto a half-migrated schema |
+| The demo seed fails | continues, with a banner | Demo content is optional; with no completion marker, the next deploy retries |
+
+Without the variables, over SSH, after the deploy:
 
 ```bash
 cd ~/domains/your-domain.example/public_html
 npm run db:deploy
 ```
-
-**B — in the build command** (no SSH needed):
-
-```
-npm run db:deploy && npm run build
-```
-
-Shape B is the pragmatic one on Hostinger, where the build runs on the same infrastructure as the
-database. It also makes the build *better*: see the next section.
 
 ---
 
@@ -258,7 +271,7 @@ featured courses and the testimonials are all empty. Nothing in the build log sa
 The site then heals itself: the public pages carry `revalidate = 60`, so the first request after
 deploy serves the empty page and the next one, within a minute, serves the real thing.
 
-The consequence for deployment is small but real: **run migrations before the build** (shape B), so
+The consequence for deployment is small but real: **run migrations before the build** (`BUILD_MIGRATE`), so
 the build prerenders a site with content in it rather than a shell that fills in a minute later.
 
 ---
@@ -272,7 +285,7 @@ sign in as. Until this refusal existed, the only protection was a comment.
 `--production-demo` opts in, for a test deployment that should show real-looking content:
 
 - **Random passwords.** Every demo account gets a generated password, printed once at the end of
-  the run — in the Hostinger build log when it runs from the build command.
+  the run — in the Hostinger build log when it runs from the build (`BUILD_SEED_DEMO`).
 - **Seeds once.** A completed run writes the marker `system.demoSeededAt`; every later run stops
   at the door. Without it, the seed's upserts would silently revert your edits to the demo
   content on every redeploy.

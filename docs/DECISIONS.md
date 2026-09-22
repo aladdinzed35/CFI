@@ -150,6 +150,9 @@ first time someone sets the project up and the failure mode is "why is `@prisma/
 
 ## 2026-07-25 — `prisma migrate deploy` runs as a deploy step, not inside `build`
 
+> **Superseded in part on 2026-09-22** — see the entry of that date at the end of this file. The
+> build now migrates when the host opts in, because neither option below exists on Hostinger.
+
 **Context.** Spec §24.2 proposes `"build": "prisma generate && prisma migrate deploy && next build"`,
 so that every deployment is self-migrating, and §24.2 explicitly acknowledges that if Hostinger's
 build step cannot reach the database, the migration must move elsewhere and the choice must be
@@ -522,3 +525,39 @@ instant, rather than through fine-tuning, which is neither.
 - *Making the assistant hard-fail when no model is configured.* Rejected: tiers 1 and 2 are
   useful with no model at all, and a deployment without an endpoint should get exact curated
   answers and cited sources, not a broken dock.
+
+---
+
+## 2026-09-22 — The build migrates, when the host opts in
+
+**Context.** The 2026-07-25 entry kept `prisma migrate deploy` out of `build` and named two ways to
+run it instead: a post-deploy command in the Hostinger panel, or a secret-protected migrate route.
+The first does not exist — the panel has no post-deploy step, and its build command turned out to
+be a drop-down of `package.json` scripts, so even `npm run db:deploy && npm run build` cannot be
+entered. The second was never built. The result was a production site with an empty schema and no
+way to fix it from the panel.
+
+**Decision.** `npm run build` runs `scripts/build.ts`. With no extra variables it is exactly
+`prisma generate && next build`, so CI and development are unchanged. A host that sets
+`BUILD_MIGRATE=true` gets `prisma migrate deploy` before `next build`; `BUILD_SEED_DEMO=true` adds
+the once-only demo seed, forced into production mode so it can never plant the public passwords.
+
+**Rationale.** The earlier entry's objection was the failure mode: a build that cannot reach the
+database fails the whole deployment. That is kept out by classifying the failure instead of
+avoiding the step. An unreachable database (Prisma P1000–P1017) lets the build continue with a
+banner — the running site shares those credentials and is down either way, and the finished deploy
+brings `/api/health?diagnose=1`, which names the cause. A migration that fails on a database that
+answered stops the build, because shipping new code onto a half-migrated schema is the one outcome
+worse than not deploying. Migrating before `next build` also means the prerendered pages are built
+from a real schema rather than served empty until the first revalidation.
+
+**Rejected alternatives.**
+- *A `build:hostinger` script, leaving `build` pure.* Rejected: the panel's drop-down is read from
+  the repository, and a deploy imported before the script existed would not offer it. `build` is
+  always there.
+- *A `prebuild` hook.* Rejected: npm runs it invisibly, so the opt-in and the failure policy would
+  live somewhere nobody looks when a build misbehaves.
+- *Migrating on server start.* Rejected for now: every restart would take the risk, the seed's
+  one-time passwords would land in runtime logs the panel does not show, and a failure there takes
+  the site down rather than one build.
+
