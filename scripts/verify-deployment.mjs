@@ -130,10 +130,21 @@ if (key !== null) {
     if (db.reachable !== true) fail('database connects', `${db.kind ?? ''} ${db.message ?? ''}`.trim());
     else {
       pass('database connects', `${db.tables} tables`);
-      if (db.tables === 0) fail('migrations ran', 'schema is empty — build command must run `npm run db:deploy`');
+      if (db.tables === 0) fail('migrations ran', db.verdict ?? 'schema is empty');
       else if ((db.rows?.publishedCourses ?? 0) === 0)
         warn('content published', 'connected and migrated, but no published course — every catalogue section will be empty');
       else pass('content published', `${db.rows.publishedCourses} published of ${db.rows.courses} courses, ${db.rows.users} users`);
+    }
+
+    // What the build did to the database — present from the self-migrating
+    // build on; its absence means the deployed code is older than that.
+    const steps = d.build?.databaseSteps;
+    if (d.build === undefined) warn('build database steps', 'not reported — this build predates scripts/build.ts');
+    else if (steps === null) warn('build database steps', 'none — the build did not run scripts/build.ts');
+    else {
+      const detail = `migrate: ${steps.migrate}, seed: ${steps.seed}`;
+      if (steps.migrate === 'unreachable' || steps.seed === 'failed') warn('build database steps', detail);
+      else pass('build database steps', detail);
     }
 
     const s = d.storage ?? {};

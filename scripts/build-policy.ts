@@ -4,6 +4,23 @@
  */
 
 /**
+ * What the build did to the database, stamped into the build as
+ * CFI_BUILD_DATABASE and read back by the deployment diagnosis
+ * (`src/server/diagnostics/deployment.ts` keeps its own copy of these words:
+ * application code does not import from scripts/).
+ *
+ *   migrate  off · applied · unreachable · no-database-url
+ *   seed     off · ran · failed · skipped (the database was not ready)
+ *
+ * `applied` includes "nothing pending"; `ran` includes "already seeded, left
+ * alone" — both are the healthy outcome of running the step.
+ */
+export interface BuildDatabaseReport {
+  migrate: 'off' | 'applied' | 'unreachable' | 'no-database-url';
+  seed: 'off' | 'ran' | 'failed' | 'skipped';
+}
+
+/**
  * Whether an opt-in variable is switched on. Only an explicit yes counts: an
  * unset, empty or misspelled value leaves the database alone, which is the
  * safe reading for a flag that migrates a production schema.

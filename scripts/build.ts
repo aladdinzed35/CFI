@@ -35,7 +35,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import process from 'node:process';
 import { parseEnv } from 'node:util';
 
-import { isEnabled, migrateFailureKind } from './build-policy';
+import { isEnabled, migrateFailureKind, type BuildDatabaseReport } from './build-policy';
 
 /**
  * DATABASE_URL as the Prisma CLI will see it: the environment first, then
@@ -92,16 +92,16 @@ function main(): number {
 
   const migrate = isEnabled(process.env.BUILD_MIGRATE);
   const seed = isEnabled(process.env.BUILD_SEED_DEMO);
+  const report: BuildDatabaseReport = { migrate: migrate ? 'applied' : 'off', seed: seed ? 'ran' : 'off' };
   let databaseReady = true;
 
-  if (migrate || seed) {
-    if (databaseUrl() === '') {
-      banner([
-        'BUILD_MIGRATE / BUILD_SEED_DEMO are set but DATABASE_URL is empty.',
-        'Database steps skipped. Add DATABASE_URL to the environment variables.',
-      ]);
-      databaseReady = false;
-    }
+  if ((migrate || seed) && databaseUrl() === '') {
+    banner([
+      'BUILD_MIGRATE / BUILD_SEED_DEMO are set but DATABASE_URL is empty.',
+      'Database steps skipped. Add DATABASE_URL to the environment variables.',
+    ]);
+    databaseReady = false;
+    if (migrate) report.migrate = 'no-database-url';
   }
 
   if (migrate && databaseReady) {
@@ -120,6 +120,7 @@ function main(): number {
       }
 
       databaseReady = false;
+      report.migrate = 'unreachable';
       banner([
         'DATABASE NOT REACHABLE — migrations skipped, build continues.',
         'The site will deploy but cannot show any content until this is fixed.',
@@ -130,6 +131,8 @@ function main(): number {
     }
   }
 
+  if (seed && !databaseReady) report.seed = 'skipped';
+
   if (seed && databaseReady) {
     // `--production-demo` with NODE_ENV forced to production: the passwords in
     // the seed file are public (this repository), and production mode is what
@@ -138,6 +141,7 @@ function main(): number {
     console.log('\n> seed — demonstration catalogue, once (BUILD_SEED_DEMO)\n');
     const code = run('tsx prisma/seed.ts --production-demo', { ...process.env, NODE_ENV: 'production' });
     if (code !== 0) {
+      report.seed = 'failed';
       banner([
         'DEMO SEED FAILED — build continues without demonstration content.',
         'The error is printed above. A failed seed leaves no "done" marker, so',
@@ -146,7 +150,11 @@ function main(): number {
     }
   }
 
-  return run('next build');
+  // Stamped into the build by next.config.ts, so /api/health?diagnose=1 can
+  // say what this build did to the database instead of leaving it to be
+  // inferred from a table count. Its absence is information too: a build
+  // that did not go through this script.
+  return run('next build', { ...process.env, CFI_BUILD_DATABASE: JSON.stringify(report) });
 }
 
 process.exitCode = main();

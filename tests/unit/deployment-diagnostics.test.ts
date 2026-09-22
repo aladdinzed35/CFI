@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { rawPasswordBreaksUrl } from '@/server/diagnostics/deployment';
+import { emptySchemaVerdict, parseDatabaseSteps, rawPasswordBreaksUrl } from '@/server/diagnostics/deployment';
 
 /**
  * Which pasted passwords silently move a MySQL connection somewhere else.
@@ -44,5 +44,45 @@ describe('rawPasswordBreaksUrl', () => {
 
   it('does not flag a URL with no password at all', () => {
     expect(rawPasswordBreaksUrl('mysql://user@localhost:3306/db')).toBe(false);
+  });
+});
+
+/**
+ * The build report is the only way to tell, from outside, WHY a reachable
+ * database is empty. The first deployment that hit this could not say whether
+ * the code predated the self-migrating build or the opt-in was missing.
+ */
+describe('parseDatabaseSteps', () => {
+  it('reads what scripts/build.ts stamps', () => {
+    expect(parseDatabaseSteps('{"migrate":"applied","seed":"ran"}')).toEqual({ migrate: 'applied', seed: 'ran' });
+  });
+
+  it.each([undefined, '', '   ', 'not json', '[]', '{"migrate":1,"seed":"ran"}', 'null'])(
+    'treats %j as "no report"',
+    (raw) => {
+      expect(parseDatabaseSteps(raw)).toBeNull();
+    },
+  );
+});
+
+describe('emptySchemaVerdict', () => {
+  it('names old code when the build left no report', () => {
+    expect(emptySchemaVerdict(null)).toMatch(/did not go through scripts\/build\.ts/u);
+  });
+
+  it('names the missing opt-in', () => {
+    expect(emptySchemaVerdict({ migrate: 'off', seed: 'off' })).toMatch(/BUILD_MIGRATE=true/u);
+  });
+
+  it('separates a build that could not reach the database from one that migrated elsewhere', () => {
+    expect(emptySchemaVerdict({ migrate: 'unreachable', seed: 'skipped' })).toMatch(/could not reach/u);
+    expect(emptySchemaVerdict({ migrate: 'applied', seed: 'ran' })).toMatch(/DIFFERENT database/u);
+  });
+
+  it('never recommends a chained build command, which the host cannot express', () => {
+    for (const migrate of ['off', 'unreachable', 'no-database-url', 'applied', 'future-value']) {
+      expect(emptySchemaVerdict({ migrate, seed: 'off' })).not.toContain('&&');
+    }
+    expect(emptySchemaVerdict(null)).not.toContain('&&');
   });
 });

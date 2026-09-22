@@ -55,6 +55,9 @@ const nextConfig: NextConfig = {
   env: {
     CFI_BUILT_AT: new Date().toISOString(),
     CFI_BUILD_COMMIT: buildCommit(),
+    // What scripts/build.ts did to the database before this build; empty when
+    // the build did not go through it. See src/server/diagnostics/deployment.ts.
+    CFI_BUILD_DATABASE: process.env.CFI_BUILD_DATABASE ?? '',
   },
   poweredByHeader: false,
   compress: true,

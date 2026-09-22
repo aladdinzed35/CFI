@@ -35,25 +35,101 @@ export interface DeploymentDiagnosis {
   readonly builtAt: string | null;
   readonly commit: string | null;
   readonly node: string;
+  readonly build: BuildFacts;
   readonly database: Record<string, unknown>;
   readonly storage: Record<string, unknown>;
 }
 
 export async function diagnoseDeployment(commit: string | null): Promise<DeploymentDiagnosis> {
+  const build = buildFacts();
   return {
     builtAt: process.env.CFI_BUILT_AT ?? null,
     commit,
     node: process.version,
-    database: await diagnoseDatabase(),
+    build,
+    database: await diagnoseDatabase(build),
     storage: await diagnoseStorage(),
   };
+}
+
+/* -------------------------------------------------------------------------- */
+/* Build                                                                       */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * What `scripts/build.ts` did to the database before this build, as it
+ * stamped it (see `BuildDatabaseReport` there — the words are repeated here
+ * because application code does not import from scripts/). `null` when the
+ * build did not go through that script: an older checkout, or a build command
+ * other than `npm run build`.
+ */
+export interface BuildDatabaseSteps {
+  readonly migrate: string;
+  readonly seed: string;
+}
+
+export interface BuildFacts {
+  readonly databaseSteps: BuildDatabaseSteps | null;
+  /** The opt-ins as the RUNNING process sees them — set after the build, they have not acted yet. */
+  readonly optInsNow: { readonly BUILD_MIGRATE: string | null; readonly BUILD_SEED_DEMO: string | null };
+}
+
+function buildFacts(): BuildFacts {
+  return {
+    databaseSteps: parseDatabaseSteps(process.env.CFI_BUILD_DATABASE),
+    optInsNow: {
+      BUILD_MIGRATE: process.env.BUILD_MIGRATE ?? null,
+      BUILD_SEED_DEMO: process.env.BUILD_SEED_DEMO ?? null,
+    },
+  };
+}
+
+export function parseDatabaseSteps(raw: string | undefined): BuildDatabaseSteps | null {
+  if (raw === undefined || raw.trim() === '') return null;
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (typeof value !== 'object' || value === null) return null;
+    const { migrate, seed } = value as { migrate?: unknown; seed?: unknown };
+    return typeof migrate === 'string' && typeof seed === 'string' ? { migrate, seed } : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Why a database the site CAN reach has no tables — each cause with its fix.
+ *
+ * The first version said "set the build command to `npm run db:deploy &&
+ * npm run build`", which Hostinger's build-command drop-down cannot express.
+ * Every cause below was a real state of a real deployment.
+ */
+export function emptySchemaVerdict(steps: BuildDatabaseSteps | null): string {
+  const base = 'Connected, but the schema is empty: migrations never ran on this database.';
+  if (steps === null) {
+    return (
+      `${base} This build did not go through scripts/build.ts — the deployed code predates it, or the build ` +
+      'command is not `npm run build`. Deploy the current repository with the build command `npm run build`.'
+    );
+  }
+  switch (steps.migrate) {
+    case 'off':
+      return `${base} BUILD_MIGRATE was not set during the build: add BUILD_MIGRATE=true (and BUILD_SEED_DEMO=true) to the environment variables, then redeploy.`;
+    case 'unreachable':
+      return `${base} The build could not reach the database that the running site reaches: the build ran where DATABASE_URL does not lead here. Redeploy; if it repeats, migrate over SSH with \`npm run db:deploy\`.`;
+    case 'no-database-url':
+      return `${base} DATABASE_URL was empty during the build: it was added afterwards. Redeploy.`;
+    case 'applied':
+      return `${base} The build applied migrations to a DIFFERENT database: DATABASE_URL changed after the build. Redeploy.`;
+    default:
+      return `${base} Unrecognised build report: ${steps.migrate}.`;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
 /* Database                                                                    */
 /* -------------------------------------------------------------------------- */
 
-async function diagnoseDatabase(): Promise<Record<string, unknown>> {
+async function diagnoseDatabase(build: BuildFacts): Promise<Record<string, unknown>> {
   const target = parseTarget(env.DATABASE_URL);
   const password = passwordOf(env.DATABASE_URL);
 
@@ -79,8 +155,7 @@ async function diagnoseDatabase(): Promise<Record<string, unknown>> {
       target,
       reachable: true,
       tables: 0,
-      verdict:
-        'Connected, but the schema is empty: migrations never ran. Set the build command to `npm run db:deploy && npm run build`.',
+      verdict: emptySchemaVerdict(build.databaseSteps),
     };
   }
 
