@@ -125,9 +125,6 @@ const KNOT_CORE = 'M12 7.9 L16.1 12 L12 16.1 L7.9 12 Z';
 const proofStyles = `
 .cfi-proof{--net:.38;--thread:.36;--bead:.85;--node:.55}
 :root[data-theme='light'] .cfi-proof{--net:.16;--thread:.42;--bead:.9;--node:.6}
-@media (prefers-color-scheme:light){
-  :root:not([data-theme]) .cfi-proof{--net:.16;--thread:.42;--bead:.9;--node:.6}
-}
 :root[data-contrast='high'] .cfi-proof{--thread:.8;--bead:1;--node:.9}
 
 /* Below 480px: a wall of tile standing on the side the text is not on. */

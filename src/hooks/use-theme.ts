@@ -3,7 +3,8 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
 /**
- * Theme state (§11.2). Dark is the default; light is a first-class theme.
+ * Theme state (§11.2). Dark is THE default — on every device, whatever the OS
+ * asks for — and light is a first-class theme a visitor opts into.
  *
  * The single source of truth at runtime is the `data-theme` attribute on
  * <html>, written before paint by <ThemeScript />. This hook reads that
@@ -18,7 +19,7 @@ export type Theme = 'dark' | 'light';
 export interface UseThemeResult {
   /** The theme currently applied to the document. */
   theme: Theme;
-  /** Alias of `theme`: the effective value after storage + OS resolution. */
+  /** Alias of `theme`: the stored choice, or dark. */
   resolvedTheme: Theme;
   /** Persist an explicit choice and apply it immediately. */
   setTheme: (theme: Theme) => void;
@@ -29,7 +30,9 @@ export interface UseThemeResult {
 const STORAGE_KEY = 'cfi-theme';
 /** Same-tab notification channel (the `storage` event only fires cross-tab). */
 const CHANGE_EVENT = 'cfi:theme-change';
-const LIGHT_QUERY = '(prefers-color-scheme: light)';
+
+/** What the browser paints around the page — kept in step with the theme. */
+const THEME_COLOUR: Readonly<Record<Theme, string>> = { dark: '#060a12', light: '#f6f4ef' };
 
 function readStoredTheme(): Theme | null {
   try {
@@ -41,12 +44,14 @@ function readStoredTheme(): Theme | null {
   }
 }
 
-function readSystemTheme(): Theme {
-  return window.matchMedia(LIGHT_QUERY).matches ? 'light' : 'dark';
-}
-
+/**
+ * Apply a theme to the document, and tell the browser to match its own chrome:
+ * `<meta name="theme-color">` is static in the document head, so without this
+ * a visitor who switches to light keeps a dark address bar around a light page.
+ */
 function applyTheme(theme: Theme): void {
   document.documentElement.setAttribute('data-theme', theme);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOUR[theme]);
 }
 
 function getSnapshot(): Theme {
@@ -57,30 +62,24 @@ function getServerSnapshot(): Theme {
   return 'dark';
 }
 
+/**
+ * Only two things change the theme: this tab (`CHANGE_EVENT`) and another tab
+ * writing the same key (`storage`). The OS colour scheme is deliberately not
+ * one of them — dark is the default and only a visitor's own choice moves it.
+ */
 function subscribe(onStoreChange: () => void): () => void {
-  const media = window.matchMedia(LIGHT_QUERY);
-
   const handleStorage = (event: StorageEvent): void => {
     if (event.key !== null && event.key !== STORAGE_KEY) return;
-    applyTheme(readStoredTheme() ?? readSystemTheme());
-    onStoreChange();
-  };
-
-  const handleMedia = (): void => {
-    // The OS only wins while the user has never made an explicit choice.
-    if (readStoredTheme() !== null) return;
-    applyTheme(readSystemTheme());
+    applyTheme(readStoredTheme() ?? 'dark');
     onStoreChange();
   };
 
   window.addEventListener('storage', handleStorage);
   window.addEventListener(CHANGE_EVENT, onStoreChange);
-  media.addEventListener('change', handleMedia);
 
   return () => {
     window.removeEventListener('storage', handleStorage);
     window.removeEventListener(CHANGE_EVENT, onStoreChange);
-    media.removeEventListener('change', handleMedia);
   };
 }
 

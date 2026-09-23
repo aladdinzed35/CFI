@@ -51,11 +51,12 @@ export const viewport: Viewport = {
   initialScale: 1,
   // Never lower than 5: pinch-zoom to 200 % is a WCAG 2.2 AA requirement (§21).
   maximumScale: 5,
+  // `dark light` — dark first: it is the default on every device, and the OS
+  // preference no longer selects a theme (see ThemeScript).
   colorScheme: 'dark light',
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#060a12' },
-    { media: '(prefers-color-scheme: light)', color: '#f6f4ef' },
-  ],
+  // One value, because the theme no longer follows the OS. `useTheme` rewrites
+  // it when a visitor switches to light, so the chrome always matches the page.
+  themeColor: '#060a12',
 };
 
 export async function generateMetadata({

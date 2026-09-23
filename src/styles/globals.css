@@ -188,37 +188,10 @@
   color-scheme: light;
 }
 
-/* First visit, no stored preference, no JS: honour the OS. The bootstrap
-   script sets data-theme before paint, so this never causes a flash. */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --raw-bg-abyss: #f6f4ef;
-    --raw-bg-surface: #ffffff;
-    --raw-bg-raised: #f0ede6;
-    --raw-stroke-hairline: #dfdad0;
-    --raw-ink-primary: #0b1220;
-    --raw-ink-muted: #5a6472;
-    /* Kept in lockstep with :root[data-theme='light'] above — see the note
-       there on why these differ from the spec's stated hex values. */
-    --raw-accent-strait: #096b5f;
-    --raw-accent-brass: #835319;
-    --raw-signal-danger: #b42638;
-    --raw-signal-warn: #825414;
-    --raw-signal-success: #196c44;
-    --raw-art-sky-top: #135a73;
-    --raw-art-sky-horizon: #7ad3c1;
-    --raw-art-sun: #f4b24e;
-    --raw-art-silhouette: #0c3c52;
-    --raw-art-tile: #b8802f;
-    --raw-art-tile-accent: #0f7a6c;
-    --raw-on-accent: #ffffff;
-    --raw-on-brass: #ffffff;
-    --raw-on-danger: #ffffff;
-    /* Lockstep with the block above. */
-    --wash-strength: 6%;
-    color-scheme: light;
-  }
-}
+/* No OS fallback on purpose: dark is the default on every device (§11.2), and
+   light is reached only by choosing it in the header — see ThemeScript. A
+   visitor whose system is light still gets the dark theme, which is the one
+   the brand is drawn for. */
 
 /* High-contrast mode — an accessibility *product feature* (§13.5), not a hack. */
 :root[data-contrast='high'] {

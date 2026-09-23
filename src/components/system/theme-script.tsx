@@ -12,7 +12,7 @@
  * └───────────────────────────────────────────────────────────────────────────┘
  *
  * What it does, in order, before paint:
- *   1. data-theme      ← localStorage 'cfi-theme' → prefers-color-scheme → dark
+ *   1. data-theme      ← localStorage 'cfi-theme', else dark
  *   2. data-reduce-motion / data-dyslexia / data-contrast ← localStorage 'cfi-prefs'
  *   3. --font-scale    ← 'cfi-prefs'.fontScale, clamped to the 90–130 range
  *   4. data-chrome     ← the `cfi.chrome` cookie, whitelisted to student|admin
@@ -20,8 +20,16 @@
  * Every access is individually try/catch-wrapped: Safari private mode and
  * "block third-party cookies" both make `localStorage` *throw on read*, and a
  * throw here would leave the page unstyled. Worst case the attributes are never
- * written and globals.css falls back to `:root:not([data-theme])`, which
- * already honours the OS colour scheme.
+ * written and globals.css renders `:root` — the dark theme — which is exactly
+ * the default this script would have applied.
+
+ *
+ * ## Dark is the default for everyone
+ * The site is designed dark: the hero's gate, the zellige, the course covers
+ * and every screenshot in the brand assume it. So the OS `prefers-color-scheme`
+ * no longer decides what a first-time visitor sees — dark does, on every
+ * device. Light remains a first-class theme, reached by the header's toggle,
+ * and once chosen it is remembered in `localStorage` and wins from then on.
  *
  * ## Why the header's account link is decided here
  * The public layout used to resolve it with `getCurrentUser()`. Reading cookies
@@ -43,7 +51,7 @@
  * Serialized payload: ~740 bytes (budget: 900).
  */
 
-const BOOTSTRAP = `(function(){var d=document.documentElement;try{var t=null;try{t=localStorage.getItem('cfi-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.setAttribute('data-theme',t);var p={};try{p=JSON.parse(localStorage.getItem('cfi-prefs')||'{}')||{}}catch(e){}if(p.reduceMotion===true)d.setAttribute('data-reduce-motion','true');if(p.dyslexia===true)d.setAttribute('data-dyslexia','true');if(p.contrast==='high')d.setAttribute('data-contrast','high');var f=Number(p.fontScale);if(f>=90&&f<=130)d.style.setProperty('--font-scale',String(Math.round(f)/100));try{var m=document.cookie.match(/(?:^|; )cfi\\.chrome=([^;]*)/);var c=m?m[1]:'';if(c==='student'||c==='admin')d.setAttribute('data-chrome',c)}catch(e){}}catch(e){}})();`;
+const BOOTSTRAP = `(function(){var d=document.documentElement;try{var t=null;try{t=localStorage.getItem('cfi-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t='dark'}d.setAttribute('data-theme',t);var p={};try{p=JSON.parse(localStorage.getItem('cfi-prefs')||'{}')||{}}catch(e){}if(p.reduceMotion===true)d.setAttribute('data-reduce-motion','true');if(p.dyslexia===true)d.setAttribute('data-dyslexia','true');if(p.contrast==='high')d.setAttribute('data-contrast','high');var f=Number(p.fontScale);if(f>=90&&f<=130)d.style.setProperty('--font-scale',String(Math.round(f)/100));try{var m=document.cookie.match(/(?:^|; )cfi\\.chrome=([^;]*)/);var c=m?m[1]:'';if(c==='student'||c==='admin')d.setAttribute('data-chrome',c)}catch(e){}}catch(e){}})();`;
 
 export function ThemeScript(): React.JSX.Element {
   return <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: BOOTSTRAP }} />;
